@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grand Speakeasy · Weine & Champagner</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f2ede0; --cream-dark: #e0d8c4;
+    --ink: #1c1a14; --ink-light: #3a3528;
+    --gold: #b8953a; --gold-pale: #f7f0dc;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#2a2620; font-family:'Cormorant Garamond',Georgia,serif; color:var(--ink); }
+  .page { max-width:860px; margin:30px auto; background:var(--cream); padding:44px 52px; }
+  @media(max-width:640px){ .page{ padding:28px 20px; } }
+
+  .header { text-align:center; border-top:3px double var(--ink); border-bottom:3px double var(--ink); padding:20px 0; margin-bottom:32px; }
+  .header .bar-name { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.4em; color:var(--gold); margin-bottom:8px; }
+  .header h1 { font-family:'Cinzel',serif; font-size:26px; font-weight:700; letter-spacing:0.1em; color:var(--ink); }
+  .header .quote { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--ink-light); margin-top:8px; }
+  .back { text-align:center; margin-bottom:28px; }
+  .back a { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; color:var(--gold); text-decoration:none; border-bottom:1px solid var(--gold); padding-bottom:2px; }
+  .back a:hover { color:var(--ink); border-color:var(--ink); }
+
+  .section-intro { text-align:center; font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--ink-light); line-height:1.7; margin-bottom:36px; padding-bottom:20px; border-bottom:1px solid var(--cream-dark); }
+
+  .recipe { margin-bottom:40px; padding-bottom:40px; border-bottom:1px solid var(--cream-dark); }
+  .recipe:last-of-type { border-bottom:none; }
+  .recipe-title { font-family:'Cinzel',serif; font-size:20px; font-weight:700; color:var(--ink); margin-bottom:8px; }
+  .badges { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
+  .badge { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; color:var(--gold); border:1px solid var(--gold); padding:3px 10px; text-transform:uppercase; }
+  .badge-sig { background:var(--gold); color:var(--cream); }
+
+  .recipe-body { display:grid; grid-template-columns:210px 1fr; gap:32px; }
+  @media(max-width:600px){ .recipe-body{ grid-template-columns:1fr; } }
+
+  .ing-title, .steps-title { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; margin-bottom:10px; border-bottom:1px solid var(--gold); padding-bottom:4px; }
+  .ing-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dotted var(--cream-dark); font-size:14px; }
+  .ing-name { color:var(--ink); }
+  .ing-amount { color:var(--gold); font-weight:600; font-family:'Cinzel',serif; font-size:12px; }
+
+  .step { display:flex; gap:12px; margin-bottom:8px; font-size:14px; line-height:1.6; }
+  .step-num { font-family:'Cinzel',serif; font-size:12px; color:var(--gold); font-weight:700; min-width:18px; margin-top:2px; }
+  .step-text { color:var(--ink-light); }
+  .tip { margin-top:14px; padding:10px 14px; border-left:3px solid var(--gold); background:var(--gold-pale); font-size:13px; font-style:italic; color:var(--ink-light); line-height:1.6; }
+
+  .wine-entry { margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid var(--cream-dark); }
+  .wine-entry:last-of-type { border-bottom:none; }
+  .wine-title { font-family:'Cinzel',serif; font-size:18px; font-weight:700; color:var(--ink); margin-bottom:4px; }
+  .wine-sub { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--gold); margin-bottom:10px; letter-spacing:0.05em; }
+  .wine-badge { display:inline-block; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; color:var(--gold); border:1px solid var(--gold); padding:2px 8px; margin-bottom:12px; }
+  .wine-text { font-size:14px; color:var(--ink-light); line-height:1.7; }
+
+  .cabinet-entry { margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid var(--cream-dark); }
+  .cabinet-entry:last-of-type { border-bottom:none; }
+  .cabinet-title { font-family:'Cinzel',serif; font-size:18px; font-weight:700; color:var(--ink); margin-bottom:4px; }
+  .cabinet-sub { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--gold); margin-bottom:8px; }
+  .cabinet-badge { display:inline-block; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; color:var(--gold); border:1px solid var(--gold); padding:2px 8px; margin-bottom:12px; }
+  .cabinet-text { font-size:14px; color:var(--ink-light); line-height:1.7; }
+  .cabinet-section-head { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.4em; color:var(--gold); text-align:center; margin:36px 0 28px; border-top:1px solid var(--gold); border-bottom:1px solid var(--gold); padding:8px 0; }
+
+  .ornament { text-align:center; color:var(--gold); font-size:13px; letter-spacing:6px; margin:28px 0; }
+  .footer { text-align:center; margin-top:40px; padding-top:16px; border-top:3px double var(--ink); font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.3em; color:var(--gold); }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="bar-name">GRAND SPEAKEASY · KRUDENBURG · EST. 2024</div>
+    <h1>W E I N E &amp; C H A M P A G N E R</h1>
+    <div class="quote">„Die sorgfältigste Arbeit sieht man nie auf den ersten Blick."</div>
+  </div>
+  <div class="back"><a href="hauskarte.html">← Zurück zur Karte</a></div>
+  <div class="section-intro">Wenige, aber die richtigen. Direkt vom Winzer oder sorgfältig ausgewählt.<br>Jeder Wein hier hat einen Grund zu sein.</div>
+
+  <div class="wine-entry">
+    <div class="wine-title">Laurent-Perrier Brut 🥂</div>
+    <div class="wine-sub">Champagne · Frankreich</div>
+    <div class="wine-badge">CHAMPAGNER · SEKTFLÖTE · 6–8 °C</div>
+    <div class="wine-text">Kein lauter Name, kein großes Spektakel – einfach ein sehr guter Champagner. Feine Perlage, Noten von Brioche und weißen Blüten. Für Momente, die für sich selbst sprechen. Mindestens 2–3 Std. im Kühlschrank kühlen.</div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+  <div class="wine-entry">
+    <div class="wine-title">La Gioiosa Prosecco 🍾</div>
+    <div class="wine-sub">Treviso DOC · Italien</div>
+    <div class="wine-badge">PROSECCO · SEKTFLÖTE · 6–8 °C</div>
+    <div class="wine-text">Lebendig, frisch, mit feiner Perlage. Aus Treviso DOC – einer der wenigen Prosecchi mit echter Herkunftsbezeichnung. Die Basis des Aperol Spritz und ein eigenständiger Genuss. Italien im Glas.</div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+  <div class="wine-entry">
+    <div class="wine-title">Weingut Rosenhof Portugieser &amp; Dornfelder 🍷</div>
+    <div class="wine-sub">Rheinhessen · Deutschland</div>
+    <div class="wine-badge">ROTWEIN · UNIVERSAL-WEINGLAS · 16–18 °C</div>
+    <div class="wine-text">Trocken, weich, zugänglich. Portugieser bringt Frische und Leichtigkeit – Dornfelder die dunkle Frucht. Direkt vom Weingut Rosenhof in Rheinhessen. Der Rotwein für alle die Rotwein mögen ohne den Abend damit zu beschweren.</div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+  <div class="wine-entry">
+    <div class="wine-title">Doppio Passo Primitivo 🍷</div>
+    <div class="wine-sub">Puglia IGT · Süditalien</div>
+    <div class="wine-badge">ROTWEIN · UNIVERSAL-WEINGLAS · 16–18 °C</div>
+    <div class="wine-text">Vollmundig, kräftig, intensiv. Dunkle Beeren, Schokolade, Gewürz – der Primitivo aus Puglia wird doppelt getrocknet, bevor er in die Flasche kommt. Das gibt ihm eine Tiefe, die andere Rotweine nicht haben. Für die die es ernst meinen. Passt hervorragend zu den Rauchmandeln.</div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+  <div class="wine-entry">
+    <div class="wine-title">Weingut Braun Scheurebe 🍋</div>
+    <div class="wine-sub">Pfalz · Deutschland</div>
+    <div class="wine-badge">WEISSWEIN · UNIVERSAL-WEINGLAS · 8–10 °C</div>
+    <div class="wine-text">Trocken, aromatisch, lebendig. Direkt vom Weingut Braun aus der Pfalz – der deutsche Sauvignon Blanc. Intensive Frühlings- und Sommernoten, fruchtig ohne Süße. Wer ihn einmal getrunken hat, kommt wieder.</div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+  <div class="wine-entry">
+    <div class="wine-title">Rosenhof Portugieser Weissherbst 🌸</div>
+    <div class="wine-sub">Rheinhessen · Deutschland</div>
+    <div class="wine-badge">ROSÉ · UNIVERSAL-WEINGLAS · 8–10 °C</div>
+    <div class="wine-text">Trocken, zartrosa, fein. Portugieser als Rosé – selbe Traube, anderer Charakter. Leicht, frisch, mit einer stillen Eleganz die nicht um Aufmerksamkeit bettelt.</div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+  <div class="footer">GRAND SPEAKEASY · KRUDENBURG · EST. 2024 · HAUS VON 1838</div>
+</div>
+</body>
+</html>

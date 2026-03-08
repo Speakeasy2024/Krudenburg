@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grand Speakeasy · The Cabinet</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f2ede0; --cream-dark: #e0d8c4;
+    --ink: #1c1a14; --ink-light: #3a3528;
+    --gold: #b8953a; --gold-pale: #f7f0dc;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#2a2620; font-family:'Cormorant Garamond',Georgia,serif; color:var(--ink); }
+  .page { max-width:860px; margin:30px auto; background:var(--cream); padding:44px 52px; }
+  @media(max-width:640px){ .page{ padding:28px 20px; } }
+
+  .header { text-align:center; border-top:3px double var(--ink); border-bottom:3px double var(--ink); padding:20px 0; margin-bottom:32px; }
+  .header .bar-name { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.4em; color:var(--gold); margin-bottom:8px; }
+  .header h1 { font-family:'Cinzel',serif; font-size:26px; font-weight:700; letter-spacing:0.1em; color:var(--ink); }
+  .header .quote { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--ink-light); margin-top:8px; }
+  .back { text-align:center; margin-bottom:28px; }
+  .back a { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; color:var(--gold); text-decoration:none; border-bottom:1px solid var(--gold); padding-bottom:2px; }
+  .back a:hover { color:var(--ink); border-color:var(--ink); }
+
+  .section-intro { text-align:center; font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--ink-light); line-height:1.7; margin-bottom:36px; padding-bottom:20px; border-bottom:1px solid var(--cream-dark); }
+
+  .recipe { margin-bottom:40px; padding-bottom:40px; border-bottom:1px solid var(--cream-dark); }
+  .recipe:last-of-type { border-bottom:none; }
+  .recipe-title { font-family:'Cinzel',serif; font-size:20px; font-weight:700; color:var(--ink); margin-bottom:8px; }
+  .badges { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
+  .badge { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; color:var(--gold); border:1px solid var(--gold); padding:3px 10px; text-transform:uppercase; }
+  .badge-sig { background:var(--gold); color:var(--cream); }
+
+  .recipe-body { display:grid; grid-template-columns:210px 1fr; gap:32px; }
+  @media(max-width:600px){ .recipe-body{ grid-template-columns:1fr; } }
+
+  .ing-title, .steps-title { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; margin-bottom:10px; border-bottom:1px solid var(--gold); padding-bottom:4px; }
+  .ing-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dotted var(--cream-dark); font-size:14px; }
+  .ing-name { color:var(--ink); }
+  .ing-amount { color:var(--gold); font-weight:600; font-family:'Cinzel',serif; font-size:12px; }
+
+  .step { display:flex; gap:12px; margin-bottom:8px; font-size:14px; line-height:1.6; }
+  .step-num { font-family:'Cinzel',serif; font-size:12px; color:var(--gold); font-weight:700; min-width:18px; margin-top:2px; }
+  .step-text { color:var(--ink-light); }
+  .tip { margin-top:14px; padding:10px 14px; border-left:3px solid var(--gold); background:var(--gold-pale); font-size:13px; font-style:italic; color:var(--ink-light); line-height:1.6; }
+
+  .wine-entry { margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid var(--cream-dark); }
+  .wine-entry:last-of-type { border-bottom:none; }
+  .wine-title { font-family:'Cinzel',serif; font-size:18px; font-weight:700; color:var(--ink); margin-bottom:4px; }
+  .wine-sub { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--gold); margin-bottom:10px; letter-spacing:0.05em; }
+  .wine-badge { display:inline-block; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; color:var(--gold); border:1px solid var(--gold); padding:2px 8px; margin-bottom:12px; }
+  .wine-text { font-size:14px; color:var(--ink-light); line-height:1.7; }
+
+  .cabinet-entry { margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid var(--cream-dark); }
+  .cabinet-entry:last-of-type { border-bottom:none; }
+  .cabinet-title { font-family:'Cinzel',serif; font-size:18px; font-weight:700; color:var(--ink); margin-bottom:4px; }
+  .cabinet-sub { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--gold); margin-bottom:8px; }
+  .cabinet-badge { display:inline-block; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; color:var(--gold); border:1px solid var(--gold); padding:2px 8px; margin-bottom:12px; }
+  .cabinet-text { font-size:14px; color:var(--ink-light); line-height:1.7; }
+  .cabinet-section-head { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.4em; color:var(--gold); text-align:center; margin:36px 0 28px; border-top:1px solid var(--gold); border-bottom:1px solid var(--gold); padding:8px 0; }
+
+  .ornament { text-align:center; color:var(--gold); font-size:13px; letter-spacing:6px; margin:28px 0; }
+  .footer { text-align:center; margin-top:40px; padding-top:16px; border-top:3px double var(--ink); font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.3em; color:var(--gold); }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="bar-name">GRAND SPEAKEASY · KRUDENBURG · EST. 2024</div>
+    <h1>T H E C A B I N E T</h1>
+    <div class="quote">„Die sorgfältigste Arbeit sieht man nie auf den ersten Blick."</div>
+  </div>
+  <div class="back"><a href="hauskarte.html">← Zurück zur Karte</a></div>
+  <div class="section-intro" style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; font-style:normal;">SPIRITS PUR SERVIERT · ZUM GENIESSEN &amp; VERWEILEN</div>
+
+  <div class="cabinet-entry">
+    <div class="cabinet-title">The Macallan 15 Double Cask 🏴󠁧󠁢󠁳󠁣󠁴󠁿</div>
+    <div class="cabinet-sub">Single Malt Scotch · Highlands</div>
+    <div class="cabinet-badge">PUR · COGNACSCHWENKER · 18–20 °C</div>
+    <div class="cabinet-text">Das Herzstück dieser Bar. Ein Geschenk von jenen, die mir am wichtigsten sind.<br>Im Cognacschwenker bei Raumtemperatur – kein Eis.<br>Gereift in American und European Oak Sherry Casks.<br>Noten von Rosinen, Gewürzkuchen, Vanille und sanfter Eiche.<br>Optional: ein paar Tropfen stilles Wasser öffnen die Aromen erheblich.<br>Erst riechen. Dann in Ruhe trinken.</div>
+  </div>
+  <div class="cabinet-entry">
+    <div class="cabinet-title">Wagemut PX-Cask Barbados 🍯</div>
+    <div class="cabinet-sub">Aged Rum · Barbados · PX Sherry Finish</div>
+    <div class="cabinet-badge">PUR · COGNACSCHWENKER · 16–18 °C</div>
+    <div class="cabinet-text">Im Pedro Ximénez Sherry-Fass gereift – intensiv, samtig.<br>Noten von Rosinen, dunkler Schokolade und Trockenfrüchten.<br>Kein Eis – die PX-Cask-Noten sind temperaturempfindlich.<br>Schwenken, riechen, langsam trinken.<br>Ein Getränk der Freundschaft – für jene, die sich trauen, anders zu genießen.</div>
+  </div>
+  <div class="cabinet-entry">
+    <div class="cabinet-title">Botucal Reserva Exclusiva 🌴</div>
+    <div class="cabinet-sub">Rum · Venezuela · 12 Jahre gereift</div>
+    <div class="cabinet-badge">PUR · COGNACSCHWENKER · RAUMTEMPERATUR</div>
+    <div class="cabinet-text">Venezuelas dunkler Schatz. Süß, komplex, legendär.<br>12 Jahre in American Oak gereift.<br>Noten von Vanille, Karamell und exotischen Gewürzen.<br>Weicher und zugänglicher als der Wagemut – idealer Einstieg in die Welt des Sipping Rum.</div>
+  </div>
+  <div class="cabinet-entry">
+    <div class="cabinet-title">Monkey 47 Schwarzwald Dry Gin 🌲</div>
+    <div class="cabinet-sub">Schwarzwald · 47 Botanicals</div>
+    <div class="cabinet-badge">PUR · KRISTALL-LIKÖRGLAS · RAUMTEMPERATUR</div>
+    <div class="cabinet-text">47 Botanicals, handgefertigt in kleinen Chargen.<br>Komplex, kräuterig, würzig – jeder Schluck eine Entdeckungsreise durch den Schwarzwald.<br>Pur im Kristallglas – kein Eis, keine Zugaben.<br>Das Cabinet-Stück für die, die Gin wirklich verstehen.</div>
+  </div>
+  <div class="cabinet-entry">
+    <div class="cabinet-title">Mr Black Cold Brew ☕</div>
+    <div class="cabinet-sub">Kaffeelikör · Australien</div>
+    <div class="cabinet-badge">PUR · COGNACSCHWENKER · LEICHT GEKÜHLT</div>
+    <div class="cabinet-text">Echter Cold Brew aus Arabica-Bohnen – keine künstlichen Aromen.<br>Intensiv, dunkel, leicht bitter.<br>Pur im Cognacschwenker oder on the Rocks mit einem großen Eiswürfel.<br>Für Kaffeepuristen – kein süßer Likör.</div>
+  </div>
+  <div class="cabinet-section-head">D I G E S T I F S</div>
+  <div class="cabinet-entry">
+    <div class="cabinet-title">Disaronno Originale 🥜</div>
+    <div class="cabinet-sub">Amaretto · Saronno · seit 1525</div>
+    <div class="cabinet-badge">DIGESTIF · KRISTALL-LIKÖRSCHALE ODER TUMBLER</div>
+    <div class="cabinet-text">Das Original seit 1525. Süß, samtig, mit unverwechselbarer Bittermandelnote.<br>Neat in der Kristall-Likörschale – die Mandelnoten kommen am besten zur Geltung.<br>On the Rocks mit großem Eiswürfel im Tumbler: kühler, etwas weniger süß.<br>Qualität beginnt nicht erst bei teuer.</div>
+  </div>
+  <div class="cabinet-entry">
+    <div class="cabinet-title">Averna Amaro 🌿</div>
+    <div class="cabinet-sub">Amaro · Sizilien</div>
+    <div class="cabinet-badge">DIGESTIF · WHISKEY-TUMBLER · ON THE ROCKS</div>
+    <div class="cabinet-text">Sizilianischer Amaro – Kräuterbitter mit Noten von Orangenschale, Lakritz und mediterranen Kräutern.<br>On the Rocks: großen Eiswürfel in den Tumbler, Averna darüber.<br>Optional: Orangenzeste über dem Glas ausdrücken.<br>Kälte bringt die Kräuternoten hervor – on the Rocks ist die eleganteste Variante.</div>
+  </div>
+  <div class="cabinet-entry">
+    <div class="cabinet-title">Sibona Grappa di Barolo 🇮🇹</div>
+    <div class="cabinet-sub">Grappa · Piemont · im Barolo-Fass gereift</div>
+    <div class="cabinet-badge">DIGESTIF · COGNACSCHWENKER · 16–18 °C · NIEMALS KALT</div>
+    <div class="cabinet-text">Ein Getränk der Freundschaft.<br>Niemals kalt servieren – kein Eis, kein gekühltes Glas.<br>Im Cognacschwenker bei 16–18 °C. Die Bauchform bündelt die Aromen zur Nase.<br>Kurz schwenken, erst riechen – Grappa lebt vom Duft.<br>Im Barolo-Fass gereift: deutlich weicher als junge Grappa. Kein Schnaps – ein Erlebnis.</div>
+  </div>
+  <div class="cabinet-entry">
+    <div class="cabinet-title">Prinz Alte Williamsbirne 🍐</div>
+    <div class="cabinet-sub">Obstbrand · Österreich</div>
+    <div class="cabinet-badge">DIGESTIF · SCHNAPS-PINNEKEN · 8–12 °C · LEICHT GEKÜHLT</div>
+    <div class="cabinet-text">Flasche 30 Min. vor dem Service leicht kühlen.<br>Im Schnaps-Pinneken servieren – pur, ohne Eis.<br>Eines der anspruchsvollsten Destillate: intensiv fruchtig, keine Süße, absolut klar.<br>Serviert in Gläsern aus Familienbesitz.</div>
+  </div>
+  <div class="cabinet-entry">
+    <div class="cabinet-title">Prinz Alte Marille 🍑</div>
+    <div class="cabinet-sub">Obstbrand · Wachau · Österreich</div>
+    <div class="cabinet-badge">DIGESTIF · SCHNAPS-PINNEKEN · 8–12 °C · LEICHT GEKÜHLT</div>
+    <div class="cabinet-text">Flasche 30 Min. vor dem Service leicht kühlen.<br>Im Schnaps-Pinneken servieren – pur, ohne Eis.<br>Die Wachauer Marille ist geschützte Herkunftsbezeichnung.<br>Weicher als die Williamsbirne – Noten von reifer Aprikose, Mandel, einem Hauch Blüte.<br>Diese Flaschen stehen für die Wurzeln meiner Frau – österreichische Handwerkskunst in konzentrierter Form.</div>
+  </div>
+
+  <div class="footer">GRAND SPEAKEASY · KRUDENBURG · EST. 2024 · HAUS VON 1838</div>
+</div>
+</body>
+</html>

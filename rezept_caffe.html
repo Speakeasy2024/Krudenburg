@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grand Speakeasy · Caffè & Dolci</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f2ede0; --cream-dark: #e0d8c4;
+    --ink: #1c1a14; --ink-light: #3a3528;
+    --gold: #b8953a; --gold-pale: #f7f0dc;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#2a2620; font-family:'Cormorant Garamond',Georgia,serif; color:var(--ink); }
+  .page { max-width:860px; margin:30px auto; background:var(--cream); padding:44px 52px; }
+  @media(max-width:640px){ .page{ padding:28px 20px; } }
+
+  .header { text-align:center; border-top:3px double var(--ink); border-bottom:3px double var(--ink); padding:20px 0; margin-bottom:32px; }
+  .header .bar-name { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.4em; color:var(--gold); margin-bottom:8px; }
+  .header h1 { font-family:'Cinzel',serif; font-size:26px; font-weight:700; letter-spacing:0.1em; color:var(--ink); }
+  .header .quote { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--ink-light); margin-top:8px; }
+  .back { text-align:center; margin-bottom:28px; }
+  .back a { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; color:var(--gold); text-decoration:none; border-bottom:1px solid var(--gold); padding-bottom:2px; }
+  .back a:hover { color:var(--ink); border-color:var(--ink); }
+
+  .section-intro { text-align:center; font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--ink-light); line-height:1.7; margin-bottom:36px; padding-bottom:20px; border-bottom:1px solid var(--cream-dark); }
+
+  .recipe { margin-bottom:40px; padding-bottom:40px; border-bottom:1px solid var(--cream-dark); }
+  .recipe:last-of-type { border-bottom:none; }
+  .recipe-title { font-family:'Cinzel',serif; font-size:20px; font-weight:700; color:var(--ink); margin-bottom:8px; }
+  .badges { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
+  .badge { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; color:var(--gold); border:1px solid var(--gold); padding:3px 10px; text-transform:uppercase; }
+  .badge-sig { background:var(--gold); color:var(--cream); }
+
+  .recipe-body { display:grid; grid-template-columns:210px 1fr; gap:32px; }
+  @media(max-width:600px){ .recipe-body{ grid-template-columns:1fr; } }
+
+  .ing-title, .steps-title { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; margin-bottom:10px; border-bottom:1px solid var(--gold); padding-bottom:4px; }
+  .ing-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dotted var(--cream-dark); font-size:14px; }
+  .ing-name { color:var(--ink); }
+  .ing-amount { color:var(--gold); font-weight:600; font-family:'Cinzel',serif; font-size:12px; }
+
+  .step { display:flex; gap:12px; margin-bottom:8px; font-size:14px; line-height:1.6; }
+  .step-num { font-family:'Cinzel',serif; font-size:12px; color:var(--gold); font-weight:700; min-width:18px; margin-top:2px; }
+  .step-text { color:var(--ink-light); }
+  .tip { margin-top:14px; padding:10px 14px; border-left:3px solid var(--gold); background:var(--gold-pale); font-size:13px; font-style:italic; color:var(--ink-light); line-height:1.6; }
+
+  .wine-entry { margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid var(--cream-dark); }
+  .wine-entry:last-of-type { border-bottom:none; }
+  .wine-title { font-family:'Cinzel',serif; font-size:18px; font-weight:700; color:var(--ink); margin-bottom:4px; }
+  .wine-sub { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--gold); margin-bottom:10px; letter-spacing:0.05em; }
+  .wine-badge { display:inline-block; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; color:var(--gold); border:1px solid var(--gold); padding:2px 8px; margin-bottom:12px; }
+  .wine-text { font-size:14px; color:var(--ink-light); line-height:1.7; }
+
+  .cabinet-entry { margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid var(--cream-dark); }
+  .cabinet-entry:last-of-type { border-bottom:none; }
+  .cabinet-title { font-family:'Cinzel',serif; font-size:18px; font-weight:700; color:var(--ink); margin-bottom:4px; }
+  .cabinet-sub { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--gold); margin-bottom:8px; }
+  .cabinet-badge { display:inline-block; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; color:var(--gold); border:1px solid var(--gold); padding:2px 8px; margin-bottom:12px; }
+  .cabinet-text { font-size:14px; color:var(--ink-light); line-height:1.7; }
+  .cabinet-section-head { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.4em; color:var(--gold); text-align:center; margin:36px 0 28px; border-top:1px solid var(--gold); border-bottom:1px solid var(--gold); padding:8px 0; }
+
+  .ornament { text-align:center; color:var(--gold); font-size:13px; letter-spacing:6px; margin:28px 0; }
+  .footer { text-align:center; margin-top:40px; padding-top:16px; border-top:3px double var(--ink); font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.3em; color:var(--gold); }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="bar-name">GRAND SPEAKEASY · KRUDENBURG · EST. 2024</div>
+    <h1>C A F F È &amp; D O L C I</h1>
+    <div class="quote">„Die sorgfältigste Arbeit sieht man nie auf den ersten Blick."</div>
+  </div>
+  <div class="back"><a href="hauskarte.html">← Zurück zur Karte</a></div>
+  <div class="section-intro">Der richtige Abschluss braucht keine Eile.<br>Espresso, Likör und ein letzter Moment – für die, die noch bleiben.</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Caffè Shakerato ☕</div>
+    <div class="badges"><span class="badge">Geschüttelt · Alkoholfrei</span><span class="badge">Kristall-Likörschale</span></div>
+    <div class="recipe-body">
+      <div class="ingredients">
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Lavazza Espresso (heiß)</span><span class="ing-amount">4 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Haus-Vanillesirup (2:1)</span><span class="ing-amount">1,5 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Eis</span><span class="ing-amount">viel</span></div>
+        
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Espresso frisch brühen, kurz auf max. 70 °C abkühlen lassen – ca. 1 Min.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Espresso und Vanillesirup in den Shaker, viel Eis dazu.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Kräftig 15 Sek. schütteln – Ziel ist eine cremige Schaumkrone.</span></div>
+        <div class="step"><span class="step-num">4</span><span class="step-text">Durch Doppelsieb in das gekühlte Kristallglas abseihen. Sofort servieren.</span></div>
+        
+        <div class="tip">💡 Das Schütteln emulgiert die Kaffeecreme zu einem natürlichen Schaum – kein Aufschäumer, keine Sahne. Sofort servieren, der Schaum setzt sich schnell.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+
+  <div class="recipe">
+    <div class="recipe-title">Caffè Corretto ☕</div>
+    <div class="badges"><span class="badge">Warm</span><span class="badge">Espressotasse · Zwei Varianten</span></div>
+    <div class="recipe-body">
+      <div class="ingredients">
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Lavazza Espresso (heiß)</span><span class="ing-amount">4 cl</span></div>
+        <div class="ing-row"><span class="ing-name">── Variante 1: Disaronno Originale</span><span class="ing-amount">1,5 cl</span></div>
+        <div class="ing-row"><span class="ing-name">── Variante 2: Averna Amaro</span><span class="ing-amount">1,5 cl</span></div>
+        
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Espressotasse mit heißem Wasser vorwärmen, auskippen.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Disaronno oder Averna in die vorgewärmte Tasse geben.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Frischen Espresso direkt darüber brühen – das verbindet sich sofort.</span></div>
+        <div class="step"><span class="step-num">4</span><span class="step-text">Kurz umrühren, sofort servieren. Dazu: ein Stück 80% Schokolade.</span></div>
+        
+        <div class="tip">💡 Disaronno: süß, samtig, nussig – die klassische Variante aus Saronno seit 1525. Averna: kräuterherb, komplex, sizilianisch. Der Gast wählt.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+
+  <div class="footer">GRAND SPEAKEASY · KRUDENBURG · EST. 2024 · HAUS VON 1838</div>
+</div>
+</body>
+</html>

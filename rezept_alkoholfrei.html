@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grand Speakeasy · Alkoholfrei</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f2ede0; --cream-dark: #e0d8c4;
+    --ink: #1c1a14; --ink-light: #3a3528;
+    --gold: #b8953a; --gold-pale: #f7f0dc;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#2a2620; font-family:'Cormorant Garamond',Georgia,serif; color:var(--ink); }
+  .page { max-width:860px; margin:30px auto; background:var(--cream); padding:44px 52px; }
+  @media(max-width:640px){ .page{ padding:28px 20px; } }
+
+  .header { text-align:center; border-top:3px double var(--ink); border-bottom:3px double var(--ink); padding:20px 0; margin-bottom:32px; }
+  .header .bar-name { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.4em; color:var(--gold); margin-bottom:8px; }
+  .header h1 { font-family:'Cinzel',serif; font-size:26px; font-weight:700; letter-spacing:0.1em; color:var(--ink); }
+  .header .quote { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--ink-light); margin-top:8px; }
+  .back { text-align:center; margin-bottom:28px; }
+  .back a { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; color:var(--gold); text-decoration:none; border-bottom:1px solid var(--gold); padding-bottom:2px; }
+  .back a:hover { color:var(--ink); border-color:var(--ink); }
+
+  .section-intro { text-align:center; font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--ink-light); line-height:1.7; margin-bottom:36px; padding-bottom:20px; border-bottom:1px solid var(--cream-dark); }
+
+  .recipe { margin-bottom:40px; padding-bottom:40px; border-bottom:1px solid var(--cream-dark); }
+  .recipe:last-of-type { border-bottom:none; }
+  .recipe-title { font-family:'Cinzel',serif; font-size:20px; font-weight:700; color:var(--ink); margin-bottom:8px; }
+  .badges { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
+  .badge { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; color:var(--gold); border:1px solid var(--gold); padding:3px 10px; text-transform:uppercase; }
+  .badge-sig { background:var(--gold); color:var(--cream); }
+
+  .recipe-body { display:grid; grid-template-columns:210px 1fr; gap:32px; }
+  @media(max-width:600px){ .recipe-body{ grid-template-columns:1fr; } }
+
+  .ing-title, .steps-title { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; margin-bottom:10px; border-bottom:1px solid var(--gold); padding-bottom:4px; }
+  .ing-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dotted var(--cream-dark); font-size:14px; }
+  .ing-name { color:var(--ink); }
+  .ing-amount { color:var(--gold); font-weight:600; font-family:'Cinzel',serif; font-size:12px; }
+
+  .step { display:flex; gap:12px; margin-bottom:8px; font-size:14px; line-height:1.6; }
+  .step-num { font-family:'Cinzel',serif; font-size:12px; color:var(--gold); font-weight:700; min-width:18px; margin-top:2px; }
+  .step-text { color:var(--ink-light); }
+  .tip { margin-top:14px; padding:10px 14px; border-left:3px solid var(--gold); background:var(--gold-pale); font-size:13px; font-style:italic; color:var(--ink-light); line-height:1.6; }
+
+  .wine-entry { margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid var(--cream-dark); }
+  .wine-entry:last-of-type { border-bottom:none; }
+  .wine-title { font-family:'Cinzel',serif; font-size:18px; font-weight:700; color:var(--ink); margin-bottom:4px; }
+  .wine-sub { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--gold); margin-bottom:10px; letter-spacing:0.05em; }
+  .wine-badge { display:inline-block; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; color:var(--gold); border:1px solid var(--gold); padding:2px 8px; margin-bottom:12px; }
+  .wine-text { font-size:14px; color:var(--ink-light); line-height:1.7; }
+
+  .cabinet-entry { margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid var(--cream-dark); }
+  .cabinet-entry:last-of-type { border-bottom:none; }
+  .cabinet-title { font-family:'Cinzel',serif; font-size:18px; font-weight:700; color:var(--ink); margin-bottom:4px; }
+  .cabinet-sub { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--gold); margin-bottom:8px; }
+  .cabinet-badge { display:inline-block; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; color:var(--gold); border:1px solid var(--gold); padding:2px 8px; margin-bottom:12px; }
+  .cabinet-text { font-size:14px; color:var(--ink-light); line-height:1.7; }
+  .cabinet-section-head { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.4em; color:var(--gold); text-align:center; margin:36px 0 28px; border-top:1px solid var(--gold); border-bottom:1px solid var(--gold); padding:8px 0; }
+
+  .ornament { text-align:center; color:var(--gold); font-size:13px; letter-spacing:6px; margin:28px 0; }
+  .footer { text-align:center; margin-top:40px; padding-top:16px; border-top:3px double var(--ink); font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.3em; color:var(--gold); }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="bar-name">GRAND SPEAKEASY · KRUDENBURG · EST. 2024</div>
+    <h1>A L K O H O L F R E I</h1>
+    <div class="quote">„Die sorgfältigste Arbeit sieht man nie auf den ersten Blick."</div>
+  </div>
+  <div class="back"><a href="hauskarte.html">← Zurück zur Karte</a></div>
+  <div class="section-intro">Für alle, die bewusst genießen.<br>Ohne Alkohol, aber mit Haltung, Geschmack und Anspruch.</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Crodino 🍊</div>
+    <div class="badges"><span class="badge">Pur · Alkoholfrei</span><span class="badge">Longdrinkglas</span></div>
+    <div class="recipe-body">
+      <div class="ingredients">
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Crodino</span><span class="ing-amount">100 ml</span></div>
+        <div class="ing-row"><span class="ing-name">Eiswürfel</span><span class="ing-amount">2–3 Stück</span></div>
+        <div class="ing-row"><span class="ing-name">Orangenscheibe</span><span class="ing-amount">Garnitur</span></div>
+        
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Glas mit Eiswürfeln füllen.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Crodino direkt über das Eis einschenken – nicht umrühren.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Orangenscheibe als Garnitur auf den Rand.</span></div>
+        
+        <div class="tip">💡 Crodino wird in Italien traditionell als Aperitivo pur getrunken – ohne Zusätze. Das Bitter-Süß-Spiel mit der Orangennote ist das Erlebnis.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+
+  <div class="recipe">
+    <div class="recipe-title">Sanbitter 🔴</div>
+    <div class="badges"><span class="badge">Pur · Alkoholfrei</span><span class="badge">Longdrinkglas</span></div>
+    <div class="recipe-body">
+      <div class="ingredients">
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Sanbitter</span><span class="ing-amount">100 ml</span></div>
+        <div class="ing-row"><span class="ing-name">Eiswürfel</span><span class="ing-amount">2–3 Stück</span></div>
+        <div class="ing-row"><span class="ing-name">Orangenzeste (optional)</span><span class="ing-amount">1 Stück</span></div>
+        
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Glas mit Eiswürfeln füllen.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Sanbitter langsam einschenken.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Optional: Orangenzeste ausdrücken und auf den Rand legen.</span></div>
+        
+        <div class="tip">💡 Sanbitter ist intensiver und herber als Crodino – für alle, die es wirklich bitter mögen. Kein Kompromiss.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+
+  <div class="recipe">
+    <div class="recipe-title">Virgin Mojito 🌿</div>
+    <div class="badges"><span class="badge">Gemuddet · Alkoholfrei</span><span class="badge">Longdrinkglas</span></div>
+    <div class="recipe-body">
+      <div class="ingredients">
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Frische Minze</span><span class="ing-amount">8–10 Blätter</span></div>
+        <div class="ing-row"><span class="ing-name">Frischer Limettensaft</span><span class="ing-amount">3 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Zuckersirup (2:1)</span><span class="ing-amount">2 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Sodawasser</span><span class="ing-amount">auffüllen</span></div>
+        <div class="ing-row"><span class="ing-name">Crushed Ice</span><span class="ing-amount">viel</span></div>
+        <div class="ing-row"><span class="ing-name">Minzzweig</span><span class="ing-amount">Garnitur</span></div>
+        
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Minzblätter und Limettensaft in das Glas geben, sanft muddeln – nicht zerreiben, nur andrücken.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Zuckersirup hinzufügen, kurz umrühren.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Crushed Ice auffüllen.</span></div>
+        <div class="step"><span class="step-num">4</span><span class="step-text">Sodawasser langsam angießen, einmal sanft umrühren.</span></div>
+        <div class="step"><span class="step-num">5</span><span class="step-text">Minzzweig direkt neben den Strohhalm – damit der Duft beim Trinken wahrgenommen wird.</span></div>
+        
+        <div class="tip">💡 Minze niemals zerquetschen – nur sanft andrücken. Zu hartes Muddeln macht den Drink bitter.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+
+  <div class="footer">GRAND SPEAKEASY · KRUDENBURG · EST. 2024 · HAUS VON 1838</div>
+</div>
+</body>
+</html>
