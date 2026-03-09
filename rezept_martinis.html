@@ -20,16 +20,18 @@
   .header .bar-name { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.4em; color:var(--gold); margin-bottom:8px; }
   .header h1 { font-family:'Cinzel',serif; font-size:26px; font-weight:700; letter-spacing:0.1em; color:var(--ink); }
   .header .quote { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--ink-light); margin-top:8px; }
-  
   .back { text-align:center; margin-bottom:28px; }
   .back a { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; color:var(--gold); text-decoration:none; border-bottom:1px solid var(--gold); padding-bottom:2px; }
+  .back a:hover { color:var(--ink); border-color:var(--ink); }
 
   .section-intro { text-align:center; font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--ink-light); line-height:1.7; margin-bottom:36px; padding-bottom:20px; border-bottom:1px solid var(--cream-dark); }
 
   .recipe { margin-bottom:40px; padding-bottom:40px; border-bottom:1px solid var(--cream-dark); }
+  .recipe:last-of-type { border-bottom:none; }
   .recipe-title { font-family:'Cinzel',serif; font-size:20px; font-weight:700; color:var(--ink); margin-bottom:8px; }
   .badges { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
   .badge { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; color:var(--gold); border:1px solid var(--gold); padding:3px 10px; text-transform:uppercase; }
+  .badge-sig { background:var(--gold); color:var(--cream); }
 
   .recipe-body { display:grid; grid-template-columns:210px 1fr; gap:32px; }
   @media(max-width:600px){ .recipe-body{ grid-template-columns:1fr; } }
@@ -43,11 +45,30 @@
   .step-num { font-family:'Cinzel',serif; font-size:12px; color:var(--gold); font-weight:700; min-width:18px; margin-top:2px; }
   .step-text { color:var(--ink-light); }
   .tip { margin-top:14px; padding:10px 14px; border-left:3px solid var(--gold); background:var(--gold-pale); font-size:13px; font-style:italic; color:var(--ink-light); line-height:1.6; }
-  .story-text { margin-top:20px; font-size:14px; color:var(--ink-light); font-style:italic; line-height:1.6; border-top:1px dotted var(--cream-dark); padding-top:15px; }
+  .story { margin-top:14px; padding:10px 14px; border-left:3px solid var(--cream-dark); font-size:13px; font-style:italic; color:var(--ink-light); line-height:1.6; }
 
   .ornament { text-align:center; color:var(--gold); font-size:13px; letter-spacing:6px; margin:28px 0; }
-  .mm-logo { width: 100%; max-width: 400px; height: auto; display: block; margin: 0 auto 20px; }
-  .footer { text-align:center; font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; color:var(--gold); margin-top:40px; padding-top:20px; border-top:1px solid var(--cream-dark); }
+
+  /* Monkey Martini Sonderbereich */
+  .monkey-section { margin-top:8px; padding-top:36px; border-top:1px solid var(--cream-dark); }
+  .monkey-logo { text-align:center; margin-bottom:20px; }
+  .monkey-logo img { max-width:220px; height:auto; }
+  .monkey-header { text-align:center; margin-bottom:28px; }
+  .monkey-title { font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.3em; color:var(--ink); margin-bottom:6px; }
+  .monkey-subtitle { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.3em; color:var(--gold); }
+  .monkey-grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+  @media(max-width:600px){ .monkey-grid{ grid-template-columns:1fr; } }
+  .monkey-variant { padding:20px; border:1px solid var(--cream-dark); background:var(--gold-pale); }
+  .variant-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.3em; color:var(--gold); margin-bottom:6px; }
+  .variant-name { font-family:'Cinzel',serif; font-size:13px; font-weight:700; color:var(--ink); margin-bottom:14px; border-bottom:1px solid var(--cream-dark); padding-bottom:8px; }
+  .monkey-ing-row { display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px dotted var(--cream-dark); font-size:13px; }
+  .monkey-ing-name { color:var(--ink); }
+  .monkey-ing-amount { color:var(--gold); font-weight:600; font-family:'Cinzel',serif; font-size:11px; }
+  .variant-steps-title { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; color:var(--gold); margin:12px 0 8px; }
+  .variant-text { font-size:13px; color:var(--ink-light); line-height:1.6; margin-bottom:10px; }
+  .variant-story { font-size:13px; font-style:italic; color:var(--ink-light); line-height:1.6; border-top:1px solid var(--cream-dark); padding-top:10px; margin-top:8px; }
+
+  .footer { text-align:center; margin-top:40px; padding-top:16px; border-top:3px double var(--ink); font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.3em; color:var(--gold); }
 </style>
 </head>
 <body>
@@ -57,14 +78,16 @@
     <h1>M A R T I N I S &amp; C L A S S I C S</h1>
     <div class="quote">„Die sorgfältigste Arbeit sieht man nie auf den ersten Blick."</div>
   </div>
-  
   <div class="back"><a href="https://sgerstung.wixsite.com/hausbar">← Zurück zur Karte</a></div>
-  
   <div class="section-intro">Die Seele dieser Bar. Klassiker, reduziert aufs Wesentliche –<br>kalt gerührt, präzise gemixt, kompromisslos im Anspruch.</div>
 
+  <!-- Classic Gin Martini -->
   <div class="recipe">
     <div class="recipe-title">Classic Gin Martini 🍸</div>
-    <div class="badges"><span class="badge">Gerührt</span><span class="badge">Kristall-Likörglas</span></div>
+    <div class="badges">
+      <span class="badge">Gerührt</span>
+      <span class="badge">Kristall-Likörglas</span>
+    </div>
     <div class="recipe-body">
       <div class="ingredients">
         <div class="ing-title">Zutaten</div>
@@ -85,10 +108,16 @@
       </div>
     </div>
   </div>
+  <div class="ornament">◇ ◇ ◇</div>
 
+  <!-- VW – Vermouth Williams -->
   <div class="recipe">
     <div class="recipe-title">VW – Vermouth Williams 🍐</div>
-    <div class="badges"><span class="badge">Gerührt</span><span class="badge">Kristall-Likörschale</span><span class="badge">Signature</span></div>
+    <div class="badges">
+      <span class="badge">Gerührt</span>
+      <span class="badge">Kristall-Likörschale</span>
+      <span class="badge badge-sig">★ Signature · Nur auf Nachfrage</span>
+    </div>
     <div class="recipe-body">
       <div class="ingredients">
         <div class="ing-title">Zutaten</div>
@@ -106,10 +135,15 @@
       </div>
     </div>
   </div>
+  <div class="ornament">◇ ◇ ◇</div>
 
+  <!-- The Raven Negroni -->
   <div class="recipe">
     <div class="recipe-title">The Raven Negroni 🥃</div>
-    <div class="badges"><span class="badge">Gerührt</span><span class="badge">Whiskey-Tumbler</span></div>
+    <div class="badges">
+      <span class="badge">Gerührt</span>
+      <span class="badge">Whiskey-Tumbler</span>
+    </div>
     <div class="recipe-body">
       <div class="ingredients">
         <div class="ing-title">Zutaten</div>
@@ -126,20 +160,26 @@
         <div class="step"><span class="step-num">3</span><span class="step-text">Über den Eiswürfel abseihen.</span></div>
         <div class="step"><span class="step-num">4</span><span class="step-text">Orangenzeste ausdrücken, Rand bestreichen, als Garnitur einlegen.</span></div>
         <div class="tip">💡 Das 1:1:1 Verhältnis ist klassisch. Der Antica Formula macht diesen Negroni tiefer und samtiger.</div>
-        <div class="story-text">Ein Geschenk. Ein junger Mann half dabei, diesem Haus neues Leben einzuhauchen. Er brachte keine Worte – er brachte eine Flasche. Der Raven Hills steht seitdem hier. Für Handwerk, Dankbarkeit und die Menschen die einen Unterschied machen.</div>
+        <div class="tip">Ein Geschenk. Ein junger Mann half dabei, diesem Haus neues Leben einzuhauchen. Er brachte keine Worte – er brachte eine Flasche. Der Raven Hills steht seitdem hier. Für Handwerk, Dankbarkeit und die Menschen die einen Unterschied machen.</div>
       </div>
     </div>
   </div>
+  <div class="ornament">◇ ◇ ◇</div>
 
+  <!-- Manhattan -->
   <div class="recipe">
     <div class="recipe-title">Manhattan 🌃</div>
-    <div class="badges"><span class="badge">Gerührt</span><span class="badge">Kristall-Likörschale</span></div>
+    <div class="badges">
+      <span class="badge">Gerührt</span>
+      <span class="badge">Kristall-Likörschale</span>
+    </div>
     <div class="recipe-body">
       <div class="ingredients">
         <div class="ing-title">Zutaten</div>
         <div class="ing-row"><span class="ing-name">Rittenhouse Rye Whiskey</span><span class="ing-amount">6 cl</span></div>
         <div class="ing-row"><span class="ing-name">Carpano Antica Formula</span><span class="ing-amount">3 cl</span></div>
-        <div class="ing-row"><span class="ing-name">Angostura Bitters</span><span class="ing-amount">2 Dash</span></div>
+        <div class="ing-row"><span class="ing-name">Angostura Aromatic Bitters</span><span class="ing-amount">2 Dash</span></div>
+        <div class="ing-row"><span class="ing-name">Angostura Orange Bitters (opt.)</span><span class="ing-amount">1 Dash</span></div>
       </div>
       <div>
         <div class="steps-title">Zubereitung</div>
@@ -147,99 +187,105 @@
         <div class="step"><span class="step-num">2</span><span class="step-text">Alle Zutaten im Rührglas mit viel Eis geben.</span></div>
         <div class="step"><span class="step-num">3</span><span class="step-text">30–45 Sek. rühren – der Manhattan braucht etwas mehr Verdünnung.</span></div>
         <div class="step"><span class="step-num">4</span><span class="step-text">In gekühltes Glas abseihen. Garnitur: Orangenzeste.</span></div>
-        <div class="tip">💡 Angostura Orange Bitters optional für eine hellere Note.</div>
+        <div class="tip">💡 Angostura Orange Bitters optional für eine hellere, fruchtigere Note – sehr schön mit dem Antica Formula kombiniert.</div>
       </div>
     </div>
   </div>
-
-  <div class="recipe">
-    <div class="recipe-title">Old Fashioned 🥃</div>
-    <div class="badges"><span class="badge">Gerührt im Glas</span><span class="badge">Whiskey-Tumbler</span></div>
-    <div class="recipe-body">
-      <div class="ingredients">
-        <div class="ing-title">Zutaten</div>
-        <div class="ing-row"><span class="ing-name">Woodford / Rye</span><span class="ing-amount">6 cl</span></div>
-        <div class="ing-row"><span class="ing-name">Zuckersirup (2:1)</span><span class="ing-amount">1 cl</span></div>
-        <div class="ing-row"><span class="ing-name">Angostura Bitters</span><span class="ing-amount">2 Dash</span></div>
-      </div>
-      <div>
-        <div class="steps-title">Zubereitung</div>
-        <div class="step"><span class="step-num">1</span><span class="step-text">Zuckersirup und Bitters im Tumbler kurz verrühren.</span></div>
-        <div class="step"><span class="step-num">2</span><span class="step-text">Großen Eiswürfel einlegen.</span></div>
-        <div class="step"><span class="step-num">3</span><span class="step-text">Whiskey darüber gießen, ca. 15 Sek. rühren.</span></div>
-        <div class="step"><span class="step-num">4</span><span class="step-text">Orangenzeste ausdrücken, Rand einreiben, einlegen.</span></div>
-        <div class="tip">💡 Bourbon = weicher. Rye = würziger. Die Patronen-Kühlsteine sind hier zuhause.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="recipe" style="border-bottom:none;">
-    <div class="recipe-title">White Lady 🤍</div>
-    <div class="badges"><span class="badge">Geschüttelt</span><span class="badge">Kristall-Likörschale</span></div>
-    <div class="recipe-body">
-      <div class="ingredients">
-        <div class="ing-title">Zutaten</div>
-        <div class="ing-row"><span class="ing-name">Gin</span><span class="ing-amount">4 cl</span></div>
-        <div class="ing-row"><span class="ing-name">Dry Curaçao</span><span class="ing-amount">2 cl</span></div>
-        <div class="ing-row"><span class="ing-name">Zitronensaft</span><span class="ing-amount">2 cl</span></div>
-      </div>
-      <div>
-        <div class="steps-title">Zubereitung</div>
-        <div class="step"><span class="step-num">1</span><span class="step-text">Glas vorchillen, alle Zutaten in den Shaker geben.</span></div>
-        <div class="step"><span class="step-num">2</span><span class="step-text">Kräftig 15 Sek. schütteln.</span></div>
-        <div class="step"><span class="step-num">3</span><span class="step-text">Durch Doppelsieb abseihen. Garnitur: Zitronenzeste.</span></div>
-        <div class="tip">💡 Pierre Ferrand Curaçao ist Cognac-basiert – deutlich komplexer als Triple Sec.</div>
-      </div>
-    </div>
-  </div>
-
   <div class="ornament">◇ ◇ ◇</div>
 
-  <div class="recipe" style="border-bottom:none; margin-top:40px;">
-    <img src="image.png" alt="MM Logo" class="mm-logo">
-    <div style="text-align:center; font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.4em; color:var(--gold); margin-bottom:24px;">
-        MONKEY MARTINI · FÜR DIE, DIE FRAGEN.
+  <!-- Old Fashioned -->
+  <div class="recipe">
+    <div class="recipe-title">Old Fashioned 🥃</div>
+    <div class="badges">
+      <span class="badge">Gerührt im Glas</span>
+      <span class="badge">Whiskey-Tumbler</span>
     </div>
-    <div style="border: 1px solid var(--gold); padding: 12px; text-align: center; font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.2em; color:var(--ink); margin-bottom: 32px;">
-        GERÜHRT · NIEMALS GESCHÜTTELT · KRISTALL-LIKÖRGLAS
-    </div>
-
     <div class="recipe-body">
       <div class="ingredients">
-        <div class="ing-title">Variante I</div>
-        <div class="ing-name" style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.1em; color:var(--gold); margin-bottom:8px;">DIE LADY VARIANTE ★ EMPFEHLUNG</div>
-        <div class="ing-row"><span class="ing-name">Monkey 47</span><span class="ing-amount">6 cl</span></div>
-        <div class="ing-row"><span class="ing-name">Noilly Prat</span><span class="ing-amount">1 cl</span></div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Woodford Reserve oder Rittenhouse Rye</span><span class="ing-amount">6 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Zuckersirup (2:1)</span><span class="ing-amount">1 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Angostura Bitters</span><span class="ing-amount">2–3 Dash</span></div>
+        <div class="ing-row"><span class="ing-name">Großer Eiswürfel</span><span class="ing-amount">1 Stk</span></div>
+        <div class="ing-row"><span class="ing-name">Orangenzeste</span><span class="ing-amount">1 Stk</span></div>
       </div>
       <div>
-        <div class="steps-title">Zubereitung &amp; Story</div>
-        <div class="step-text" style="font-size:14px; color:var(--ink-light); margin-bottom: 12px;">
-            Eiskalt gerührt (ca. 30 Sek.). Durch Doppelsieb in das gekühlte Kristallglas. Zitronenzeste über dem Glas ausdrücken, Rand bestreichen – Zeste nicht in den Drink.
-        </div>
-        <div class="tip">Marilyn Monroe. Ein Hauch Vermouth – und die 47 Botanicals des Monkey entfalten sich. Komplex, vielschichtig, unwiderstehlich.</div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Zuckersirup und Bitters direkt in den Tumbler, kurz verrühren.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Großen Eiswürfel einlegen – je größer, desto langsamer die Verdünnung.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Whiskey darüber gießen, sanft rühren bis alles verbunden ist (ca. 15 Sek.).</span></div>
+        <div class="step"><span class="step-num">4</span><span class="step-text">Orangenzeste ausdrücken, Rand einreiben, als Garnitur einlegen.</span></div>
+        <div class="tip">💡 Bourbon = weicher, karamellig. Rye = würzig, pfeffrig. Die Patronen-Kühlsteine sind hier zuhause.</div>
       </div>
     </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
 
-    <div class="recipe-body" style="margin-top:40px;">
+  <!-- White Lady -->
+  <div class="recipe">
+    <div class="recipe-title">White Lady 🤍</div>
+    <div class="badges">
+      <span class="badge">Geschüttelt</span>
+      <span class="badge">Kristall-Likörschale</span>
+    </div>
+    <div class="recipe-body">
       <div class="ingredients">
-        <div class="ing-title">Variante II</div>
-        <div class="ing-name" style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.1em; color:var(--gold); margin-bottom:8px;">DIE CHURCHILL VARIANTE</div>
-        <div class="ing-row"><span class="ing-name">Monkey 47</span><span class="ing-amount">4-6 cl</span></div>
-        <div class="ing-row"><span class="ing-name">Noilly Prat</span><span class="ing-amount">Wash</span></div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Berliner Brandstifter Gin</span><span class="ing-amount">4 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Pierre Ferrand Dry Curaçao</span><span class="ing-amount">2 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Frischer Zitronensaft</span><span class="ing-amount">2 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Zuckersirup 2:1 (optional)</span><span class="ing-amount">0,5 cl</span></div>
       </div>
       <div>
-        <div class="steps-title">Zubereitung &amp; Story</div>
-        <div class="step-text" style="font-size:14px; color:var(--ink-light); margin-bottom: 12px;">
-            Noilly Prat in das gekühlte Glas einschenken – schwenken – ausschütten. Nur der Duft bleibt. Dann: Monkey 47, eiskalt gerührt, niemals geschüttelt. Zitronenzeste über dem Glas ausdrücken, nicht hineinlegen.
-        </div>
-        <div class="tip">Drehe die MM auf den Kopf – sie werden zu WW. Winston Churchill, Zweiter Weltkrieg. Trocken wie seine Reden. Hart wie sein Martini.</div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Glas vorchillen.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Alle Zutaten in den Shaker, Eis hinzufügen.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Kräftig 15 Sek. schütteln – bis der Shaker sehr kalt und beschlagen ist.</span></div>
+        <div class="step"><span class="step-num">4</span><span class="step-text">Durch Doppelsieb in das gekühlte Glas abseihen.</span></div>
+        <div class="step"><span class="step-num">5</span><span class="step-text">Zitronenzeste als Garnitur auf den Rand.</span></div>
+        <div class="tip">💡 Pierre Ferrand Curaçao ist Cognac-basiert – deutlich komplexer als Triple Sec. Optional ½ cl Zuckersirup für Balance je nach Zitrone.</div>
       </div>
     </div>
   </div>
 
-  <div class="footer">
-    GRAND SPEAKEASY · KRUDENBURG · EST. 2024 · HAUS VON 1838
+  <!-- Monkey Martini – Sonderbereich mit Bild -->
+  <div class="monkey-section">
+    <div class="ornament">◇ ◇ ◇</div>
+    <div class="monkey-logo">
+      <img src="image.png" alt="MM Logo – Monkey Martini">
+    </div>
+    <div class="monkey-header">
+      <div class="monkey-title">MONKEY MARTINI · FÜR DIE, DIE FRAGEN.</div>
+      <div class="monkey-subtitle">GERÜHRT · NIEMALS GESCHÜTTELT · KRISTALL-LIKÖRGLAS</div>
+    </div>
+    <div class="monkey-grid">
+
+      <!-- Variante I -->
+      <div class="monkey-variant">
+        <div class="variant-label">VARIANTE I</div>
+        <div class="variant-name">DIE LADY VARIANTE ★ EMPFEHLUNG</div>
+        <div class="monkey-ing-row"><span class="monkey-ing-name">Monkey 47</span><span class="monkey-ing-amount">6 cl</span></div>
+        <div class="monkey-ing-row"><span class="monkey-ing-name">Noilly Prat</span><span class="monkey-ing-amount">1 cl</span></div>
+        <div class="variant-steps-title">ZUBEREITUNG &amp; STORY</div>
+        <div class="variant-text">Eiskalt gerührt (ca. 30 Sek.). Durch Doppelsieb in das gekühlte Kristallglas. Zitronenzeste über dem Glas ausdrücken, Rand bestreichen – Zeste nicht in den Drink.</div>
+        <div class="variant-story">Marilyn Monroe. Ein Hauch Vermouth – und die 47 Botanicals des Monkey entfalten sich. Komplex, vielschichtig, unwiderstehlich.</div>
+      </div>
+
+      <!-- Variante II -->
+      <div class="monkey-variant">
+        <div class="variant-label">VARIANTE II</div>
+        <div class="variant-name">DIE CHURCHILL VARIANTE</div>
+        <div class="monkey-ing-row"><span class="monkey-ing-name">Monkey 47</span><span class="monkey-ing-amount">4–6 cl</span></div>
+        <div class="monkey-ing-row"><span class="monkey-ing-name">Noilly Prat</span><span class="monkey-ing-amount">Wash</span></div>
+        <div class="variant-steps-title">ZUBEREITUNG &amp; STORY</div>
+        <div class="variant-text">Noilly Prat in das gekühlte Glas einschenken – schwenken – ausschütten. Nur der Duft bleibt. Dann: Monkey 47, eiskalt gerührt, niemals geschüttelt. Zitronenzeste über dem Glas ausdrücken, nicht hineinlegen.</div>
+        <div class="variant-story">Drehe die MM auf den Kopf – sie werden zu WW. Winston Churchill, Zweiter Weltkrieg. Trocken wie seine Reden. Hart wie sein Martini.</div>
+      </div>
+
+    </div>
   </div>
+
+  <div class="footer">GRAND SPEAKEASY · KRUDENBURG · EST. 2024 · HAUS VON 1838</div>
 </div>
 </body>
 </html>
