@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grand Speakeasy · Für die die schon alles probiert haben</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f2ede0; --cream-dark: #e0d8c4;
+    --ink: #1c1a14; --ink-light: #3a3528;
+    --gold: #b8953a; --gold-pale: #f7f0dc;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#1a1714; font-family:'Cormorant Garamond',Georgia,serif; color:var(--ink); }
+  .page { max-width:860px; margin:30px auto; background:var(--cream); padding:44px 52px; }
+  @media(max-width:640px){ .page{ padding:28px 20px; } }
+
+  .header { text-align:center; border-top:3px double var(--ink); border-bottom:3px double var(--ink); padding:20px 0; margin-bottom:32px; }
+  .header .bar-name { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.4em; color:var(--gold); margin-bottom:8px; }
+  .header h1 { font-family:'Cinzel',serif; font-size:22px; font-weight:700; letter-spacing:0.1em; color:var(--ink); }
+  .header .quote { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--ink-light); margin-top:8px; }
+
+  .back { text-align:center; margin-bottom:28px; }
+  .back a { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; color:var(--gold); text-decoration:none; border-bottom:1px solid var(--gold); padding-bottom:2px; }
+
+  .intro { text-align:center; font-size:15px; font-style:italic; color:var(--ink-light); line-height:1.8; margin-bottom:40px; padding-bottom:24px; border-bottom:1px solid var(--cream-dark); }
+
+  .group-head { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.4em; color:var(--gold); text-align:center; margin:44px 0 28px; border-top:1px solid var(--gold); border-bottom:1px solid var(--gold); padding:8px 0; }
+
+  .recipe { margin-bottom:36px; padding-bottom:36px; border-bottom:1px solid var(--cream-dark); }
+  .recipe:last-of-type { border-bottom:none; }
+  .recipe-title { font-family:'Cinzel',serif; font-size:19px; font-weight:700; color:var(--ink); margin-bottom:4px; }
+  .recipe-sub { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--gold); margin-bottom:6px; }
+  .badges { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+  .badge { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; color:var(--gold); border:1px solid var(--gold); padding:3px 10px; text-transform:uppercase; }
+
+  .recipe-body { display:grid; grid-template-columns:200px 1fr; gap:28px; }
+  @media(max-width:600px){ .recipe-body{ grid-template-columns:1fr; } }
+
+  .ing-title, .steps-title { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; margin-bottom:10px; border-bottom:1px solid var(--gold); padding-bottom:4px; }
+  .ing-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dotted var(--cream-dark); font-size:14px; }
+  .ing-name { color:var(--ink); }
+  .ing-amount { color:var(--gold); font-weight:600; font-family:'Cinzel',serif; font-size:12px; }
+
+  .step { display:flex; gap:12px; margin-bottom:8px; font-size:14px; line-height:1.6; }
+  .step-num { font-family:'Cinzel',serif; font-size:12px; color:var(--gold); font-weight:700; min-width:18px; margin-top:2px; }
+  .step-text { color:var(--ink-light); }
+  .tip { margin-top:14px; padding:10px 14px; border-left:3px solid var(--gold); background:var(--gold-pale); font-size:13px; font-style:italic; color:var(--ink-light); line-height:1.6; }
+
+  .ornament { text-align:center; color:var(--gold); font-size:13px; letter-spacing:6px; margin:24px 0; }
+  .footer { text-align:center; margin-top:40px; padding-top:16px; border-top:3px double var(--ink); font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.3em; color:var(--gold); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="bar-name">GRAND SPEAKEASY · KRUDENBURG · EST. 2024</div>
+    <h1>FÜR DIE DIE SCHON ALLES PROBIERT HABEN</h1>
+    <div class="quote">Wer sucht, der findet. Wer findet, der versteht.</div>
+  </div>
+
+  <div class="back"><a href="https://sgerstung.wixsite.com/hausbar">← Zurück zur Karte</a></div>
+
+  <div class="intro">
+    Diese Seite existiert nicht offiziell.<br>
+    Alle Drinks hier entstehen aus denselben Flaschen die du bereits kennst –<br>
+    nur anders kombiniert, tiefer gedacht, für die die weiter fragen.
+  </div>
+
+  <!-- ═══ DIE NEGRONI FAMILIE ═══ -->
+  <div class="group-head">D I E &nbsp; N E G R O N I &nbsp; F A M I L I E</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Americano</div>
+    <div class="recipe-sub">Campari · Carpano Antica Formula · Soda</div>
+    <div class="badges"><span class="badge">Gerührt im Glas</span><span class="badge">Weinglas oder Tumbler</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Campari</span><span class="ing-amount">4 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Carpano Antica Formula</span><span class="ing-amount">4 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Sodawasser</span><span class="ing-amount">auffüllen</span></div>
+        <div class="ing-row"><span class="ing-name">Orangenscheibe</span><span class="ing-amount">Garnitur</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Glas mit Eis füllen.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Campari und Carpano einschenken, sanft umrühren.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Soda langsam angießen, Orangenscheibe dazu.</span></div>
+        <div class="tip">💡 Der Großvater des Negroni – ohne Gin, dafür mit Soda. Leichter, länger, zugänglicher. James Bond bestellte ihn bevor er zum Martini wechselte.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Negroni Sbagliato</div>
+    <div class="recipe-sub">Campari · Carpano Antica Formula · Prosecco</div>
+    <div class="badges"><span class="badge">Gebaut im Glas</span><span class="badge">Weinglas</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Campari</span><span class="ing-amount">4 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Carpano Antica Formula</span><span class="ing-amount">4 cl</span></div>
+        <div class="ing-row"><span class="ing-name">La Gioiosa Prosecco</span><span class="ing-amount">auffüllen</span></div>
+        <div class="ing-row"><span class="ing-name">Orangenzeste</span><span class="ing-amount">Garnitur</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Glas mit Eis füllen.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Campari und Carpano einschenken.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Prosecco langsam angießen – Perlage erhalten.</span></div>
+        <div class="tip">💡 „Sbagliato" bedeutet falsch – ein Mailänder Barkeeper griff versehentlich zum Prosecco statt zum Gin. Der Fehler wurde zur Legende.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Monkey Negroni Bianco</div>
+    <div class="recipe-sub">Monkey 47 · Lillet Blanc · Pierre Ferrand Dry Curaçao</div>
+    <div class="badges"><span class="badge">Gerührt</span><span class="badge">Mixing Glass</span><span class="badge">Kristall-Likörschale</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Monkey 47</span><span class="ing-amount">4 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Lillet Blanc</span><span class="ing-amount">3 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Pierre Ferrand Dry Curaçao</span><span class="ing-amount">2 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Zitronenzeste</span><span class="ing-amount">Garnitur</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Mixing Glass mit Eis füllen.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Alle Zutaten einschenken, 30–40 Mal rühren.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">In die vorgekühlte Likörschale abseihen, Zitronenzeste ausdrücken.</span></div>
+        <div class="tip">💡 Der weiße Negroni – eleganter, floraler, weniger bitter als das Original. Der Monkey 47 mit seinen 47 Botanicals trägt den Drink alleine.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ GIN KLASSIKER 1920–1940 ═══ -->
+  <div class="group-head">G I N &nbsp; K L A S S I K E R &nbsp; 1 9 2 0 – 1 9 4 0</div>
+
+  <div class="recipe">
+    <div class="recipe-title">French 75</div>
+    <div class="recipe-sub">Berliner Brandstifter · Zitrone · Zucker · Prosecco</div>
+    <div class="badges"><span class="badge">Geschüttelt & gebaut</span><span class="badge">Sektflöte</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Berliner Brandstifter Gin</span><span class="ing-amount">4 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Frischer Zitronensaft</span><span class="ing-amount">2 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Zuckersirup 2:1</span><span class="ing-amount">1 cl</span></div>
+        <div class="ing-row"><span class="ing-name">La Gioiosa Prosecco</span><span class="ing-amount">auffüllen</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Gin, Zitrone und Sirup im Shaker mit Eis kurz schütteln.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">In die Sektflöte abseihen.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Mit Prosecco auffüllen – sanft, Perlage erhalten.</span></div>
+        <div class="tip">💡 Benannt nach dem französischen 75mm-Feldgeschütz. 1915 in Paris entstanden – direkt aus der Speakeasy-Ära. Im Grand Speakeasy daher besonders zuhause.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Last Word</div>
+    <div class="recipe-sub">Monkey 47 · Pierre Ferrand · Averna · Limette</div>
+    <div class="badges"><span class="badge">Geschüttelt</span><span class="badge">Kristall-Likörschale</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Monkey 47</span><span class="ing-amount">2 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Pierre Ferrand Dry Curaçao</span><span class="ing-amount">2 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Averna Amaro</span><span class="ing-amount">2 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Frischer Limettensaft</span><span class="ing-amount">2 cl</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Alle Zutaten zu gleichen Teilen in den Shaker mit Eis.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Kräftig 15 Sek. schütteln.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">In die vorgekühlte Likörschale abseihen.</span></div>
+        <div class="tip">💡 1920er Detroit, Prohibition. Das Original verwendet Green Chartreuse – der Monkey 47 mit seinen 47 Botanicals ist die bessere Wahl. Vier Zutaten, eine Gleichung.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+  <div class="recipe">
+    <div class="recipe-title">20th Century</div>
+    <div class="recipe-sub">Berliner Brandstifter · Pierre Ferrand · Lillet Blanc · Zitrone</div>
+    <div class="badges"><span class="badge">Geschüttelt</span><span class="badge">Kristall-Likörschale</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Berliner Brandstifter Gin</span><span class="ing-amount">4 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Pierre Ferrand Dry Curaçao</span><span class="ing-amount">2 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Lillet Blanc</span><span class="ing-amount">2 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Frischer Zitronensaft</span><span class="ing-amount">2 cl</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Alle Zutaten in den Shaker mit Eis.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Kräftig 15 Sek. schütteln.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">In die vorgekühlte Likörschale abseihen.</span></div>
+        <div class="tip">💡 Benannt nach dem legendären New York–Chicago Expresszug der 1930er. Floral, leicht bitter, elegant – genau wie die Ära die ihm den Namen gab.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ WHISKEY & AMARO ═══ -->
+  <div class="group-head">W H I S K E Y &nbsp; &amp; &nbsp; A M A R O</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Black Manhattan</div>
+    <div class="recipe-sub">Rittenhouse Rye · Averna Amaro · Bitters</div>
+    <div class="badges"><span class="badge">Gerührt</span><span class="badge">Mixing Glass</span><span class="badge">Whiskey-Tumbler</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Rittenhouse Rye</span><span class="ing-amount">6 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Averna Amaro</span><span class="ing-amount">3 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Angostura Bitters</span><span class="ing-amount">2 Dashes</span></div>
+        <div class="ing-row"><span class="ing-name">Orangenzeste</span><span class="ing-amount">Garnitur</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Mixing Glass mit Eis füllen.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Alle Zutaten einschenken, 30–40 Mal rühren.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">In den Tumbler über großen Eiswürfel abseihen.</span></div>
+        <div class="tip">💡 Carpano wird durch Averna ersetzt – sizilianische Kräuter statt venezianischer Wermut. Dunkler, herber, tiefer. Der Manhattan der nie aufgehört hat zu denken.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Toronto</div>
+    <div class="recipe-sub">Rittenhouse Rye · Averna · Bitters · Zucker</div>
+    <div class="badges"><span class="badge">Gerührt</span><span class="badge">Mixing Glass</span><span class="badge">Whiskey-Tumbler</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Rittenhouse Rye</span><span class="ing-amount">5 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Averna Amaro</span><span class="ing-amount">2 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Angostura Bitters</span><span class="ing-amount">1 Dash</span></div>
+        <div class="ing-row"><span class="ing-name">Zuckersirup 2:1</span><span class="ing-amount">0.5 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Orangenzeste</span><span class="ing-amount">Garnitur</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Mixing Glass mit Eis, alle Zutaten einschenken.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">30–40 Mal rühren, in Tumbler über großen Eiswürfel abseihen.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Orangenzeste über dem Glas ausdrücken, einlegen.</span></div>
+        <div class="tip">💡 Der Old Fashioned mit Amaro-Seele. Averna gibt dem Rittenhouse eine dunkle kräuterhafte Dimension die der Zucker alleine nie schafft.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Paper Plane</div>
+    <div class="recipe-sub">Woodford Bourbon · Aperol · Averna · Zitrone</div>
+    <div class="badges"><span class="badge">Geschüttelt</span><span class="badge">Kristall-Likörschale</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Woodford Reserve Bourbon</span><span class="ing-amount">3 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Aperol</span><span class="ing-amount">3 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Averna Amaro</span><span class="ing-amount">3 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Frischer Zitronensaft</span><span class="ing-amount">3 cl</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Alle Zutaten zu gleichen Teilen in den Shaker mit Eis.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Kräftig 15 Sek. schütteln.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">In die vorgekühlte Likörschale abseihen.</span></div>
+        <div class="tip">💡 Vier Zutaten, vier gleiche Teile – keine Hierarchie, keine Hauptdarsteller. Einer der besten modernen Klassiker der letzten 20 Jahre.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Raven Hills Martinez</div>
+    <div class="recipe-sub">Raven Hills Gin · Carpano Antica · Pierre Ferrand · Bitters</div>
+    <div class="badges"><span class="badge">Gerührt</span><span class="badge">Mixing Glass</span><span class="badge">Kristall-Likörschale</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Raven Hills Gin</span><span class="ing-amount">4 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Carpano Antica Formula</span><span class="ing-amount">3 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Pierre Ferrand Dry Curaçao</span><span class="ing-amount">1 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Angostura Bitters</span><span class="ing-amount">2 Dashes</span></div>
+        <div class="ing-row"><span class="ing-name">Zitronenzeste</span><span class="ing-amount">Garnitur</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Mixing Glass mit Eis, alle Zutaten einschenken.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">30–40 Mal rühren, in die vorgekühlte Schale abseihen.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Zitronenzeste ausdrücken, einlegen.</span></div>
+        <div class="tip">💡 Der Martinez ist der Urahn des Martini – 1880er San Francisco. Mit dem Raven Hills erhält er eine persönliche Note: dieser Gin kam als Geschenk und steht seitdem hier. Der älteste Cocktail der Bar, mit der jüngsten Flasche.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ RUM ENTDECKUNGEN ═══ -->
+  <div class="group-head">R U M &nbsp; E N T D E C K U N G E N</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Between the Sheets</div>
+    <div class="recipe-sub">Botucal Planas · Woodford Bourbon · Pierre Ferrand · Zitrone</div>
+    <div class="badges"><span class="badge">Geschüttelt</span><span class="badge">Kristall-Likörschale</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Botucal Planas</span><span class="ing-amount">3 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Woodford Reserve Bourbon</span><span class="ing-amount">3 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Pierre Ferrand Dry Curaçao</span><span class="ing-amount">2 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Frischer Zitronensaft</span><span class="ing-amount">1.5 cl</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Alle Zutaten in den Shaker mit Eis.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Kräftig 15 Sek. schütteln.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">In die vorgekühlte Likörschale abseihen.</span></div>
+        <div class="tip">💡 1920er Paris. Rum und Whiskey teilen sich das Glas – Karibik trifft Kentucky. Der Pierre Ferrand auf Cognac-Basis verbindet beide. Ein Drink der Grenzen ignoriert.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Wagemut Sour</div>
+    <div class="recipe-sub">Wagemut PX-Cask · Zitrone · Zuckersirup</div>
+    <div class="badges"><span class="badge">Geschüttelt</span><span class="badge">Whiskey-Tumbler</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Wagemut PX-Cask Barbados</span><span class="ing-amount">5 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Frischer Zitronensaft</span><span class="ing-amount">3 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Zuckersirup 2:1</span><span class="ing-amount">1.5 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Zitronenscheibe</span><span class="ing-amount">Garnitur</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Alle Zutaten in den Shaker mit viel Eis.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Kräftig 15 Sek. schütteln.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Über frisches Eis in den Tumbler abseihen.</span></div>
+        <div class="tip">💡 Der Wagemut als Protagonist – nicht als Zutat. PX-Cask gibt dem Sour eine Tiefe die kein einfacher Rum erreicht. Rosinen, Schokolade, Zitrus.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Jungle Bird · Hausversion</div>
+    <div class="recipe-sub">Wagemut PX-Cask · Campari · Limette · Zuckersirup</div>
+    <div class="badges"><span class="badge">Geschüttelt</span><span class="badge">Tumbler oder Kupferbecher</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Wagemut PX-Cask Barbados</span><span class="ing-amount">4 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Campari</span><span class="ing-amount">2 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Frischer Limettensaft</span><span class="ing-amount">2 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Zuckersirup 2:1</span><span class="ing-amount">1 cl</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Alle Zutaten in den Shaker mit Eis.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Kräftig 15 Sek. schütteln.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Über Crushed Ice abseihen.</span></div>
+        <div class="tip">💡 Das Original verwendet Ananassaft – der Wagemut PX-Cask übernimmt durch seine natürliche Fruchttiefe diese Rolle. Kein Ersatz – eine Verbesserung.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ APERITIVO ERWEITERT ═══ -->
+  <div class="group-head">A P E R I T I V O &nbsp; E R W E I T E R T</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Veneziano</div>
+    <div class="recipe-sub">Aperol · Averna · Prosecco</div>
+    <div class="badges"><span class="badge">Gebaut im Glas</span><span class="badge">Weinglas</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Aperol</span><span class="ing-amount">3 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Averna Amaro</span><span class="ing-amount">3 cl</span></div>
+        <div class="ing-row"><span class="ing-name">La Gioiosa Prosecco</span><span class="ing-amount">auffüllen</span></div>
+        <div class="ing-row"><span class="ing-name">Orangenscheibe</span><span class="ing-amount">Garnitur</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Glas mit Eis füllen.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Aperol und Averna einschenken, sanft umrühren.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Prosecco langsam angießen, Orangenscheibe dazu.</span></div>
+        <div class="tip">💡 Der Aperol Spritz mit Tiefe. Averna bringt sizilianische Kräuternoten die dem Aperol seinen kindlichen Süßklang nehmen.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Veneziano Bianco</div>
+    <div class="recipe-sub">Lillet Blanc · Averna · Prosecco</div>
+    <div class="badges"><span class="badge">Gebaut im Glas</span><span class="badge">Weinglas</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Lillet Blanc</span><span class="ing-amount">4 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Averna Amaro</span><span class="ing-amount">3 cl</span></div>
+        <div class="ing-row"><span class="ing-name">La Gioiosa Prosecco</span><span class="ing-amount">auffüllen</span></div>
+        <div class="ing-row"><span class="ing-name">Zitronenzeste</span><span class="ing-amount">Garnitur</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Glas mit Eis füllen.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Lillet und Averna einschenken, sanft umrühren.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Prosecco langsam angießen, Zitronenzeste ausdrücken.</span></div>
+        <div class="tip">💡 Die elegantere Variante. Honignoten des Lillet treffen auf Kräutertiefe des Averna – leichter, feiner, für den langen Sommerabend.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ GRAPPA & CURAÇAO ═══ -->
+  <div class="group-head">G R A P P A &nbsp; &amp; &nbsp; C U R A Ç A O</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Grappa Manhattan</div>
+    <div class="recipe-sub">Sibona Grappa di Barolo · Carpano Antica · Bitters</div>
+    <div class="badges"><span class="badge">Gerührt</span><span class="badge">Mixing Glass</span><span class="badge">Kristall-Likörschale</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Sibona Grappa di Barolo</span><span class="ing-amount">5 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Carpano Antica Formula</span><span class="ing-amount">3 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Angostura Bitters</span><span class="ing-amount">2 Dashes</span></div>
+        <div class="ing-row"><span class="ing-name">Zitronenzeste</span><span class="ing-amount">Garnitur</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Mixing Glass mit Eis füllen.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Alle Zutaten einschenken, 30–40 Mal rühren.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">In die vorgekühlte Likörschale abseihen, Zitronenzeste ausdrücken.</span></div>
+        <div class="tip">💡 Piemont trifft Turin. Der Carpano Antica wurde 1786 in Turin erfunden – die Sibona kommt aus demselben Piemont. Zwei Piemontesen in einem Glas. Das ist keine zufällige Kombination. Das ist eine geografische Ehe.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Grappa Sour</div>
+    <div class="recipe-sub">Sibona Grappa di Barolo · Zitrone · Zuckersirup</div>
+    <div class="badges"><span class="badge">Geschüttelt</span><span class="badge">Kristall-Likörschale</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Sibona Grappa di Barolo</span><span class="ing-amount">5 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Frischer Zitronensaft</span><span class="ing-amount">3 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Zuckersirup 2:1</span><span class="ing-amount">1.5 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Zitronenscheibe</span><span class="ing-amount">Garnitur</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Alle Zutaten in den Shaker mit Eis.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Kräftig 15 Sek. schütteln.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">In die vorgekühlte Likörschale abseihen.</span></div>
+        <div class="tip">💡 Ein junger Grappa würde im Sour untergehen. Die Barolo-Fass-Reifung der Sibona gibt dem Drink eine Tiefe die kein anderer Grappa erreicht. Ungewöhnlich – und genau deshalb hier.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Sidecar · Hausversion</div>
+    <div class="recipe-sub">Woodford Bourbon · Pierre Ferrand · Zitrone</div>
+    <div class="badges"><span class="badge">Geschüttelt</span><span class="badge">Kristall-Likörschale</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Woodford Reserve Bourbon</span><span class="ing-amount">4 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Pierre Ferrand Dry Curaçao</span><span class="ing-amount">2 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Frischer Zitronensaft</span><span class="ing-amount">2 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Zitronenzeste</span><span class="ing-amount">Garnitur</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Alle Zutaten in den Shaker mit Eis.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Kräftig 15 Sek. schütteln.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">In die vorgekühlte Likörschale abseihen.</span></div>
+        <div class="tip">💡 Das Original verwendet Cognac – Woodford Bourbon bringt Vanille und Karamell die dem Curaçao und der Zitrone den richtigen Rahmen geben. Paris 1920er – Kentucky interpretiert.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ VOM FAIRWAY INS GLAS ═══ -->
+  <div class="group-head">V O M &nbsp; F A I R W A Y &nbsp; I N S &nbsp; G L A S</div>
+
+  <div class="recipe">
+    <div class="recipe-title">Arnold Palmer ⛳</div>
+    <div class="recipe-sub">Schwarztee kalt gebrüht · Frischer Zitronensaft · Zuckersirup</div>
+    <div class="badges"><span class="badge">Gebaut im Glas</span><span class="badge">Longdrinkglas</span><span class="badge">Alkoholfrei</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Schwarztee kalt gebrüht</span><span class="ing-amount">10 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Frischer Zitronensaft</span><span class="ing-amount">5 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Zuckersirup 2:1</span><span class="ing-amount">nach Geschmack</span></div>
+        <div class="ing-row"><span class="ing-name">Zitronenscheibe</span><span class="ing-amount">Garnitur</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Schwarztee kalt aufbrühen – 2 Teebeutel in 500ml kaltem Wasser, 4–6 Stunden im Kühlschrank. Kein Kochen, keine Bitterkeit.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Glas mit Eis füllen.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Tee und Zitronensaft einschenken, Sirup nach Geschmack, sanft umrühren.</span></div>
+        <div class="step"><span class="step-num">4</span><span class="step-text">Zitronenscheibe als Garnitur.</span></div>
+        <div class="tip">💡 Benannt nach der Golflegende Arnold Palmer der diesen Mix täglich trank. Auch ein Driver braucht seinen Erfolg – beim Erkunden des Verstecks und auf dem Fairway.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ornament">◇ ◇ ◇</div>
+
+  <div class="recipe">
+    <div class="recipe-title">John Daly ⛳🥃</div>
+    <div class="recipe-sub">Absolut Vodka · Schwarztee kalt gebrüht · Frischer Zitronensaft · Zuckersirup</div>
+    <div class="badges"><span class="badge">Gebaut im Glas</span><span class="badge">Longdrinkglas</span></div>
+    <div class="recipe-body">
+      <div>
+        <div class="ing-title">Zutaten</div>
+        <div class="ing-row"><span class="ing-name">Absolut Vodka</span><span class="ing-amount">4 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Schwarztee kalt gebrüht</span><span class="ing-amount">8 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Frischer Zitronensaft</span><span class="ing-amount">4 cl</span></div>
+        <div class="ing-row"><span class="ing-name">Zuckersirup 2:1</span><span class="ing-amount">nach Geschmack</span></div>
+        <div class="ing-row"><span class="ing-name">Zitronenscheibe</span><span class="ing-amount">Garnitur</span></div>
+      </div>
+      <div>
+        <div class="steps-title">Zubereitung</div>
+        <div class="step"><span class="step-num">1</span><span class="step-text">Glas mit viel Eis füllen.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">Vodka einschenken.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">Tee und Zitronensaft dazu, Sirup nach Geschmack, sanft umrühren.</span></div>
+        <div class="step"><span class="step-num">4</span><span class="step-text">Zitronenscheibe als Garnitur.</span></div>
+        <div class="tip">💡 Arnold Palmer traf auf Vodka – und wurde zu John Daly. Benannt nach dem wildesten Golfer der Tour, bekannt für alles andere als Zurückhaltung. Der Gastgeber spielt Golf. Der Rest erklärt sich von selbst.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">GRAND SPEAKEASY · KRUDENBURG · EST. 2024 · NUR FÜR DIE DIE FRAGEN</div>
+</div>
+</body>
+</html>
