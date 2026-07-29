@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Golf & More Huckingen · Fortschritt-Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #14231c; --bg-alt: #1c2f25; --card: #1f3527; --card-border: #2f4a37;
+    --fairway: #6fae7d; --fairway-bright: #9fd8ab; --gold: #c9a24b; --red: #d97757;
+    --text: #eef3ec; --text-dim: #a9bcae; --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: radial-gradient(1200px 600px at 20% -10%, #234433 0%, var(--bg) 55%);
+    color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.5; padding-bottom: 60px; }
+  h1, h2, h3 { font-family: 'Fraunces', serif; margin: 0; }
+  header.hero { padding: 40px 20px 24px; text-align: center; border-bottom: 1px solid var(--card-border); }
+  header.hero .eyebrow { text-transform: uppercase; letter-spacing: 0.18em; font-size: 12px; color: var(--fairway-bright); font-weight: 600; }
+  header.hero h1 { font-size: clamp(26px, 5vw, 38px); font-weight: 600; margin-top: 10px; }
+  header.hero p { color: var(--text-dim); max-width: 520px; margin: 12px auto 0; font-size: 14px; }
+  main { max-width: 780px; margin: 0 auto; padding: 28px 18px; }
+  section { margin-bottom: 32px; }
+  section h2 { font-size: 18px; font-weight: 600; margin-bottom: 14px; color: var(--fairway-bright); }
+  .card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 20px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-grid .full { grid-column: 1 / -1; }
+  label { display: block; font-size: 12px; color: var(--text-dim); margin-bottom: 5px; font-weight: 600; }
+  input, select, textarea { width: 100%; background: var(--bg-alt); border: 1px solid var(--card-border);
+    border-radius: 8px; padding: 10px 12px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+  button { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; border-radius: 999px;
+    border: none; cursor: pointer; padding: 11px 22px; transition: opacity .15s; }
+  button:hover { opacity: 0.88; }
+  button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .btn-primary { background: var(--fairway); color: #0e1b13; }
+  .btn-secondary { background: transparent; color: var(--text-dim); border: 1px solid var(--card-border); }
+  .btn-danger { background: transparent; color: var(--red); border: 1px solid var(--red); padding: 5px 12px; font-size: 12px; }
+  .btn-gold { background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 5px 12px; font-size: 12px; }
+  .form-actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .mode-toggle { display: flex; gap: 8px; margin-bottom: 18px; }
+  .mode-toggle button { flex: 1; background: var(--bg-alt); color: var(--text-dim); border: 1px solid var(--card-border); font-size: 13px; padding: 10px; }
+  .mode-toggle button.active { background: var(--fairway); color: #0e1b13; border-color: var(--fairway); }
+
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .summary-box { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 16px; text-align: center; }
+  .summary-box .value { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; color: var(--fairway-bright); }
+  .summary-box .label { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+  .summary-box .trend { font-size: 11px; margin-top: 4px; font-weight: 600; }
+  .trend.up { color: #8fd19e; } .trend.down { color: var(--red); } .trend.flat { color: var(--text-dim); }
+
+  .metric-toggles { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .metric-toggles button { background: var(--bg-alt); color: var(--text-dim); border: 1px solid var(--card-border); font-size: 12px; padding: 7px 14px; }
+  .metric-toggles button.active { color: #0e1b13; border-color: transparent; }
+  .metric-toggles button[data-metric="putts"].active { background: var(--fairway-bright); }
+  .metric-toggles button[data-metric="updown"].active { background: var(--gold); }
+  .metric-toggles button[data-metric="doubles"].active { background: var(--red); }
+  .metric-toggles button[data-metric="score"].active { background: #7fb3d9; }
+  .metric-toggles button[data-metric="hcp"].active { background: #b892d9; }
+
+  svg.chart { width: 100%; height: auto; display: block; }
+  .empty-state { color: var(--text-dim); font-size: 14px; text-align: center; padding: 30px 10px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--card-border); }
+  th { color: var(--text-dim); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td.num { text-align: center; }
+  .table-wrap { overflow-x: auto; }
+
+  footer { text-align: center; color: var(--text-dim); font-size: 12px; padding: 20px 20px 0; }
+  .save-msg { font-size: 12px; color: var(--fairway-bright); margin-top: 10px; min-height: 16px; }
+
+  .hole-row { display: grid; grid-template-columns: 34px 60px 1fr 1fr; gap: 8px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--card-border); }
+  .hole-row:last-child { border-bottom: none; }
+  .hole-num { font-family: 'Fraunces', serif; font-weight: 600; color: var(--gold); text-align: center; }
+  .par-input { text-align: center; padding: 6px; font-size: 13px; }
+  .stepper { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 8px; padding: 4px 6px; }
+  .stepper button { padding: 4px 10px; font-size: 14px; background: var(--card-border); color: var(--text); border-radius: 6px; }
+  .stepper .stepper-val { min-width: 22px; text-align: center; font-weight: 600; }
+  .hole-labels { display: grid; grid-template-columns: 34px 60px 1fr 1fr; gap: 8px; font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.04em; padding-bottom: 6px; border-bottom: 1px solid var(--card-border); margin-bottom: 4px; }
+  .scorecard-total { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-dim); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--card-border); }
+  .scorecard-total strong { color: var(--fairway-bright); }
+
+  .problem-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--card-border); }
+  #problem-list { max-height: 480px; overflow-y: auto; }
+  .problem-row:last-child { border-bottom: none; }
+  .problem-bar-bg { flex: 1; height: 8px; background: var(--bg-alt); border-radius: 4px; overflow: hidden; }
+  .problem-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--red)); }
+  .problem-label { font-size: 12px; width: 130px; flex-shrink: 0; }
+  .problem-value { font-size: 12px; color: var(--text-dim); width: 90px; text-align: right; flex-shrink: 0; }
+
+  .settings-toggle { font-size: 12px; color: var(--text-dim); text-decoration: underline; cursor: pointer; background: none; border: none; padding: 0; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div style="display:inline-flex; align-items:center; gap:10px; background: var(--fairway-bright); border-radius: 999px; padding: 8px 20px; margin-bottom:18px;">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAAA0CAYAAABsIBE6AAAZUklEQVR42u19eWBV1bX3b+1zzp1zMwcyAiGJEIKAI6MakVrAfli1IOIA4rPvSavytPr0qUWtVEXbJ0pLnSulKDO1IlQQRZRBIGFQJoUkDDETSe587zlnr++PewlDBoIiWsj6g5Bkn73WXuu317T3PSH8yGn79u2WWbNmnbdkyZKMm2++2TFkyBC31+s19+7dW/3hh8uqH3jgkV0DBw4MooN+FEQ/VsFeeOGFooqKin4FBQW9V65c2a+0pKRbXn6+JT7e7aypqdUURdQRidqBAweWer3eRdOmTVvaYc4OQDXR9OnTrWvXrr0sPj5+fCAQyHU4HMquXTuTzjuvx+YePXpU9OrVq2rGjBmNNpvNHDVqVOKePXuyv/766wu+/OKLfoapO10ud92NN9741KRJk/7YYdZzGFDjx4/PVxRlciAQ6B0Oh9OTk5OWqqr25c9+9rMFI0aMqGnPHFOnTr124cL5j23bvr3fZUMuW//73z995UUXXRToMO85BKi5c+de+cGKD/4jFAz203Xj04svvvjv2dnZH40ePdr8tnPed9+9N7w95515Rb2Lvly+/INeHeY9B2j8+PG9x44d+/rQocWfTJw48ZnVq1enns75Kyoqirp07cK//e1vH+/Q9llOkydPfuquSXdtvOOOOx4dPny49fvis27dusGDBw8qnzZtmrND62chbdy4MWfcuHEfjB49eu66deuyzgTPhx9+ePodd9xxX4f2zzJa+O67Ax597NFlY8aMufVM8l2wYEH6vHnzBnZY4OzyTN3/NHPm1E8//bRvW+MeeuihHu+8887YZ599Nv908mdm6rDCWUKrVq1SP//886J9+/YltDXulVdemZSdnWXk5nbjgvx8/YEHHnj2dPCfMePFMfPnzx/RYYmzhJhZnGxMSUlJfrduXTkuzsWZmRmckpLMCoGfeGLKk9+Fd2lpaeatt97ywYYNG7I7LHFmSXxfExORPNmYNWvWDKuurkZaWhosFgvcbjdccXGYP3/BIzNmzMj7trx/97snVmVlZa+/5JJL9neY+CwBVLuYCwFFUcDMADOkaSIhIQF7936N8gPl13ybOSdOvH1pSUlJfn5+/u86zHuOAapfv36fJCUlwef1AsxNIPP5AsjJzEk8lbnuvffeAVdd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" alt="Golf & More Huckingen Logo" style="height:28px;">
+    <span style="font-family:'Fraunces',serif; font-weight:600; font-size:15px; color: var(--bg);">Golf & More Huckingen</span>
+  </div>
+  <h1>Fortschritt-Tracker</h1>
+  <p>Nach jeder Runde eintragen – Schnell-Eingabe für die Gesamtzahlen, oder Scorecard-Modus für Loch-für-Loch-Daten inkl. Problemlöcher-Analyse.</p>
+</header>
+
+<main>
+  <section style="margin-bottom: 20px;">
+    <div class="card" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;">
+      <div>
+        <div style="font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.06em;">Aktuelles HCP</div>
+        <div id="hcp-current-value" style="font-family:'Fraunces',serif; font-size:32px; font-weight:600; color:var(--fairway-bright);">–</div>
+        <div id="hcp-current-date" style="font-size:12px; color:var(--text-dim);"></div>
+      </div>
+      <button type="button" class="btn-secondary" id="hcp-update-toggle">HCP aktualisieren</button>
+    </div>
+    <div id="hcp-update-panel" class="card" style="display:none; margin-top:10px;">
+      <div class="form-grid">
+        <div>
+          <label for="hcp-new-date">Datum der Änderung</label>
+          <input type="date" id="hcp-new-date">
+        </div>
+        <div>
+          <label for="hcp-new-value">Neues HCP</label>
+          <input type="number" id="hcp-new-value" step="0.1" min="0" placeholder="z. B. 19.1">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-primary" id="hcp-save-btn">Speichern</button>
+        <button type="button" class="btn-secondary" id="hcp-cancel-btn">Abbrechen</button>
+      </div>
+    </div>
+  </section>
+
+
+  <section>
+    <h2 id="form-heading">Neue Runde eintragen</h2>
+    <div class="card">
+      <div id="edit-banner" style="display:none; background: var(--bg-alt); border: 1px solid var(--gold); color: var(--gold); font-size: 13px; padding: 10px 14px; border-radius: 8px; margin-bottom: 14px;">
+        Du bearbeitest eine bestehende Runde. <button type="button" id="cancel-edit-btn" style="background:none; border:none; color: var(--gold); text-decoration: underline; cursor: pointer; padding: 0; font-size: 13px;">Abbrechen</button>
+      </div>
+
+      <div class="mode-toggle">
+        <button type="button" id="mode-quick-btn" class="active">Schnell-Eingabe</button>
+        <button type="button" id="mode-scorecard-btn">Scorecard (Loch für Loch)</button>
+      </div>
+
+      <!-- Gemeinsame Kopfdaten -->
+      <div class="form-grid" style="margin-bottom:14px;">
+        <div>
+          <label for="date">Datum</label>
+          <input type="date" id="date" required>
+        </div>
+        <div>
+          <label for="course">Platz</label>
+          <select id="course"></select>
+        </div>
+      </div>
+
+      <!-- SCHNELL-MODUS -->
+      <div id="quick-mode">
+        <div class="form-grid">
+          <div>
+            <label for="score">Score (Schläge, optional)</label>
+            <input type="number" id="score" min="1" placeholder="z. B. 92">
+          </div>
+          <div>
+            <label for="holes">Löcher gespielt</label>
+            <select id="holes">
+              <option value="18">18</option>
+              <option value="9">9</option>
+              <option value="6">6</option>
+            </select>
+          </div>
+          <div>
+            <label for="putts3">Anzahl 3-Putts</label>
+            <input type="number" id="putts3" min="0">
+          </div>
+          <div>
+            <label for="doubles">Doppelbogey oder schlechter</label>
+            <input type="number" id="doubles" min="0">
+          </div>
+        </div>
+      </div>
+
+      <!-- SCORECARD-MODUS -->
+      <div id="scorecard-mode" style="display:none;">
+        <button type="button" class="settings-toggle" id="par-settings-toggle">Par-Werte für diesen Platz bearbeiten</button>
+        <div id="par-settings" style="display:none; margin-bottom: 14px;"></div>
+        <div class="hole-labels">
+          <span>Loch</span><span>Par</span><span>Schläge</span><span>Putts</span>
+        </div>
+        <div id="holes-container"></div>
+        <div class="scorecard-total" id="scorecard-total"></div>
+      </div>
+
+      <div class="form-grid" style="margin-top:14px;">
+        <div>
+          <label for="udMade">Up-and-Down geschafft</label>
+          <input type="number" id="udMade" min="0" value="0">
+        </div>
+        <div>
+          <label for="udTries">Up-and-Down Versuche</label>
+          <input type="number" id="udTries" min="0" value="0">
+        </div>
+        <div class="full">
+          <label for="note">Notiz (optional)</label>
+          <textarea id="note" rows="2" placeholder="z. B. Wind, Trainerstunde vorher, Fokuspunkt..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-primary" id="save-round-btn">Runde speichern</button>
+        <button type="button" class="btn-secondary" id="export-btn">Backup exportieren</button>
+        <button type="button" class="btn-secondary" id="import-btn">Backup importieren</button>
+        <button type="button" class="btn-danger" id="clear-all-btn" style="padding: 11px 22px;">Alle Daten löschen</button>
+        <input type="file" id="import-file" accept="application/json" style="display:none">
+      </div>
+      <div class="save-msg" id="save-msg"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Überblick</h2>
+    <div class="summary-grid" id="summary-grid">
+      <div class="empty-state" style="grid-column: 1 / -1;">Noch keine Runden erfasst.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Trend über Zeit</h2>
+    <div class="card">
+      <div class="metric-toggles">
+        <button data-metric="putts" class="active">3-Putts</button>
+        <button data-metric="updown" class="active">Up-and-Down-Quote %</button>
+        <button data-metric="doubles" class="active">Doppelbogey+</button>
+        <button data-metric="score" class="active">Rundentrend (Score zu Par)</button>
+        <button data-metric="hcp">HCP-Verlauf (eigene Skala – am besten allein anzeigen)</button>
+      </div>
+      <div id="chart-container">
+        <div class="empty-state">Trage mindestens 2 Runden ein, um einen Trend zu sehen.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="problem-section" style="display:none;">
+    <h2>Loch-Ranking – Lochmanagement überprüfen</h2>
+    <div class="card">
+      <p style="font-size:13px; color:var(--text-dim); margin:0 0 14px;">Alle Löcher, für die Scorecard-Daten vorliegen – schlechtestes zuerst, bestes zuletzt. Gleiche Löcher aus 9- und 18-Loch-Runden werden zusammengeführt. Löcher weit oben lohnen gezielte Kursmanagement-Überlegungen (Schlägerwahl, Ziellinie, Layup statt Risiko).</p>
+      <div id="problem-list"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Alle Runden</h2>
+    <div class="card table-wrap">
+      <table id="rounds-table">
+        <thead>
+          <tr><th>Datum</th><th>Platz</th><th>Score</th><th class="num">3-Putts</th><th class="num">Up&amp;Down</th><th class="num">Doppel+</th><th></th></tr>
+        </thead>
+        <tbody id="rounds-tbody">
+          <tr><td colspan="7" class="empty-state">Noch keine Runden erfasst.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer>Golf & More Huckingen · Fortschritt-Tracker · Daten werden nur lokal in diesem Browser gespeichert.</footer>
+
+<script>
+const STORAGE_KEY = 'golfPerformanceRounds';
+const PAR_KEY = 'golfPerformanceParProfiles';
+const HCP_KEY = 'golfPerformanceHcpLog';
+const COURSES = {
+  Kurzplatz: { name: 'Kurzplatz (6 Loch)', shortName: 'Kurzplatz', holes: 6 },
+  Nord:      { name: 'Nordkurs (9 Loch)', shortName: 'Nord', holes: 9 },
+  Sued:      { name: 'Südkurs (9 Loch)', shortName: 'Süd', holes: 9 },
+  West:      { name: 'Westkurs (9 Loch)', shortName: 'West', holes: 9 },
+  SuedNord:  { name: 'Süd + Nord (18 Loch)', shortName: 'Süd+Nord', holes: 18, combo: ['Sued', 'Nord'] },
+  NordWest:  { name: 'Nord + West (18 Loch)', shortName: 'Nord+West', holes: 18, combo: ['Nord', 'West'] },
+  SuedWest:  { name: 'Süd + West (18 Loch)', shortName: 'Süd+West', holes: 18, combo: ['Sued', 'West'] },
+};
+// Offizielle Par-Werte laut Scorekarte Golf & More Huckingen (Stand Masterplan 22.05.2026)
+const DEFAULT_PARS = {
+  Kurzplatz: [3, 3, 3, 3, 3, 3],
+  Nord:      [4, 3, 3, 4, 4, 4, 3, 4, 3],
+  Sued:      [4, 3, 5, 4, 3, 5, 3, 4, 3],
+  West:      [4, 4, 4, 5, 3, 4, 4, 3, 4],
+};
+
+let activeMetrics = { putts: true, updown: true, doubles: true, score: true, hcp: false };
+let editingId = null;
+let mode = 'quick';
+let currentHoleValues = []; // [{par, strokes, putts}]
+
+// ---------- Storage ----------
+function loadHcpLog() {
+  try {
+    const raw = localStorage.getItem(HCP_KEY);
+    const log = raw ? JSON.parse(raw) : [];
+    return log.slice().sort((a, b) => a.date.localeCompare(b.date));
+  } catch (e) { return []; }
+}
+function saveHcpLog(log) {
+  try { localStorage.setItem(HCP_KEY, JSON.stringify(log)); return true; }
+  catch (e) { return false; }
+}
+function renderHcpStatus() {
+  const log = loadHcpLog();
+  const valueEl = document.getElementById('hcp-current-value');
+  const dateEl = document.getElementById('hcp-current-date');
+  if (log.length === 0) {
+    valueEl.textContent = '–';
+    dateEl.textContent = 'Noch kein HCP hinterlegt';
+    return;
+  }
+  const latest = log[log.length - 1];
+  valueEl.textContent = latest.hcp.toFixed(1);
+  dateEl.textContent = 'Stand: ' + latest.date;
+}
+document.getElementById('hcp-update-toggle').addEventListener('click', () => {
+  const panel = document.getElementById('hcp-update-panel');
+  const show = panel.style.display === 'none';
+  panel.style.display = show ? 'block' : 'none';
+  if (show) document.getElementById('hcp-new-date').valueAsDate = new Date();
+});
+document.getElementById('hcp-cancel-btn').addEventListener('click', () => {
+  document.getElementById('hcp-update-panel').style.display = 'none';
+});
+document.getElementById('hcp-save-btn').addEventListener('click', () => {
+  const date = document.getElementById('hcp-new-date').value;
+  const val = document.getElementById('hcp-new-value').value;
+  if (!date || val === '') { alert('Bitte Datum und HCP-Wert angeben.'); return; }
+  const log = loadHcpLog();
+  log.push({ date, hcp: parseFloat(val) });
+  saveHcpLog(log);
+  document.getElementById('hcp-update-panel').style.display = 'none';
+  document.getElementById('hcp-new-value').value = '';
+  renderHcpStatus();
+  renderAll();
+});
+
+function loadRounds() {
+  try { const raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : []; }
+  catch (e) { return []; }
+}
+function saveRounds(rounds) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(rounds)); return true; }
+  catch (e) { return false; }
+}
+function loadParProfiles() {
+  try {
+    const raw = localStorage.getItem(PAR_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) { return {}; }
+}
+function saveParProfiles(profiles) {
+  try { localStorage.setItem(PAR_KEY, JSON.stringify(profiles)); } catch (e) {}
+}
+function getParProfile(courseKey) {
+  const c = COURSES[courseKey];
+  if (c.combo) {
+    return getParProfile(c.combo[0]).concat(getParProfile(c.combo[1]));
+  }
+  const profiles = loadParProfiles();
+  const n = c.holes;
+  if (profiles[courseKey] && profiles[courseKey].length === n) return profiles[courseKey].slice();
+  return DEFAULT_PARS[courseKey] ? DEFAULT_PARS[courseKey].slice() : Array(n).fill(4);
+}
+// Liefert für jedes Loch einer (ggf. kombinierten) Runde den Ursprungskurs + die Lochnummer dort,
+// damit Lochstatistiken über 9- und 18-Loch-Runden hinweg zusammengeführt werden können.
+function getHoleOrigins(courseKey) {
+  const c = COURSES[courseKey];
+  if (c.combo) {
+    const [a, b] = c.combo;
+    const na = COURSES[a].holes, nb = COURSES[b].holes;
+    const origins = [];
+    for (let i = 0; i < na; i++) origins.push({ subCourse: a, subHole: i + 1 });
+    for (let i = 0; i < nb; i++) origins.push({ subCourse: b, subHole: i + 1 });
+    return origins;
+  }
+  const origins = [];
+  for (let i = 0; i < c.holes; i++) origins.push({ subCourse: courseKey, subHole: i + 1 });
+  return origins;
+}
+function setParProfile(courseKey, pars) {
+  const profiles = loadParProfiles();
+  profiles[courseKey] = pars;
+  saveParProfiles(profiles);
+}
+
+function sortedRounds() { return loadRounds().slice().sort((a, b) => a.date.localeCompare(b.date)); }
+function udQuote(r) { return r.udTries > 0 ? Math.round((r.udMade / r.udTries) * 100) : null; }
+function scoreToPar(r) {
+  if (r.score === null || r.score === undefined || !r.course || !COURSES[r.course]) return null;
+  const pars = getParProfile(r.course);
+  const totalPar = pars.reduce((a, b) => a + b, 0);
+  return r.score - totalPar;
+}
+
+// ---------- Course select init ----------
+function initCourseSelect() {
+  const sel = document.getElementById('course');
+  const singles = ['Kurzplatz', 'Nord', 'Sued', 'West'];
+  const combos = ['SuedNord', 'SuedWest', 'NordWest'];
+  let html = '<optgroup label="9- / 6-Loch-Schleifen">';
+  html += singles.map(k => `<option value="${k}">${COURSES[k].name}</option>`).join('');
+  html += '</optgroup><optgroup label="18-Loch-Kombinationen">';
+  html += combos.map(k => `<option value="${k}">${COURSES[k].name}</option>`).join('');
+  html += '</optgroup>';
+  sel.innerHTML = html;
+  sel.addEventListener('change', () => { if (mode === 'scorecard') buildHolesUI(); });
+}
+
+// ---------- Mode toggle ----------
+function setMode(newMode) {
+  mode = newMode;
+  document.getElementById('mode-quick-btn').classList.toggle('active', mode === 'quick');
+  document.getElementById('mode-scorecard-btn').classList.toggle('active', mode === 'scorecard');
+  document.getElementById('quick-mode').style.display = mode === 'quick' ? 'block' : 'none';
+  document.getElementById('scorecard-mode').style.display = mode === 'scorecard' ? 'block' : 'none';
+  if (mode === 'scorecard') buildHolesUI();
+}
+document.getElementById('mode-quick-btn').addEventListener('click', () => setMode('quick'));
+document.getElementById('mode-scorecard-btn').addEventListener('click', () => setMode('scorecard'));
+
+// ---------- Par settings panel ----------
+document.getElementById('par-settings-toggle').addEventListener('click', () => {
+  const panel = document.getElementById('par-settings');
+  const show = panel.style.display === 'none';
+  panel.style.display = show ? 'block' : 'none';
+  if (show) buildParSettings();
+});
+
+function buildParSettings() {
+  const courseKey = document.getElementById('course').value;
+  const panel = document.getElementById('par-settings');
+  const c = COURSES[courseKey];
+  if (c.combo) {
+    panel.innerHTML = `<p style="font-size:12px; color:var(--text-dim); margin:0;">Diese Runde kombiniert ${COURSES[c.combo[0]].shortName} und ${COURSES[c.combo[1]].shortName} – Par-Werte bitte über die jeweilige 9-Loch-Schleife einzeln bearbeiten.</p>`;
+    return;
+  }
+  const n = c.holes;
+  const pars = getParProfile(courseKey);
+  let html = '<div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(70px,1fr)); gap:8px; margin-bottom:10px;">';
+  for (let i = 0; i < n; i++) {
+    html += `<div><label style="font-size:10px;">Loch ${i+1}</label><input type="number" min="3" max="6" class="par-setting-input" data-idx="${i}" value="${pars[i]}"></div>`;
+  }
+  html += '</div><button type="button" class="btn-gold" id="save-par-btn">Par-Werte speichern</button>';
+  panel.innerHTML = html;
+  document.getElementById('save-par-btn').addEventListener('click', () => {
+    const inputs = panel.querySelectorAll('.par-setting-input');
+    const newPars = Array.from(inputs).map(inp => parseInt(inp.value) || 4);
+    setParProfile(courseKey, newPars);
+    buildHolesUI();
+    const msg = document.getElementById('save-msg');
+    msg.textContent = 'Par-Werte gespeichert.';
+    setTimeout(() => { msg.textContent = ''; }, 2500);
+  });
+}
+
+// ---------- Holes UI (scorecard) ----------
+function buildHolesUI(prefill) {
+  const courseKey = document.getElementById('course').value;
+  const pars = getParProfile(courseKey);
+  const origins = getHoleOrigins(courseKey);
+  const n = pars.length;
+  currentHoleValues = [];
+  for (let i = 0; i < n; i++) {
+    if (prefill && prefill[i]) {
+      currentHoleValues.push({
+        par: prefill[i].par, strokes: prefill[i].strokes, putts: prefill[i].putts,
+        subCourse: prefill[i].subCourse || origins[i].subCourse,
+        subHole: prefill[i].subHole || origins[i].subHole
+      });
+    } else {
+      currentHoleValues.push({ par: pars[i], strokes: pars[i], putts: 2, subCourse: origins[i].subCourse, subHole: origins[i].subHole });
+    }
+  }
+  renderHolesUI();
+}
+
+function renderHolesUI() {
+  const container = document.getElementById('holes-container');
+  container.innerHTML = currentHoleValues.map((h, i) => `
+    <div class="hole-row">
+      <div class="hole-num">${i + 1}</div>
+      <input type="number" class="par-input" min="3" max="6" value="${h.par}" onchange="updateHolePar(${i}, this.value)">
+      <div class="stepper">
+        <button type="button" onclick="stepHole(${i}, 'strokes', -1)">−</button>
+        <span class="stepper-val">${h.strokes}</span>
+        <button type="button" onclick="stepHole(${i}, 'strokes', 1)">+</button>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="stepHole(${i}, 'putts', -1)">−</button>
+        <span class="stepper-val">${h.putts}</span>
+        <button type="button" onclick="stepHole(${i}, 'putts', 1)">+</button>
+      </div>
+    </div>
+  `).join('');
+  renderScorecardTotal();
+}
+
+function stepHole(i, field, delta) {
+  const min = field === 'putts' ? 0 : 1;
+  currentHoleValues[i][field] = Math.max(min, currentHoleValues[i][field] + delta);
+  renderHolesUI();
+}
+function updateHolePar(i, val) {
+  currentHoleValues[i].par = parseInt(val) || 4;
+  renderScorecardTotal();
+}
+
+function renderScorecardTotal() {
+  const totalStrokes = currentHoleValues.reduce((a, h) => a + h.strokes, 0);
+  const totalPar = currentHoleValues.reduce((a, h) => a + h.par, 0);
+  const diff = totalStrokes - totalPar;
+  const diffStr = diff === 0 ? 'Par' : (diff > 0 ? `+${diff}` : diff);
+  const putts3 = currentHoleValues.filter(h => h.putts >= 3).length;
+  document.getElementById('scorecard-total').innerHTML =
+    `<span>Gesamt: <strong>${totalStrokes} Schläge</strong> (${diffStr})</span><span>3-Putts: <strong>${putts3}</strong></span>`;
+}
+
+// ---------- Summary / Chart / Table (wie zuvor, unverändert in der Logik) ----------
+function trendArrow(recentAvg, olderAvg, lowerIsBetter) {
+  if (olderAvg === null || recentAvg === null) return { symbol: '–', cls: 'flat' };
+  const diff = recentAvg - olderAvg;
+  const improved = lowerIsBetter ? diff < -0.05 : diff > 0.05;
+  const worsened = lowerIsBetter ? diff > 0.05 : diff < -0.05;
+  if (improved) return { symbol: '↓ besser', cls: 'up' };
+  if (worsened) return { symbol: '↑ schlechter', cls: 'down' };
+  return { symbol: '→ stabil', cls: 'flat' };
+}
+function avg(arr) {
+  const valid = arr.filter(v => v !== null && v !== undefined && !isNaN(v));
+  if (valid.length === 0) return null;
+  return valid.reduce((a, b) => a + b, 0) / valid.length;
+}
+
+function renderSummary(rounds) {
+  const grid = document.getElementById('summary-grid');
+  if (rounds.length === 0) { grid.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;">Noch keine Runden erfasst.</div>'; return; }
+  const recent = rounds.slice(-5);
+  const older = rounds.slice(0, -5);
+  const puttsRecent = avg(recent.map(r => r.putts3));
+  const puttsOlder = older.length ? avg(older.map(r => r.putts3)) : null;
+  const puttsTrend = trendArrow(puttsRecent, puttsOlder, true);
+  const udRecent = avg(recent.map(udQuote));
+  const udOlder = older.length ? avg(older.map(udQuote)) : null;
+  const udTrendFixed = udOlder === null ? { symbol: '–', cls: 'flat' } :
+    (udRecent - udOlder > 2 ? { symbol: '↑ besser', cls: 'up' } :
+     udRecent - udOlder < -2 ? { symbol: '↓ schlechter', cls: 'down' } : { symbol: '→ stabil', cls: 'flat' });
+  const doublesRecent = avg(recent.map(r => r.doubles));
+  const doublesOlder = older.length ? avg(older.map(r => r.doubles)) : null;
+  const doublesTrend = trendArrow(doublesRecent, doublesOlder, true);
+  const scoreRecent = avg(recent.map(scoreToPar));
+  const scoreOlder = older.length ? avg(older.map(scoreToPar)) : null;
+  const scoreTrend = trendArrow(scoreRecent, scoreOlder, true);
+  grid.innerHTML = `
+    <div class="summary-box"><div class="value">${puttsRecent !== null ? puttsRecent.toFixed(1) : '–'}</div><div class="label">Ø 3-Putts (letzte 5)</div><div class="trend ${puttsTrend.cls}">${puttsTrend.symbol}</div></div>
+    <div class="summary-box"><div class="value">${udRecent !== null ? Math.round(udRecent) + '%' : '–'}</div><div class="label">Ø Up-and-Down (letzte 5)</div><div class="trend ${udTrendFixed.cls}">${udTrendFixed.symbol}</div></div>
+    <div class="summary-box"><div class="value">${doublesRecent !== null ? doublesRecent.toFixed(1) : '–'}</div><div class="label">Ø Doppel+ (letzte 5)</div><div class="trend ${doublesTrend.cls}">${doublesTrend.symbol}</div></div>
+    <div class="summary-box"><div class="value">${scoreRecent !== null ? (scoreRecent > 0 ? '+' : '') + scoreRecent.toFixed(1) : '–'}</div><div class="label">Ø Score zu Par (letzte 5)</div><div class="trend ${scoreTrend.cls}">${scoreTrend.symbol}</div></div>
+  `;
+}
+
+function renderChart(rounds) {
+  const container = document.getElementById('chart-container');
+  if (rounds.length < 2) { container.innerHTML = '<div class="empty-state">Trage mindestens 2 Runden ein, um einen Trend zu sehen.</div>'; return; }
+  const W = 680, H = 260, padL = 34, padR = 14, padT = 14, padB = 30;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+  const n = rounds.length;
+  const xStep = n > 1 ? plotW / (n - 1) : 0;
+  const series = [];
+  if (activeMetrics.putts) series.push({ key: 'putts', color: '#9fd8ab', values: rounds.map(r => r.putts3), maxHint: 4 });
+  if (activeMetrics.updown) series.push({ key: 'updown', color: '#c9a24b', values: rounds.map(udQuote), maxHint: 100, isPercent: true });
+  if (activeMetrics.doubles) series.push({ key: 'doubles', color: '#d97757', values: rounds.map(r => r.doubles), maxHint: 5 });
+  if (activeMetrics.score) series.push({ key: 'score', color: '#7fb3d9', values: rounds.map(scoreToPar), maxHint: 10 });
+  if (activeMetrics.hcp) {
+    const hcpLog = loadHcpLog();
+    if (hcpLog.length) {
+      // HCP-Verlauf entlang der Runden-Zeitachse abbilden: letzter bekannter Wert bis zu jedem Rundendatum
+      const hcpValues = rounds.map(r => {
+        const applicable = hcpLog.filter(h => h.date <= r.date);
+        return applicable.length ? applicable[applicable.length - 1].hcp : null;
+      });
+      series.push({ key: 'hcp', color: '#b892d9', values: hcpValues, maxHint: 30 });
+    }
+  }
+  if (series.length === 0) { container.innerHTML = '<div class="empty-state">Wähle mindestens eine Kennzahl oben aus.</div>'; return; }
+  let globalMax = 1;
+  series.forEach(s => {
+    const validVals = s.values.filter(v => v !== null && v !== undefined);
+    const m = Math.max(...validVals, s.isPercent ? 100 : s.maxHint);
+    if (m > globalMax) globalMax = m;
+  });
+  function yFor(v) { return padT + plotH - (v / globalMax) * plotH; }
+  function xFor(i) { return padL + i * xStep; }
+  let gridLines = '';
+  for (let g = 0; g <= 4; g++) {
+    const val = (globalMax / 4) * g; const y = yFor(val);
+    gridLines += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#2f4a37" stroke-width="1"/>`;
+    gridLines += `<text x="${padL - 6}" y="${y + 4}" text-anchor="end" font-size="9" fill="#a9bcae">${Math.round(val)}</text>`;
+  }
+  let paths = '';
+  series.forEach(s => {
+    let d = ''; let dots = '';
+    s.values.forEach((v, i) => {
+      if (v === null || v === undefined) return;
+      const x = xFor(i), y = yFor(v);
+      d += (d === '' ? 'M' : ' L') + ` ${x.toFixed(1)} ${y.toFixed(1)}`;
+      dots += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3" fill="${s.color}"/>`;
+    });
+    paths += `<path d="${d}" fill="none" stroke="${s.color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+    paths += dots;
+  });
+  let xLabels = '';
+  const labelEvery = Math.max(1, Math.ceil(n / 6));
+  rounds.forEach((r, i) => {
+    if (i % labelEvery !== 0 && i !== n - 1) return;
+    const x = xFor(i); const short = r.date.slice(5).replace('-', '.');
+    xLabels += `<text x="${x}" y="${H - 8}" text-anchor="middle" font-size="9" fill="#a9bcae">${short}</text>`;
+  });
+  container.innerHTML = `<svg class="chart" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${gridLines}${paths}${xLabels}</svg>`;
+}
+
+function renderProblemHoles(rounds) {
+  const section = document.getElementById('problem-section');
+  const withHoles = rounds.filter(r => r.holesData && r.holesData.length);
+  if (withHoles.length === 0) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  const buckets = {}; // key: subCourse|subHole -> {overParSum, puttsSum, count}
+  withHoles.forEach(r => {
+    r.holesData.forEach((h, i) => {
+      // Fallback für alte Einträge ohne subCourse/subHole (vor Einführung der 18-Loch-Kombis)
+      const subCourse = h.subCourse || r.course;
+      const subHole = h.subHole || (i + 1);
+      const key = `${subCourse}|${subHole}`;
+      if (!buckets[key]) buckets[key] = { subCourse, subHole, overParSum: 0, puttsSum: 0, count: 0 };
+      buckets[key].overParSum += (h.strokes - h.par);
+      buckets[key].puttsSum += h.putts;
+      buckets[key].count += 1;
+    });
+  });
+  const list = Object.values(buckets).map(b => ({
+    ...b, avgOverPar: b.overParSum / b.count, avgPutts: b.puttsSum / b.count
+  })).sort((a, b) => b.avgOverPar - a.avgOverPar); // schlechtestes zuerst, bestes zuletzt – volle Liste, kein Cutoff
+  const maxVal = Math.max(...list.map(b => Math.abs(b.avgOverPar)), 0.5);
+  document.getElementById('problem-list').innerHTML = list.map(b => {
+    const courseName = COURSES[b.subCourse] ? COURSES[b.subCourse].shortName : b.subCourse;
+    const overParStr = b.avgOverPar >= 0 ? `+${b.avgOverPar.toFixed(1)}` : b.avgOverPar.toFixed(1);
+    const barColor = b.avgOverPar >= 0
+      ? 'linear-gradient(90deg, var(--gold), var(--red))'
+      : 'linear-gradient(90deg, var(--fairway), var(--fairway-bright))';
+    const barWidth = Math.max(4, (Math.abs(b.avgOverPar) / maxVal) * 100);
+    return `
+    <div class="problem-row">
+      <div class="problem-label">${courseName} · Loch ${b.subHole}</div>
+      <div class="problem-bar-bg"><div class="problem-bar-fill" style="width:${barWidth}%; background:${barColor};"></div></div>
+      <div class="problem-value">${overParStr} · Ø ${b.avgPutts.toFixed(1)} Putts · ${b.count}×</div>
+    </div>`;
+  }).join('');
+}
+
+function renderTable(rounds) {
+  const tbody = document.getElementById('rounds-tbody');
+  if (rounds.length === 0) { tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Noch keine Runden erfasst.</td></tr>'; return; }
+  const reversed = rounds.slice().reverse();
+  tbody.innerHTML = reversed.map(r => {
+    const ud = r.udTries > 0 ? `${r.udMade}/${r.udTries}` : '–';
+    const courseName = COURSES[r.course] ? COURSES[r.course].shortName : (r.course || '–');
+    const scLabel = r.holesData ? ' 📋' : '';
+    return `<tr>
+      <td>${r.date}${scLabel}</td><td>${escapeHtml(courseName)}</td><td>${r.score !== null && r.score !== undefined ? r.score : '–'}</td>
+      <td class="num">${r.putts3}</td><td class="num">${ud}</td><td class="num">${r.doubles}</td>
+      <td><button class="btn-gold" onclick="editRound('${r.id}')" style="margin-right:6px;">Bearbeiten</button><button class="btn-danger" onclick="deleteRound('${r.id}')">Löschen</button></td>
+    </tr>`;
+  }).join('');
+}
+function escapeHtml(str) { const div = document.createElement('div'); div.textContent = str; return div.innerHTML; }
+
+function renderAll() {
+  const rounds = sortedRounds();
+  renderSummary(rounds);
+  renderChart(rounds);
+  renderProblemHoles(rounds);
+  renderTable(rounds);
+}
+
+// ---------- Delete / Edit ----------
+function deleteRound(id) {
+  let rounds = loadRounds();
+  rounds = rounds.filter(r => r.id !== id);
+  saveRounds(rounds);
+  if (editingId === id) cancelEdit();
+  renderAll();
+}
+
+function editRound(id) {
+  const rounds = loadRounds();
+  const r = rounds.find(x => x.id === id);
+  if (!r) return;
+  editingId = id;
+  document.getElementById('date').value = r.date;
+  document.getElementById('course').value = r.course || 'Kurzplatz';
+  document.getElementById('udMade').value = r.udMade;
+  document.getElementById('udTries').value = r.udTries;
+  document.getElementById('note').value = r.note || '';
+  if (r.holesData && r.holesData.length) {
+    setMode('scorecard');
+    buildHolesUI(r.holesData);
+  } else {
+    setMode('quick');
+    document.getElementById('score').value = r.score !== null && r.score !== undefined ? r.score : '';
+    document.getElementById('holes').value = r.holes || '18';
+    document.getElementById('putts3').value = r.putts3;
+    document.getElementById('doubles').value = r.doubles;
+  }
+  document.getElementById('form-heading').textContent = 'Runde bearbeiten';
+  document.getElementById('save-round-btn').textContent = 'Änderungen speichern';
+  document.getElementById('edit-banner').style.display = 'block';
+  document.getElementById('form-heading').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function cancelEdit() {
+  editingId = null;
+  document.getElementById('score').value = '';
+  document.getElementById('putts3').value = '';
+  document.getElementById('doubles').value = '';
+  document.getElementById('udMade').value = 0;
+  document.getElementById('udTries').value = 0;
+  document.getElementById('note').value = '';
+  document.getElementById('date').valueAsDate = new Date();
+  document.getElementById('form-heading').textContent = 'Neue Runde eintragen';
+  document.getElementById('save-round-btn').textContent = 'Runde speichern';
+  document.getElementById('edit-banner').style.display = 'none';
+  setMode('quick');
+}
+document.getElementById('cancel-edit-btn').addEventListener('click', cancelEdit);
+
+// ---------- Save ----------
+document.getElementById('save-round-btn').addEventListener('click', function() {
+  const rounds = loadRounds();
+  const date = document.getElementById('date').value;
+  if (!date) { alert('Bitte ein Datum wählen.'); return; }
+  const courseKey = document.getElementById('course').value;
+
+  let values;
+
+  if (mode === 'scorecard') {
+    const totalStrokes = currentHoleValues.reduce((a, h) => a + h.strokes, 0);
+    const putts3 = currentHoleValues.filter(h => h.putts >= 3).length;
+    const doubles = currentHoleValues.filter(h => (h.strokes - h.par) >= 2).length;
+    values = {
+      date, course: courseKey, score: totalStrokes, holes: String(currentHoleValues.length),
+      putts3, doubles,
+      udMade: parseInt(document.getElementById('udMade').value) || 0,
+      udTries: parseInt(document.getElementById('udTries').value) || 0,
+      note: document.getElementById('note').value || '',
+      holesData: currentHoleValues.map(h => ({ par: h.par, strokes: h.strokes, putts: h.putts, subCourse: h.subCourse, subHole: h.subHole }))
+    };
+  } else {
+    values = {
+      date, course: courseKey,
+      score: document.getElementById('score').value ? parseInt(document.getElementById('score').value) : null,
+      holes: document.getElementById('holes').value,
+      putts3: parseInt(document.getElementById('putts3').value) || 0,
+      doubles: parseInt(document.getElementById('doubles').value) || 0,
+      udMade: parseInt(document.getElementById('udMade').value) || 0,
+      udTries: parseInt(document.getElementById('udTries').value) || 0,
+      note: document.getElementById('note').value || '',
+      holesData: null
+    };
+  }
+
+  const msg = document.getElementById('save-msg');
+  let ok;
+  if (editingId) {
+    const idx = rounds.findIndex(r => r.id === editingId);
+    if (idx !== -1) rounds[idx] = { ...rounds[idx], ...values };
+    ok = saveRounds(rounds);
+    msg.textContent = ok ? 'Änderungen gespeichert.' : 'Speichern fehlgeschlagen.';
+    cancelEdit();
+  } else {
+    const entry = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7), ...values };
+    rounds.push(entry);
+    ok = saveRounds(rounds);
+    msg.textContent = ok ? 'Runde gespeichert.' : 'Speichern fehlgeschlagen – Browser-Speicher evtl. voll oder blockiert.';
+    if (mode === 'quick') {
+      document.getElementById('score').value = '';
+      document.getElementById('putts3').value = '';
+      document.getElementById('doubles').value = '';
+    } else {
+      buildHolesUI();
+    }
+    document.getElementById('udMade').value = 0;
+    document.getElementById('udTries').value = 0;
+    document.getElementById('note').value = '';
+    document.getElementById('date').valueAsDate = new Date();
+  }
+  setTimeout(() => { msg.textContent = ''; }, 3000);
+  renderAll();
+});
+
+// ---------- Metric toggles ----------
+document.querySelectorAll('.metric-toggles button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const key = btn.dataset.metric;
+    activeMetrics[key] = !activeMetrics[key];
+    btn.classList.toggle('active', activeMetrics[key]);
+    renderAll();
+  });
+});
+
+// ---------- Export / Import / Clear ----------
+document.getElementById('export-btn').addEventListener('click', () => {
+  const backup = { rounds: loadRounds(), hcpLog: loadHcpLog(), parProfiles: loadParProfiles() };
+  const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'golf-fortschritt-backup.json'; a.click();
+  URL.revokeObjectURL(url);
+});
+document.getElementById('import-btn').addEventListener('click', () => document.getElementById('import-file').click());
+document.getElementById('import-file').addEventListener('change', function() {
+  const file = this.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const imported = JSON.parse(e.target.result);
+      // Abwärtskompatibel: altes Format war ein reines Array von Runden
+      const importedRounds = Array.isArray(imported) ? imported : (imported.rounds || []);
+      const importedHcpLog = Array.isArray(imported) ? [] : (imported.hcpLog || []);
+      const importedPars = Array.isArray(imported) ? {} : (imported.parProfiles || {});
+
+      const existing = loadRounds();
+      const existingIds = new Set(existing.map(r => r.id));
+      const mergedRounds = existing.concat(importedRounds.filter(r => !existingIds.has(r.id)));
+      saveRounds(mergedRounds);
+
+      const existingHcp = loadHcpLog();
+      const existingHcpKeys = new Set(existingHcp.map(h => h.date + '|' + h.hcp));
+      const mergedHcp = existingHcp.concat(importedHcpLog.filter(h => !existingHcpKeys.has(h.date + '|' + h.hcp)));
+      saveHcpLog(mergedHcp);
+
+      const existingPars = loadParProfiles();
+      saveParProfiles({ ...importedPars, ...existingPars });
+
+      renderHcpStatus();
+      renderAll();
+      const msg = document.getElementById('save-msg');
+      msg.textContent = `${importedRounds.length} Runden importiert.`;
+      setTimeout(() => { msg.textContent = ''; }, 3000);
+    } catch (err) { alert('Backup-Datei konnte nicht gelesen werden.'); }
+  };
+  reader.readAsText(file);
+});
+document.getElementById('clear-all-btn').addEventListener('click', () => {
+  const rounds = loadRounds();
+  const hcpLog = loadHcpLog();
+  if (rounds.length === 0 && hcpLog.length === 0) return;
+  const confirmed = confirm(`Wirklich alle Runden und den HCP-Verlauf unwiderruflich löschen? Vorher lieber ein Backup exportieren.`);
+  if (!confirmed) return;
+  localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(HCP_KEY);
+  renderHcpStatus();
+  renderAll();
+  const msg = document.getElementById('save-msg');
+  msg.textContent = 'Alle Daten gelöscht.';
+  setTimeout(() => { msg.textContent = ''; }, 3000);
+});
+
+// ---------- Init ----------
+initCourseSelect();
+document.getElementById('date').valueAsDate = new Date();
+renderHcpStatus();
+renderAll();
+</script>
+</body>
+</html>
