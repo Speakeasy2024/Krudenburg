@@ -1125,17 +1125,49 @@ function computeStats(rounds) {
 // HCP-Klasse üblich – nicht schon, wenn sie unter dem Scratch-Niveau liegt.
 // Strafschläge: keine verlässliche Quelle gefunden, Werte hier grob geschätzt/interpoliert.
 const HCP_TIERS = [
-  { max: 4,   label: 'Scratch/Low',  gir: 50, fw: 50, scramble: 45, doubles: 1.0, putts3: 1.5, penalties: 0.5 },
-  { max: 9,   label: '5–9',          gir: 40, fw: 49, scramble: 33, doubles: 1.5, putts3: 2.0, penalties: 0.8 },
-  { max: 14,  label: '10–14',        gir: 30, fw: 47, scramble: 27, doubles: 2.2, putts3: 2.5, penalties: 1.2 },
-  { max: 19,  label: '15–19',        gir: 22, fw: 44, scramble: 23, doubles: 3.3, putts3: 3.5, penalties: 1.6 },
-  { max: 24,  label: '20–24',        gir: 19, fw: 42, scramble: 20, doubles: 4.3, putts3: 4.0, penalties: 2.0 },
-  { max: 999, label: '25+',          gir: 16, fw: 40, scramble: 17, doubles: 5.3, putts3: 4.5, penalties: 2.4 },
+  { max: 4.9,   label: 'Scratch/Low',  gir: 50, fw: 50, scramble: 45, doubles: 1.0, putts3: 1.5, penalties: 0.5 },
+  { max: 9.9,   label: '5–9',          gir: 40, fw: 49, scramble: 33, doubles: 1.5, putts3: 2.0, penalties: 0.8 },
+  { max: 14.9,  label: '10–14',        gir: 30, fw: 47, scramble: 27, doubles: 2.2, putts3: 2.5, penalties: 1.2 },
+  { max: 19.9,  label: '15–19',        gir: 22, fw: 44, scramble: 23, doubles: 3.3, putts3: 3.5, penalties: 1.6 },
+  { max: 24.9,  label: '20–24',        gir: 19, fw: 42, scramble: 20, doubles: 4.3, putts3: 4.0, penalties: 2.0 },
+  { max: 999,   label: '25+',          gir: 16, fw: 40, scramble: 17, doubles: 5.3, putts3: 4.5, penalties: 2.4 },
 ];
 function getHcpTier() {
   const hcpLog = loadHcpLog();
   const hcp = hcpLog.length ? hcpLog[hcpLog.length - 1].hcp : 20; // Fallback, falls noch kein HCP hinterlegt ist
   return HCP_TIERS.find(t => hcp <= t.max) || HCP_TIERS[HCP_TIERS.length - 1];
+}
+function getNextBetterTier(tier) {
+  const idx = HCP_TIERS.indexOf(tier);
+  return idx > 0 ? HCP_TIERS[idx - 1] : null; // null = bereits beste Klasse
+}
+
+// Vergleicht die aktuellen Werte mit den Richtwerten der nächstbesseren HCP-Klasse (Verbesserungsziel,
+// nicht "bin ich normal für mein Niveau" wie computeInsights, sondern "was fehlt zur nächsten Stufe").
+function computeNextTierTargets(s, nextTier) {
+  const gaps = [];
+  if (s.avgPenalties !== null && s.avgPenalties > nextTier.penalties) {
+    gaps.push(`Strafschläge: Ø ${s.avgPenalties.toFixed(1)} → Ziel ≤ ${nextTier.penalties.toFixed(1)}`);
+  }
+  if (s.avgDoubles !== null && s.avgDoubles > nextTier.doubles) {
+    gaps.push(`Doppelbogey+: Ø ${s.avgDoubles.toFixed(1)} → Ziel ≤ ${nextTier.doubles.toFixed(1)}`);
+  }
+  if (s.girPct !== null && s.girPct < nextTier.gir) {
+    gaps.push(`GIR-Quote: ${s.girPct}% → Ziel ≥ ${nextTier.gir}%`);
+  }
+  if (s.fwPct !== null && s.fwPct < nextTier.fw) {
+    gaps.push(`Fairway-Trefferquote: ${s.fwPct}% → Ziel ≥ ${nextTier.fw}%`);
+  }
+  if (s.scramblePct !== null && s.scramblePct < nextTier.scramble) {
+    gaps.push(`Scrambling: ${s.scramblePct}% → Ziel ≥ ${nextTier.scramble}%`);
+  }
+  if (s.avgPutts3 !== null && s.avgPutts3 > nextTier.putts3) {
+    gaps.push(`3-Putts: Ø ${s.avgPutts3.toFixed(1)} → Ziel ≤ ${nextTier.putts3.toFixed(1)}`);
+  }
+  if (gaps.length === 0) {
+    return 'In allen erfassten Kennzahlen bereits auf Niveau der nächsten Klasse.';
+  }
+  return gaps.map(g => `• ${g}`).join('\n');
 }
 
 function computeInsights(s) {
@@ -1235,7 +1267,12 @@ function buildTrainerReport(rangeVal) {
 
   let text = `GOLF-TRAINING-UPDATE\n`;
   text += `Zeitraum: ${stats.first} bis ${stats.last} (${rangeLabel}, ${stats.n} Runden)\n\n`;
-  text += `AUFFÄLLIGKEITEN\n${computeInsights(stats)}\n\n`;
+  const tier = getHcpTier();
+  text += `AUFFÄLLIGKEITEN (im Rahmen HCP ${tier.label})\n${computeInsights(stats)}\n\n`;
+  const nextTier = getNextBetterTier(tier);
+  if (nextTier) {
+    text += `ZIEL FÜR NÄCHSTE HCP-KLASSE (${nextTier.label})\n${computeNextTierTargets(stats, nextTier)}\n\n`;
+  }
   text += fmtStatBlock(stats);
   if (latestHcp) text += `\nAktuelles HCP: ${latestHcp.hcp.toFixed(1)} (Stand ${latestHcp.date})\n`;
 
