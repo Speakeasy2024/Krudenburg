@@ -93,6 +93,20 @@
   .ud-stepper-row { display: flex; align-items: center; gap: 14px; }
   .ud-auto-box { font-size: 13px; color: var(--text-dim); background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 8px; padding: 10px 14px; }
   .ud-auto-box strong { color: var(--fairway-bright); }
+  .single-hole-card { text-align: center; padding: 10px 0 6px; }
+  .single-hole-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+  .single-hole-nav button { background: var(--fairway); color: #0e1b13; padding: 10px 20px; font-size: 18px; }
+  .single-hole-nav button:disabled { opacity: 0.3; }
+  .single-hole-title { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; color: var(--fairway-bright); }
+  .single-hole-dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 16px; }
+  .single-hole-dot { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--card-border); background: var(--bg-alt); color: var(--text-dim); font-size: 11px; font-weight: 600; cursor: pointer; }
+  .single-hole-dot.current { background: var(--gold); color: #2a2205; border-color: transparent; }
+  .single-hole-dot.done { background: var(--fairway); color: #0e1b13; border-color: transparent; }
+  .single-hole-big .hole-row { grid-template-columns: 1fr; gap: 14px; justify-items: center; padding: 10px 0; }
+  .single-hole-big .hole-num { display: none; }
+  .single-hole-big .par-input { width: 70px; text-align: center; font-size: 16px; }
+  .single-hole-big .stepper { transform: scale(1.25); margin: 6px 0; }
+  .single-hole-big .hole-extra-row { justify-content: center; padding-left: 0; }
 
   .problem-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--card-border); }
   #problem-list { max-height: 480px; overflow-y: auto; }
@@ -103,6 +117,49 @@
   .problem-value { font-size: 12px; color: var(--text-dim); width: 90px; text-align: right; flex-shrink: 0; }
 
   .settings-toggle { font-size: 12px; color: var(--text-dim); text-decoration: underline; cursor: pointer; background: none; border: none; padding: 0; margin-bottom: 12px; }
+  .cz-toggle { cursor: pointer; }
+  .cz-player-row { display: flex; gap: 8px; margin-bottom: 12px; }
+  .cz-player-btn {
+    flex: 1; padding: 9px; border-radius: 999px; border: 1px solid var(--card-border);
+    background: var(--bg-alt); color: var(--text-dim); font-size: 13px; font-weight: 600;
+  }
+  .cz-player-btn.active { background: var(--gold); color: #2a2205; border-color: transparent; }
+  .cz-hole-indicator {
+    text-align: center; padding: 4px 0 8px;
+    font-family: 'Fraunces', serif; font-size: 15px; color: var(--text-dim);
+  }
+  .cz-hole-indicator strong { color: var(--fairway-bright); }
+  .cz-tap-zone {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: var(--bg-alt); height: 220px;
+    border-radius: 18px; border: 1px solid var(--card-border);
+    user-select: none; cursor: pointer; position: relative; overflow: hidden;
+    transition: background .08s ease;
+  }
+  .cz-tap-zone:active { background: #24402d; }
+  .cz-tap-zone .cz-count {
+    font-family: 'Fraunces', serif; font-weight: 700; font-size: 84px; line-height: 1; color: var(--fairway-bright);
+  }
+  .cz-tap-zone .cz-tap-hint { font-size: 12px; color: var(--text-dim); margin-top: 6px; }
+  .cz-tap-flash { position: absolute; inset: 0; background: var(--fairway-bright); opacity: 0; pointer-events: none; }
+  .cz-tap-flash.flash { animation: czFlashPulse .18s ease-out; }
+  @keyframes czFlashPulse { 0% { opacity: 0.3; } 100% { opacity: 0; } }
+  .cz-correction-row { text-align: center; padding: 10px 0; }
+  .cz-correction-row button {
+    background: none; border: 1px solid var(--card-border); color: var(--text-dim);
+    padding: 7px 16px; border-radius: 999px; font-size: 13px; font-weight: 600;
+  }
+  .cz-nav-row { display: flex; gap: 10px; margin-bottom: 10px; }
+  .cz-nav-row button { border-radius: 12px; font-size: 14px; font-weight: 700; border: none; padding: 13px; }
+  .cz-nav-row .cz-btn-prev { background: var(--card); color: var(--text-dim); border: 1px solid var(--card-border); flex: 0 0 60px; }
+  .cz-nav-row .cz-btn-next { background: var(--fairway); color: #0e1b13; flex: 1; }
+  .cz-log-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin: 10px 0; }
+  .cz-log-cell { text-align: center; background: var(--card); border-radius: 8px; padding: 6px 2px; }
+  .cz-log-cell .lh { color: var(--text-dim); font-size: 9px; text-transform: uppercase; }
+  .cz-log-cell .lv { font-family: 'Fraunces', serif; font-weight: 700; font-size: 15px; color: var(--fairway-bright); }
+  .cz-log-total { display: flex; justify-content: space-between; font-size: 13px; padding-top: 8px; border-top: 1px solid var(--card-border); }
+  .cz-log-total strong { color: var(--gold); }
+  .cz-reset-btn { width: 100%; margin-top: 10px; padding: 10px; border-radius: 999px; border: 1px solid var(--red); background: none; color: var(--red); font-size: 12px; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -144,6 +201,47 @@
     </div>
   </section>
 
+  <section>
+    <h2 class="cz-toggle" id="cz-section-toggle">🔢 Schlagzähler für Mitspieler ▾</h2>
+    <div class="card" id="cz-panel" style="display:none;">
+      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Zum Zählen, wenn du auf dem Turnier für einen Mitspieler markierst – unabhängig von deiner eigenen Runde weiter unten.</p>
+
+      <div class="cz-player-row">
+        <button type="button" class="cz-player-btn active" id="cz-player-a-btn">Spieler A</button>
+        <button type="button" class="cz-player-btn" id="cz-player-b-btn">Spieler B</button>
+      </div>
+
+      <div class="cz-player-row">
+        <button type="button" class="cz-player-btn active" id="cz-holes18-btn">18 Loch</button>
+        <button type="button" class="cz-player-btn" id="cz-holes9-btn">9 Loch</button>
+      </div>
+
+      <div class="cz-hole-indicator">Loch <strong id="cz-hole-num">1</strong> von <span id="cz-hole-total">18</span></div>
+
+      <div class="cz-tap-zone" id="cz-tap-zone">
+        <div class="cz-tap-flash" id="cz-tap-flash"></div>
+        <div class="cz-count" id="cz-count-display">0</div>
+        <div class="cz-tap-hint">antippen für +1 Schlag</div>
+      </div>
+
+      <div class="cz-correction-row">
+        <button type="button" id="cz-undo-btn">− 1 korrigieren</button>
+      </div>
+
+      <div class="cz-nav-row">
+        <button type="button" class="cz-btn-prev" id="cz-prev-hole-btn">‹</button>
+        <button type="button" class="cz-btn-next" id="cz-next-hole-btn">Loch gespeichert → nächstes</button>
+      </div>
+
+      <button type="button" class="settings-toggle" id="cz-log-toggle-btn">Übersicht zum Abgleich mit der Scorekarte anzeigen</button>
+      <div id="cz-log-wrap" style="display:none;">
+        <div class="cz-log-grid" id="cz-log-grid"></div>
+        <div class="cz-log-total">Gesamt <strong id="cz-log-total-val">0</strong></div>
+        <button type="button" class="cz-reset-btn" id="cz-reset-btn">Alles zurücksetzen (neue Runde)</button>
+      </div>
+    </div>
+  </section>
+
 
   <section>
     <h2 id="form-heading">Neue Runde eintragen</h2>
@@ -153,8 +251,9 @@
       </div>
 
       <div class="mode-toggle">
-        <button type="button" id="mode-quick-btn" class="active">Schnell-Eingabe</button>
-        <button type="button" id="mode-scorecard-btn">Scorecard (Loch für Loch)</button>
+        <button type="button" id="entry-single-btn" class="active">🏌️ Loch für Loch</button>
+        <button type="button" id="entry-list-btn">📋 Liste</button>
+        <button type="button" id="entry-quick-btn">🕘 Nachtrag</button>
       </div>
 
       <!-- Gemeinsame Kopfdaten -->
@@ -167,10 +266,18 @@
           <label for="course">Platz</label>
           <select id="course"></select>
         </div>
+        <div>
+          <label for="green-mode">Grün</label>
+          <select id="green-mode">
+            <option value="summer">☀️ Sommergrüns</option>
+            <option value="winter">❄️ Wintergrüns</option>
+          </select>
+        </div>
       </div>
 
-      <!-- SCHNELL-MODUS -->
-      <div id="quick-mode">
+      <!-- NACHTRAG (nur Gesamtzahlen, falls während der Runde nicht getrackt wurde) -->
+      <div id="quick-mode" style="display:none;">
+        <p style="font-size:12px; color:var(--text-dim); margin:0 0 12px;">Für nachträgliche Erfassung, wenn während der Runde nicht Loch für Loch getrackt wurde – Werte müssen hier selbst gezählt/geschätzt werden.</p>
         <div class="form-grid">
           <div>
             <label for="score">Score (Schläge, optional)</label>
@@ -195,18 +302,19 @@
         </div>
       </div>
 
-      <!-- SCORECARD-MODUS -->
-      <div id="scorecard-mode" style="display:none;">
+      <!-- SCORECARD-MODUS (Loch für Loch / Liste) -->
+      <div id="scorecard-mode">
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px; background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 8px; padding: 10px 12px;">
           <input type="checkbox" id="extended-toggle" style="width:auto;">
           <label for="extended-toggle" style="margin:0; font-weight:400; font-size:13px;">Erweiterte Erfassung (GIR, Fairway, Strafschläge) – mehr Taps pro Loch, dafür Trainer-Report mit vollen Kennzahlen</label>
         </div>
         <button type="button" class="settings-toggle" id="par-settings-toggle">Par-Werte für diesen Platz bearbeiten</button>
         <div id="par-settings" style="display:none; margin-bottom: 14px;"></div>
-        <div class="hole-labels">
+        <div id="hole-labels-wrap" class="hole-labels">
           <span>Loch</span><span>Par</span><span>Schläge</span><span>Putts</span>
         </div>
         <div id="holes-container"></div>
+        <div id="single-hole-container"></div>
         <div class="scorecard-total" id="scorecard-total"></div>
       </div>
 
@@ -374,8 +482,11 @@ const DEFAULT_PARS = {
 
 let activeMetrics = { putts: true, updown: true, doubles: true, score: true, hcp: false };
 let editingId = null;
-let mode = 'quick';
+let entryMode = 'single'; // 'single' (Loch für Loch, Standard) | 'list' | 'quick' (Nachtrag)
+let mode = 'scorecard';   // intern: 'scorecard' | 'quick' – abgeleitet aus entryMode
 let extendedTracking = false;
+let holeViewMode = 'single';
+let currentHoleIndex = 0;
 let currentHoleValues = []; // [{par, strokes, putts}]
 
 // ---------- Storage ----------
@@ -498,12 +609,21 @@ function initCourseSelect() {
 }
 
 // ---------- Mode toggle ----------
-function setMode(newMode) {
-  mode = newMode;
-  document.getElementById('mode-quick-btn').classList.toggle('active', mode === 'quick');
-  document.getElementById('mode-scorecard-btn').classList.toggle('active', mode === 'scorecard');
-  document.getElementById('quick-mode').style.display = mode === 'quick' ? 'block' : 'none';
-  document.getElementById('scorecard-mode').style.display = mode === 'scorecard' ? 'block' : 'none';
+function setEntryMode(newEntry) {
+  entryMode = newEntry;
+  mode = (newEntry === 'quick') ? 'quick' : 'scorecard';
+  holeViewMode = (newEntry === 'list') ? 'list' : 'single';
+
+  document.getElementById('entry-single-btn').classList.toggle('active', entryMode === 'single');
+  document.getElementById('entry-list-btn').classList.toggle('active', entryMode === 'list');
+  document.getElementById('entry-quick-btn').classList.toggle('active', entryMode === 'quick');
+
+  document.getElementById('quick-mode').style.display = (mode === 'quick') ? 'block' : 'none';
+  document.getElementById('scorecard-mode').style.display = (mode === 'scorecard') ? 'block' : 'none';
+  document.getElementById('holes-container').style.display = (mode === 'scorecard' && holeViewMode === 'list') ? 'block' : 'none';
+  document.getElementById('single-hole-container').style.display = (mode === 'scorecard' && holeViewMode === 'single') ? 'block' : 'none';
+  document.getElementById('hole-labels-wrap').style.display = (mode === 'scorecard' && holeViewMode === 'list') ? 'grid' : 'none';
+
   updateUdBlockVisibility();
   if (mode === 'scorecard') buildHolesUI();
 }
@@ -512,8 +632,9 @@ function updateUdBlockVisibility() {
   document.getElementById('quick-ud-block').style.display = showAuto ? 'none' : 'block';
   document.getElementById('scorecard-ud-block').style.display = showAuto ? 'block' : 'none';
 }
-document.getElementById('mode-quick-btn').addEventListener('click', () => setMode('quick'));
-document.getElementById('mode-scorecard-btn').addEventListener('click', () => setMode('scorecard'));
+document.getElementById('entry-single-btn').addEventListener('click', () => setEntryMode('single'));
+document.getElementById('entry-list-btn').addEventListener('click', () => setEntryMode('list'));
+document.getElementById('entry-quick-btn').addEventListener('click', () => setEntryMode('quick'));
 document.getElementById('extended-toggle').addEventListener('change', function() {
   extendedTracking = this.checked;
   updateUdBlockVisibility();
@@ -571,6 +692,7 @@ function buildParSettings() {
 
 // ---------- Holes UI (scorecard) ----------
 function buildHolesUI(prefill) {
+  currentHoleIndex = 0;
   const courseKey = document.getElementById('course').value;
   const pars = getParProfile(courseKey);
   const origins = getHoleOrigins(courseKey);
@@ -608,37 +730,8 @@ const PENALTY_TYPES = [
   { key: 'unplayable', label: 'Unspielbar' },
 ];
 
-function renderHolesUI() {
-  const container = document.getElementById('holes-container');
-  container.innerHTML = currentHoleValues.map((h, i) => {
-    if (!extendedTracking) {
-      return `
-      <div class="hole-row">
-        <div class="hole-num">${i + 1}</div>
-        <input type="number" class="par-input" min="3" max="6" value="${h.par}" onchange="updateHolePar(${i}, this.value)">
-        <div class="stepper">
-          <button type="button" onclick="stepHole(${i}, 'strokes', -1)">−</button>
-          <span class="stepper-val">${h.strokes}</span>
-          <button type="button" onclick="stepHole(${i}, 'strokes', 1)">+</button>
-        </div>
-        <div class="stepper">
-          <button type="button" onclick="stepHole(${i}, 'putts', -1)">−</button>
-          <span class="stepper-val">${h.putts}</span>
-          <button type="button" onclick="stepHole(${i}, 'putts', 1)">+</button>
-        </div>
-      </div>`;
-    }
-    const showFairway = h.par !== 3;
-    const fwButtons = ['left', 'hit', 'right'].map(val => {
-      const label = val === 'left' ? '◀' : val === 'right' ? '▶' : 'FW';
-      const on = h.fairway === val ? 'on-fw' : '';
-      return `<button type="button" class="mini-pill ${on}" onclick="setFairway(${i}, '${val}')">${label}</button>`;
-    }).join('');
-    const penClass = h.penalties === 1 ? 'on-p1' : h.penalties === 2 ? 'on-p2' : '';
-    const penLabel = h.penalties === 0 ? 'Strafe: 0' : `Strafe: ${h.penalties}`;
-    const ptypeRow = h.penalties > 0 ? `<div class="ptype-group">${PENALTY_TYPES.map(pt =>
-      `<button type="button" class="mini-pill ${h.penaltyTypes.includes(pt.key) ? 'on-ptype' : ''}" onclick="setPenaltyType(${i}, '${pt.key}')">${pt.label}</button>`
-    ).join('')}</div>` : '';
+function holeRowHtml(h, i) {
+  if (!extendedTracking) {
     return `
     <div class="hole-row">
       <div class="hole-num">${i + 1}</div>
@@ -653,16 +746,80 @@ function renderHolesUI() {
         <span class="stepper-val">${h.putts}</span>
         <button type="button" onclick="stepHole(${i}, 'putts', 1)">+</button>
       </div>
-    </div>
-    <div class="hole-extra-row">
-      <button type="button" class="mini-pill ${h.gir ? 'on-gir' : ''}" onclick="toggleGir(${i})">GIR</button>
-      ${showFairway ? `<div class="fw-group">${fwButtons}</div>` : ''}
-      <button type="button" class="mini-pill ${penClass}" onclick="cyclePenalty(${i})">${penLabel}</button>
-      ${ptypeRow}
-    </div>
-  `;
+    </div>`;
+  }
+  const showFairway = h.par !== 3;
+  const fwButtons = ['left', 'hit', 'right'].map(val => {
+    const label = val === 'left' ? '◀' : val === 'right' ? '▶' : 'FW';
+    const on = h.fairway === val ? 'on-fw' : '';
+    return `<button type="button" class="mini-pill ${on}" onclick="setFairway(${i}, '${val}')">${label}</button>`;
   }).join('');
+  const penClass = h.penalties === 1 ? 'on-p1' : h.penalties === 2 ? 'on-p2' : '';
+  const penLabel = h.penalties === 0 ? 'Strafe: 0' : `Strafe: ${h.penalties}`;
+  const ptypeRow = h.penalties > 0 ? `<div class="ptype-group">${PENALTY_TYPES.map(pt =>
+    `<button type="button" class="mini-pill ${h.penaltyTypes.includes(pt.key) ? 'on-ptype' : ''}" onclick="setPenaltyType(${i}, '${pt.key}')">${pt.label}</button>`
+  ).join('')}</div>` : '';
+  return `
+  <div class="hole-row">
+    <div class="hole-num">${i + 1}</div>
+    <input type="number" class="par-input" min="3" max="6" value="${h.par}" onchange="updateHolePar(${i}, this.value)">
+    <div class="stepper">
+      <button type="button" onclick="stepHole(${i}, 'strokes', -1)">−</button>
+      <span class="stepper-val">${h.strokes}</span>
+      <button type="button" onclick="stepHole(${i}, 'strokes', 1)">+</button>
+    </div>
+    <div class="stepper">
+      <button type="button" onclick="stepHole(${i}, 'putts', -1)">−</button>
+      <span class="stepper-val">${h.putts}</span>
+      <button type="button" onclick="stepHole(${i}, 'putts', 1)">+</button>
+    </div>
+  </div>
+  <div class="hole-extra-row">
+    <button type="button" class="mini-pill ${h.gir ? 'on-gir' : ''}" onclick="toggleGir(${i})">GIR</button>
+    ${showFairway ? `<div class="fw-group">${fwButtons}</div>` : ''}
+    <button type="button" class="mini-pill ${penClass}" onclick="cyclePenalty(${i})">${penLabel}</button>
+    ${ptypeRow}
+  </div>
+  `;
+}
+
+function renderHolesUI() {
+  if (holeViewMode === 'single') {
+    renderSingleHoleView();
+  } else {
+    const container = document.getElementById('holes-container');
+    container.innerHTML = currentHoleValues.map((h, i) => holeRowHtml(h, i)).join('');
+  }
   renderScorecardTotal();
+}
+
+function renderSingleHoleView() {
+  const container = document.getElementById('single-hole-container');
+  const n = currentHoleValues.length;
+  if (currentHoleIndex >= n) currentHoleIndex = n - 1;
+  if (currentHoleIndex < 0) currentHoleIndex = 0;
+  const h = currentHoleValues[currentHoleIndex];
+  const dots = currentHoleValues.map((hv, i) => {
+    const cls = i === currentHoleIndex ? 'current' : (hv.strokes !== hv.par || hv.putts !== 2 || hv.gir || hv.fairway || hv.penalties > 0) ? 'done' : '';
+    return `<button type="button" class="single-hole-dot ${cls}" onclick="jumpToHole(${i})">${i + 1}</button>`;
+  }).join('');
+  container.innerHTML = `
+    <div class="single-hole-nav">
+      <button type="button" onclick="goToHole(-1)" ${currentHoleIndex === 0 ? 'disabled' : ''}>‹</button>
+      <div class="single-hole-title">Loch ${currentHoleIndex + 1} von ${n}</div>
+      <button type="button" onclick="goToHole(1)" ${currentHoleIndex === n - 1 ? 'disabled' : ''}>›</button>
+    </div>
+    <div class="single-hole-card single-hole-big">${holeRowHtml(h, currentHoleIndex)}</div>
+    <div class="single-hole-dots">${dots}</div>
+  `;
+}
+function goToHole(delta) {
+  currentHoleIndex = Math.max(0, Math.min(currentHoleValues.length - 1, currentHoleIndex + delta));
+  renderHolesUI();
+}
+function jumpToHole(i) {
+  currentHoleIndex = i;
+  renderHolesUI();
 }
 
 function toggleGir(i) {
@@ -733,12 +890,14 @@ function renderSummary(rounds) {
   if (rounds.length === 0) { grid.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;">Noch keine Runden erfasst.</div>'; return; }
   const recent = rounds.slice(-5);
   const older = rounds.slice(0, -5);
-  const puttsRecent = avg(recent.map(r => r.putts3));
-  const puttsOlder = older.length ? avg(older.map(r => r.putts3)) : null;
+  const recentPutting = recent.filter(r => (r.greenMode || 'summer') !== 'winter');
+  const olderPutting = older.filter(r => (r.greenMode || 'summer') !== 'winter');
+  const puttsRecent = recentPutting.length ? avg(recentPutting.map(r => r.putts3)) : null;
+  const puttsOlder = olderPutting.length ? avg(olderPutting.map(r => r.putts3)) : null;
   const puttsTrend = trendArrow(puttsRecent, puttsOlder, true);
-  const udRecent = avg(recent.map(udQuote));
-  const udOlder = older.length ? avg(older.map(udQuote)) : null;
-  const udTrendFixed = udOlder === null ? { symbol: '–', cls: 'flat' } :
+  const udRecent = recentPutting.length ? avg(recentPutting.map(udQuote)) : null;
+  const udOlder = olderPutting.length ? avg(olderPutting.map(udQuote)) : null;
+  const udTrendFixed = (udOlder === null || udRecent === null) ? { symbol: '–', cls: 'flat' } :
     (udRecent - udOlder > 2 ? { symbol: '↑ besser', cls: 'up' } :
      udRecent - udOlder < -2 ? { symbol: '↓ schlechter', cls: 'down' } : { symbol: '→ stabil', cls: 'flat' });
   const doublesRecent = avg(recent.map(r => r.doubles));
@@ -763,8 +922,8 @@ function renderChart(rounds) {
   const n = rounds.length;
   const xStep = n > 1 ? plotW / (n - 1) : 0;
   const series = [];
-  if (activeMetrics.putts) series.push({ key: 'putts', color: '#9fd8ab', values: rounds.map(r => r.putts3), maxHint: 4 });
-  if (activeMetrics.updown) series.push({ key: 'updown', color: '#c9a24b', values: rounds.map(udQuote), maxHint: 100, isPercent: true });
+  if (activeMetrics.putts) series.push({ key: 'putts', color: '#9fd8ab', values: rounds.map(r => (r.greenMode === 'winter') ? null : r.putts3), maxHint: 4 });
+  if (activeMetrics.updown) series.push({ key: 'updown', color: '#c9a24b', values: rounds.map(r => (r.greenMode === 'winter') ? null : udQuote(r)), maxHint: 100, isPercent: true });
   if (activeMetrics.doubles) series.push({ key: 'doubles', color: '#d97757', values: rounds.map(r => r.doubles), maxHint: 5 });
   if (activeMetrics.score) series.push({ key: 'score', color: '#7fb3d9', values: rounds.map(scoreToPar), maxHint: 10 });
   if (activeMetrics.hcp) {
@@ -861,8 +1020,9 @@ function renderTable(rounds) {
     const ud = r.udTries > 0 ? `${r.udMade}/${r.udTries}` : '–';
     const courseName = COURSES[r.course] ? COURSES[r.course].shortName : (r.course || '–');
     const scLabel = r.holesData ? ' 📋' : '';
+    const winterLabel = (r.greenMode === 'winter') ? ' ❄️' : '';
     return `<tr>
-      <td>${r.date}${scLabel}</td><td>${escapeHtml(courseName)}</td><td>${r.score !== null && r.score !== undefined ? r.score : '–'}</td>
+      <td>${r.date}${scLabel}${winterLabel}</td><td>${escapeHtml(courseName)}</td><td>${r.score !== null && r.score !== undefined ? r.score : '–'}</td>
       <td class="num">${r.putts3}</td><td class="num">${ud}</td><td class="num">${r.doubles}</td>
       <td><button class="btn-gold" onclick="editRound('${r.id}')" style="margin-right:6px;">Bearbeiten</button><button class="btn-danger" onclick="deleteRound('${r.id}')">Löschen</button></td>
     </tr>`;
@@ -890,15 +1050,22 @@ function monthsAgoStr(months) {
 function computeStats(rounds) {
   if (rounds.length === 0) return null;
   const n = rounds.length;
+  // Wintergrüns: Putten gilt als nicht aussagekräftig und fließt in Putt-bezogene Kennzahlen nicht ein.
+  const puttingRounds = rounds.filter(r => (r.greenMode || 'summer') !== 'winter');
+  const winterExcluded = n - puttingRounds.length;
+
   const allHoles = [];
   rounds.forEach(r => { if (r.holesData) r.holesData.forEach(h => { if (h.gir !== undefined) allHoles.push(h); }); });
+  const puttingHoles = [];
+  puttingRounds.forEach(r => { if (r.holesData) r.holesData.forEach(h => { if (h.gir !== undefined) puttingHoles.push(h); }); });
 
   const fwHoles = allHoles.filter(h => h.par !== 3 && h.fairway);
   const fwHit = fwHoles.filter(h => h.fairway === 'hit').length;
   const fwLeft = fwHoles.filter(h => h.fairway === 'left').length;
   const fwRight = fwHoles.filter(h => h.fairway === 'right').length;
 
-  const missedGreen = allHoles.filter(h => !h.gir);
+  // Scrambling hängt vom letzten Putt ab – deshalb nur aus Sommergrün-Runden berechnet
+  const missedGreen = puttingHoles.filter(h => !h.gir);
   const scrambleOk = missedGreen.filter(h => h.strokes <= h.par).length;
 
   const holesWithPen = allHoles.filter(h => h.penalties !== undefined);
@@ -930,10 +1097,11 @@ function computeStats(rounds) {
 
   return {
     n, first: rounds[0].date, last: rounds[rounds.length - 1].date,
+    winterExcluded,
     avgScoreToPar: avg(rounds.map(scoreToPar)),
-    avgPutts3: avg(rounds.map(r => r.putts3)),
+    avgPutts3: puttingRounds.length > 0 ? avg(puttingRounds.map(r => r.putts3)) : null,
     avgDoubles: avg(rounds.map(r => r.doubles)),
-    avgUdQuote: avg(rounds.map(udQuote)),
+    avgUdQuote: puttingRounds.length > 0 ? avg(puttingRounds.map(udQuote)) : null,
     girPct: allHoles.length > 0 ? Math.round((allHoles.filter(h => h.gir).length / allHoles.length) * 100) : null,
     girCount: allHoles.length,
     fwPct: fwHoles.length > 0 ? Math.round((fwHit / fwHoles.length) * 100) : null,
@@ -947,10 +1115,68 @@ function computeStats(rounds) {
   };
 }
 
+// Regelbasierte Kurzeinschätzung – feste Schwellenwerte, keine freie Textgenerierung.
+// Bewusst neutral-beschreibend formuliert (Beobachtung aus den Daten), nicht wertend/belehrend –
+// das hier ist eine Analyse des Spiels, keine Handlungsanweisung an den Trainer.
+// Reihenfolge = Priorität, sobald mehrere zutreffen. Nur die obersten 2 werden gezeigt.
+// HCP-Klassen mit typischen Referenzwerten (Quellen: Arccos/Shot Scope-Auswertungen über
+// Break X Golf, Golf Monthly, MyGolfSpy, GolfWRX – reale Amateur-Trackingdaten, keine Turnierprofis).
+// Ein Flag wird nur ausgelöst, wenn die eigene Zahl spürbar schlechter ist als für die eigene
+// HCP-Klasse üblich – nicht schon, wenn sie unter dem Scratch-Niveau liegt.
+// Strafschläge: keine verlässliche Quelle gefunden, Werte hier grob geschätzt/interpoliert.
+const HCP_TIERS = [
+  { max: 4,   label: 'Scratch/Low',  gir: 50, fw: 50, scramble: 45, doubles: 1.0, putts3: 1.5, penalties: 0.5 },
+  { max: 9,   label: '5–9',          gir: 40, fw: 49, scramble: 33, doubles: 1.5, putts3: 2.0, penalties: 0.8 },
+  { max: 14,  label: '10–14',        gir: 30, fw: 47, scramble: 27, doubles: 2.2, putts3: 2.5, penalties: 1.2 },
+  { max: 19,  label: '15–19',        gir: 22, fw: 44, scramble: 23, doubles: 3.3, putts3: 3.5, penalties: 1.6 },
+  { max: 24,  label: '20–24',        gir: 19, fw: 42, scramble: 20, doubles: 4.3, putts3: 4.0, penalties: 2.0 },
+  { max: 999, label: '25+',          gir: 16, fw: 40, scramble: 17, doubles: 5.3, putts3: 4.5, penalties: 2.4 },
+];
+function getHcpTier() {
+  const hcpLog = loadHcpLog();
+  const hcp = hcpLog.length ? hcpLog[hcpLog.length - 1].hcp : 20; // Fallback, falls noch kein HCP hinterlegt ist
+  return HCP_TIERS.find(t => hcp <= t.max) || HCP_TIERS[HCP_TIERS.length - 1];
+}
+
+function computeInsights(s) {
+  const tier = getHcpTier();
+  const flags = [];
+  // Ein Flag feuert erst bei spürbarer Abweichung vom Richtwert (±15%), nicht schon bei
+  // exakt durchschnittlicher Leistung für die eigene HCP-Klasse.
+  const PCT_MARGIN = 0.85;   // "niedriger ist schlechter"-Kennzahlen: Flag erst < 85% des Richtwerts
+  const COUNT_MARGIN = 1.15; // "höher ist schlechter"-Kennzahlen: Flag erst > 115% des Richtwerts
+
+  // Priorität: Strafschläge > große Zahlen > GIR > Fairway > Scrambling > 3-Putts.
+  // Putten (Scrambling, 3-Putts) bewusst ans Ende – wichtig fürs eigene Spiel, aber nicht
+  // die Priorität, mit der der Trainer-Report eröffnen soll.
+  if (s.avgPenalties !== null && s.avgPenalties >= tier.penalties * COUNT_MARGIN) {
+    flags.push(`Strafschläge: Ø ${s.avgPenalties.toFixed(1)}/Runde${s.topPenaltyType ? ', meist ' + s.topPenaltyType : ''} (Richtwert HCP ${tier.label}: ${tier.penalties.toFixed(1)}).`);
+  }
+  if (s.avgDoubles !== null && s.avgDoubles >= tier.doubles * COUNT_MARGIN) {
+    flags.push(`Ø ${s.avgDoubles.toFixed(1)} Doppelbogey oder schlechter pro Runde (Richtwert HCP ${tier.label}: ${tier.doubles.toFixed(1)}).`);
+  }
+  if (s.girPct !== null && s.girPct < tier.gir * PCT_MARGIN) {
+    flags.push(`GIR-Quote ${s.girPct}% (${s.girCount} Löcher), Richtwert HCP ${tier.label}: ${tier.gir}%.`);
+  }
+  if (s.fwPct !== null && s.fwPct < tier.fw * PCT_MARGIN) {
+    flags.push(`Fairway-Trefferquote ${s.fwPct}%${s.fwMissSide ? ', Miss meist ' + s.fwMissSide : ''} (Richtwert HCP ${tier.label}: ${tier.fw}%).`);
+  }
+  if (s.scramblePct !== null && s.scramblePct < tier.scramble * PCT_MARGIN) {
+    flags.push(`Scrambling-Quote ${s.scramblePct}% (${s.scrambleCount} Versuche), Richtwert HCP ${tier.label}: ${tier.scramble}%.`);
+  }
+  if (s.avgPutts3 !== null && s.avgPutts3 >= tier.putts3 * COUNT_MARGIN) {
+    flags.push(`Ø ${s.avgPutts3.toFixed(1)} 3-Putts pro Runde (Richtwert HCP ${tier.label}: ${tier.putts3.toFixed(1)}).`);
+  }
+  if (flags.length === 0) {
+    return `Im Rahmen des Üblichen für HCP ${tier.label} – kein Bereich sticht heraus.`;
+  }
+  return flags.slice(0, 2).map(f => `• ${f}`).join('\n');
+}
+
 function fmtStatBlock(s) {
   let text = `SCORE\n`;
   text += `Ø Score zu Par: ${s.avgScoreToPar !== null ? (s.avgScoreToPar > 0 ? '+' : '') + s.avgScoreToPar.toFixed(1) : '–'}\n`;
-  text += `\nPUTTEN & KURZES SPIEL\n`;
+  text += `\nPUTTEN & KURZES SPIEL${s.winterExcluded > 0 ? ` (ohne ${s.winterExcluded} Runde${s.winterExcluded > 1 ? 'n' : ''} mit Wintergrüns)` : ''}\n`;
   text += `Ø 3-Putts pro Runde: ${s.avgPutts3 !== null ? s.avgPutts3.toFixed(1) : '–'}\n`;
   text += `Up-and-Down-Quote: ${s.avgUdQuote !== null ? Math.round(s.avgUdQuote) + '%' : '–'}\n`;
   if (s.scramblePct !== null) text += `Scrambling: ${s.scramblePct}% (${s.scrambleCount} Versuche)\n`;
@@ -1009,6 +1235,7 @@ function buildTrainerReport(rangeVal) {
 
   let text = `GOLF-TRAINING-UPDATE\n`;
   text += `Zeitraum: ${stats.first} bis ${stats.last} (${rangeLabel}, ${stats.n} Runden)\n\n`;
+  text += `AUFFÄLLIGKEITEN\n${computeInsights(stats)}\n\n`;
   text += fmtStatBlock(stats);
   if (latestHcp) text += `\nAktuelles HCP: ${latestHcp.hcp.toFixed(1)} (Stand ${latestHcp.date})\n`;
 
@@ -1146,6 +1373,7 @@ function editRound(id) {
   editingId = id;
   document.getElementById('date').value = r.date;
   document.getElementById('course').value = r.course || 'Kurzplatz';
+  document.getElementById('green-mode').value = r.greenMode || 'summer';
   document.getElementById('udMade').value = r.udMade;
   document.getElementById('udTries').value = r.udTries;
   document.getElementById('udMade-val').textContent = r.udMade;
@@ -1154,10 +1382,10 @@ function editRound(id) {
   if (r.holesData && r.holesData.length) {
     extendedTracking = r.holesData.some(h => h.gir !== undefined);
     document.getElementById('extended-toggle').checked = extendedTracking;
-    setMode('scorecard');
+    setEntryMode('list');
     buildHolesUI(r.holesData);
   } else {
-    setMode('quick');
+    setEntryMode('quick');
     document.getElementById('score').value = r.score !== null && r.score !== undefined ? r.score : '';
     document.getElementById('holes').value = r.holes || '18';
     document.getElementById('putts3').value = r.putts3;
@@ -1180,12 +1408,13 @@ function cancelEdit() {
   document.getElementById('udTries-val').textContent = '0';
   document.getElementById('note').value = '';
   document.getElementById('date').valueAsDate = new Date();
+  document.getElementById('green-mode').value = 'summer';
   document.getElementById('form-heading').textContent = 'Neue Runde eintragen';
   document.getElementById('save-round-btn').textContent = 'Runde speichern';
   document.getElementById('edit-banner').style.display = 'none';
   extendedTracking = false;
   document.getElementById('extended-toggle').checked = false;
-  setMode('quick');
+  setEntryMode('single');
 }
 document.getElementById('cancel-edit-btn').addEventListener('click', cancelEdit);
 
@@ -1214,6 +1443,7 @@ document.getElementById('save-round-btn').addEventListener('click', function() {
       date, course: courseKey, score: totalStrokes, holes: String(currentHoleValues.length),
       putts3, doubles,
       udMade, udTries,
+      greenMode: document.getElementById('green-mode').value,
       note: document.getElementById('note').value || '',
       holesData: currentHoleValues.map(h => {
         const base = { par: h.par, strokes: h.strokes, putts: h.putts, subCourse: h.subCourse, subHole: h.subHole };
@@ -1232,6 +1462,7 @@ document.getElementById('save-round-btn').addEventListener('click', function() {
       doubles: parseInt(document.getElementById('doubles').value) || 0,
       udMade: parseInt(document.getElementById('udMade').value) || 0,
       udTries: parseInt(document.getElementById('udTries').value) || 0,
+      greenMode: document.getElementById('green-mode').value,
       note: document.getElementById('note').value || '',
       holesData: null
     };
@@ -1335,9 +1566,132 @@ document.getElementById('clear-all-btn').addEventListener('click', () => {
   setTimeout(() => { msg.textContent = ''; }, 3000);
 });
 
+// ---------- Schlagzähler für Mitspieler (unabhängig von den eigenen Runden-Daten) ----------
+const CZ_STORAGE_KEY = 'schlagzaehlerState';
+
+function czDefaultState() {
+  return {
+    activePlayer: 'A',
+    holeTotal: 18,
+    holeIndex: 0,
+    counts: { A: Array(18).fill(null), B: Array(18).fill(null) }
+  };
+}
+function czLoadState() {
+  try {
+    const raw = localStorage.getItem(CZ_STORAGE_KEY);
+    if (!raw) return czDefaultState();
+    const parsed = JSON.parse(raw);
+    if (!parsed.counts || !parsed.counts.A || !parsed.counts.B) return czDefaultState();
+    if (!parsed.holeTotal) parsed.holeTotal = 18; // Abwärtskompatibel zu vor der 9-Loch-Option
+    return parsed;
+  } catch (e) { return czDefaultState(); }
+}
+function czSaveState() {
+  try { localStorage.setItem(CZ_STORAGE_KEY, JSON.stringify(czState)); } catch (e) {}
+}
+let czState = czLoadState();
+
+function czCurrentCount() {
+  const v = czState.counts[czState.activePlayer][czState.holeIndex];
+  return v === null ? 0 : v;
+}
+function czSetCurrentCount(v) {
+  czState.counts[czState.activePlayer][czState.holeIndex] = Math.max(0, v);
+  czSaveState();
+}
+function czVibrate(ms) { if (navigator.vibrate) navigator.vibrate(ms); }
+
+function czRender() {
+  document.getElementById('cz-player-a-btn').classList.toggle('active', czState.activePlayer === 'A');
+  document.getElementById('cz-player-b-btn').classList.toggle('active', czState.activePlayer === 'B');
+  document.getElementById('cz-holes18-btn').classList.toggle('active', czState.holeTotal === 18);
+  document.getElementById('cz-holes9-btn').classList.toggle('active', czState.holeTotal === 9);
+  document.getElementById('cz-hole-num').textContent = czState.holeIndex + 1;
+  document.getElementById('cz-hole-total').textContent = czState.holeTotal;
+  document.getElementById('cz-count-display').textContent = czCurrentCount();
+  document.getElementById('cz-prev-hole-btn').style.opacity = czState.holeIndex === 0 ? '0.3' : '1';
+  document.getElementById('cz-next-hole-btn').textContent = czState.holeIndex === czState.holeTotal - 1
+    ? 'Letztes Loch gespeichert' : 'Loch gespeichert → nächstes';
+  czRenderLog();
+}
+function czRenderLog() {
+  const grid = document.getElementById('cz-log-grid');
+  grid.innerHTML = czState.counts[czState.activePlayer].map((v, i) => `
+    <div class="cz-log-cell"><div class="lh">${i + 1}</div><div class="lv">${v === null ? '–' : v}</div></div>
+  `).join('');
+  const total = czState.counts[czState.activePlayer].reduce((a, v) => a + (v || 0), 0);
+  document.getElementById('cz-log-total-val').textContent = total;
+}
+
+document.getElementById('cz-section-toggle').addEventListener('click', () => {
+  const panel = document.getElementById('cz-panel');
+  const show = panel.style.display === 'none';
+  panel.style.display = show ? 'block' : 'none';
+  document.getElementById('cz-section-toggle').textContent = '🔢 Schlagzähler für Mitspieler ' + (show ? '▴' : '▾');
+  if (show) czRender();
+});
+
+document.getElementById('cz-tap-zone').addEventListener('click', () => {
+  czSetCurrentCount(czCurrentCount() + 1);
+  czVibrate(35);
+  const flash = document.getElementById('cz-tap-flash');
+  flash.classList.remove('flash'); void flash.offsetWidth; flash.classList.add('flash');
+  czRender();
+});
+document.getElementById('cz-undo-btn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  czSetCurrentCount(Math.max(0, czCurrentCount() - 1));
+  czVibrate([20, 30, 20]);
+  czRender();
+});
+document.getElementById('cz-next-hole-btn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (czCurrentCount() === 0) {
+    const ok = confirm('0 Schläge auf diesem Loch – wirklich weiter? (Falls vergessen zu zählen, lieber zurückgehen und nachtragen.)');
+    if (!ok) return;
+  }
+  if (czState.holeIndex < czState.holeTotal - 1) { czState.holeIndex++; czSaveState(); czVibrate(60); }
+  czRender();
+});
+document.getElementById('cz-prev-hole-btn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (czState.holeIndex > 0) { czState.holeIndex--; czSaveState(); }
+  czRender();
+});
+document.getElementById('cz-player-a-btn').addEventListener('click', () => { czState.activePlayer = 'A'; czSaveState(); czRender(); });
+document.getElementById('cz-player-b-btn').addEventListener('click', () => { czState.activePlayer = 'B'; czSaveState(); czRender(); });
+function czSetHoleTotal(n) {
+  if (czState.holeTotal === n) return;
+  ['A', 'B'].forEach(p => {
+    const arr = czState.counts[p];
+    if (n < arr.length) {
+      czState.counts[p] = arr.slice(0, n);
+    } else {
+      czState.counts[p] = arr.concat(Array(n - arr.length).fill(null));
+    }
+  });
+  czState.holeTotal = n;
+  if (czState.holeIndex > n - 1) czState.holeIndex = n - 1;
+  czSaveState();
+  czRender();
+}
+document.getElementById('cz-holes18-btn').addEventListener('click', () => czSetHoleTotal(18));
+document.getElementById('cz-holes9-btn').addEventListener('click', () => czSetHoleTotal(9));
+document.getElementById('cz-log-toggle-btn').addEventListener('click', () => {
+  document.getElementById('cz-log-wrap').style.display = document.getElementById('cz-log-wrap').style.display === 'none' ? 'block' : 'none';
+});
+document.getElementById('cz-reset-btn').addEventListener('click', () => {
+  if (!confirm('Wirklich alles zurücksetzen und neu beginnen?')) return;
+  czState = czDefaultState();
+  czSaveState();
+  czRender();
+});
+
 // ---------- Init ----------
 initCourseSelect();
 document.getElementById('date').valueAsDate = new Date();
+setEntryMode('single');
 renderHcpStatus();
 renderAll();
 </script>
