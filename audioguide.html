@@ -2317,11 +2317,18 @@ function renderMarkers(){
     }).addTo(poiLayer);
   }
 
+  // Überlappungen erkennen: Jeder Marker, der einem bereits gesetzten zu nahe kommt,
+  // wird in der Darstellung nach oben geschoben, damit keine Nummer verschwindet.
+  for(const k in poiNudge) delete poiNudge[k];
+  const placed = [];
   seq.concat(own).forEach(p=>{
-    // Übersichtspunkt bekommt keinen eigenen Marker, wenn er praktisch auf einem
-    // anderen Ort liegt (Split: Palast = Peristyl). Steht er für sich (Triest: Molo IV),
-    // wird er ganz normal angezeigt.
-    if(p.overview && POIS.some(q=>!q.overview && haversine(p.lat,p.lon,q.lat,q.lon)<40)) return;
+    let level = 0;
+    placed.forEach(q=>{ if(haversine(p.lat,p.lon,q.lat,q.lon) < 25) level++; });
+    if(level) poiNudge[p.id] = level * 26;
+    placed.push(p);
+  });
+
+  seq.concat(own).forEach(p=>{
     const m = L.marker([p.lat,p.lon],{ icon: icon(p) });
     m.bindPopup("<b>"+p.name+"</b><br>"+p.short);
     m.on("click", ()=>selectPoi(p.id));
@@ -2331,13 +2338,18 @@ function renderMarkers(){
 }
 const poiOrder = {};   // id -> Position in der Tagesreihenfolge
 
+const poiNudge = {};   // id -> Pixelversatz, wenn Marker aufeinanderliegen
+
 function icon(p, target){
   const done = State.visited.includes(p.id);
   const cls = "dot poi"+(p.custom?" own":"")+(done?" done":"")+(target?" target":"");
   const n = poiOrder[p.id] || "";
   const sz = target?30:24;
+  // Bei fast deckungsgleichen Punkten wird nur die Darstellung versetzt,
+  // die Position des Markers bleibt exakt.
+  const dy = poiNudge[p.id] || 0;
   return L.divIcon({ className:"", html:'<div class="'+cls+'">'+n+'</div>',
-                     iconSize:[sz,sz], iconAnchor:[sz/2,sz/2] });
+                     iconSize:[sz,sz], iconAnchor:[sz/2, sz/2 + dy] });
 }
 
 /** Reihenfolge des aktiven Tages: folgt der next-Kette, sonst der Listenfolge. */
