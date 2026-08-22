@@ -59,6 +59,7 @@
   .metric-toggles button[data-metric="doubles"].active { background: var(--red); }
   .metric-toggles button[data-metric="score"].active { background: #7fb3d9; }
   .metric-toggles button[data-metric="hcp"].active { background: #b892d9; }
+  .metric-toggles button[data-metric="penalties"].active { background: var(--red); color: #fff; }
 
   svg.chart { width: 100%; height: auto; display: block; }
   .empty-state { color: var(--text-dim); font-size: 14px; text-align: center; padding: 30px 10px; }
@@ -375,6 +376,7 @@
         <button data-metric="doubles" class="active">Doppelbogey+</button>
         <button data-metric="score" class="active">Rundentrend (Score zu Par)</button>
         <button data-metric="hcp">HCP-Verlauf (eigene Skala – am besten allein anzeigen)</button>
+        <button data-metric="penalties">Strafschläge</button>
       </div>
       <div id="chart-container">
         <div class="empty-state">Trage mindestens 2 Runden ein, um einen Trend zu sehen.</div>
@@ -480,7 +482,7 @@ const DEFAULT_PARS = {
   West:      [4, 4, 4, 5, 3, 4, 4, 3, 4],
 };
 
-let activeMetrics = { putts: true, updown: true, doubles: true, score: true, hcp: false };
+let activeMetrics = { putts: true, updown: true, doubles: true, score: true, hcp: false, penalties: false };
 let editingId = null;
 let entryMode = 'single'; // 'single' (Loch für Loch, Standard) | 'list' | 'quick' (Nachtrag)
 let mode = 'scorecard';   // intern: 'scorecard' | 'quick' – abgeleitet aus entryMode
@@ -592,6 +594,10 @@ function scoreToPar(r) {
   const pars = getParProfile(r.course);
   const totalPar = pars.reduce((a, b) => a + b, 0);
   return r.score - totalPar;
+}
+function roundPenalties(r) {
+  if (!r.holesData || !r.holesData.some(h => h.penalties !== undefined)) return null;
+  return r.holesData.reduce((a, h) => a + (h.penalties || 0), 0);
 }
 
 // ---------- Course select init ----------
@@ -936,6 +942,9 @@ function renderChart(rounds) {
       });
       series.push({ key: 'hcp', color: '#b892d9', values: hcpValues, maxHint: 30 });
     }
+  }
+  if (activeMetrics.penalties) {
+    series.push({ key: 'penalties', color: '#d97757', values: rounds.map(roundPenalties), maxHint: 5 });
   }
   if (series.length === 0) { container.innerHTML = '<div class="empty-state">Wähle mindestens eine Kennzahl oben aus.</div>'; return; }
   let globalMax = 1;
@@ -1384,12 +1393,17 @@ function renderAdvancedStats(rounds) {
     types.forEach(t => { typeCounts[t] = (typeCounts[t] || 0) + 1; });
   });
   const typeLabelMap = { water: 'Wasser', ob: 'Aus', lost: 'Verloren', unplayable: 'Unspielbar' };
-  const typeStr = Object.keys(typeCounts).length
-    ? Object.entries(typeCounts).sort((a,b) => b[1]-a[1]).map(([k,v]) => `${typeLabelMap[k] || k}: ${v}`).join(' · ')
-    : 'keine Ursache erfasst';
+  const maxTypeCount = Math.max(1, ...Object.values(typeCounts));
+  const causesBars = Object.keys(typeCounts).length
+    ? Object.entries(typeCounts).sort((a, b) => b[1] - a[1]).map(([k, v]) => `
+        <div class="problem-row"><div class="problem-label">${typeLabelMap[k] || k}</div><div class="problem-bar-bg"><div class="problem-bar-fill" style="width:${Math.max(6, (v / maxTypeCount) * 100)}%; background: var(--red);"></div></div><div class="problem-value">${v}×</div></div>
+      `).join('')
+    : `<div class="problem-row"><div class="problem-label">Ursachen</div><div class="problem-bar-bg"></div><div class="problem-value">keine erfasst</div></div>`;
+  // Ø Strafschläge/Runde als Balken skaliert gegen 4/Runde (grober Orientierungswert über alle HCP-Klassen)
+  const PENALTY_BAR_MAX = 4;
   const penaltyBlock = avgPenaltiesPerRound !== null ? `
-    <div class="problem-row"><div class="problem-label">Ø Strafschläge / Runde</div><div class="problem-bar-bg"></div><div class="problem-value">${avgPenaltiesPerRound.toFixed(1)} (gesamt ${totalPenalties})</div></div>
-    <div class="problem-row"><div class="problem-label">Ursachen</div><div class="problem-bar-bg"></div><div class="problem-value" style="width:auto; text-align:right; white-space:normal;">${typeStr}</div></div>` : '';
+    <div class="problem-row"><div class="problem-label">Ø Strafschläge / Runde</div><div class="problem-bar-bg"><div class="problem-bar-fill" style="width:${Math.max(6, Math.min(100, (avgPenaltiesPerRound / PENALTY_BAR_MAX) * 100))}%; background: linear-gradient(90deg, var(--gold), var(--red));"></div></div><div class="problem-value">${avgPenaltiesPerRound.toFixed(1)} (gesamt ${totalPenalties})</div></div>
+    ${causesBars}` : '';
 
   document.getElementById('advanced-list').innerHTML = girTotal + girByPar + fwRow + scramblingRow + penaltyBlock;
 }
