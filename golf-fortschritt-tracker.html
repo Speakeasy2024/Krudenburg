@@ -1353,9 +1353,18 @@ function renderAdvancedStats(rounds) {
   const fwHit = fwHoles.filter(h => h.fairway === 'hit').length;
   const fwLeft = fwHoles.filter(h => h.fairway === 'left').length;
   const fwRight = fwHoles.filter(h => h.fairway === 'right').length;
+  const fwMissTotal = fwHoles.length - fwHit;
+  const leftShare = fwMissTotal > 0 ? Math.round((fwLeft / fwMissTotal) * 100) : 0;
+  const rightShare = fwMissTotal > 0 ? Math.round((fwRight / fwMissTotal) * 100) : 0;
+  const missBar = fwMissTotal > 0
+    ? `<div class="problem-bar-bg" style="display:flex; overflow:hidden;">
+         <div style="width:${leftShare}%; background: var(--gold);"></div>
+         <div style="width:${rightShare}%; background: var(--red);"></div>
+       </div>`
+    : `<div class="problem-bar-bg"></div>`;
   const fwRow = fwHoles.length > 0 ? `
     <div class="problem-row"><div class="problem-label">Fairway getroffen</div><div class="problem-bar-bg"><div class="problem-bar-fill" style="width:${Math.max(4, pct(fwHit, fwHoles.length))}%; background: linear-gradient(90deg, var(--gold), var(--fairway-bright));"></div></div><div class="problem-value">${pct(fwHit, fwHoles.length)}% (${fwHit}/${fwHoles.length})</div></div>
-    <div class="problem-row"><div class="problem-label">davon Miss links / rechts</div><div class="problem-bar-bg"></div><div class="problem-value">${pct(fwLeft, fwHoles.length - fwHit) ?? 0}% / ${pct(fwRight, fwHoles.length - fwHit) ?? 0}%</div></div>` : '';
+    ${fwMissTotal > 0 ? `<div class="problem-row"><div class="problem-label">davon Miss links / rechts</div>${missBar}<div class="problem-value">${leftShare}% / ${rightShare}%</div></div>` : ''}` : '';
 
   // Scrambling: Löcher ohne GIR, Par oder besser
   const missedGreen = allHoles.filter(h => !h.gir);
