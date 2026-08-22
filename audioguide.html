@@ -380,7 +380,7 @@ footer{
   <div>
     <div class="citypick" id="citypick">
       <button class="cityopt on" data-city="split"><b>🇭🇷 Split</b><span>Diokletianpalast · 17 Orte</span></button>
-      <button class="cityopt" data-city="trieste"><b>🇮🇹 Triest</b><span>Altstadt · Miramare · 2 Tage</span></button>
+      <button class="cityopt" data-city="trieste"><b>🇮🇹 Triest</b><span>Miramare · Altstadt · Karst · 3 Tage</span></button>
       <button class="cityopt" data-city="huenxe"><b>🏡 Hünxe</b><span>Krudenburg · Gartrop · 2 Tage</span></button>
     </div>
     <button class="btn-primary" id="startBtn">🎧 Audio Tour starten</button>
@@ -1142,11 +1142,15 @@ Damit endet unsere Tour. Ich hoffe, Split hat dich ähnlich überrascht wie die 
 const TRIESTE_POIS = [
 {
   id:"molo-iv", name:"Molo IV",
-  lat:45.64800, lon:13.76400, radius:90, overview:true, day:1,
+  lat:45.64800, lon:13.76400, radius:90, overview:true, day:2,
   stay:"10 Minuten zum Ankommen",
   short:"Der Startpunkt am Wasser – und der beste Ort, um Triest einzuordnen.",
   teaser:"Schau von hier die Uferfront entlang. Diese Stadt sieht nicht italienisch aus, und das hat einen Grund.",
   details:[
+    {t:"Die Osmize im Karst",
+     a:`Dreh dich einmal um und schau über die Stadt hinweg nach oben. Dort steigt der Karst an, ein Kalkplateau, das sich bis nach Slowenien zieht. Dort oben gibt es eine Einrichtung, die es so nur hier gibt: die Osmize. Eine Osmiza ist ein Bauernhof, der für einige Tage im Jahr seinen Hof öffnet und den eigenen Wein sowie die eigenen Erzeugnisse ausschenkt. Eier, Schinken, Salami, Käse, dazu Terrano oder Vitovska. Nichts Warmes, kein Kaffee, keine Kellner. Zurück geht das auf ein Dekret Kaiser Josephs des Zweiten von siebzehnhundertvierundachtzig, das den Bauern erlaubte, ihre Erzeugnisse acht Tage im Jahr selbst zu verkaufen. Der Name kommt vom slowenischen Wort osem, acht. Manche Quellen schreiben das Dekret Maria Theresia zu; die Mehrheit nennt ihren Sohn Joseph. Erkennbar ist eine geöffnete Osmiza bis heute an einem Büschel Zweige, der frasca, das an einer Kreuzung hängt, meist mit einem roten Pfeil. Wer wissen will, wie Triest wirklich isst, fährt am Wochenende nicht in die Stadt, sondern hinauf.`},
+    {t:"Olivenöl aus dem Nordosten",
+     a:`Dass es hier oben Olivenöl gibt, überrascht die meisten. Triest liegt weit nördlicher als die Toskana, und trotzdem wird auf den Karsthängen und im Rosandratal Öl gepresst. Die entscheidende Sorte heißt Bianchera, auf Slowenisch Belica. Sie ist unempfindlich gegen Kälte und Bora und ergibt ein kräftiges, deutlich bitteres und scharfes Öl. Die Gemeinde San Dorligo della Valle südöstlich der Stadt gilt als Zentrum dieses Anbaus und wurde zweitausendeins in den italienischen Verband der Ölstädte aufgenommen. Es gibt auch eine geschützte Ursprungsbezeichnung: Öl mit dem Namen Tergeste muss zu mindestens zwanzig Prozent aus Bianchera bestehen. Wenn du eine Flasche mitnehmen willst, ist das das lohnendere Mitbringsel als jedes Souvenir. Und der Name Tergeste erinnert daran, dass die Römer diese Stadt genau so nannten.`},
     {t:"Der alte Hafen dahinter",
      a:`Schau nach Norden, an der Uferlinie entlang. Dort beginnt der Porto Vecchio, der alte Hafen: eine ausgedehnte Fläche mit Lagerhallen, Hydraulikzentrale und Gleisanlagen aus der habsburgischen Zeit. Er wurde ab den siebziger Jahren des neunzehnten Jahrhunderts angelegt, als Triest der wichtigste Seehafen Österreich-Ungarns war, und lag danach jahrzehntelang weitgehend still. Für Triest ist dieses Gelände beides zugleich – der größte Schatz und das größte ungelöste Problem der Stadtentwicklung. Wenn du dort hineinschaust, siehst du Industriearchitektur des neunzehnten Jahrhunderts in einer Vollständigkeit, die selten geworden ist.`},
     {t:"Der Hafen, von dem man wegfuhr",
@@ -1163,7 +1167,7 @@ Wir gehen jetzt an der Uferstraße nach Osten. In wenigen Minuten öffnet sich d
 },
 {
   id:"piazza-unita", name:"Piazza Unità d'Italia",
-  lat:45.64950, lon:13.76850, radius:55, day:1,
+  lat:45.64950, lon:13.76850, radius:55, day:2,
   stay:"20 Minuten",
   short:"Der größte zum Meer offene Platz Europas – Triests Wohnzimmer.",
   teaser:"Der Platz vor dir ist zur Seeseite hin ganz offen. Geh einmal bis an die Kante.",
@@ -1193,7 +1197,7 @@ Setz dich zum Schluss auf einen Kaffee ins Caffè degli Specchi und schau aufs W
 },
 {
   id:"molo-audace", name:"Molo Audace",
-  lat:45.65045, lon:13.76890, radius:55, day:1,
+  lat:45.65045, lon:13.76890, radius:55, day:2,
   stay:"15 Minuten",
   short:"Die steinerne Mole ins Meer, benannt nach einem Kriegsschiff von 1918.",
   teaser:"Geh bis ans Ende der Mole. Dort liegt eine bronzene Windrose im Stein.",
@@ -1218,7 +1222,7 @@ Wenn die Bora weht, der kalte Fallwind vom Karst, steht man hier schwer. Sie err
 },
 {
   id:"piazza-borsa", name:"Piazza della Borsa",
-  lat:45.65020, lon:13.77090, radius:40, day:1,
+  lat:45.65020, lon:13.77090, radius:40, day:2,
   stay:"10 Minuten",
   short:"Der alte Börsenplatz – Triests wirtschaftliches Zentrum vor der Piazza Unità.",
   teaser:"Das Gebäude mit den Säulen sieht aus wie ein Tempel. Es war die alte Börse.",
@@ -1243,7 +1247,7 @@ Von hier aus wird es gleich sehr viel älter. Wir gehen ein paar Gassen ins Land
 },
 {
   id:"arco-riccardo", name:"Arco di Riccardo",
-  lat:45.64890, lon:13.77140, radius:28, day:1,
+  lat:45.64890, lon:13.77140, radius:28, day:2,
   stay:"10 Minuten",
   short:"Ein römisches Tor mitten in der Altstadt – der Name ist eine Legende.",
   teaser:"In der Gasse steckt ein römischer Torbogen. Er wirkt zu tief, weil die Stadt gestiegen ist.",
@@ -1266,7 +1270,7 @@ Nimm dir hier ruhig zwei Minuten mehr. Die Città Vecchia ist der Teil von Tries
 },
 {
   id:"teatro-romano", name:"Teatro Romano",
-  lat:45.65005, lon:13.77290, radius:40, day:1,
+  lat:45.65005, lon:13.77290, radius:40, day:2,
   stay:"15 Minuten",
   short:"Ein römisches Theater, das erst 1938 wieder ans Licht kam.",
   teaser:"Vor dir liegt ein römisches Theater, das jahrhundertelang unter Wohnhäusern verschwunden war.",
@@ -1292,7 +1296,7 @@ Jetzt geht es bergauf. Der Weg zum Hügel von San Giusto ist steil, aber kurz, u
 },
 {
   id:"san-giusto", name:"Kathedrale San Giusto",
-  lat:45.64650, lon:13.77350, radius:40, day:1,
+  lat:45.64650, lon:13.77350, radius:40, day:2,
   stay:"25 Minuten",
   short:"Zwei Kirchen, die im 14. Jahrhundert zu einer verschmolzen wurden.",
   teaser:"Achte auf die Fassade. Die große Fensterrose sitzt nicht mittig, und das ist kein Baufehler.",
@@ -1319,7 +1323,7 @@ Der Glockenturm entstand aus dem Vorbau eines römischen Tempels, dessen Reste i
 },
 {
   id:"castello-san-giusto", name:"Castello di San Giusto",
-  lat:45.64690, lon:13.77420, radius:45, day:1,
+  lat:45.64690, lon:13.77420, radius:45, day:2,
   stay:"45 Minuten",
   short:"Venezianisch begonnen, habsburgisch vollendet – mit dem besten Rundblick.",
   teaser:"Geh den Rundweg auf den Wällen. Von dort siehst du den ganzen Golf.",
@@ -1345,7 +1349,7 @@ Nimm für den Abstieg die Treppen an der Nordseite, die Scala dei Giganti. Sie f
 },
 {
   id:"canal-grande", name:"Canal Grande",
-  lat:45.65210, lon:13.76800, radius:55, day:1,
+  lat:45.65210, lon:13.76800, radius:55, day:2,
   stay:"20 Minuten",
   short:"Ein Kanal mitten in der Stadt, gegraben im Auftrag Maria Theresias.",
   teaser:"Stell dich an das Wasser und schau zum Kopfende auf die Säulenfront.",
@@ -1370,7 +1374,7 @@ An der Ponte Rosso, der kleinen Brücke über den Kanal, steht die Bronzestatue 
 },
 {
   id:"san-spiridione", name:"Serbisch-orthodoxe Kirche San Spiridione",
-  lat:45.65155, lon:13.76890, radius:30, day:1,
+  lat:45.65155, lon:13.76890, radius:30, day:2,
   stay:"15 Minuten",
   short:"Blaue Kuppeln und Goldmosaik – das Zeichen einer Handelsstadt vieler Glauben.",
   teaser:"Die blauen Kuppeln vor dir gehören der serbisch-orthodoxen Gemeinde.",
@@ -1393,7 +1397,7 @@ Bitte respektiere, dass hier Gottesdienst gefeiert wird. Bedeckte Schultern, kei
 },
 {
   id:"sant-antonio", name:"Sant'Antonio Taumaturgo",
-  lat:45.65290, lon:13.76770, radius:35, day:1,
+  lat:45.65290, lon:13.76770, radius:35, day:2,
   stay:"10 Minuten",
   short:"Die klassizistische Tempelfassade am Kopf des Kanals.",
   teaser:"Die Kirche vor dir sieht aus wie ein antiker Tempel. Nur die Figuren oben verraten sie.",
@@ -1417,7 +1421,7 @@ Danach schlage ich eine Pause vor. Zwei Straßen weiter liegt ein Kaffeehaus, da
 },
 {
   id:"caffe-san-marco", name:"Caffè San Marco",
-  lat:45.65440, lon:13.77540, radius:30, day:1,
+  lat:45.65440, lon:13.77540, radius:30, day:2,
   stay:"45 Minuten",
   short:"Kaffeehaus von 1914, Literatentreff, heute halb Café und halb Buchhandlung.",
   teaser:"Hier drinnen saßen Saba und Svevo. Heute ist die Hälfte des Cafés eine Buchhandlung.",
@@ -1439,11 +1443,11 @@ Eröffnet wurde es neunzehnhundertvierzehn, kurz vor dem Ersten Weltkrieg. Es wu
 In den Jahrzehnten danach saßen hier die Autoren, für die Triest bis heute bekannt ist: Umberto Saba, der in der Stadt eine Buchhandlung führte, und Italo Svevo, Kaufmann und Romancier, dessen Englischlehrer übrigens James Joyce war. Diese Stadt hat auf sehr wenig Fläche sehr viel Literatur hervorgebracht.
 Schau dich um, während du wartest. Die Marmortischchen, die dunklen Holzvertäfelungen, die gemalten Masken an der Wand, das Messing. Der Raum ist noch immer wienerisch geschnitten: hoch, ruhig, gemacht zum Sitzenbleiben.
 Heute ist ein Teil des Cafés eine Buchhandlung. Man kann also einen Kaffee bestellen, ein Buch vom Regal nehmen und beides zusammen benutzen. Wenn du in Triest nur an einem Ort länger sitzt, dann hier.
-Damit endet der erste Tag. Miramare heben wir uns auf, das ist keine Station am Rand einer Stadtrunde, sondern ein eigener Halbtag.`
+Damit endet die Stadtrunde. Miramare hast du an einem eigenen Halbtag gesehen, und das war richtig so: Es ist keine Station am Rand einer Stadtrunde.`
 },
 {
   id:"barcola", name:"Barcola",
-  lat:45.67600, lon:13.74200, radius:250, day:2,
+  lat:45.67600, lon:13.74200, radius:250, day:1,
   stay:"20 Minuten Zwischenstopp",
   short:"Erster Halt auf der Fahrt nach Miramare – die Badepromenade der Triestiner.",
   teaser:"Rechts das Meer, links die Pinien. Am Ende der Bucht siehst du schon dein Ziel.",
@@ -1460,7 +1464,7 @@ Damit endet der erste Tag. Miramare heben wir uns auf, das ist keine Station am 
     "Blick auf Miramare am Ende der Bucht"
   ],
   next:"miramare-park", transport:"car",
-  audio:`Der zweite Tag gehört Miramare, und du fährst mit dem Wagen hin.
+  audio:`Dieser Halbtag gehört Miramare, und du fährst mit dem Wagen hin.
 Der Weg ist einfach: von der Stadt aus immer am Wasser entlang nach Nordwesten, über den Viale Miramare und die Küstenstraße. Es sind nur wenige Kilometer, aber plane trotzdem Zeit ein. Die Parkplätze am Museum sind begrenzt, und das Museum selbst empfiehlt ausdrücklich, mit Bus, Bahn oder Schiff zu kommen. An Wochenenden und Feiertagen kann der Zutritt zusätzlich von der Kapazität abhängen. Wer früh da ist, hat beides: einen Platz und einen leeren Park.
 Auf halbem Weg kommst du durch Barcola. Halte hier kurz an, wenn du einen Platz findest.
 Barcola ist keine Sehenswürdigkeit, sondern der Ort, an dem Triest im Sommer lebt. Auf etwa zwei Kilometern zieht sich eine Promenade am Wasser entlang, gesäumt von einem Pinienhain.
@@ -1469,7 +1473,7 @@ Schau von hier die Bucht entlang nach Nordwesten. Auf der Landzunge am Ende steh
 },
 {
   id:"miramare-park", name:"Parco di Miramare",
-  lat:45.70140, lon:13.71450, radius:150, day:2,
+  lat:45.70140, lon:13.71450, radius:150, day:1,
   stay:"1 Stunde",
   short:"22 Hektar Garten auf nacktem Karstfelsen – Maximilians eigentliches Werk.",
   teaser:"Geh hinunter zum kleinen Hafen. Am Ende der Mole sitzt eine ägyptische Sphinx.",
@@ -1497,7 +1501,7 @@ Und geh unbedingt hinunter zum kleinen Hafen. Am Ende der Mole sitzt eine Sphinx
 },
 {
   id:"miramare-schloss", name:"Schloss Miramare",
-  lat:45.70250, lon:13.71260, radius:90, day:2,
+  lat:45.70250, lon:13.71260, radius:90, day:1,
   stay:"1,5 Stunden",
   short:"Das weiße Schloss über dem Meer – gebaut für Maximilian und Charlotte.",
   teaser:"Geh erst bis an die Brüstung über dem Wasser, bevor du hineingehst.",
@@ -1522,6 +1526,69 @@ Maximilian war Marineoffizier, und man sieht es dem Gebäude an. Der Architekt C
 Das Bemerkenswerte an diesem Museum ist die Vollständigkeit. Die Einrichtung ist weitgehend original erhalten: Möbel, Stoffe, Bücher, der Thronsaal, das Musikzimmer mit dem Hammerflügel Charlottes. Sehr wenige Wohnschlösser des neunzehnten Jahrhunderts sind so geschlossen überliefert.
 Und dann ist da die Geschichte, die über allem liegt. Achtzehnhundertvierundsechzig verließ Maximilian dieses Haus, um die Krone Mexikos anzunehmen, die ihm französische Politik und mexikanische Monarchisten anboten. Drei Jahre später wurde er in Querétaro erschossen. Charlotte erkrankte psychisch schwer und lebte noch Jahrzehnte zurückgezogen. Von der bis heute erzählten Legende eines Fluchs, der auf Miramare liege, sollte man wissen, dass sie genau das ist: eine Legende, entstanden nach den Ereignissen.
 Zum Schluss ein praktischer Hinweis: Das Museum ist täglich von neun bis neunzehn Uhr geöffnet, letzter Einlass halb sieben. An Wochenenden und Feiertagen kann der Zutritt begrenzt sein, und Parkplätze sind knapp. Komm früh, dann hast du den Blick über den Golf noch für dich.`
+},
+{
+  id:"san-dorligo", name:"San Dorligo della Valle",
+  lat:45.61500, lon:13.82000, radius:900, day:3, overview:true,
+  stay:"20 Minuten",
+  short:"Zweisprachige Gemeinde südöstlich von Triest – das Zentrum des Olivenanbaus.",
+  teaser:"Achte auf die Ortsschilder. Sie tragen zwei Namen, und das ist kein Zierrat.",
+  details:[
+    {t:"Zwei Namen auf jedem Schild",
+     a:`Schau dir die Ortstafeln an. Hier steht alles doppelt: San Dorligo della Valle und Dolina, Bagnoli und Boljunec. Das ist keine Touristenfreundlichkeit, sondern amtlich. Die Gemeinde ist zweisprachig, und die Mehrheit der Einwohner gehört zur slowenischen Volksgruppe. Nach dem Ersten Weltkrieg kam dieses Gebiet zu Italien, in der faschistischen Zeit wurden slowenische Namen, Schulen und Vereine unterdrückt; heute sind beide Sprachen im öffentlichen Gebrauch geschützt. Wenn du hier in einen Hof einkehrst, kann es gut sein, dass am Nebentisch slowenisch gesprochen wird. Es lohnt sich, das zu wissen, bevor man sich wundert.`},
+    {t:"Warum hier Oliven wachsen",
+     a:`Triest liegt auf der Höhe von Mailand, deutlich nördlicher als die Toskana. Dass hier trotzdem Oliven reifen, hat drei Gründe. Erstens das Meer, das die Winter mildert. Zweitens die Südhänge des Karsts, die Wärme speichern und Kaltluft abfließen lassen. Und drittens die Sorte: Die Bianchera ist frosthart und hält der Bora stand, wo empfindlichere Sorten erfrieren. Zweitausendeins wurde diese Gemeinde in den italienischen Verband der Ölstädte aufgenommen. Es ist einer der nördlichsten Olivenanbaugebiete des Mittelmeerraums – Landwirtschaft am Rand des Möglichen.`}
+  ],
+  facts:["Amtlich zweisprachig, italienisch und slowenisch","Seit 2001 im Verband Città dell'Olio","Heimat der Olivensorte Bianchera","Rund 12 Kilometer südöstlich von Triest"],
+  next:"fior-rosso", transport:"car",
+  audio:`Du bist in San Dorligo della Valle, auf Slowenisch Dolina. Die Gemeinde liegt südöstlich von Triest, nahe der slowenischen Grenze, und sie ist ein anderes Land als die Stadt, obwohl es nur zwölf Kilometer sind.
+In Triest ging es um Hafen, Handel und Kaffeehäuser. Hier geht es um Hänge, Wein und Öl. Der Karst fällt zum Meer hin ab, und auf den Südhängen wachsen Reben und Olivenbäume.
+Zwei Dinge machen diesen Ort besonders. Das eine ist die Zweisprachigkeit: Auf den Schildern steht alles doppelt, und die Mehrheit der Einwohner gehört zur slowenischen Volksgruppe. Das andere ist das Öl. Diese Gemeinde gilt als Zentrum des Olivenanbaus in der Provinz Triest und wurde zweitausendeins in den italienischen Verband der Ölstädte aufgenommen.
+Nimm dir Zeit für die Fahrt und schau aus dem Fenster. Trockenmauern, kleine Terrassen, Steinhäuser mit Innenhöfen. Der Karst ist karg, und alles, was hier wächst, ist der Landschaft abgerungen worden.
+Als Nächstes fahren wir zum Hof. Danach lohnt ein Abstecher ins Rosandratal, das gleich nebenan beginnt.`
+},
+{
+  id:"fior-rosso", name:"Fior Rosso – Ölhof in Aquilinia",
+  lat:45.61550, lon:13.81400, radius:500, day:3,
+  stay:"1 Stunde",
+  short:"Olivenölbetrieb in der Ortslage Aquilinia – Bianchera aus eigener Erzeugung.",
+  teaser:"Loc. Aquilinia 420. Ruf vorher an, die Öffnungszeiten werden unterschiedlich angegeben.",
+  details:[
+    {t:"Worauf du beim Probieren achtest",
+     a:`Nimm einen Schluck pur, kein Brot dazu. Lass das Öl im Mund warm werden und zieh dann Luft durch die Zähne. Zuerst kommt das Grasige, dann die Bitterkeit auf der Zunge, und beim Schlucken kratzt es hinten im Hals. Genau dieses Kratzen ist das, wonach du suchst: Es kommt von den Polyphenolen, und die sind bei der Bianchera außergewöhnlich hoch. Sie machen das Öl haltbar und gelten als Qualitätsmerkmal. Wer milde Öle gewohnt ist, empfindet das beim ersten Mal als unangenehm. Urteile deshalb nicht nach dem ersten Schluck, sondern nach dem zweiten.`},
+    {t:"Was die Bezeichnung Tergeste bedeutet",
+     a:`Wenn auf einer Flasche Tergeste steht, ist das keine Marke, sondern eine geschützte Ursprungsbezeichnung der Europäischen Union. Öl darf sie nur führen, wenn es zu mindestens zwanzig Prozent aus Bianchera besteht und nach festgelegten Regeln erzeugt wurde. Tergeste war der römische Name dieser Stadt – derselbe Name, der dir am Arco di Riccardo und im Teatro Romano begegnet ist. Eine Flasche Öl trägt also den ältesten Namen, den Triest hat.`}
+  ],
+  facts:["Loc. Aquilinia 420, 34018 San Dorligo della Valle","Telefon +39 348 6183054","Natives Olivenöl extra, Sorte Bianchera","Öffnungszeiten werden je nach Quelle unterschiedlich angegeben"],
+  next:"val-rosandra", transport:"car",
+  audio:`Du fährst zum Ölhof Fior Rosso. Die Anschrift lautet Loc. Aquilinia vierhundertzwanzig, San Dorligo della Valle.
+Aquilinia liegt im nordwestlichen Teil der Gemeinde, in Richtung Küste und Muggia, also auf dem Weg von Triest hierher. Auf Slowenisch heißt der Ort Žavlje – auch hier trägt alles zwei Namen.
+Drei Hinweise, bevor du losfährst.
+Erstens die Öffnungszeiten. Die Internetseite des Betriebs nennt Montag bis Samstag neun bis siebzehn Uhr und Sonntag neun bis vierzehn Uhr. Das Tourismusportal der Region nennt dagegen täglich neun bis achtzehn Uhr. Beides kann nicht gleichzeitig stimmen. Für deinen Sonntagvormittag ist es egal, denn in beiden Fällen ist geöffnet – aber ruf trotzdem kurz an. Es ist ein landwirtschaftlicher Betrieb, kein Ladengeschäft, und da hängt vieles davon ab, ob gerade jemand auf dem Hof ist.
+Zweitens der Ort. Die Adresse nennt Aquilinia, eine andere Quelle nennt Montedoro, eine benachbarte Ortslage derselben Gemeinde. Möglicherweise liegen Hof und Olivenhaine auseinander. Die Koordinate dieser Station ist aus der Anschrift abgeleitet, nicht vor Ort gemessen. Wenn du davorstehst, drück bitte auf Position korrigieren.
+Und drittens der Name. Der Betrieb tritt als Fior Rosso achtzehnhundertdreiundzwanzig auf. Was diese Jahreszahl genau bezeichnet, konnte ich nicht klären – Gründung, Hof oder Familie. Frag am besten vor Ort nach, das ist ohnehin die bessere Quelle als jede Internetseite.
+Nimm dir Zeit. Wer selbst erzeugt, erzählt gern davon, und ein Gespräch über Ernte, Bora und Presse ist mehr wert als jede Flasche.`
+},
+{
+  id:"val-rosandra", name:"Val Rosandra – Glinščica",
+  lat:45.62000, lon:13.86800, radius:500, day:3,
+  stay:"1–3 Stunden",
+  short:"Naturschutzgebiet mit Schlucht, Wasserfall und den Resten einer römischen Wasserleitung.",
+  teaser:"Such am Hang die Reste der römischen Wasserleitung. Sie versorgte einst Tergeste.",
+  details:[
+    {t:"Die römische Wasserleitung",
+     a:`Am Hang des Tals liegen Reste einer römischen Wasserleitung. Sie führte Wasser aus diesem Tal nach Tergeste, also in die antike Stadt Triest. Eine Stadt ohne eigene Quellen brauchte genau das, und der Karst gibt Wasser nur an wenigen Stellen an die Oberfläche – hier ist eine davon. Achte auf gemauerte Bogenstücke und auf die schnurgerade Linie, in der sie im Gelände liegen: Eine Wasserleitung folgt nicht dem Weg, sondern dem Gefälle, und das Gefälle muss über Kilometer gleichmäßig bleiben. Was hier steht, ist Vermessungskunst in Stein.`},
+    {t:"Karst heißt: Wasser verschwindet",
+     a:`Dieses Tal heißt auf Italienisch Val Rosandra, auf Slowenisch Glinščica. Es ist die einzige nennenswerte Schlucht mit fließendem Wasser im Triester Karst, und genau das macht sie ungewöhnlich. Kalkstein ist wasserdurchlässig: Regen versickert sofort, löst den Stein von innen auf und bildet Höhlen und unterirdische Flüsse. Oberflächengewässer sind deshalb selten. Der Begriff Karst kommt übrigens aus genau dieser Gegend – das slowenische Kras beziehungsweise das italienische Carso hat der weltweiten Geologie den Namen für diesen Gesteinstyp gegeben. Du stehst also in der Landschaft, die einer ganzen wissenschaftlichen Kategorie ihren Namen gab.`}
+  ],
+  facts:["Naturschutzgebiet, italienisch Val Rosandra, slowenisch Glinščica","Reste einer römischen Wasserleitung nach Tergeste","Beliebtes Wander- und Klettergebiet","Feste Schuhe erforderlich"],
+  next:null, transport:"walk",
+  audio:`Gleich neben San Dorligo beginnt das Rosandratal, auf Slowenisch Glinščica. Wenn du nach dem Hof noch Zeit hast, ist das der richtige Abschluss.
+Das Tal ist Naturschutzgebiet und die einzige nennenswerte Schlucht mit fließendem Wasser im Triester Karst. Das klingt unspektakulär, ist aber der Punkt: Kalkstein lässt Wasser versickern, oberirdische Bäche sind hier die Ausnahme. Deshalb kommen die Triestiner hierher, zum Wandern, zum Klettern und im Sommer zum Abkühlen.
+Am Hang findest du Reste einer römischen Wasserleitung, die einst Wasser nach Tergeste brachte. Eine Hafenstadt ohne eigene Quellen war darauf angewiesen.
+Landschaftlich ist der Kontrast das Erstaunliche. Oben karger Karst mit Trockenmauern und Steineichen, unten eine feuchte Schlucht mit Bach und Schatten, und dahinter, wenige Kilometer entfernt, das Meer. Auf sehr kleinem Raum liegen hier drei völlig verschiedene Welten.
+Zieh feste Schuhe an, die Wege sind steinig und stellenweise ausgesetzt. Und nimm Wasser mit; im Karst findet man oben keins.
+Damit endet der dritte Tag – und mit ihm alles, was ich dir über Triest erzählen kann.`
 }
 ];
 
@@ -1538,6 +1605,7 @@ Zum Schluss ein praktischer Hinweis: Das Museum ist täglich von neun bis neunze
    großzügig. Genau dafür gibt es „🎯 Position“ – vor Ort einmal
    durchgehen und jede Station festsetzen.
    ============================================================ */
+
 const HUENXE_POIS = [
 {
   id:"dorfeingang", name:"Dorfeingang Krudenburg",
@@ -1859,13 +1927,15 @@ const CITIES = {
              subtitle:"Diokletianpalast · 17 Orte",
              center:[43.5081,16.4402], zoom:16, pois:SPLIT_POIS, days:null },
   trieste: { id:"trieste", name:"Triest", flag:"🇮🇹", title:"TRIEST AUDIOGUIDE",
-             subtitle:"Altstadt und Miramare · 2 Tage",
+             subtitle:"Miramare, Altstadt und Karst · 3 Tage",
              center:[45.6540,13.7580], zoom:14, pois:TRIESTE_POIS,
              days:[
-               { n:1, label:"Tag 1 · Altstadt", center:[45.6500,13.7710], zoom:15,
+               { n:1, label:"Tag 1 · Miramare", center:[45.6900,13.7290], zoom:13,
+                 note:"Halbtag mit dem PKW über den Viale Miramare. Parkplätze knapp, Museum bis 19 Uhr, letzter Einlass 18.30 Uhr." },
+               { n:2, label:"Tag 2 · Altstadt", center:[45.6500,13.7710], zoom:15,
                  note:"Zu Fuß ab Molo IV. Rund 3 Kilometer, mit dem Aufstieg nach San Giusto." },
-               { n:2, label:"Tag 2 · Miramare", center:[45.6900,13.7290], zoom:13,
-                 note:"Anfahrt mit dem PKW über den Viale Miramare. Parkplätze knapp, früh losfahren." }
+               { n:3, label:"Tag 3 · Karst & Öl", center:[45.6140,13.8600], zoom:13,
+                 note:"Mit dem PKW nach San Dorligo. Hof in Loc. Aquilinia 420, vorher anrufen. Danach Rosandratal." }
              ] },
   huenxe:  { id:"huenxe",  name:"Hünxe",  flag:"🇩🇪", title:"HÜNXE AUDIOGUIDE",
              subtitle:"Krudenburg und Gartrop · 2 Tage",
