@@ -380,7 +380,7 @@ footer{
   <div>
     <div class="citypick" id="citypick">
       <button class="cityopt on" data-city="split"><b>🇭🇷 Split</b><span>Diokletianpalast · 17 Orte</span></button>
-      <button class="cityopt" data-city="trieste"><b>🇮🇹 Triest</b><span>Miramare · Altstadt · Karst · 3 Tage</span></button>
+      <button class="cityopt" data-city="trieste"><b>🇮🇹 Triest</b><span>Altstadt · Miramare · Karst · 3 Tage</span></button>
       <button class="cityopt" data-city="huenxe"><b>🏡 Hünxe</b><span>Krudenburg · Gartrop · 2 Tage</span></button>
     </div>
     <button class="btn-primary" id="startBtn">🎧 Audio Tour starten</button>
@@ -475,6 +475,11 @@ footer{
           <span style="font-size:20px">🔊</span>
           <input type="range" id="vol" min="0" max="1" step="0.05" value="0.9" aria-label="Lautstärke">
           <span id="volVal" style="font-size:14px;font-weight:700;width:42px;text-align:right">90 %</span>
+        </div>
+        <div class="vol">
+          <span style="font-size:20px">🐢</span>
+          <input type="range" id="rate" min="0.55" max="1.3" step="0.05" value="0.95" aria-label="Sprechtempo">
+          <span id="rateVal" style="font-size:14px;font-weight:700;width:74px;text-align:right">normal</span>
         </div>
       </div>
 
@@ -1142,7 +1147,7 @@ Damit endet unsere Tour. Ich hoffe, Split hat dich ähnlich überrascht wie die 
 const TRIESTE_POIS = [
 {
   id:"molo-iv", name:"Molo IV",
-  lat:45.64800, lon:13.76400, radius:90, overview:true, day:2,
+  lat:45.64800, lon:13.76400, radius:90, overview:true, day:1,
   stay:"10 Minuten zum Ankommen",
   short:"Der Startpunkt am Wasser – und der beste Ort, um Triest einzuordnen.",
   teaser:"Schau von hier die Uferfront entlang. Diese Stadt sieht nicht italienisch aus, und das hat einen Grund.",
@@ -1167,7 +1172,7 @@ Wir gehen jetzt an der Uferstraße nach Osten. In wenigen Minuten öffnet sich d
 },
 {
   id:"piazza-unita", name:"Piazza Unità d'Italia",
-  lat:45.64950, lon:13.76850, radius:55, day:2,
+  lat:45.64950, lon:13.76850, radius:55, day:1,
   stay:"20 Minuten",
   short:"Der größte zum Meer offene Platz Europas – Triests Wohnzimmer.",
   teaser:"Der Platz vor dir ist zur Seeseite hin ganz offen. Geh einmal bis an die Kante.",
@@ -1197,7 +1202,7 @@ Setz dich zum Schluss auf einen Kaffee ins Caffè degli Specchi und schau aufs W
 },
 {
   id:"molo-audace", name:"Molo Audace",
-  lat:45.65045, lon:13.76890, radius:55, day:2,
+  lat:45.65045, lon:13.76890, radius:55, day:1,
   stay:"15 Minuten",
   short:"Die steinerne Mole ins Meer, benannt nach einem Kriegsschiff von 1918.",
   teaser:"Geh bis ans Ende der Mole. Dort liegt eine bronzene Windrose im Stein.",
@@ -1222,7 +1227,7 @@ Wenn die Bora weht, der kalte Fallwind vom Karst, steht man hier schwer. Sie err
 },
 {
   id:"piazza-borsa", name:"Piazza della Borsa",
-  lat:45.65020, lon:13.77090, radius:40, day:2,
+  lat:45.65020, lon:13.77090, radius:40, day:1,
   stay:"10 Minuten",
   short:"Der alte Börsenplatz – Triests wirtschaftliches Zentrum vor der Piazza Unità.",
   teaser:"Das Gebäude mit den Säulen sieht aus wie ein Tempel. Es war die alte Börse.",
@@ -1247,7 +1252,7 @@ Von hier aus wird es gleich sehr viel älter. Wir gehen ein paar Gassen ins Land
 },
 {
   id:"arco-riccardo", name:"Arco di Riccardo",
-  lat:45.64890, lon:13.77140, radius:28, day:2,
+  lat:45.64890, lon:13.77140, radius:28, day:1,
   stay:"10 Minuten",
   short:"Ein römisches Tor mitten in der Altstadt – der Name ist eine Legende.",
   teaser:"In der Gasse steckt ein römischer Torbogen. Er wirkt zu tief, weil die Stadt gestiegen ist.",
@@ -1270,7 +1275,7 @@ Nimm dir hier ruhig zwei Minuten mehr. Die Città Vecchia ist der Teil von Tries
 },
 {
   id:"teatro-romano", name:"Teatro Romano",
-  lat:45.65005, lon:13.77290, radius:40, day:2,
+  lat:45.65005, lon:13.77290, radius:40, day:1,
   stay:"15 Minuten",
   short:"Ein römisches Theater, das erst 1938 wieder ans Licht kam.",
   teaser:"Vor dir liegt ein römisches Theater, das jahrhundertelang unter Wohnhäusern verschwunden war.",
@@ -1296,7 +1301,7 @@ Jetzt geht es bergauf. Der Weg zum Hügel von San Giusto ist steil, aber kurz, u
 },
 {
   id:"san-giusto", name:"Kathedrale San Giusto",
-  lat:45.64650, lon:13.77350, radius:40, day:2,
+  lat:45.64650, lon:13.77350, radius:40, day:1,
   stay:"25 Minuten",
   short:"Zwei Kirchen, die im 14. Jahrhundert zu einer verschmolzen wurden.",
   teaser:"Achte auf die Fassade. Die große Fensterrose sitzt nicht mittig, und das ist kein Baufehler.",
@@ -1323,7 +1328,7 @@ Der Glockenturm entstand aus dem Vorbau eines römischen Tempels, dessen Reste i
 },
 {
   id:"castello-san-giusto", name:"Castello di San Giusto",
-  lat:45.64690, lon:13.77420, radius:45, day:2,
+  lat:45.64690, lon:13.77420, radius:45, day:1,
   stay:"45 Minuten",
   short:"Venezianisch begonnen, habsburgisch vollendet – mit dem besten Rundblick.",
   teaser:"Geh den Rundweg auf den Wällen. Von dort siehst du den ganzen Golf.",
@@ -1349,7 +1354,7 @@ Nimm für den Abstieg die Treppen an der Nordseite, die Scala dei Giganti. Sie f
 },
 {
   id:"canal-grande", name:"Canal Grande",
-  lat:45.65210, lon:13.76800, radius:55, day:2,
+  lat:45.65210, lon:13.76800, radius:55, day:1,
   stay:"20 Minuten",
   short:"Ein Kanal mitten in der Stadt, gegraben im Auftrag Maria Theresias.",
   teaser:"Stell dich an das Wasser und schau zum Kopfende auf die Säulenfront.",
@@ -1374,7 +1379,7 @@ An der Ponte Rosso, der kleinen Brücke über den Kanal, steht die Bronzestatue 
 },
 {
   id:"san-spiridione", name:"Serbisch-orthodoxe Kirche San Spiridione",
-  lat:45.65155, lon:13.76890, radius:30, day:2,
+  lat:45.65155, lon:13.76890, radius:30, day:1,
   stay:"15 Minuten",
   short:"Blaue Kuppeln und Goldmosaik – das Zeichen einer Handelsstadt vieler Glauben.",
   teaser:"Die blauen Kuppeln vor dir gehören der serbisch-orthodoxen Gemeinde.",
@@ -1397,7 +1402,7 @@ Bitte respektiere, dass hier Gottesdienst gefeiert wird. Bedeckte Schultern, kei
 },
 {
   id:"sant-antonio", name:"Sant'Antonio Taumaturgo",
-  lat:45.65290, lon:13.76770, radius:35, day:2,
+  lat:45.65290, lon:13.76770, radius:35, day:1,
   stay:"10 Minuten",
   short:"Die klassizistische Tempelfassade am Kopf des Kanals.",
   teaser:"Die Kirche vor dir sieht aus wie ein antiker Tempel. Nur die Figuren oben verraten sie.",
@@ -1421,7 +1426,7 @@ Danach schlage ich eine Pause vor. Zwei Straßen weiter liegt ein Kaffeehaus, da
 },
 {
   id:"caffe-san-marco", name:"Caffè San Marco",
-  lat:45.65440, lon:13.77540, radius:30, day:2,
+  lat:45.65440, lon:13.77540, radius:30, day:1,
   stay:"45 Minuten",
   short:"Kaffeehaus von 1914, Literatentreff, heute halb Café und halb Buchhandlung.",
   teaser:"Hier drinnen saßen Saba und Svevo. Heute ist die Hälfte des Cafés eine Buchhandlung.",
@@ -1443,11 +1448,11 @@ Eröffnet wurde es neunzehnhundertvierzehn, kurz vor dem Ersten Weltkrieg. Es wu
 In den Jahrzehnten danach saßen hier die Autoren, für die Triest bis heute bekannt ist: Umberto Saba, der in der Stadt eine Buchhandlung führte, und Italo Svevo, Kaufmann und Romancier, dessen Englischlehrer übrigens James Joyce war. Diese Stadt hat auf sehr wenig Fläche sehr viel Literatur hervorgebracht.
 Schau dich um, während du wartest. Die Marmortischchen, die dunklen Holzvertäfelungen, die gemalten Masken an der Wand, das Messing. Der Raum ist noch immer wienerisch geschnitten: hoch, ruhig, gemacht zum Sitzenbleiben.
 Heute ist ein Teil des Cafés eine Buchhandlung. Man kann also einen Kaffee bestellen, ein Buch vom Regal nehmen und beides zusammen benutzen. Wenn du in Triest nur an einem Ort länger sitzt, dann hier.
-Damit endet die Stadtrunde. Miramare hast du an einem eigenen Halbtag gesehen, und das war richtig so: Es ist keine Station am Rand einer Stadtrunde.`
+Damit endet der erste Tag. Miramare heben wir uns auf – das ist keine Station am Rand einer Stadtrunde, sondern ein eigener Halbtag.`
 },
 {
   id:"barcola", name:"Barcola",
-  lat:45.67600, lon:13.74200, radius:250, day:1,
+  lat:45.67600, lon:13.74200, radius:250, day:2,
   stay:"20 Minuten Zwischenstopp",
   short:"Erster Halt auf der Fahrt nach Miramare – die Badepromenade der Triestiner.",
   teaser:"Rechts das Meer, links die Pinien. Am Ende der Bucht siehst du schon dein Ziel.",
@@ -1464,7 +1469,7 @@ Damit endet die Stadtrunde. Miramare hast du an einem eigenen Halbtag gesehen, u
     "Blick auf Miramare am Ende der Bucht"
   ],
   next:"miramare-park", transport:"car",
-  audio:`Dieser Halbtag gehört Miramare, und du fährst mit dem Wagen hin.
+  audio:`Dieser Vormittag gehört Miramare, und du fährst mit dem Wagen hin.
 Der Weg ist einfach: von der Stadt aus immer am Wasser entlang nach Nordwesten, über den Viale Miramare und die Küstenstraße. Es sind nur wenige Kilometer, aber plane trotzdem Zeit ein. Die Parkplätze am Museum sind begrenzt, und das Museum selbst empfiehlt ausdrücklich, mit Bus, Bahn oder Schiff zu kommen. An Wochenenden und Feiertagen kann der Zutritt zusätzlich von der Kapazität abhängen. Wer früh da ist, hat beides: einen Platz und einen leeren Park.
 Auf halbem Weg kommst du durch Barcola. Halte hier kurz an, wenn du einen Platz findest.
 Barcola ist keine Sehenswürdigkeit, sondern der Ort, an dem Triest im Sommer lebt. Auf etwa zwei Kilometern zieht sich eine Promenade am Wasser entlang, gesäumt von einem Pinienhain.
@@ -1473,7 +1478,7 @@ Schau von hier die Bucht entlang nach Nordwesten. Auf der Landzunge am Ende steh
 },
 {
   id:"miramare-park", name:"Parco di Miramare",
-  lat:45.70140, lon:13.71450, radius:150, day:1,
+  lat:45.70140, lon:13.71450, radius:150, day:2,
   stay:"1 Stunde",
   short:"22 Hektar Garten auf nacktem Karstfelsen – Maximilians eigentliches Werk.",
   teaser:"Geh hinunter zum kleinen Hafen. Am Ende der Mole sitzt eine ägyptische Sphinx.",
@@ -1501,7 +1506,7 @@ Und geh unbedingt hinunter zum kleinen Hafen. Am Ende der Mole sitzt eine Sphinx
 },
 {
   id:"miramare-schloss", name:"Schloss Miramare",
-  lat:45.70250, lon:13.71260, radius:90, day:1,
+  lat:45.70250, lon:13.71260, radius:90, day:2,
   stay:"1,5 Stunden",
   short:"Das weiße Schloss über dem Meer – gebaut für Maximilian und Charlotte.",
   teaser:"Geh erst bis an die Brüstung über dem Wasser, bevor du hineingehst.",
@@ -1650,7 +1655,11 @@ Wenn du im Heimatverein Hünxe jemanden kennst: Dort weiß man vermutlich mehr, 
     {t:"Der Turm von 1664",
      a:`Der zweigeschossige Ziegelturm ist der einzige aufrecht stehende Rest der Burg und wird auf sechzehnhundertvierundsechzig datiert. Er gehörte nicht zur Hauptburg, sondern zur Vorburg – also zum Wirtschaftsteil, nicht zum Herrenhaus. Achte auf die Ziegel: ungleichmäßig in Farbe und Format, weil sie in Feldbrandöfen vor Ort gebrannt wurden. Das Herrenhaus selbst stand weiter südwestlich in der Niederung, nicht dort, wo heute gebaut ist. Was du siehst, ist also nicht die Burg, sondern ihr Nebengebäude – und ausgerechnet das hat überlebt.`},
     {t:"Das Infoschild mit der Hafengravur",
-     a:`An der Mauer vor dem Grundstück hängt ein Informationsschild mit einer Gravur. Sie zeigt den Hafen an der Lippe und den alten Dorfkern mit allen Häusern und den Namen der damaligen Bewohner. Nimm dir dafür wirklich zwei Minuten – das ist der beste erhaltene Plan dieses Ortes. Such dein eigenes Umfeld darauf: die Dorfstraße, den Verlauf des Hafenarms, die Lage der Burg auf ihrer Insel. Danach siehst du beim Weitergehen ein anderes Dorf, weil du weißt, wo früher Wasser war.`}
+     a:`An der Mauer vor dem Grundstück hängt eine Tafel mit dem Titel Crudenburg um achtzehnhundertzwanzig. Sie zeigt den Grundriss des Dorfes mit der Burg auf ihrer Insel, dem Hafenarm und jedem einzelnen Gebäude – und darunter steht, wer wo wohnte. Nimm dir dafür wirklich zwei Minuten. Das ist der beste erhaltene Plan dieses Ortes. Such den Verlauf der Dorfstraße, die Lage der Burg und die Stelle, an der das Wasser war. Danach siehst du beim Weitergehen ein anderes Dorf, weil du weißt, was hier früher stand.`},
+    {t:"Fünfundvierzig Häuser, mehr nicht",
+     a:`Zähl die Namensliste unter dem Plan durch. Sie endet bei Nummer fünfundvierzig. So groß war Crudenburg um achtzehnhundertzwanzig: fünfundvierzig Hausnummern, durchlaufend vergeben, ohne Straßennamen – die kamen erst viel später. Wer damals eine Adresse angab, nannte den Ort und eine Zahl. Bei einigen steht in Klammern das Wort leer, dort stand also ein Haus ohne Bewohner. Und ein Eintrag ist die Schule, Nummer elf. Ein Dorf, dessen gesamter Bestand auf eine Tafel passt, und das trotzdem eine eigene Schule hatte.`},
+    {t:"Benninghoff, sieben Jahre vor dem Kauf",
+     a:`Such in der Liste die Nummer zweiundzwanzig. Dort steht der Name Benninghoff, und bei Nummer neunundzwanzig taucht er noch einmal auf, mit einem Fragezeichen und dem Zusatz Schloßplatz. Das ist bemerkenswert, wenn man das Datum kennt: Der Plan zeigt achtzehnhundertzwanzig, und am ersten August achtzehnhundertsiebenundzwanzig kaufte die bürgerliche Familie Benninghoff die Herrschaft Krudenburg vom Freiherrn von Nagell. Sieben Jahre vor diesem Kauf wohnten sie also bereits im Dorf, als eine Familie unter fünfundvierzig. Es war kein Adliger, der hier einzog, sondern ein Nachbar, der aufstieg. Und es war dieselbe Familie, die die verfallene Burg gegen Ende des Jahrhunderts abtragen ließ.`}
   ],
   facts:["1363 erstmals urkundlich als Rittersitz erwähnt","Wasserburg auf einer von einem Lippearm umflossenen Insel","Erhaltener Turm der Vorburg von 1664","Um 1893 abgerissen"],
   next:"rittertor", transport:"walk",
@@ -1686,7 +1695,7 @@ Von hier an beginnt der eigentliche historische Ortskern. Er zieht sich als Stra
      a:`Schau dir die Häuser Dorfstraße vier und sechs genauer an. Beide werden auf etwa achtzehnhundertfünfzig datiert, beide sind eingeschossige Backsteinhäuser, beide stehen mit dem Giebel zur Straße, und beide haben ein Krüppelwalmdach. Krüppelwalm heißt: Die Giebelspitze ist nicht senkrecht abgeschlossen, sondern oben abgeschrägt – ein kleines Dachdreieck sitzt quer darauf. Das schützt den Giebel vor Regen und Wind, und am Niederrhein, wo es beides reichlich gibt, war es die vernünftige Lösung. Wenn du dieses Detail einmal erkannt hast, siehst du es im ganzen Dorf.`}
   ],
   facts:["Straßendorf in geschlossener Bauweise","Ausgezeichnet im Bundes- und Landeswettbewerb „Unser Dorf soll schöner werden“","650-Jahr-Feier im Jahr 2013","Seit 1562 evangelisch"],
-  next:"dorfbrunnen", transport:"walk",
+  next:"hausnummer-45", transport:"walk",
   audio:`Du gehst jetzt durch den historischen Ortskern von Krudenburg. Nimm das Tempo raus.
 Die Häuser stehen dicht an dicht entlang der einen Straße. Das nennt man ein Straßendorf, und es ist die einfachste Siedlungsform überhaupt: eine Verkehrsachse, links und rechts die Gehöfte. Hier gab es keinen Platz zum Ausufern, denn dahinter kamen die Lippe und die Auen.
 Ein Großteil der Häuser stammt aus dem neunzehnten Jahrhundert und ist sorgfältig instandgesetzt. Krudenburg hat dafür beim Bundeswettbewerb Unser Dorf soll schöner werden Bronze geholt und im Landeswettbewerb sogar Gold.
@@ -1694,18 +1703,71 @@ Schau nach unten. Das Kopfsteinpflaster ist echt und liegt an Ort und Stelle. We
 Ein Datum am Rande: Seit fünfzehnhundertzweiundsechzig ist der Ort evangelisch. In brandenburgischer Zeit, also zwischen dem frühen siebzehnten und dem späten achtzehnten Jahrhundert, wurde Krudenburg zur Herrlichkeit erhoben. Das war ein eigener kleiner Herrschaftsbezirk mit eigenen Rechten. Zweitausenddreizehn feierte das Dorf sechshundertfünfzig Jahre – gerechnet ab der ersten urkundlichen Erwähnung dreizehnhundertdreiundsechzig.`
 },
 {
-  id:"dorfbrunnen", name:"Alter Dorfbrunnen",
+  id:"hausnummer-45", name:"Auf dem Dudel 4 – Haus Nummer 45",
+  lat:51.65040, lon:6.75830, radius:60, day:1,
+  details:[
+    {t:"Von Brücker zu Brüggink",
+     a:`Auf der Tafel an der Burg endet die Namensliste bei Nummer fünfundvierzig, und dort steht Brücker, mit dem Beinamen Ridder. Das ist dieses Grundstück, im Jahr achtzehnhundertzwanzig. Achtzehn Jahre später wurde das Haus, das du siehst, neu errichtet – der Vorgängerbau von der Tafel steht also nicht mehr. Hundertdreißig Jahre nach dem Plan lautet dieselbe Anschrift Krudenburg Nummer fünfundvierzig, und darauf steht ein anderer Name: Heinrich Brüggink, Maurer. Eine geschlossene Kette ist das nicht, dazwischen fehlen Generationen. Aber es sind zwei feste Punkte an derselben Stelle, mit über einem Jahrhundert dazwischen – und das ist mehr, als sich für die meisten Dorfhäuser überhaupt belegen lässt.`},
+    {t:"Der Maurer, der wiederkam",
+     a:`Aus dem Haus stammt ein preußischer Militärpass. Neunzehnhundertvier ging der Maurer zum Infanterie-Regiment nach Wesel, keine zwanzig Kilometer von hier. Zehn Jahre später kam der Krieg. Die Einträge aus dem Herbst neunzehnhundertvierzehn tragen alle den Vermerk Lazarett – er war gleich zu Beginn monatelang krank oder verwundet. Danach wurde er einem Landsturm-Bataillon nach Friedrichsfeld zugeteilt, keine zehn Kilometer von hier. Dort bestand im Ersten Weltkrieg ein großes Kriegsgefangenenlager, bewacht von Landsturmeinheiten; ob er genau dazu eingesetzt war, sagt der Pass nicht. Bei Führung steht gut, bei Strafen keine. Und dann kam er zurück und hat weiter gemauert – belegt durch Papiere von neunzehnhundertneunundvierzig und fünfzig. In einem Dorf, das um achtzehnhundertfünfzig fast vollständig neu aus Backstein gebaut wurde, ist das kein beliebiger Beruf. Es ist die Erklärung für alles, was du hier siehst.`}
+  ],
+  stay:"5 Minuten",
+  short:"Erbaut 1838, auf dem Platz des Hauses Nummer 45 von 1820 – bewohntes Privathaus.",
+  teaser:"Ein gewöhnliches Backsteinhaus. Seine Papiere reichen zurück bis auf die Tafel an der Burg.",
+  facts:["Baujahr 1838","1820 an dieser Stelle Haus Nr. 45, Familie Brücker genannt Ridder","Um 1950 bewohnt von Heinrich Brüggink, Maurer","Bewohntes Privathaus"],
+  next:"dorfbrunnen", transport:"walk",
+  audio:`Kurzer Halt bei einem Haus, das keine Sehenswürdigkeit ist. Genau deshalb steht es hier.
+Eines vorweg: Dieses Haus ist bewohnt. Schau es dir von der Straße aus an, geh nicht auf das Grundstück und klingle nicht. Es ist eine Station in diesem Guide, kein Museum.
+Erbaut wurde es achtzehnhundertachtunddreißig. Auf der Tafel an der Burg, die den Ort um achtzehnhundertzwanzig zeigt, trägt dieses Grundstück die Nummer fünfundvierzig – die letzte der Liste. Damals wohnte dort die Familie Brücker, genannt Ridder. Das Haus, das du siehst, ist also ein Nachfolgebau.
+Hundertdreißig Jahre später lebte hier Heinrich Brüggink, ein Maurer. Erhalten sind sein preußischer Militärpass, eine Quittungskarte der Invalidenversicherung vom Amt Schermbeck und eine Lohnsteuerkarte von neunzehnhundertfünfzig. Auf der steht als Wohnung: Krudenburg Nummer fünfundvierzig. Straßennamen gab es noch nicht.
+Warum das hier steht: Wir haben an diesem Vormittag über Ritter, Grafen und Kaiser gesprochen, über Burgen, Herrschaften und Zölle. Von den Menschen, die das Dorf tatsächlich ausgemacht haben, ist fast nichts überliefert. Sie stehen auf keiner Tafel und in keinem Lexikon. Von einem einzigen wissen wir hier zufällig etwas – weil jemand seine Papiere aufgehoben hat statt sie wegzuwerfen.
+Ein Maurer aus einem Dorf mit fünfundvierzig Häusern. Wenn du wissen willst, wer Krudenburg gebaut hat, im wörtlichen Sinn: Das waren solche Leute.
+`
+},
+{
+  id:"dorfbrunnen", name:"Froschbrunnen",
   lat:51.65075, lon:6.75760, radius:55, day:1,
+  details:[
+    {t:"Warum ein Frosch",
+     a:`Der Frosch ist das Wahrzeichen von Krudenburg, und dahinter steckt der Ortsname selbst. Krude bedeutet Kröte. Krudenburg ist also, wörtlich genommen, die Krötenburg. Das klingt wenig herrschaftlich für einen Rittersitz, passt aber genau zur Lage: Ein Dorf in der Lippeaue, zwischen Fluss, Altarmen und feuchten Wiesen, hat Kröten und Frösche im Überfluss. Wo andere Orte sich nach einem Heiligen oder einem Adelsgeschlecht benennen, hat dieser sich nach dem benannt, was hier am lautesten war. Wenn du im Frühjahr abends am Wasser stehst, hörst du, warum.`},
+    {t:"Drei Hochwasser auf einer Tafel",
+     a:`Am Sockel unter dem Frosch sitzt eine kleine Metalltafel mit der Überschrift Hochwasser. Darauf sind drei Daten festgehalten, jeweils mit einer Linie für den erreichten Stand: der vierundzwanzigste Januar achtzehnhundertneunundachtzig, der siebenundzwanzigste November achtzehnhundertneunzig und der zwölfte Februar neunzehnhundertsechsundvierzig. Zwei davon liegen keine zwei Jahre auseinander – für die Menschen, die das erlebt haben, war das kein historisches Ereignis, sondern eine Wiederholung. Die Striche sind nüchterner als jeder Text: Wer hier wohnte, wusste, wie hoch das Wasser kommen kann. Und das Denkmal dafür steht mitten im Dorf, nicht am Ufer.`},
+    {t:"Der Brunnen ist jünger als er aussieht",
+     a:`Im Pflaster neben dem Sockel liegt eine Granitplatte mit der Aufschrift Anno neunzehnhundertneunundsiebzig. Der Brunnen, wie du ihn siehst, stammt also aus dieser Zeit und nicht aus dem neunzehnten Jahrhundert. Am Brunnenstock findest du das Wappen und den Namen Krudenburg eingemeißelt. Das ist kein Makel, sondern ein eigenes Stück Ortsgeschichte: In den siebziger Jahren wurde Krudenburg nach Hünxe eingemeindet und gewann kurz darauf bei den Wettbewerben um das schönere Dorf. In genau diese Jahre fällt dieser Brunnen. Ein Dorf, das gerade seine Selbstständigkeit verloren hatte, setzte sich ein Wahrzeichen mit dem eigenen Namen darauf.`}
+  ],
   stay:"10 Minuten",
-  short:"Das Wahrzeichen des Dorfes, mitten im Ortskern.",
-  teaser:"Der Brunnen vor dir gilt als das Wahrzeichen von Krudenburg. Vor der Wasserleitung stand hier das ganze Dorf an.",
-  facts:["Wahrzeichen des Ortes","Liegt im Zentrum des historischen Kerns","Beliebter Treffpunkt an Festtagen"],
+  short:"Das Wahrzeichen des Dorfes – und die Erklärung für den Ortsnamen.",
+  teaser:"Der Brunnen vor dir trägt einen Frosch. Der steht nicht zufällig da.",
+  facts:["Wahrzeichen des Ortes","Krude bedeutet Kröte","Hochwassermarken 1889, 1890 und 1946 am Sockel","Jahreszahl 1979 im Pflaster","Heute nicht mehr in Betrieb"],
+  next:"kriegerdenkmal", transport:"walk",
+  audio:`Du stehst am Froschbrunnen, dem Wahrzeichen von Krudenburg.
+Der Frosch obenauf ist kein Zierrat, sondern eine Erklärung. Krude bedeutet Kröte. Krudenburg heißt also wörtlich Krötenburg, und in einem Dorf zwischen Fluss, Altarmen und feuchten Auenwiesen ist das keine Übertreibung.
+Früher spuckte die Figur Wasser in das Becken. Heute ist der Brunnen nicht mehr in Betrieb, aber er wurde mehrfach instandgesetzt und ist der Treffpunkt geblieben.
+Schau auf die kleine Tafel am Sockel. Dort stehen drei Hochwasser: Januar achtzehnhundertneunundachtzig, November achtzehnhundertneunzig, Februar neunzehnhundertsechsundvierzig. Für dich sind das drei Daten, für die Anwohner war es Erfahrung: Wer unten an den Lippewiesen wohnt, hat im Frühjahr als Erster Wasser im Keller, sobald nach dem Winter die Schmelze einsetzt. Der Brunnen erinnert also an beides, an den Fluss als Lebensgrundlage und an den Fluss als Bedrohung.
+Ein Brunnen ist die unspektakulärste Sehenswürdigkeit, die ein Dorf haben kann, und zugleich die ehrlichste. Vor der Wasserleitung war dieser Punkt der Mittelpunkt. Hier holte man Wasser, hier traf man sich, hier erfuhr man, was los war.
+Schau dich von hier einmal im Kreis um. Von diesem Punkt aus siehst du fast den gesamten alten Ortskern. Größer ist das Dorf nicht.
+`
+},
+{
+  id:"kriegerdenkmal", name:"Kriegerdenkmal",
+  lat:51.65090, lon:6.75790, radius:60, day:1,
+  details:[
+    {t:"Crudenburg mit C",
+     a:`Lies die Inschrift genau. Als Stifter steht dort die Gemeinde Crudenburg, mit C geschrieben. Diese Schreibweise war früher üblich und begegnet dir in älteren Urkunden immer wieder; das Dorf führt sie bis heute als Nebenform. Am Ortseingang steht sie sogar auf einem Schild. Für sich genommen ist das eine Kleinigkeit, aber sie datiert das Denkmal indirekt: Es stammt aus einer Zeit, in der man den Ort so schrieb – und in der eine Gemeinde Crudenburg noch eigenständig genug war, um als Stifterin aufzutreten. Erst neunzehnhundertfünfundsiebzig wurde Krudenburg Teil der Gemeinde Hünxe.`},
+    {t:"Warum solche Denkmäler überall stehen",
+     a:`Nach neunzehnhundertachtzehn entstanden in fast jeder deutschen Gemeinde solche Steine, oft errichtet von Kriegervereinen. Das hatte einen praktischen Grund: Die Gefallenen lagen in Frankreich, Russland oder Flandern, es gab kein Grab, an dem man trauern konnte. Das Denkmal im Heimatort war der Ersatz dafür. Die Formulierungen sind dabei fast überall gleich und fast überall verklärend – von Söhnen ist die Rede, von Gedenken, selten von dem, was tatsächlich geschah. Auch das gehört zur Geschichte dieser Steine. Sie sind Trauerorte und zugleich Zeugnisse dafür, wie eine Gesellschaft mit ihren Toten umging.`}
+  ],
+  stay:"10 Minuten",
+  short:"Denkmal für die Gefallenen des Ersten Weltkriegs, gestiftet von der Gemeinde Crudenburg.",
+  teaser:"Lies die Inschrift. Beim Namen des Stifters lohnt ein zweiter Blick.",
+  facts:["Gedenkstein für die Gefallenen 1914 bis 1918","Gestiftet von der damaligen Gemeinde Crudenburg","Schreibweise mit C"],
   next:"alter-hafen", transport:"walk",
-  audio:`Du stehst am alten Dorfbrunnen. Die Gemeinde selbst nennt ihn das Wahrzeichen von Krudenburg.
-Ein Brunnen ist die unspektakulärste Sehenswürdigkeit, die ein Dorf haben kann, und zugleich die ehrlichste. Bevor es Wasserleitungen gab, war dieser Punkt der Mittelpunkt. Hier holte man Wasser, hier traf man sich, hier erfuhr man, was los war. Wer wissen will, wo das soziale Zentrum eines alten Dorfes lag, sucht den Brunnen.
-Dass er heute noch steht und gepflegt wird, hat mit der Art zu tun, wie Krudenburg mit sich umgeht. Der Ort hat sich nicht museal eingefroren, aber er hat auch nichts weggeworfen.
-Schau dich von hier einmal im Kreis um. Von diesem Punkt aus siehst du fast den gesamten alten Ortskern: die Dorfstraße in beide Richtungen, die Giebel, das Pflaster. Größer ist das Dorf nicht.
-Jetzt gehen wir zum Wasser. Der Hafen ist der Grund, warum es Krudenburg überhaupt gibt.`
+  audio:`Vor dir steht das Kriegerdenkmal von Krudenburg.
+Die Inschrift ist schlicht und lautet sinngemäß: zum Gedenken den im Weltkrieg neunzehnhundertvierzehn bis neunzehnhundertachtzehn gefallenen Söhnen. Als Stifterin nennt sich die Gemeinde Crudenburg.
+Ich sage bewusst wenig dazu, denn viel mehr ist auch nicht überliefert. Wie viele Namen dort stehen, wann der Stein gesetzt wurde und wer ihn gefertigt hat, konnte ich nicht klären.
+Was sich sagen lässt, ist der Zusammenhang. Krudenburg hatte damals wenige hundert Einwohner. Jeder Name auf so einem Stein bedeutete in einem Dorf dieser Größe eine Familie, die jeder kannte, und eine Lücke, die über Jahrzehnte spürbar blieb. In einer Großstadt verschwindet so eine Zahl in der Statistik. Hier nicht.
+Nimm dir einen Moment. Und wenn du magst, lies die Namen. Das ist die einzige Form der Beachtung, die ein solcher Stein noch bekommen kann.
+`
 },
 {
   id:"alter-hafen", name:"Der alte Hafen",
@@ -1716,6 +1778,10 @@ Jetzt gehen wir zum Wasser. Der Hafen ist der Grund, warum es Krudenburg überha
   details:[
     {t:"Die alte Uferkante",
      a:`Versuch, die Kante zu finden. Der Hafen war ein natürlicher Seitenarm der Lippe, kein gebautes Becken, deshalb gibt es keine Kaimauer. Was blieb, ist eine flache Senke mit einem Geländeknick. Geh langsam quer darüber und achte auf den Punkt, an dem der Boden abfällt – das war die Wasserlinie. Wenn du sie einmal erkannt hast, kannst du dir die Schiffe vorstellen, die hier im Winter dicht an dicht lagen, mit abgelegten Masten.`}
+  ],
+  details:[
+    {t:"Die Mühle, die im Fluss lag",
+     a:`Eine Besonderheit, die es so kaum irgendwo gab: In Krudenburg war eine Wassermühle im Fluss selbst verankert, eine sogenannte Mühlenponte. Sie schwamm also und nutzte die Strömung, statt an einem festen Ufergerinne zu sitzen. Das hatte einen Vorteil und einen erheblichen Nachteil. Der Vorteil: Sie funktionierte unabhängig vom Wasserstand, weil sie mit stieg und fiel. Der Nachteil: Sie lag mitten im Fahrwasser. Wollte ein Schiff vorbei, musste die Mühle beiseitegeschoben werden. Mühle und Schifffahrt behinderten sich also gegenseitig, jeden Tag. Als man die Lippe ab dem späten fünfzehnten Jahrhundert besser befahrbar machen wollte, wurden die Mühlenponte und die alte Krudenburger Brücke schließlich beseitigt.`}
   ],
   facts:["Alter Seitenarm der Lippe","Winterlager der Lippeschiffe","Trockengefallen durch den Bau des Wesel-Datteln-Kanals","Kanalbau von etwa 1915 bis 1931"],
   next:"infopunkt", transport:"walk",
@@ -1767,7 +1833,11 @@ Das ist die zweite Schicht dieses Ortes. Die erste ist Geschichte, die zweite is
   stay:"10 Minuten",
   short:"Die Stelle, an der man seit sehr langer Zeit über die Lippe kommt.",
   teaser:"Blick flussaufwärts: Irgendwo dort drüben wurden alte Pfähle im Uferschlamm gefunden.",
-  facts:["Vor dem Kanalbau war Krudenburg nur per Fähre erreichbar","Für die alte Brücke wurde Zoll erhoben","Pfahlfunde im Uferschlamm sind überliefert","Ein römischer Übergang wird vermutet, ist aber nicht belegt"],
+  details:[
+    {t:"Ein Name an der Brücke – eine Vermutung",
+     a:`Jetzt eine Überlegung, die ausdrücklich eine Vermutung bleibt. Auf der Tafel an der Burg trägt das letzte Haus des Dorfes, Nummer fünfundvierzig, den Namen Brücker, mit dem Beinamen Ridder. Ridder ist niederrheinisch für Ritter. Und Brücker heißt, wörtlich genommen, der von der Brücke. Belegt ist zweierlei: Es gab hier eine Brücke über die Lippe, und für ihre Benutzung wurde Zoll erhoben. Es liegt nahe, beides zu verknüpfen und zu vermuten, diese Familie habe mit der Brücke oder mit dem Zoll zu tun gehabt. Belegen kann ich das nicht, und es gibt einen guten Einwand: Brücker ist am Niederrhein ein verbreiteter Familienname, und er entstand vielfach schlicht daraus, dass jemand an einer Brücke wohnte, ohne dort ein Amt zu haben. Ein Wohnort wird zum Namen, ein Amt muss es nicht gewesen sein. Nimm es also mit, aber als Frage, nicht als Antwort.`}
+  ],
+  facts:["Vor dem Kanalbau war Krudenburg nur per Fähre erreichbar","Für die alte Brücke wurde Zoll erhoben","Pfahlfunde im Uferschlamm sind überliefert","1820 wohnte auf Haus Nr. 45 die Familie Brücker, genannt Ridder"],
   next:null, transport:"walk",
   audio:`Wir sind am Lippeübergang, dem letzten Punkt für heute.
 Eine Brücke an dieser Stelle ist alt. Für ihre Benutzung wurde früher Zoll erhoben, und das war eine der Einnahmequellen der Herrschaft Krudenburg. Und es gab Zeiten, da war es andersherum: Bevor der Wesel-Datteln-Kanal den Lippepegel absenkte, war Krudenburg nur über eine Fähre zu erreichen.
@@ -1927,13 +1997,13 @@ const CITIES = {
              subtitle:"Diokletianpalast · 17 Orte",
              center:[43.5081,16.4402], zoom:16, pois:SPLIT_POIS, days:null },
   trieste: { id:"trieste", name:"Triest", flag:"🇮🇹", title:"TRIEST AUDIOGUIDE",
-             subtitle:"Miramare, Altstadt und Karst · 3 Tage",
+             subtitle:"Altstadt, Miramare und Karst · 3 Tage",
              center:[45.6540,13.7580], zoom:14, pois:TRIESTE_POIS,
              days:[
-               { n:1, label:"Tag 1 · Miramare", center:[45.6900,13.7290], zoom:13,
-                 note:"Halbtag mit dem PKW über den Viale Miramare. Parkplätze knapp, Museum bis 19 Uhr, letzter Einlass 18.30 Uhr." },
-               { n:2, label:"Tag 2 · Altstadt", center:[45.6500,13.7710], zoom:15,
-                 note:"Zu Fuß ab Molo IV. Rund 3 Kilometer, mit dem Aufstieg nach San Giusto." },
+               { n:1, label:"Tag 1 · Altstadt", center:[45.6500,13.7710], zoom:15,
+                 note:"Zu Fuß ab Molo IV. Rund 3 Kilometer, mit dem Aufstieg nach San Giusto. Am Abend Korso auf der Riva." },
+               { n:2, label:"Tag 2 · Miramare", center:[45.6900,13.7290], zoom:13,
+                 note:"Vormittag mit dem PKW über den Viale Miramare. Park ab 8, Museum ab 9 Uhr. Am Wochenende früh kommen, Parkplätze und Einlass sind begrenzt." },
                { n:3, label:"Tag 3 · Karst & Öl", center:[45.6140,13.8600], zoom:13,
                  note:"Mit dem PKW nach San Dorligo. Hof in Loc. Aquilinia 420, vorher anrufen. Danach Rosandratal." }
              ] },
@@ -1962,6 +2032,7 @@ const State = {
   announced: [],        // IDs, die in dieser Sitzung angekündigt wurden
   volume: 0.9,
   hints: true,          // Hinweis bei Ankunft ansagen
+  rate: 0.95,           // Sprechtempo
   calib: {},            // vor Ort korrigierte Koordinaten: { poiId: [lat, lon] }
   custom: [],           // selbst angelegte Orte
   lastPoi: null,        // zuletzt erkannter Ort (auch für den Foto-Modus)
@@ -1973,7 +2044,7 @@ function loadState(){
   // den Fortschritt der vorher geöffneten Stadt mit.
   State.visited=[]; State.announced=[]; State.calib={}; State.custom=[];
   State.lastPoi=null; State.lastFix=null;
-  State.volume=0.9; State.hints=true;
+  State.volume=0.9; State.hints=true; State.rate=0.95;
   try{
     const raw = localStorage.getItem(STORE_KEY);
     if(!raw) return;
@@ -1981,6 +2052,7 @@ function loadState(){
     State.visited = Array.isArray(d.visited) ? d.visited : [];
     State.volume  = typeof d.volume === "number" ? d.volume : 0.9;
     State.hints   = d.hints !== false;
+    State.rate    = typeof d.rate === "number" ? d.rate : 0.95;
     State.calib   = d.calib && typeof d.calib==="object" ? d.calib : {};
     State.custom  = Array.isArray(d.custom) ? d.custom : [];
     State.lastPoi = d.lastPoi || null;
@@ -1990,7 +2062,7 @@ function loadState(){
 function saveState(){
   try{
     localStorage.setItem(STORE_KEY, JSON.stringify({
-      visited:State.visited, volume:State.volume, hints:State.hints,
+      visited:State.visited, volume:State.volume, hints:State.hints, rate:State.rate,
       calib:State.calib, custom:State.custom, lastPoi:State.lastPoi, lastFix:State.lastFix
     }));
   }catch(e){}
@@ -2121,7 +2193,7 @@ const Speech = {
     const u = new SpeechSynthesisUtterance(this.parts[this.idx]);
     u.lang = CONFIG.SPEECH_LANG;
     if(this.voice) u.voice = this.voice;
-    u.rate = CONFIG.SPEECH_RATE;
+    u.rate = State.rate || CONFIG.SPEECH_RATE;
     u.pitch = 1;
     u.volume = State.volume;
     u.onend = ()=>{ if(!this.playing||this.paused) return; this.idx++; UI.playProgress(); this.next(); };
@@ -3773,13 +3845,15 @@ function boot(cityId, useGps){
   $("btnHints").textContent = "🔔 Hinweise: "+(State.hints?"an":"aus");
   $("vol").value = State.volume;
   $("volVal").textContent = Math.round(State.volume*100)+" %";
+  $("rate").value = State.rate;
+  $("rateVal").textContent = rateLabel(State.rate);
   UI.playButtons();
 
   // Sprachausgabe innerhalb der Nutzergeste freischalten (iOS-Voraussetzung)
   if("speechSynthesis" in window){
     try{
       const u=new SpeechSynthesisUtterance("Willkommen in "+CITY.name+".");
-      u.lang=CONFIG.SPEECH_LANG; u.volume=State.volume; u.rate=CONFIG.SPEECH_RATE;
+      u.lang=CONFIG.SPEECH_LANG; u.volume=State.volume; u.rate=State.rate||CONFIG.SPEECH_RATE;
       if(Speech.voice) u.voice=Speech.voice;
       speechSynthesis.speak(u);
       audioUnlocked = true;
@@ -3840,6 +3914,21 @@ $("btnStop").onclick  = ()=>{
   UI.playProgress(); UI.playState("Gestoppt.");
 };
 $("arrivalStart").onclick = e => playPoi(e.currentTarget.dataset.poi);
+function rateLabel(r){
+  if(r < 0.7)  return "sehr langsam";
+  if(r < 0.85) return "langsam";
+  if(r < 1.02) return "normal";
+  if(r < 1.18) return "zügig";
+  return "schnell";
+}
+
+$("rate").oninput = e=>{
+  State.rate = parseFloat(e.target.value); saveState();
+  $("rateVal").textContent = rateLabel(State.rate);
+  // greift erst beim nächsten Satz – deshalb an derselben Stelle neu ansetzen
+  if(Speech.playing && !Speech.paused){ const i=Speech.idx; Speech.pause(); Speech.idx=i; Speech.resume(); }
+};
+
 $("vol").oninput = e=>{
   State.volume = parseFloat(e.target.value); saveState();
   $("volVal").textContent = Math.round(State.volume*100)+" %";
