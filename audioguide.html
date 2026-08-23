@@ -154,6 +154,12 @@ main{flex:1;padding:16px 14px 8px;display:flex;flex-direction:column;gap:14px}
 .poi-head h3{font-size:25px;line-height:1.12}
 .poi-head .dir{font-size:13.5px;color:var(--ink-soft);margin-top:5px}
 .desc{margin:13px 0 0;color:var(--ink-soft);font-size:15.5px}
+.findbox{
+  margin-top:13px;background:var(--stone);border-radius:12px;padding:12px 13px;
+  font-size:14.5px;line-height:1.45;color:var(--ink);
+}
+.findbox b{display:block;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:5px;font-weight:700}
 .refphoto{margin-top:13px}
 .pstrip{display:flex;gap:8px}
 .refphoto img{
@@ -446,6 +452,7 @@ footer{
           </div>
         </div>
         <p class="desc" id="poiDesc">Sobald dein Standort feststeht, zeigt der Guide hier den nächstgelegenen Ort.</p>
+        <div id="poiFind" class="findbox hidden"></div>
         <div id="refPhoto" class="refphoto hidden"></div>
       <div class="tags" id="poiTags"></div>
         <div id="poiDetails" class="details hidden"></div>
@@ -608,7 +615,9 @@ footer{
         <button id="calibSet" class="rb-opt">Diese Station ist genau hier</button>
         <button id="refShot" class="rb-opt">📸 Referenzfoto aufnehmen</button>
         <button id="refDrop" class="rb-opt">Referenzfoto entfernen</button>
+        <button id="refPick" class="rb-opt">🖼 Referenzfoto aus Fotos wählen</button>
         <input type="file" id="refInput" accept="image/*" capture="environment" hidden>
+        <input type="file" id="refInput2" accept="image/*" hidden>
         <button id="calibShow" class="rb-opt">Korrekturen anzeigen</button>
         <button id="calibClear" class="rb-opt">Korrekturen löschen</button>
         <button id="calibCancel" class="rb-cancel">Schließen</button>
@@ -699,6 +708,7 @@ const SPLIT_POIS = [
   id:"diokletianpalast", name:"Diokletianpalast",
   lat:43.50810, lon:16.44030, radius:120, overview:true,
   stay:"1–3 Stunden für den gesamten Palastbezirk",
+  find:"Von der Riva aus die Palastmauer im Rücken lassen und außen herum nach Norden gehen. Der Palast ist das gesamte Geviert der Altstadt, kein einzelnes Gebäude.",
   short:"Der Alterssitz eines römischen Kaisers – und bis heute bewohnter Stadtkern.",
   teaser:"Vor dir liegt der Palast. Schau auf die Mauer, bevor du hineingehst: unten römisch, oben mittelalterlich.",
   details:[
@@ -730,6 +740,7 @@ Wir gehen jetzt Schritt für Schritt hindurch. Und keine Sorge, wenn dein GPS dr
   id:"bronzenes-tor", name:"Bronzenes Tor",
   lat:43.50740, lon:16.44022, radius:30,
   stay:"5 Minuten",
+  find:"Das Tor in der Südmauer, direkt an der Riva. Der schmalste der vier Zugänge.",
   short:"Das Meerestor an der Südseite – früher direkt am Wasser.",
   teaser:"Das schmale Tor vor dir führte einst direkt ans Wasser.",
   facts:["Südtor des Palastes","Führte ursprünglich direkt ans Meer","Heute der Zugang von der Riva zu den Kellergewölben"],
@@ -744,6 +755,7 @@ Wenn du jetzt hindurchgehst, betrittst du die Kellergewölbe. Achte auf den Temp
   id:"kellergewoelbe", name:"Kellergewölbe des Diokletianpalastes",
   lat:43.50771, lon:16.44022, radius:32,
   stay:"30–45 Minuten",
+  find:"Vom Vestibül nach Süden hinunter oder vom Bronzenen Tor an der Riva hinein. Es wird schlagartig kühl.",
   short:"Die Untergeschosse spiegeln den Grundriss der verlorenen Kaiserwohnung.",
   teaser:"Unter dir liegen die Hallen, die den Grundriss der Kaiserwohnung bewahrt haben.",
   details:[
@@ -774,6 +786,7 @@ In der Mitte führt eine Halle geradewegs nach Norden. Wenn du ihr folgst und di
   id:"vestibuel", name:"Vestibül",
   lat:43.50795, lon:16.44031, radius:24,
   stay:"10 Minuten",
+  find:"An der Südseite des Peristyls die Stufen hinauf und durch die Öffnung. Der runde Raum ist nach oben offen.",
   short:"Der runde Kuppelsaal vor den kaiserlichen Gemächern.",
   teaser:"Der runde Raum vor dir ist nach oben offen. Sprich einmal halblaut und hör, was passiert.",
   details:[
@@ -794,6 +807,7 @@ Und jetzt das Beste an diesem Ort: die Akustik. Sprich einmal halblaut, oder sum
   id:"peristyl", name:"Peristyl",
   lat:43.50812, lon:16.44029, radius:28,
   stay:"15–20 Minuten",
+  find:"Der einzige größere offene Platz im Palastinneren, dort wo sich die beiden Hauptachsen kreuzen. Erkennbar an den roten Granitsäulen und den Stufen, auf denen Leute sitzen.",
   short:"Der zeremonielle Innenhof – das Herz des Palastes.",
   teaser:"Der Platz vor dir ist das Zentrum des Palastes. Achte auf die roten Granitsäulen.",
   details:[
@@ -825,6 +839,7 @@ Setz dich ruhig auf die Stufen. Genau das tun hier alle.`
   id:"kathedrale", name:"Kathedrale des Heiligen Domnius",
   lat:43.50805, lon:16.44057, radius:24,
   stay:"25 Minuten",
+  find:"Der achteckige Bau an der Ostseite des Peristyls, mit dem hohen Turm daneben. Eingang über die Freitreppe mit den Holztüren.",
   short:"Diokletians Mausoleum – heute eine der ältesten genutzten Kathedralen der Welt.",
   teaser:"Der achteckige Bau vor dir war einmal ein Kaisergrab. Schau dir die Holztüren am Eingang an.",
   details:[
@@ -853,6 +868,7 @@ Sehenswert sind außerdem die romanische Kanzel aus dem dreizehnten Jahrhundert 
   id:"glockenturm", name:"Glockenturm des Heiligen Domnius",
   lat:43.50797, lon:16.44047, radius:22,
   stay:"20 Minuten inklusive Aufstieg",
+  find:"Direkt an der Kathedrale. Der Aufgang ist im Inneren, das Ticket gilt meist für beides zusammen.",
   short:"Das Wahrzeichen der Stadt – etwa 57 Meter hoch, mit steiler Treppe.",
   teaser:"Der Turm neben der Kathedrale lässt sich besteigen, wenn du schwindelfrei bist.",
   details:[
@@ -878,6 +894,7 @@ Ein guter Tipp: Steig entweder früh am Morgen hinauf oder ungefähr eine Stunde
   id:"jupiter-tempel", name:"Jupiter-Tempel",
   lat:43.50818, lon:16.43992, radius:24,
   stay:"15 Minuten",
+  find:"Von der Westseite des Peristyls in die schmale Gasse hinein. Vor dem Eingang sitzt eine kopflose schwarze Sphinx; sie ist das sicherste Erkennungszeichen.",
   short:"Römischer Tempel, später Taufkapelle – mit kassettierter Steindecke.",
   teaser:"In der schmalen Gasse steht ein römischer Tempel. Vor dem Eingang wacht eine kopflose Sphinx.",
   details:[
@@ -906,6 +923,7 @@ An der Wand steht außerdem eine Bronzefigur Johannes des Täufers von Ivan Meš
   id:"goldenes-tor", name:"Goldenes Tor",
   lat:43.50900, lon:16.44030, radius:34,
   stay:"10 Minuten",
+  find:"Das große Tor in der Nordmauer, hinter der Statue. Von außen ansehen, dann hindurchgehen.",
   short:"Das Haupttor im Norden – der Weg des Kaisers in die Stadt Salona.",
   teaser:"Vor dir das Haupttor des Palastes. Tritt einmal nach draußen und schau es von Norden an.",
   details:[
@@ -932,6 +950,7 @@ Gleich vor dem Tor wartet die wohl bekannteste Figur der Stadt auf dich.`
   id:"gregor-von-nin", name:"Gregor von Nin",
   lat:43.50938, lon:16.44038, radius:34,
   stay:"10 Minuten",
+  find:"Außerhalb der Nordmauer, direkt vor dem Goldenen Tor. Die Figur ist über acht Meter hoch und nicht zu übersehen.",
   short:"Meštrovićs Kolossalstatue des Bischofs, der die eigene Sprache verteidigte.",
   teaser:"Die große Bronzefigur vor dir hat einen auffällig blanken Zeh.",
   facts:[
@@ -951,6 +970,7 @@ Achte auf die Hand mit dem erhobenen Finger und auf den Gesichtsausdruck. Meštr
   id:"silbernes-tor", name:"Silbernes Tor",
   lat:43.50816, lon:16.44135, radius:34,
   stay:"10 Minuten",
+  find:"Vom Peristyl die Ostachse geradeaus bis zur Mauer. Hinter dem Tor beginnt sofort der Marktbetrieb.",
   short:"Das Osttor, jahrhundertelang zugemauert – heute der Weg zum Markt.",
   teaser:"Das Tor vor dir war jahrhundertelang zugemauert. Dahinter beginnt der Markt.",
   facts:[
@@ -970,6 +990,7 @@ Direkt hinter dem Tor, im Palastinneren, findest du außerdem die Kirche Sveti D
   id:"eisernes-tor", name:"Eisernes Tor",
   lat:43.50826, lon:16.43920, radius:30,
   stay:"10 Minuten",
+  find:"Das Tor in der Westmauer. Erkennbar am Uhrturm darüber; die Uhr hat vierundzwanzig Ziffern.",
   short:"Das Westtor mit dem alten Glockenturm und der Uhr mit 24 Stunden.",
   teaser:"Schau über dem Tor auf die Uhr. Sie hat vierundzwanzig Stunden statt zwölf.",
   details:[
@@ -995,6 +1016,7 @@ Geh hindurch nach Westen. Du verlässt jetzt den römischen Palast und betrittst
   id:"pjaca", name:"Pjaca – Volksplatz",
   lat:43.50846, lon:16.43872, radius:38,
   stay:"15 Minuten",
+  find:"Unmittelbar westlich außerhalb des Eisernen Tores. Der Platz mit der Loggia und den drei großen Bögen.",
   short:"Der mittelalterliche Stadtplatz mit der gotischen Loggia des Rathauses.",
   teaser:"Der Platz vor dir hat eine gotische Loggia. Sie gehört zum alten Rathaus.",
   details:[
@@ -1018,6 +1040,7 @@ Und noch etwas: Die Pjaca ist bis heute ein Treffpunkt der Einheimischen. Wenn d
   id:"marmontova", name:"Marmontova-Straße",
   lat:43.50840, lon:16.43730, radius:60,
   stay:"15 Minuten",
+  find:"Von der Pjaca nach Westen. Die breite, hell gepflasterte Fußgängerstraße zwischen Riva und Republikplatz.",
   short:"Breite Flaniermeile aus weißem Stein, benannt nach einem französischen Marschall.",
   teaser:"Die breite Straße vor dir trägt den Namen eines napoleonischen Marschalls.",
   facts:[
@@ -1037,6 +1060,7 @@ Am nördlichen Ende erreichst du den Republikplatz mit seinen langen Arkaden im 
   id:"gruener-markt", name:"Grüner Markt – Pazar",
   lat:43.50790, lon:16.44190, radius:60,
   stay:"20 Minuten",
+  find:"Unmittelbar hinter dem Silbernen Tor, außerhalb der Mauer. Dem Geruch nach Obst und Gemüse folgen.",
   short:"Der Markt, auf dem Split tatsächlich einkauft – direkt hinter dem Silbernen Tor.",
   teaser:"Geh durch das Silberne Tor nach draußen. Der Geruch verrät dir den Weg.",
   facts:["Liegt unmittelbar östlich des Palastes","Vormittags am lebendigsten","Obst, Gemüse, Öl, Käse, Lavendel","Nachmittags wird abgebaut"],
@@ -1052,6 +1076,7 @@ Wenn du satt geschaut hast, geh zurück durch das Tor. Wir gehen ins Zentrum des
   id:"fischmarkt", name:"Fischmarkt – Ribarnica",
   lat:43.50880, lon:16.43690, radius:45,
   stay:"10 Minuten",
+  find:"Wenige Schritte westlich der Marmontova. Offene Markthalle mit Säulen; am Vormittag am belebtesten.",
   short:"Eine Markthalle von 1890 – und laut Einheimischen der einzige Fischmarkt ohne Fliegen.",
   teaser:"Geh hinein und achte auf etwas, das fehlt: Fliegen. Dafür gibt es eine Erklärung.",
   facts:["Markthalle aus dem späten 19. Jahrhundert","Liegt wenige Schritte westlich der Marmontova","Vormittags geöffnet, mittags fast leer","Nachbarschaft zu einer alten Schwefelquelle"],
@@ -1066,6 +1091,7 @@ Komm am Vormittag. Gegen Mittag ist verkauft, und dann wird gespült.`
   id:"riva", name:"Riva",
   lat:43.50691, lon:16.43950, radius:70,
   stay:"20 Minuten",
+  find:"Die Uferpromenade an der Südseite der Altstadt. Von überall im Palast einfach nach Süden gehen, bis das Meer kommt.",
   short:"Die Uferpromenade vor der Palastwand – das Wohnzimmer der Stadt.",
   teaser:"Dreh dich zur Stadt um. Die lange Mauer dort war einst die Meerseite des Palastes.",
   details:[
@@ -1093,6 +1119,7 @@ Die Riva ist der Ort, an dem sich Split zeigt. Am Abend beginnt die Korzo, das g
   id:"matejuska", name:"Matejuška",
   lat:43.50653, lon:16.43510, radius:60,
   stay:"20 Minuten",
+  find:"Am westlichen Ende der Riva, dort wo die kleinen Holzboote liegen und Steinstufen zum Wasser führen.",
   short:"Alter Fischerhafen mit Holzbooten – der Sonnenuntergangsplatz der Stadt.",
   teaser:"Vor dir der alte Fischerhafen. Setz dich auf die Stufen und schau nach Westen.",
   facts:[
@@ -1113,6 +1140,7 @@ Und wenn du noch Kraft hast: Der Weg zum Marjan beginnt gleich dahinter.`
   id:"marjan", name:"Marjan",
   lat:43.50780, lon:16.43200, radius:90,
   stay:"1–3 Stunden",
+  find:"Von Matejuška durch das Viertel Varoš die Treppen hinauf. Zehn bis fünfzehn Minuten Aufstieg bis zum Aussichtspunkt Vidilica.",
   short:"Der bewaldete Stadtberg mit Aussichtspunkt, Kapellen und Pinienwegen.",
   teaser:"Von hier oben siehst du die Altstadt, den Hafen und die Inseln.",
   details:[
@@ -1149,6 +1177,7 @@ const TRIESTE_POIS = [
   id:"molo-iv", name:"Molo IV",
   lat:45.64800, lon:13.76400, radius:90, overview:true, day:1,
   stay:"10 Minuten zum Ankommen",
+  find:"Der Pier am westlichen Ende der Uferstraße, bei der Stazione Marittima. Von hier nach Osten der Uferfront folgen.",
   short:"Der Startpunkt am Wasser – und der beste Ort, um Triest einzuordnen.",
   teaser:"Schau von hier die Uferfront entlang. Diese Stadt sieht nicht italienisch aus, und das hat einen Grund.",
   details:[
@@ -1174,6 +1203,7 @@ Wir gehen jetzt an der Uferstraße nach Osten. In wenigen Minuten öffnet sich d
   id:"piazza-unita", name:"Piazza Unità d'Italia",
   lat:45.64950, lon:13.76850, radius:55, day:1,
   stay:"20 Minuten",
+  find:"Der große Platz an der Uferstraße, zur Seeseite hin offen. Vom Molo IV rund zehn Minuten nach Osten.",
   short:"Der größte zum Meer offene Platz Europas – Triests Wohnzimmer.",
   teaser:"Der Platz vor dir ist zur Seeseite hin ganz offen. Geh einmal bis an die Kante.",
   details:[
@@ -1204,6 +1234,7 @@ Setz dich zum Schluss auf einen Kaffee ins Caffè degli Specchi und schau aufs W
   id:"molo-audace", name:"Molo Audace",
   lat:45.65045, lon:13.76890, radius:55, day:1,
   stay:"15 Minuten",
+  find:"Die steinerne Mole, die vom Ufer aus ins Hafenbecken hinausführt, wenige Schritte nordöstlich der Piazza Unità.",
   short:"Die steinerne Mole ins Meer, benannt nach einem Kriegsschiff von 1918.",
   teaser:"Geh bis ans Ende der Mole. Dort liegt eine bronzene Windrose im Stein.",
   details:[
@@ -1229,6 +1260,7 @@ Wenn die Bora weht, der kalte Fallwind vom Karst, steht man hier schwer. Sie err
   id:"piazza-borsa", name:"Piazza della Borsa",
   lat:45.65020, lon:13.77090, radius:40, day:1,
   stay:"10 Minuten",
+  find:"Direkt hinter der Piazza Unità landeinwärts. Erkennbar am Säulenbau der alten Börse.",
   short:"Der alte Börsenplatz – Triests wirtschaftliches Zentrum vor der Piazza Unità.",
   teaser:"Das Gebäude mit den Säulen sieht aus wie ein Tempel. Es war die alte Börse.",
   details:[
@@ -1254,6 +1286,7 @@ Von hier aus wird es gleich sehr viel älter. Wir gehen ein paar Gassen ins Land
   id:"arco-riccardo", name:"Arco di Riccardo",
   lat:45.64890, lon:13.77140, radius:28, day:1,
   stay:"10 Minuten",
+  find:"In der Città Vecchia, in einer engen Gasse südlich der Piazza della Borsa. Der Bogen steckt zwischen Wohnhäusern und wirkt eingesunken.",
   short:"Ein römisches Tor mitten in der Altstadt – der Name ist eine Legende.",
   teaser:"In der Gasse steckt ein römischer Torbogen. Er wirkt zu tief, weil die Stadt gestiegen ist.",
   details:[
@@ -1277,6 +1310,7 @@ Nimm dir hier ruhig zwei Minuten mehr. Die Città Vecchia ist der Teil von Tries
   id:"teatro-romano", name:"Teatro Romano",
   lat:45.65005, lon:13.77290, radius:40, day:1,
   stay:"15 Minuten",
+  find:"Am Fuß des Hügels von San Giusto, an der Straße unterhalb der Altstadt. Von der Straße aus einsehbar.",
   short:"Ein römisches Theater, das erst 1938 wieder ans Licht kam.",
   teaser:"Vor dir liegt ein römisches Theater, das jahrhundertelang unter Wohnhäusern verschwunden war.",
   details:[
@@ -1303,6 +1337,7 @@ Jetzt geht es bergauf. Der Weg zum Hügel von San Giusto ist steil, aber kurz, u
   id:"san-giusto", name:"Kathedrale San Giusto",
   lat:45.64650, lon:13.77350, radius:40, day:1,
   stay:"25 Minuten",
+  find:"Oben auf dem Hügel. Zu Fuß steil hinauf oder mit dem Bus; die Kathedrale steht neben der Burg.",
   short:"Zwei Kirchen, die im 14. Jahrhundert zu einer verschmolzen wurden.",
   teaser:"Achte auf die Fassade. Die große Fensterrose sitzt nicht mittig, und das ist kein Baufehler.",
   details:[
@@ -1330,6 +1365,7 @@ Der Glockenturm entstand aus dem Vorbau eines römischen Tempels, dessen Reste i
   id:"castello-san-giusto", name:"Castello di San Giusto",
   lat:45.64690, lon:13.77420, radius:45, day:1,
   stay:"45 Minuten",
+  find:"Unmittelbar neben der Kathedrale auf demselben Hügel. Der Orto Lapidario mit dem Winckelmann-Grabmal liegt dazwischen.",
   short:"Venezianisch begonnen, habsburgisch vollendet – mit dem besten Rundblick.",
   teaser:"Geh den Rundweg auf den Wällen. Von dort siehst du den ganzen Golf.",
   details:[
@@ -1356,6 +1392,7 @@ Nimm für den Abstieg die Treppen an der Nordseite, die Scala dei Giganti. Sie f
   id:"canal-grande", name:"Canal Grande",
   lat:45.65210, lon:13.76800, radius:55, day:1,
   stay:"20 Minuten",
+  find:"Nördlich der Piazza Unità im Borgo Teresiano. Das Wasserbecken mitten in der Stadt, am Kopfende die Säulenkirche.",
   short:"Ein Kanal mitten in der Stadt, gegraben im Auftrag Maria Theresias.",
   teaser:"Stell dich an das Wasser und schau zum Kopfende auf die Säulenfront.",
   details:[
@@ -1381,6 +1418,7 @@ An der Ponte Rosso, der kleinen Brücke über den Kanal, steht die Bronzestatue 
   id:"san-spiridione", name:"Serbisch-orthodoxe Kirche San Spiridione",
   lat:45.65155, lon:13.76890, radius:30, day:1,
   stay:"15 Minuten",
+  find:"Wenige Schritte östlich des Canal Grande. Blaue Kuppeln, nicht zu verwechseln.",
   short:"Blaue Kuppeln und Goldmosaik – das Zeichen einer Handelsstadt vieler Glauben.",
   teaser:"Die blauen Kuppeln vor dir gehören der serbisch-orthodoxen Gemeinde.",
   details:[
@@ -1404,6 +1442,7 @@ Bitte respektiere, dass hier Gottesdienst gefeiert wird. Bedeckte Schultern, kei
   id:"sant-antonio", name:"Sant'Antonio Taumaturgo",
   lat:45.65290, lon:13.76770, radius:35, day:1,
   stay:"10 Minuten",
+  find:"Am Kopfende des Canal Grande, gut sichtbar über das Wasser hinweg.",
   short:"Die klassizistische Tempelfassade am Kopf des Kanals.",
   teaser:"Die Kirche vor dir sieht aus wie ein antiker Tempel. Nur die Figuren oben verraten sie.",
   details:[
@@ -1428,6 +1467,7 @@ Danach schlage ich eine Pause vor. Zwei Straßen weiter liegt ein Kaffeehaus, da
   id:"caffe-san-marco", name:"Caffè San Marco",
   lat:45.65440, lon:13.77540, radius:30, day:1,
   stay:"45 Minuten",
+  find:"In der Via Cesare Battisti, etwa zehn Minuten nordöstlich vom Canal Grande. Unscheinbare Fassade, Eingang direkt an der Straße.",
   short:"Kaffeehaus von 1914, Literatentreff, heute halb Café und halb Buchhandlung.",
   teaser:"Hier drinnen saßen Saba und Svevo. Heute ist die Hälfte des Cafés eine Buchhandlung.",
   details:[
@@ -1454,6 +1494,7 @@ Damit endet der erste Tag. Miramare heben wir uns auf – das ist keine Station 
   id:"barcola", name:"Barcola",
   lat:45.67600, lon:13.74200, radius:250, day:2,
   stay:"20 Minuten Zwischenstopp",
+  find:"Auf der Küstenstraße nach Nordwesten Richtung Miramare, etwa auf halbem Weg. Promenade mit Pinien und Betonterrassen.",
   short:"Erster Halt auf der Fahrt nach Miramare – die Badepromenade der Triestiner.",
   teaser:"Rechts das Meer, links die Pinien. Am Ende der Bucht siehst du schon dein Ziel.",
   details:[
@@ -1480,6 +1521,7 @@ Schau von hier die Bucht entlang nach Nordwesten. Auf der Landzunge am Ende steh
   id:"miramare-park", name:"Parco di Miramare",
   lat:45.70140, lon:13.71450, radius:150, day:2,
   stay:"1 Stunde",
+  find:"Der Parkeingang liegt an der Küstenstraße unterhalb des Schlosses. Vom Parkplatz zu Fuß hinein.",
   short:"22 Hektar Garten auf nacktem Karstfelsen – Maximilians eigentliches Werk.",
   teaser:"Geh hinunter zum kleinen Hafen. Am Ende der Mole sitzt eine ägyptische Sphinx.",
   details:[
@@ -1508,6 +1550,7 @@ Und geh unbedingt hinunter zum kleinen Hafen. Am Ende der Mole sitzt eine Sphinx
   id:"miramare-schloss", name:"Schloss Miramare",
   lat:45.70250, lon:13.71260, radius:90, day:2,
   stay:"1,5 Stunden",
+  find:"Im Park, ganz vorn auf der Landzunge über dem Wasser. Vom Eingang etwa zehn Minuten zu Fuß.",
   short:"Das weiße Schloss über dem Meer – gebaut für Maximilian und Charlotte.",
   teaser:"Geh erst bis an die Brüstung über dem Wasser, bevor du hineingehst.",
   details:[
@@ -1536,6 +1579,7 @@ Zum Schluss ein praktischer Hinweis: Das Museum ist täglich von neun bis neunze
   id:"san-dorligo", name:"San Dorligo della Valle",
   lat:45.61500, lon:13.82000, radius:900, day:3, overview:true,
   stay:"20 Minuten",
+  find:"Südöstlich von Triest Richtung slowenischer Grenze. Ortstafeln tragen zwei Namen, italienisch und slowenisch.",
   short:"Zweisprachige Gemeinde südöstlich von Triest – das Zentrum des Olivenanbaus.",
   teaser:"Achte auf die Ortsschilder. Sie tragen zwei Namen, und das ist kein Zierrat.",
   details:[
@@ -1556,6 +1600,7 @@ Als Nächstes fahren wir zum Hof. Danach lohnt ein Abstecher ins Rosandratal, da
   id:"fior-rosso", name:"Fior Rosso – Ölhof in Aquilinia",
   lat:45.61550, lon:13.81400, radius:500, day:3,
   stay:"1 Stunde",
+  find:"Loc. Aquilinia 420. Aquilinia liegt im Nordwesten der Gemeinde Richtung Muggia. Vorher anrufen und nach dem Weg fragen.",
   short:"Olivenölbetrieb in der Ortslage Aquilinia – Bianchera aus eigener Erzeugung.",
   teaser:"Loc. Aquilinia 420. Ruf vorher an, die Öffnungszeiten werden unterschiedlich angegeben.",
   details:[
@@ -1578,6 +1623,7 @@ Nimm dir Zeit. Wer selbst erzeugt, erzählt gern davon, und ein Gespräch über 
   id:"val-rosandra", name:"Val Rosandra – Glinščica",
   lat:45.62000, lon:13.86800, radius:500, day:3,
   stay:"1–3 Stunden",
+  find:"Von Dolina oder Bagnoli aus in das Tal hinein. Parkplätze am Talrand, danach zu Fuß.",
   short:"Naturschutzgebiet mit Schlucht, Wasserfall und den Resten einer römischen Wasserleitung.",
   teaser:"Such am Hang die Reste der römischen Wasserleitung. Sie versorgte einst Tergeste.",
   details:[
@@ -2686,6 +2732,11 @@ function showPoiCard(p, dist, lat, lon){
   $("poiDesc").textContent = p.short;
 
   $("poiTags").innerHTML = (p.facts||[]).slice(0,4).map(f=>'<span class="tag">'+esc(f)+'</span>').join("");
+  const fb = $("poiFind");
+  if(fb){
+    if(p.find){ fb.innerHTML = "<b>So findest du hin</b>"+esc(p.find); fb.classList.remove("hidden"); }
+    else fb.classList.add("hidden");
+  }
   renderDetails(p);
   showRefPhoto(p);
   UI.nav();
@@ -3981,6 +4032,8 @@ $("btnCalib").onclick    = askCalib;
 $("calibSet").onclick    = calibSet;
 $("refShot").onclick     = ()=>$("refInput").click();
 $("refInput").onchange   = e=>{ if(e.target.files && e.target.files[0]) saveRefPhoto(e.target.files[0]); e.target.value=""; };
+$("refPick").onclick     = ()=>$("refInput2").click();
+$("refInput2").onchange  = e=>{ if(e.target.files && e.target.files[0]) saveRefPhoto(e.target.files[0]); e.target.value=""; };
 $("refDrop").onclick     = deleteRefPhoto;
 $("calibShow").onclick   = calibShow;
 $("calibClear").onclick  = calibClear;
