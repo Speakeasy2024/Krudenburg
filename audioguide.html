@@ -401,7 +401,7 @@ footer{
     <button class="btn-ghost" id="startNoGps">Ohne Standort fortfahren</button>
     <div id="bootError" style="display:none;background:#B3311F;color:#fff;border-radius:12px;
          padding:12px;margin-top:12px;font-size:13px;text-align:left;line-height:1.4"></div>
-    <p class="ver">Stand: 25.08.2026 g · 55 Stationen · 136 Detailpunkte</p>
+    <p class="ver">Stand: 25.08.2026 h · 55 Stationen · 136 Detailpunkte</p>
     <p class="foot">
       Beim Start fragt der Browser nach dem Standort. Nur mit erlaubtem Zugriff
       erkennt der Guide selbst, wo du stehst. Jede Stadt merkt sich ihren
@@ -3335,7 +3335,7 @@ const PhotoStore = {
     return this._idb("readwrite", st=>st.delete(key)).then(()=>true).catch(()=>true);
   },
   all(){
-    return this._idb("readonly", st=>null).then(()=>this.open()).then(db=>new Promise(res=>{
+    return this.open().then(db=>new Promise(res=>{
       const out={};
       try{
         const tx = db.transaction("photos","readonly");
@@ -4007,6 +4007,9 @@ async function askExport(){
     Object.keys(d.positionskorrekturen).length+" Positionskorrekturen · "+
     urls.length+" Fotos ("+kb(raw)+", in der Datei "+kb(inFile)+")";
   $("exportPics").disabled = mine.length===0;
+  $("exportPics").textContent = mine.length
+    ? "Referenzfotos sichern ("+mine.length+" Stationen)"
+    : "Keine Referenzfotos vorhanden";
 }
 
 async function exportPhotos(){
