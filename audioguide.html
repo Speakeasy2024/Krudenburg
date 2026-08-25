@@ -401,7 +401,7 @@ footer{
     <button class="btn-ghost" id="startNoGps">Ohne Standort fortfahren</button>
     <div id="bootError" style="display:none;background:#B3311F;color:#fff;border-radius:12px;
          padding:12px;margin-top:12px;font-size:13px;text-align:left;line-height:1.4"></div>
-    <p class="ver">Stand: 25.08.2026 h · 55 Stationen · 136 Detailpunkte</p>
+    <p class="ver">Stand: 25.08.2026 i · 55 Stationen · 136 Detailpunkte</p>
     <p class="foot">
       Beim Start fragt der Browser nach dem Standort. Nur mit erlaubtem Zugriff
       erkennt der Guide selbst, wo du stehst. Jede Stadt merkt sich ihren
@@ -2792,10 +2792,21 @@ function onGeoError(err){
 }
 
 function noGpsHint(msg){
-  $("poiEyebrow").textContent = "Ohne Standort";
-  $("poiName").textContent = "Kein GPS";
-  $("poiDir").textContent = "";
-  $("poiDesc").textContent = msg;
+  // Ohne Standortsignal wäre sonst keine Station ausgewählt – dann ließen sich
+  // weder Fotos anlegen noch Positionen korrigieren. Deshalb die erste Station
+  // der Route vorwählen und den Hinweis darüber anzeigen.
+  const first = routePois()[0];
+  if(!currentTarget && first){
+    manualLock = true;
+    currentTarget = first;
+    showPoiCard(first, 0, null, null);
+    Speech.load(stationAudio(first), first.name);
+    UI.playState("Bereit: "+first.name);
+    UI.playProgress(); UI.playButtons();
+    refreshMarkers(first.id);
+  }
+  $("poiEyebrow").textContent = "Ohne Standort – manuell gewählt";
+  $("poiDir").textContent = msg;
   UI.ring(null, 70);
 }
 
@@ -3821,10 +3832,16 @@ function askCalib(){
   $("calibSet").textContent = ok
     ? "„"+p.name+"“ ist genau hier (±"+Math.round(State.lastFix.acc)+" m)"
     : "Kein Standortsignal – Korrektur nicht möglich";
-  $("refShot").disabled = !p;
   const cur = p ? (photoCache[photoKey(p.id)]||[]) : [];
   const nref = cur.filter(x=>x.kind!=="guide").length;
-  $("refShot").textContent = "📸 Referenzfoto aufnehmen ("+nref+"/"+MAX_REF+")";
+  $("refShot").disabled = !p;
+  $("refPick").disabled = !p;
+  $("refShot").textContent = p
+    ? "📸 Referenzfoto aufnehmen ("+nref+"/"+MAX_REF+")"
+    : "Erst eine Station wählen – über „📍 Alle Orte“";
+  $("refPick").textContent = p
+    ? "🖼 Referenzfoto aus Fotos wählen"
+    : "Erst eine Station wählen";
   $("refDrop").classList.toggle("hidden", nref===0);
   box.classList.remove("hidden");
 }
