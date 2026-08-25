@@ -401,7 +401,7 @@ footer{
     <button class="btn-ghost" id="startNoGps">Ohne Standort fortfahren</button>
     <div id="bootError" style="display:none;background:#B3311F;color:#fff;border-radius:12px;
          padding:12px;margin-top:12px;font-size:13px;text-align:left;line-height:1.4"></div>
-    <p class="ver">Stand: 25.08.2026 f · 55 Stationen · 136 Detailpunkte</p>
+    <p class="ver">Stand: 25.08.2026 g · 55 Stationen · 136 Detailpunkte</p>
     <p class="foot">
       Beim Start fragt der Browser nach dem Standort. Nur mit erlaubtem Zugriff
       erkennt der Guide selbst, wo du stehst. Jede Stadt merkt sich ihren
@@ -631,6 +631,7 @@ footer{
         <button id="refPick" class="rb-opt">🖼 Referenzfoto aus Fotos wählen</button>
         <input type="file" id="refInput" accept="image/*" capture="environment" hidden>
         <input type="file" id="refInput2" accept="image/*" hidden>
+        <button id="refTest" class="rb-opt">🩺 Bildspeicher prüfen</button>
         <button id="calibShow" class="rb-opt">Korrekturen anzeigen</button>
         <button id="calibClear" class="rb-opt">Korrekturen löschen</button>
         <button id="calibCancel" class="rb-cancel">Schließen</button>
@@ -3096,14 +3097,16 @@ const TileStore = {
   open(){
     if(this.db) return Promise.resolve(this.db);
     return new Promise((res,rej)=>{
-      if(!("indexedDB" in window)) return rej(new Error("keine IndexedDB"));
+      if(!("indexedDB" in window) || !indexedDB){ this.mode="local"; this.lastError="IndexedDB nicht vorhanden"; return rej(new Error("keine IndexedDB")); }
       const req = indexedDB.open("audioguide-tiles", 1);
       req.onupgradeneeded = e => {
         const db = e.target.result;
         if(!db.objectStoreNames.contains("tiles")) db.createObjectStore("tiles");
       };
-      req.onsuccess = e => { this.db = e.target.result; res(this.db); };
-      req.onerror  = () => rej(req.error);
+      req.onsuccess = e => { this.db = e.target.result; this.mode="idb"; res(this.db); };
+      req.onerror  = () => { this.mode="local"; this.lastError=String(req.error&&req.error.name||"Fehler beim Öffnen"); rej(req.error); };
+      req.onblocked = () => { this.mode="local"; this.lastError="Datenbank blockiert"; rej(new Error("blocked")); };
+      setTimeout(()=>{ if(!this.db){ this.mode="local"; this.lastError="Zeitüberschreitung"; rej(new Error("timeout")); } }, 4000);
     });
   },
 
@@ -3269,40 +3272,70 @@ function askOffline(){
    ============================================================ */
 const PhotoStore = {
   db:null,
+  mode:"?",          // "idb" | "local" | "none"
+  lastError:"",
+
+  /* Ausweichspeicher: Wo IndexedDB gesperrt ist (manche eingebettete
+     Browseransichten), werden die Bilder im localStorage abgelegt.
+     Das reicht für einige Dutzend Bilder und ist besser als nichts. */
+  _lsKey(k){ return "agphoto:"+k; },
+  _lsGet(k){ try{ const v=localStorage.getItem(this._lsKey(k)); return v?JSON.parse(v):null; }catch(e){ return null; } },
+  _lsPut(k,v){ try{ localStorage.setItem(this._lsKey(k), JSON.stringify(v)); return true; }catch(e){ this.lastError=String(e&&e.name||e); return false; } },
+  _lsDel(k){ try{ localStorage.removeItem(this._lsKey(k)); return true; }catch(e){ return false; } },
+  _lsAll(){ const out={}; try{
+      for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i);
+        if(k && k.indexOf("agphoto:")===0) out[k.slice(8)]=JSON.parse(localStorage.getItem(k)); }
+    }catch(e){} return out; },
+
   open(){
     if(this.db) return Promise.resolve(this.db);
     return new Promise((res,rej)=>{
-      if(!("indexedDB" in window)) return rej(new Error("keine IndexedDB"));
+      if(!("indexedDB" in window) || !indexedDB){ this.mode="local"; this.lastError="IndexedDB nicht vorhanden"; return rej(new Error("keine IndexedDB")); }
       const req = indexedDB.open("audioguide-photos", 1);
       req.onupgradeneeded = e => {
         const db = e.target.result;
         if(!db.objectStoreNames.contains("photos")) db.createObjectStore("photos");
       };
-      req.onsuccess = e => { this.db = e.target.result; res(this.db); };
-      req.onerror  = () => rej(req.error);
+      req.onsuccess = e => { this.db = e.target.result; this.mode="idb"; res(this.db); };
+      req.onerror  = () => { this.mode="local"; this.lastError=String(req.error&&req.error.name||"Fehler beim Öffnen"); rej(req.error); };
+      req.onblocked = () => { this.mode="local"; this.lastError="Datenbank blockiert"; rej(new Error("blocked")); };
+      setTimeout(()=>{ if(!this.db){ this.mode="local"; this.lastError="Zeitüberschreitung"; rej(new Error("timeout")); } }, 4000);
     });
   },
   /* Wichtig: Eine IndexedDB-Transaktion wird ungültig, sobald die Kontrolle an die
      Ereignisschleife zurückgeht. Deshalb wird sie hier erzeugt UND im selben
      Durchlauf benutzt – nicht erst in einem späteren Promise. */
-  _run(mode, fn, fallback){
-    return this.open().then(db=>new Promise(res=>{
-      let done=false;
+  /* Ein Zugriff auf die IndexedDB. Scheitert er, wird der Fehler
+     weitergereicht – nur dann greift der Ausweichspeicher. */
+  _idb(mode, fn){
+    return this.open().then(db=>new Promise((res,rej)=>{
       try{
         const tx = db.transaction("photos", mode);
-        const st = tx.objectStore("photos");
-        const r  = fn(st);
-        r.onsuccess = ()=>{ done=true; res(r.result); };
-        r.onerror   = ()=>{ done=true; res(fallback); };
-        tx.onabort  = ()=>{ if(!done) res(fallback); };
-      }catch(e){ res(fallback); }
-    })).catch(()=>fallback);
+        const r  = fn(tx.objectStore("photos"));
+        r.onsuccess = ()=>res(r.result);
+        r.onerror   = ()=>rej(r.error || new Error("Schreibfehler"));
+        tx.onabort  = ()=>rej(tx.error || new Error("Transaktion abgebrochen"));
+      }catch(e){ rej(e); }
+    }));
   },
-  get(key){ return this._run("readonly",  st=>st.get(key), null).then(v=>v||null); },
-  put(key,val){ return this._run("readwrite", st=>st.put(val,key), false).then(()=>true).catch(()=>false); },
-  del(key){ return this._run("readwrite", st=>st.delete(key), false).then(()=>true).catch(()=>false); },
+
+  get(key){
+    return this._idb("readonly", st=>st.get(key))
+      .then(v=>{ if(v!==undefined && v!==null){ this.mode="idb"; return v; } return this._lsGet(key); })
+      .catch(()=>this._lsGet(key));
+  },
+  put(key,val){
+    return this._idb("readwrite", st=>st.put(val,key))
+      .then(()=>{ this.mode="idb"; return true; })
+      .catch(e=>{ this.lastError = String(e && (e.name||e.message) || e);
+                  this.mode="local"; return this._lsPut(key,val); });
+  },
+  del(key){
+    this._lsDel(key);
+    return this._idb("readwrite", st=>st.delete(key)).then(()=>true).catch(()=>true);
+  },
   all(){
-    return this.open().then(db=>new Promise(res=>{
+    return this._idb("readonly", st=>null).then(()=>this.open()).then(db=>new Promise(res=>{
       const out={};
       try{
         const tx = db.transaction("photos","readonly");
@@ -3311,7 +3344,27 @@ const PhotoStore = {
         r.onerror   = ()=>res(out);
         tx.onabort  = ()=>res(out);
       }catch(e){ res(out); }
-    })).catch(()=>({}));
+    })).then(o=>{ const ls=this._lsAll(); return Object.assign({}, ls, o); })
+       .catch(()=>this._lsAll());
+  },
+
+  /** Klartext-Diagnose für den Selbsttest. */
+  async selftest(){
+    const out = [];
+    out.push("IndexedDB im Browser: " + (("indexedDB" in window && indexedDB) ? "vorhanden" : "NICHT vorhanden"));
+    let db=null;
+    try{ db = await this.open(); out.push("Datenbank geöffnet: ja"); }
+    catch(e){ out.push("Datenbank geöffnet: NEIN (" + (this.lastError||e) + ")"); }
+    const probe = "selftest", val = [{kind:"ref", url:"data:,probe", ts:Date.now()}];
+    const w = await this.put(probe, val);
+    out.push("Schreiben: " + (w ? "ok" : "FEHLGESCHLAGEN"));
+    const r = await this.get(probe);
+    out.push("Zurücklesen: " + (r && r[0] && r[0].url==="data:,probe" ? "ok" : "FEHLGESCHLAGEN"));
+    await this.del(probe);
+    out.push("Verwendeter Speicher: " + (this.mode==="idb" ? "IndexedDB" : this.mode==="local" ? "Ausweichspeicher (localStorage)" : "keiner"));
+    try{ localStorage.setItem("agtest","1"); localStorage.removeItem("agtest"); out.push("localStorage: nutzbar"); }
+    catch(e){ out.push("localStorage: GESPERRT (" + (e&&e.name) + ")"); }
+    return out.join("\n");
   }
 };
 
@@ -3387,8 +3440,9 @@ async function saveRefPhoto(file){
   showRefPhoto(p);
   const n = list.filter(x=>x.kind!=="guide").length;
   UI.playState(ok
-    ? "Referenzfoto gespeichert ("+n+" von "+MAX_REF+" für „"+p.name+"“)."
-    : "Speichern fehlgeschlagen – der Bildspeicher des Browsers ist nicht verfügbar.");
+    ? "Referenzfoto gespeichert ("+n+" von "+MAX_REF+" für „"+p.name+"“"+
+      (PhotoStore.mode==="local" ? ", Ausweichspeicher" : "")+")."
+    : "Speichern fehlgeschlagen. Tippe auf „🩺 Bildspeicher prüfen“ – dort steht die Ursache.");
 }
 
 async function deleteRefPhoto(){
@@ -3570,7 +3624,9 @@ function shrink(file, maxSide, quality){
       URL.revokeObjectURL(url);
       res({ mime:"image/jpeg", dataBase64: dataUrl.split(",")[1], url:dataUrl });
     };
-    img.onerror = ()=>{ URL.revokeObjectURL(url); res({mime:file.type,dataBase64:"",url:""}); };
+    img.onerror = ()=>{ URL.revokeObjectURL(url);
+      UI.playState("Das Bild konnte nicht gelesen werden. Bei iPhone-Fotos hilft: Einstellungen → Kamera → Formate → „Maximale Kompatibilität“.");
+      res({mime:file.type,dataBase64:"",url:""}); };
     img.src = url;
   });
 }
@@ -4245,6 +4301,13 @@ $("refInput").onchange   = e=>{ if(e.target.files && e.target.files[0]) saveRefP
 $("refPick").onclick     = ()=>$("refInput2").click();
 $("refInput2").onchange  = e=>{ if(e.target.files && e.target.files[0]) saveRefPhoto(e.target.files[0]); e.target.value=""; };
 $("refDrop").onclick     = deleteRefPhoto;
+$("refTest").onclick     = async ()=>{
+  const out = $("calibOut");
+  out.textContent = "Prüfe …";
+  out.classList.remove("hidden");
+  try{ out.textContent = await PhotoStore.selftest(); }
+  catch(e){ out.textContent = "Selbsttest abgebrochen: " + e; }
+};
 $("calibShow").onclick   = calibShow;
 $("calibClear").onclick  = calibClear;
 $("calibCancel").onclick = ()=>$("calibBox").classList.add("hidden");
