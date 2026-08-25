@@ -71,6 +71,10 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
   font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;
   color:var(--sun);margin:14px 0 auto;font-weight:700;
 }
+#splash .ver{
+  font-size:12px;letter-spacing:.08em;color:#7FA6B4;margin:14px 0 0;
+  font-variant-numeric:tabular-nums;
+}
 #splash .foot{font-size:13.5px;color:#9FC0CC;line-height:1.5;margin-top:18px}
 .btn-primary{
   display:block;width:100%;background:var(--sun);color:#25190A;
@@ -139,6 +143,10 @@ main{flex:1;padding:16px 14px 8px;display:flex;flex-direction:column;gap:14px}
 .daytab.on{background:var(--sea);color:#fff}
 .daynote{
   font-size:13.5px;color:var(--ink-soft);margin-top:9px;padding:0 4px;line-height:1.4;
+}
+.daysum{
+  display:block;margin-top:5px;font-size:12.5px;font-weight:700;color:var(--sea);
+  font-variant-numeric:tabular-nums;
 }
 
 /* ---------------- Signatur: Näherungsring ---------------- */
@@ -393,6 +401,7 @@ footer{
     <button class="btn-ghost" id="startNoGps">Ohne Standort fortfahren</button>
     <div id="bootError" style="display:none;background:#B3311F;color:#fff;border-radius:12px;
          padding:12px;margin-top:12px;font-size:13px;text-align:left;line-height:1.4"></div>
+    <p class="ver">Stand: 25.08.2026 f · 55 Stationen · 136 Detailpunkte</p>
     <p class="foot">
       Beim Start fragt der Browser nach dem Standort. Nur mit erlaubtem Zugriff
       erkennt der Guide selbst, wo du stehst. Jede Stadt merkt sich ihren
@@ -568,6 +577,10 @@ footer{
           <button id="btnHints">🔔 Hinweise: an</button>
         </div>
         <div class="more">
+          <button id="btnTop">⭐ Kurzfassung: aus</button>
+          <button id="btnNav">🧭 Wegansage: an</button>
+        </div>
+        <div class="more">
           <button id="btnCalib">🎯 Position &amp; Foto</button>
           <button id="btnExport">⬇️ Meine Daten</button>
         </div>
@@ -638,7 +651,10 @@ footer{
   <div class="inner">
     <div style="display:flex;justify-content:space-between;align-items:center">
       <h3 style="font-size:22px">Alle Orte</h3>
-      <button id="sheetClose" style="font-size:16px;font-weight:700;padding:8px 12px">Schließen</button>
+      <div>
+        <button id="btnJump" style="font-size:15px;font-weight:700;padding:8px 12px">🔢 Nr.</button>
+        <button id="sheetClose" style="font-size:16px;font-weight:700;padding:8px 12px">Schließen</button>
+      </div>
     </div>
     <p style="font-size:14px;color:var(--ink-soft);margin:6px 0 4px">
       In der Reihenfolge der Route. Tippe auf einen Ort, um die Führung auch ohne GPS anzuhören.
@@ -707,6 +723,7 @@ const SPLIT_POIS = [
 {
   id:"diokletianpalast", name:"Diokletianpalast",
   lat:43.50699, lon:16.44061, radius:120, overview:true,
+  top:true,
   stay:"1–3 Stunden für den gesamten Palastbezirk",
   find:"Von der Riva aus die Palastmauer im Rücken lassen und außen herum nach Norden gehen. Der Palast ist das gesamte Geviert der Altstadt, kein einzelnes Gebäude.",
   short:"Der Alterssitz eines römischen Kaisers – und bis heute bewohnter Stadtkern.",
@@ -749,11 +766,13 @@ Wir gehen jetzt Schritt für Schritt hindurch. Und keine Sorge, wenn dein GPS dr
 Dieses Tor ist deutlich schlichter als die anderen drei, und dafür gibt es einen guten Grund: Es war kein Repräsentationstor, sondern ein Wirtschaftszugang. Zur Bauzeit reichte das Meer bis direkt an die Palastmauer. Boote konnten hier anlegen und Waren unmittelbar in die Untergeschosse liefern.
 Stell dir das einmal vor: Wo heute Palmen und Promenade sind, lag damals Wasser. Die Riva vor dir ist aufgeschüttetes Land, entstanden über viele Jahrhunderte.
 Für den Kaiser hatte dieses Tor noch eine zweite Funktion. Es war der schnelle, unauffällige Weg zwischen dem Meer und dem kaiserlichen Wohnbereich, ohne den öffentlichen Teil des Palastes zu durchqueren.
-Wenn du jetzt hindurchgehst, betrittst du die Kellergewölbe. Achte auf den Temperaturwechsel: Es wird schlagartig kühl und die Geräusche der Promenade verschwinden hinter dir.`
+Du kommst gerade aus den Kellergewölben heraus, und der Temperaturwechsel ist deutlich: Aus der kühlen, stillen Halle trittst du in Licht, Wärme und Betrieb. Genau diesen Übergang erlebten hier auch alle anderen, siebzehnhundert Jahre lang.
+Wir gehen von hier nach Westen, an der Innenseite der Mauer entlang, zum Eisernen Tor.`
 },
 {
   id:"kellergewoelbe", name:"Kellergewölbe des Diokletianpalastes",
   lat:43.50757, lon:16.43977, radius:32,
+  top:true,
   stay:"30–45 Minuten",
   find:"Vom Vestibül nach Süden hinunter oder vom Bronzenen Tor an der Riva hinein. Es wird schlagartig kühl.",
   short:"Die Untergeschosse spiegeln den Grundriss der verlorenen Kaiserwohnung.",
@@ -767,10 +786,12 @@ Wenn du jetzt hindurchgehst, betrittst du die Kellergewölbe. Achte auf den Temp
      a:`Über Jahrhunderte kippten die Bewohner der Stadt ihren Abfall in diese Gewölbe, bis vieles bis unter die Decke verfüllt war. Aus heutiger Sicht klingt das nach Zerstörung – tatsächlich war es die Rettung. Verfüllte Räume werden nicht abgerissen, nicht umgebaut und nicht als Steinbruch benutzt. Der Schutt hat Wände, Gewölbe und Böden konserviert, während oben alles überformt wurde. Die systematische Freilegung begann erst im zwanzigsten Jahrhundert und ist bis heute nicht überall abgeschlossen. Wenn dir ein Bereich abgesperrt vorkommt: Dort ist die Arbeit noch nicht fertig.`},
     {t:"Im tieferen Teil · Presse und Wassersystem",
      a:`Im tieferen, meist kostenpflichtigen Teil stehen die Reste einer großen Presse und Teile des römischen Wasser- und Abwassersystems. Das ist der unromantische, aber aufschlussreiche Abschnitt. Ein Palast dieser Größe war ein Wirtschaftsbetrieb: Er musste versorgt, beheizt und entwässert werden. Achte auf die Rinnen im Boden und auf die Kanäle in den Wänden. Frisches Wasser kam über eine Leitung aus dem Umland, Abwasser lief nach Süden zum Meer ab. Ohne diese Technik hätte hier niemand wohnen können, und ohne sie hätte die Stadt später nicht in den Mauern überleben können.`},
-    {t:"Nach oben · Wohin die Halle führt",
-     a:`Die zentrale Halle führt schnurgerade nach Norden. Folge ihr und geh die Treppe hinauf – dann kommst du genau dort heraus, wo auch die Besucher des Kaisers ankamen: im Vestibül und danach auf dem Peristyl. Das ist die eigentliche Pointe dieser Anlage. Der Weg vom Meer zum Kaiser führte durch das Bronzene Tor, durch diese Untergeschosse und dann nach oben ans Licht. Wer heute denselben Weg geht, macht unbewusst dasselbe wie ein Gesandter im vierten Jahrhundert.`},
+    {t:"Die Achse · Der Weg der Gesandten",
+     a:`Die zentrale Halle führt schnurgerade nach Norden, hinauf ins Vestibül und weiter aufs Peristyl – von dort bist du gerade gekommen. Nach Süden führt sie zum Bronzenen Tor und damit ans Wasser. Das ist die eigentliche Pointe dieser Anlage: Der Weg vom Meer zum Kaiser führte durch das Bronzene Tor, durch diese Untergeschosse und dann nach oben ans Licht. Du gehst ihn heute in umgekehrter Richtung – vom Kaiser zum Meer, so wie jemand, der entlassen wurde.`},
     {t:"Nebenbei · Kulisse für Drachen",
-     a:`Ein Hinweis für Serienzuschauer: Diese Hallen dienten in Game of Thrones als Drehort. Sie waren der Thronsaal von Daenerys Targaryen in Meereen und der Keller, in dem sie ihre Drachen anketten ließ. Für die Aufnahmen wurde kaum etwas verändert – der Raum wirkt im Bild fast genau so wie jetzt vor dir. Das ist keine Geschichte des Ortes, aber es erklärt, warum hier manchmal Menschen mit dem Handy an einer Wand stehen, die nicht älter aussieht als der Rest.`}
+     a:`Ein Hinweis für Serienzuschauer: Diese Hallen dienten in Game of Thrones als Drehort. Sie waren der Thronsaal von Daenerys Targaryen in Meereen und der Keller, in dem sie ihre Drachen anketten ließ. Für die Aufnahmen wurde kaum etwas verändert – der Raum wirkt im Bild fast genau so wie jetzt vor dir. Das ist keine Geschichte des Ortes, aber es erklärt, warum hier manchmal Menschen mit dem Handy an einer Wand stehen, die nicht älter aussieht als der Rest.`},
+    {t:"Praktisch · Frei und kostenpflichtig",
+     a:`Der Zugang ist zweigeteilt, und das ist wichtig zu wissen. Die breite Mittelhalle zwischen Riva und Peristyl ist frei zugänglich und wird als Verkaufsgang genutzt – Stände mit Souvenirs, Schmuck und Bildern. Die eigentlichen Gewölbe rechts und links davon sind kostenpflichtig, und dort steht auch alles, wovon in dieser Führung die Rede ist: die Presse, die Wasserkanäle, die großen Hallen. Wer nur durch die Mittelhalle geht, hat die Kellergewölbe nicht gesehen. Zweitens die Temperatur: Es ist auch im Hochsommer kühl, gelegentlich klamm, und der Boden kann feucht sein. Für den Sommer sind die Öffnungszeiten deutlich länger als im Winter. Und als Reihenfolge bewährt sich, hier bei größter Mittagshitze hineinzugehen – draußen dreißig Grad, hier unten angenehm. Stand August zweitausendsechsundzwanzig.`}
   ],
   facts:[
     "Trugen die kaiserlichen Wohnräume im Obergeschoss",
@@ -784,7 +805,7 @@ Diese Hallen waren nie zum Ansehen gedacht. Sie sind das Fundament: Sie trugen d
 Das ist der eigentliche Schatz dieses Ortes. Die kaiserlichen Wohnräume selbst sind längst verschwunden, überbaut von mittelalterlichen Häusern. Aber hier unten kannst du ihre Form ablesen. Wenn du durch diese Halle gehst, gehst du durch den Abdruck eines Raumes, in dem Diokletian tatsächlich gelebt hat.
 Über Jahrhunderte wurden diese Gewölbe verfüllt. Die Bewohner der Stadt warfen ihren Abfall hinein, bis vieles bis unter die Decke verschüttet war. Ausgerechnet das hat die Substanz konserviert. Die systematische Freilegung begann erst im zwanzigsten Jahrhundert und ist bis heute nicht überall abgeschlossen.
 Schau dir das Mauerwerk an: massive Quader, unverputzt, mit kräftigen Tonnengewölben. Man findet hier auch Reste einer alten Ölpresse und eines Wasserkanals.
-In der Mitte führt eine Halle geradewegs nach Norden. Wenn du ihr folgst und die Treppe hinaufgehst, kommst du genau dorthin, wo auch die Besucher des Kaisers ankamen: ins Vestibül.`
+Die zentrale Halle führt geradewegs nach Norden – dorthin, wo du eben heruntergekommen bist. Genau diesen Weg nahmen auch die Gesandten des Kaisers, nur in umgekehrter Richtung: vom Meer durch das Bronzene Tor, durch diese Untergeschosse und dann hinauf ins Vestibül. Wir gehen jetzt ihren Weg rückwärts, nach Süden, hinaus ans Licht.`
 },
 {
   id:"vestibuel", name:"Vestibül",
@@ -810,6 +831,7 @@ Und jetzt das Beste an diesem Ort: die Akustik. Sprich einmal halblaut, oder sum
 {
   id:"peristyl", name:"Peristyl",
   lat:43.50821, lon:16.44017, radius:28,
+  top:true,
   stay:"15–20 Minuten",
   find:"Der einzige größere offene Platz im Palastinneren, dort wo sich die beiden Hauptachsen kreuzen. Erkennbar an den roten Granitsäulen und den Stufen, auf denen Leute sitzen.",
   short:"Der zeremonielle Innenhof – das Herz des Palastes.",
@@ -842,6 +864,7 @@ Setz dich ruhig auf die Stufen. Genau das tun hier alle.`
 {
   id:"kathedrale", name:"Kathedrale des Heiligen Domnius",
   lat:43.50818, lon:16.44046, radius:24,
+  top:true,
   stay:"25 Minuten",
   find:"Der achteckige Bau an der Ostseite des Peristyls, mit dem hohen Turm daneben. Eingang über die Freitreppe mit den Holztüren.",
   short:"Diokletians Mausoleum – heute eine der ältesten genutzten Kathedralen der Welt.",
@@ -860,7 +883,9 @@ Setz dich ruhig auf die Stufen. Genau das tun hier alle.`
     {t:"In der Mitte · Kanzel und Chorgestühl",
      a:`Zwei Ausstattungsstücke aus dem dreizehnten Jahrhundert lohnen den Blick. Die Kanzel ruht auf schlanken Säulen mit fein gearbeiteten Kapitellen; von hier wurde gepredigt, erhöht über den Stehenden – Bänke gab es nicht. Und dann das hölzerne Chorgestühl, das als eines der ältesten erhaltenen an dieser Küste gilt. Schau auf die Schnitzereien an Wangen und Rückwänden. Holz überlebt in einem Küstenklima deutlich schlechter als Stein, deshalb ist erhaltenes mittelalterliches Kircheninventar aus Holz ungleich seltener als steinernes.`},
     {t:"Falls geöffnet · Krypta und Schatzkammer",
-     a:`Unter dem Bau liegt eine Krypta, die der heiligen Lucia geweiht ist – ein niedriger, gedrungener Rundraum, der die Form des Mausoleums von unten wiederholt. Und über der Sakristei befindet sich die Schatzkammer mit Reliquiaren, liturgischem Gerät und alten Handschriften. Beides ist nicht immer zugänglich und oft nur mit dem Kombiticket zu sehen. Wenn geöffnet, lohnt vor allem die Krypta: Sie ist der einzige Ort im Bau, an dem man ungestört steht. Oben ist es meist voll, unten selten.`}
+     a:`Unter dem Bau liegt eine Krypta, die der heiligen Lucia geweiht ist – ein niedriger, gedrungener Rundraum, der die Form des Mausoleums von unten wiederholt. Und über der Sakristei befindet sich die Schatzkammer mit Reliquiaren, liturgischem Gerät und alten Handschriften. Beides ist nicht immer zugänglich und oft nur mit dem Kombiticket zu sehen. Wenn geöffnet, lohnt vor allem die Krypta: Sie ist der einzige Ort im Bau, an dem man ungestört steht. Oben ist es meist voll, unten selten.`},
+    {t:"Praktisch · Ticket und Kleiderordnung",
+     a:`Drei Hinweise, die Zeit und Ärger sparen. Erstens das Ticket: Kathedrale, Schatzkammer, Krypta, das Baptisterium im Jupiter-Tempel und der Glockenturm werden üblicherweise über gestaffelte Kombitickets angeboten. Wer mehreres sehen will, kauft besser einmal ein größeres Ticket als mehrfach einzeln – und zwar am Anfang, nicht bei jedem Eingang neu. Zweitens die Kleiderordnung: Schultern und Knie bedeckt, das wird hier ernst genommen. Ein leichtes Tuch reicht. Drittens der Andrang: Der Innenraum ist klein, und eine einzige Reisegruppe füllt ihn aus. Vormittags kann Gottesdienst sein, dann ist die Besichtigung eingeschränkt. Wenn du vor einer Gruppe stehst, geh zwei Minuten hinaus zum Peristyl und komm wieder – Gruppen bleiben selten länger als fünf Minuten. Stand August zweitausendsechsundzwanzig.`}
   ],
   facts:[
     "Ursprünglich das Mausoleum Diokletians",
@@ -887,7 +912,9 @@ Sehenswert sind außerdem die romanische Kanzel aus dem dreizehnten Jahrhundert 
     {t:"Die Löwen am Fuß",
      a:`Bevor du hinaufsteigst, schau dir das Portal am Fuß des Turmes an. Dort liegen romanische Löwen, und darüber finden sich Figuren und Reliefs aus der mittelalterlichen Bauzeit. Achte darauf, wie unterschiedlich die Steine wirken: Manches ist stark verwittert und alt, anderes wirkt scharfkantig und neu. Der Grund ist der Umbau zwischen achtzehnhundertneunzig und neunzehnhundertacht, bei dem der Turm weitgehend abgetragen und neu aufgemauert wurde. Vieles Mittelalterliche ging dabei verloren. Wenn du also unsicher bist, ob ein Stück alt ist: Diese Unsicherheit ist begründet, und sie gilt für den halben Turm.`},
     {t:"Der Aufstieg",
-     a:`Der Aufstieg geht über etwa siebenundfünfzig Meter, auf steilen, teils offenen Stufen. Es ist eng, und wenn dir jemand entgegenkommt, muss einer warten. Feste Schuhe helfen, und wer nicht schwindelfrei ist, sollte es lassen. Oben lohnt es sich, in vier Richtungen bewusst zu schauen. Nach unten das Ziegeldächergewirr des Palastes, in dem man den rechteckigen Grundriss noch erkennt. Nach Süden Riva und Hafen mit den Fähren. Nach Westen der Marjan. Und nach Norden die Berge, hinter denen das Landesinnere beginnt. Früh am Morgen oder eine Stunde vor Sonnenuntergang ist es am angenehmsten.`}
+     a:`Der Aufstieg geht über etwa siebenundfünfzig Meter, auf steilen, teils offenen Stufen. Es ist eng, und wenn dir jemand entgegenkommt, muss einer warten. Feste Schuhe helfen, und wer nicht schwindelfrei ist, sollte es lassen. Oben lohnt es sich, in vier Richtungen bewusst zu schauen. Nach unten das Ziegeldächergewirr des Palastes, in dem man den rechteckigen Grundriss noch erkennt. Nach Süden Riva und Hafen mit den Fähren. Nach Westen der Marjan. Und nach Norden die Berge, hinter denen das Landesinnere beginnt. Früh am Morgen oder eine Stunde vor Sonnenuntergang ist es am angenehmsten.`},
+    {t:"Praktisch · Vor dem Aufstieg",
+     a:`Ein paar Dinge, die vorher helfen. Der Aufstieg geht über rund einhundertsechsundsiebzig Stufen, teils offen und ohne geschlossene Wand daneben – wer nicht schwindelfrei ist, sollte unten bleiben. Die Treppe ist so schmal, dass Auf- und Absteigende sich kaum ausweichen können; Rucksäcke und größere Taschen machen es unnötig eng. Feste Schuhe helfen, die Stufen sind glatt getreten. Der beste Zeitpunkt ist die erste Stunde nach dem Öffnen oder die letzte vor dem Schließen: dann ist es leerer, kühler und das Licht flacher. Mittags steht die Sonne senkrecht, dann verliert der Blick von oben seine Tiefe. Bei starkem Wind oder Regen kann der Turm kurzfristig geschlossen sein. Und: Der Turm schließt früher als die Kathedrale, im Winter deutlich früher. Stand dieser Angaben ist August zweitausendsechsundzwanzig – vor Ort gilt der Aushang.`}
   ],
   facts:[
     "Baubeginn im 13. Jahrhundert, Fertigstellung erst deutlich später",
@@ -934,6 +961,7 @@ An der Wand steht außerdem eine Bronzefigur Johannes des Täufers von Ivan Meš
 {
   id:"goldenes-tor", name:"Goldenes Tor",
   lat:43.50921, lon:16.44068, radius:34,
+  top:true,
   stay:"10 Minuten",
   find:"Das große Tor in der Nordmauer, hinter der Statue. Von außen ansehen, dann hindurchgehen.",
   short:"Das Haupttor im Norden – der Weg des Kaisers in die Stadt Salona.",
@@ -1102,6 +1130,7 @@ Komm am Vormittag. Gegen Mittag ist verkauft, und dann wird gespült. Zurück au
 {
   id:"riva", name:"Riva",
   lat:43.50847, lon:16.43669, radius:70,
+  top:true,
   stay:"20 Minuten",
   find:"Die Uferpromenade an der Südseite der Altstadt. Von überall im Palast einfach nach Süden gehen, bis das Meer kommt.",
   short:"Die Uferpromenade vor der Palastwand – das Wohnzimmer der Stadt.",
@@ -1151,6 +1180,7 @@ Und wenn du noch Kraft hast: Der Weg zum Marjan beginnt gleich dahinter.`
 {
   id:"marjan", name:"Marjan",
   lat:43.50732, lon:16.43241, radius:90,
+  top:true,
   stay:"1–3 Stunden",
   find:"Von Matejuška durch das Viertel Varoš die Treppen hinauf. Zehn bis fünfzehn Minuten Aufstieg bis zum Aussichtspunkt Vidilica.",
   short:"Der bewaldete Stadtberg mit Aussichtspunkt, Kapellen und Pinienwegen.",
@@ -1188,6 +1218,7 @@ const TRIESTE_POIS = [
 {
   id:"molo-iv", name:"Molo IV",
   lat:45.65433, lon:13.76675, radius:90, overview:true, day:1,
+  top:true,
   stay:"10 Minuten zum Ankommen",
   find:"Der Pier am westlichen Ende der Uferstraße, bei der Stazione Marittima. Von hier nach Osten der Uferfront folgen.",
   short:"Der Startpunkt am Wasser – und der beste Ort, um Triest einzuordnen.",
@@ -1214,6 +1245,7 @@ Wir gehen jetzt an der Uferstraße nach Osten. Erst hinaus auf die Mole, dann ö
 {
   id:"piazza-unita", name:"Piazza Unità d'Italia",
   lat:45.65012, lon:13.76776, radius:55, day:1,
+  top:true,
   stay:"20 Minuten",
   find:"Der große Platz an der Uferstraße, zur Seeseite hin offen. Vom Molo IV rund zehn Minuten nach Osten.",
   short:"Der größte zum Meer offene Platz Europas – Triests Wohnzimmer.",
@@ -1348,6 +1380,7 @@ Von hier sind es nur wenige Schritte zurück in die Geschäftsstadt des neunzehn
 {
   id:"san-giusto", name:"Kathedrale San Giusto",
   lat:45.6466, lon:13.77244, radius:40, day:1,
+  top:true,
   stay:"25 Minuten",
   find:"Oben auf dem Hügel. Zu Fuß steil hinauf oder mit dem Bus; die Kathedrale steht neben der Burg.",
   short:"Zwei Kirchen, die im 14. Jahrhundert zu einer verschmolzen wurden.",
@@ -1386,6 +1419,7 @@ Der Glockenturm entstand aus dem Vorbau eines römischen Tempels, dessen Reste i
 {
   id:"castello-san-giusto", name:"Castello di San Giusto",
   lat:45.64739, lon:13.77295, radius:45, day:1,
+  top:true,
   stay:"45 Minuten",
   find:"Unmittelbar neben der Kathedrale auf demselben Hügel. Der Orto Lapidario mit dem Winckelmann-Grabmal liegt dazwischen.",
   short:"Venezianisch begonnen, habsburgisch vollendet – mit dem besten Rundblick.",
@@ -1402,7 +1436,9 @@ Der Glockenturm entstand aus dem Vorbau eines römischen Tempels, dessen Reste i
     {t:"Bastione Lalio · Das Lapidario Tergestino",
      a:`Auf der rechten Seite des Hofes führt der Weg hinunter in die Untergeschosse der vieleckigen Bastion. Dort liegt das Lapidario Tergestino, eröffnet zweitausendeins: rund einhundertdreißig Inschriften, Reliefs und Skulpturen aus dem römischen Tergeste, alle in der Stadt selbst gefunden. Sie stammen vom Kapitolshügel, auf dem du gerade stehst, von Heiligtümern, von der Stadtmauer, vom Theater und aus den Gräberfeldern. Auf den Grabsteinen stehen die Namen von Einwohnern, die vor zweitausend Jahren hier lebten. Ein eigener Raum zeigt Mosaikböden einer römischen Meeresvilla aus Barcola – jenem Küstenabschnitt, an dem du auf dem Weg nach Miramare vorbeikommst. Die Villa selbst ist nicht mehr sichtbar, ihre Böden sind hier.`},
     {t:"Zum Schluss · Eine Burg ohne Schlacht",
-     a:`Eine Beobachtung, die zu dieser Anlage gehört: Diese Burg war nie Schauplatz bedeutender Kampfhandlungen. Genau deshalb steht sie noch. Was hier gebaut wurde, war Abschreckung und Verwaltung, nicht Krieg – der Kapitän des Kaisers wohnte darin und kontrollierte von hier die Stadt, die sich dreizehnhundertzweiundachtzig freiwillig unter österreichischen Schutz gestellt hatte. Bis siebzehnhundertfünfzig residierten hier die kaiserlichen Kapitäne, danach kamen Garnison und Gefängnis. Museum ist sie seit neunzehnhundertsechsunddreißig. Eine Festung, die ihren Zweck erfüllte, ohne ihn je anwenden zu müssen.`}
+     a:`Eine Beobachtung, die zu dieser Anlage gehört: Diese Burg war nie Schauplatz bedeutender Kampfhandlungen. Genau deshalb steht sie noch. Was hier gebaut wurde, war Abschreckung und Verwaltung, nicht Krieg – der Kapitän des Kaisers wohnte darin und kontrollierte von hier die Stadt, die sich dreizehnhundertzweiundachtzig freiwillig unter österreichischen Schutz gestellt hatte. Bis siebzehnhundertfünfzig residierten hier die kaiserlichen Kapitäne, danach kamen Garnison und Gefängnis. Museum ist sie seit neunzehnhundertsechsunddreißig. Eine Festung, die ihren Zweck erfüllte, ohne ihn je anwenden zu müssen.`},
+    {t:"Praktisch · Hinauf und wieder herunter",
+     a:`Der Hügel ist der Punkt, an dem viele Besucher aufgeben, und das muss nicht sein. Zu Fuß führen mehrere steile Treppenwege hinauf; wer schont, nimmt den Bus. Plane den Besuch so, dass Kathedrale und Burg zusammen erledigt sind – beide liegen nebeneinander, und zweimal den Hügel zu steigen ist ärgerlich. Für die Wehrgänge gilt: offener Stein, keine Geländer wie in einem Museum, bei Nässe rutschig, und wenn die Bora weht, ist es dort oben ungemütlich bis gefährlich. Feste Schuhe. Für den Rückweg lohnt die Treppe an der Nordseite, die Scala dei Giganti – bergab ist sie angenehmer als bergauf und der Blick besser. Öffnungszeiten und Ticketformen wechseln saisonal; prüfe den Aushang am Eingang. Stand August zweitausendsechsundzwanzig.`}
   ],
   facts:[
     "Bau ab 1470 unter habsburgischer Herrschaft",
@@ -1421,6 +1457,7 @@ Nimm für den Abstieg die Treppen an der Nordseite, die Scala dei Giganti. Sie f
 {
   id:"canal-grande", name:"Canal Grande",
   lat:45.6525, lon:13.77159, radius:55, day:1,
+  top:true,
   stay:"20 Minuten",
   find:"Nördlich der Piazza Unità im Borgo Teresiano. Das Wasserbecken mitten in der Stadt, am Kopfende die Säulenkirche.",
   short:"Ein Kanal mitten in der Stadt, gegraben im Auftrag Maria Theresias.",
@@ -1496,6 +1533,7 @@ Danach schlage ich eine Pause vor. Zwei Straßen weiter liegt ein Kaffeehaus, da
 {
   id:"caffe-san-marco", name:"Caffè San Marco",
   lat:45.65297, lon:13.7803, radius:30, day:1,
+  top:true,
   stay:"45 Minuten",
   find:"In der Via Cesare Battisti, etwa zehn Minuten nordöstlich vom Canal Grande. Unscheinbare Fassade, Eingang direkt an der Straße.",
   short:"Kaffeehaus von 1914, Literatentreff, heute halb Café und halb Buchhandlung.",
@@ -1523,6 +1561,7 @@ Damit endet der erste Tag. Miramare heben wir uns auf – das ist keine Station 
 {
   id:"barcola", name:"Barcola",
   lat:45.67955, lon:13.75436, radius:250, day:2,
+  top:true,
   stay:"20 Minuten Zwischenstopp",
   find:"Auf der Küstenstraße nach Nordwesten Richtung Miramare, etwa auf halbem Weg. Promenade mit Pinien und Betonterrassen.",
   short:"Erster Halt auf der Fahrt nach Miramare – die Badepromenade der Triestiner.",
@@ -1550,6 +1589,7 @@ Schau von hier die Bucht entlang nach Nordwesten. Auf der Landzunge am Ende steh
 {
   id:"miramare-park", name:"Parco di Miramare",
   lat:45.70115, lon:13.7197, radius:150, day:2,
+  top:true,
   stay:"1 Stunde",
   find:"Der Parkeingang liegt an der Küstenstraße unterhalb des Schlosses. Vom Parkplatz zu Fuß hinein.",
   short:"22 Hektar Garten auf nacktem Karstfelsen – Maximilians eigentliches Werk.",
@@ -1583,6 +1623,7 @@ Und geh unbedingt hinunter zum kleinen Hafen. Am Ende der Mole sitzt eine Sphinx
 {
   id:"miramare-schloss", name:"Schloss Miramare",
   lat:45.70255, lon:13.71248, radius:90, day:2,
+  top:true,
   stay:"1,5 Stunden",
   find:"Im Park, ganz vorn auf der Landzunge über dem Wasser. Vom Eingang etwa zehn Minuten zu Fuß.",
   short:"Das weiße Schloss über dem Meer – gebaut für Maximilian und Charlotte.",
@@ -1604,7 +1645,9 @@ Und geh unbedingt hinunter zum kleinen Hafen. Am Ende der Mole sitzt eine Sphinx
      a:`In einem der Räume im Obergeschoss hängen Leinwandbilder des istrischen Malers Cesare Dell'Acqua. Sie erzählen die Geschichte von Miramare selbst: die Landzunge vor dem Bau, die Gründung, Ereignisse aus dem Leben Maximilians. Das ist ungewöhnlich – hier wird nicht Mythologie oder Familiengeschichte gemalt, sondern die Entstehung des Hauses, in dem die Bilder hängen. Ein Bauherr lässt sein eigenes Bauvorhaben zum Bildthema machen, noch während er darin wohnt. Achte auf die Darstellung der Küste vor dem Bau – so kahl sah dieser Fels aus, bevor der Park entstand.`},
     {t:"Zum Schluss · Der Thronsaal",
      a:`Der Thronsaal im Obergeschoss ist der größte Raum des Schlosses. Die Decke ist mit hölzernem Sprengwerk gestaltet, Wände und Decke sind aufwendig vertäfelt, an den oberen Wandflächen hängen Bildnisse habsburgischer Herrscher. Der Saal ist vor einigen Jahren restauriert worden. Und dann die Sache, die man wissen muss, bevor man ihn betritt: Maximilian hat auf diesem Thron nie gesessen. Der Saal wurde für eine Herrschaft eingerichtet, die er in Mexiko antreten sollte und die drei Jahre später vor einem Erschießungskommando endete. Es ist ein vollständig ausgestatteter Repräsentationsraum ohne die Person, für die er gemacht wurde.`},
-
+,
+    {t:"Praktisch · Einlass und Anfahrt",
+     a:`Miramare ist der Ort, an dem Planung sich am meisten auszahlt. Das Museum ist täglich von neun bis neunzehn Uhr geöffnet, letzter Einlass halb sieben; der Park öffnet von April bis September bereits um acht. An Wochenenden und Feiertagen kann der Zutritt ohne Reservierung von der Kapazität abhängen, und das Museum empfiehlt, mindestens fünfundvierzig Minuten vor der gewünschten Einlasszeit da zu sein. Die Parkplätze sind knapp; empfohlen wird die Anreise mit Bus, Bahn oder Schiff. Wenn du früh kommst, hast du zwei Vorteile auf einmal: einen Parkplatz und einen fast leeren Park. Der Rundgang im Haus ist vorgegeben und einbahnig – wer einen Raum verpasst, kann nicht einfach zurück. Stand August zweitausendsechsundzwanzig.`}
   ],
   facts:[
     "Erbaut zwischen 1856 und 1860",
@@ -1623,6 +1666,7 @@ Zum Schluss ein praktischer Hinweis: Das Museum ist täglich von neun bis neunze
 {
   id:"san-dorligo", name:"San Dorligo della Valle",
   lat:45.61500, lon:13.82000, radius:900, day:3, overview:true,
+  top:true,
   stay:"20 Minuten",
   find:"Südöstlich von Triest Richtung slowenischer Grenze. Ortstafeln tragen zwei Namen, italienisch und slowenisch.",
   short:"Zweisprachige Gemeinde südöstlich von Triest – das Zentrum des Olivenanbaus.",
@@ -1644,6 +1688,7 @@ Als Nächstes fahren wir zum Hof. Danach lohnt ein Abstecher ins Rosandratal, da
 {
   id:"fior-rosso", name:"Fior Rosso – Ölhof in Aquilinia",
   lat:45.60591, lon:13.81368, radius:500, day:3,
+  top:true,
   stay:"1 Stunde",
   find:"Loc. Aquilinia 420. Aquilinia liegt im Nordwesten der Gemeinde Richtung Muggia. Vorher anrufen und nach dem Weg fragen.",
   short:"Olivenölbetrieb in der Ortslage Aquilinia – Bianchera aus eigener Erzeugung.",
@@ -1667,6 +1712,7 @@ Nimm dir Zeit. Wer selbst erzeugt, erzählt gern davon, und ein Gespräch über 
 {
   id:"val-rosandra", name:"Val Rosandra – Glinščica",
   lat:45.62000, lon:13.86800, radius:500, day:3,
+  top:true,
   stay:"1–3 Stunden",
   find:"Von Dolina oder Bagnoli aus in das Tal hinein. Parkplätze am Talrand, danach zu Fuß.",
   short:"Naturschutzgebiet mit Schlucht, Wasserfall und den Resten einer römischen Wasserleitung.",
@@ -1706,12 +1752,11 @@ const HUENXE_POIS = [
 {
   id:"dorfeingang", name:"Dorfeingang Krudenburg",
   lat:51.65487, lon:6.75151, radius:120, day:1, overview:true,
+  top:true,
   stay:"5 Minuten",
   short:"Am Trafohäuschen begrüßen dich zwei Männer, die ein Schiff ziehen.",
   teaser:"Schau auf die Wand des Trafohäuschens. Die Zeichnung erklärt in einem Bild, wovon dieses Dorf gelebt hat.",
   details:[
-    {t:"Die Tafel mit den Preisen",
-     a:`Am Ortseingang steht eine hölzerne Tafel unter einem kleinen Satteldach, oben das geschnitzte Wappen des Dorfes. Darauf sind in Sprossen die Auszeichnungen aus dem Wettbewerb Unser Dorf soll schöner werden festgehalten: neunzehnhundertsiebenundsiebzig ein Sonderpreis auf Kreisebene, neunzehnhundertneunundsiebzig Bronze im Kreis, einundachtzig Silber im Kreis und erster Platz mit Silber auf Landesebene, dreiundachtzig Gold im Kreis sowie Silber und ein Sonderpreis im Land. Dazu Gold auf Landesebene und Bronze im Bundeswettbewerb. Was diese Reihe erzählt, ist ein Aufstieg über sechs Jahre: erst Kreis, dann Land, dann Bund. Und sie fällt in dieselben Jahre wie der Froschbrunnen von neunzehnhundertneunundsiebzig – ein Dorf, das kurz zuvor seine Selbstständigkeit an Hünxe verloren hatte und sich stattdessen einen Namen machte.`},
     {t:"Ein halbes Dorf auf der Denkmalliste",
      a:`Krudenburg steht nicht nur als Ensemble unter Schutz – einzelne Häuser sind eigens in der Denkmalliste der Gemeinde eingetragen. Dorfstraße vier, fünf, sechs und zehn, dazu Lippeweg fünf und natürlich Haus Krudenburg selbst in der Dorfstraße vierzehn. Die meisten dieser Wohnhäuser werden um achtzehnhundertfünfzig datiert, das Haus am Lippeweg auf achtzehnhundertfünfundvierzig. Bei einem Ort mit knapp dreihundert Einwohnern ist das eine bemerkenswerte Dichte. Wenn du gleich die Dorfstraße hinuntergehst, kannst du an den Hausnummern ablesen, welche Gebäude gemeint sind.`}
   ],
@@ -1722,7 +1767,7 @@ Dort siehst du eine Zeichnung: zwei Männer, die an einem Seil ein Schiff ziehen
 Treideln heißt, ein Schiff vom Ufer aus stromaufwärts zu ziehen, mit Menschen oder mit Pferden. Genau das war die Arbeit hier. Krudenburg war ein Fischerdorf mit einem Hafen an der Lippe und eine Station für die Pferde und die Pferdeführer, die die Schiffe flussaufwärts zogen.
 Heute leben hier knapp dreihundert Menschen auf einhundertachtundzwanzig Hektar. Das ganze Dorf hat weniger Einwohner als manche Straße in Duisburg. Und trotzdem hat es eine Geschichte, die bis ins vierzehnte Jahrhundert urkundlich belegt ist und vermutlich viel weiter zurückreicht.
 Der historische Ortskern steht komplett unter Denkmalschutz, und Krudenburg gehört zur Route der Industriekultur. Das klingt ungewöhnlich für ein Dorf mit Kopfsteinpflaster und alten Backsteinhäusern, ist aber richtig: Was hier stand, war Verkehrsinfrastruktur.
-Wir gehen jetzt die Dorfstraße hinein. Der erste Halt ist das, was von der Burg übrig ist, die dem Ort seinen Namen gab.`
+Wir gehen jetzt ins Dorf hinein. Der erste Halt liegt noch am Rand, am Krudenburger Weg.`
 },
 {
   id:"juedischer-friedhof", name:"Jüdischer Friedhof Krudenburg",
@@ -1740,6 +1785,7 @@ Wenn du hingehst: Männer bedecken traditionell den Kopf, und Steine statt Blume
 {
   id:"burg-krudenburg", name:"Burg Krudenburg",
   lat:51.65076, lon:6.75589, radius:70, day:1,
+  top:true,
   stay:"15 Minuten",
   short:"Vom Rittersitz blieb ein zweigeschossiger Ziegelturm und ein Stück Mauer.",
   teaser:"Der zweigeschossige Ziegelturm links ist alles, was von der Wasserburg übrig ist. Am Infoschild siehst du, wie es hier einmal aussah.",
@@ -1766,6 +1812,7 @@ Am Infoschild an der Mauer findest du eine Gravur des Hafens und des alten Dorfk
 {
   id:"dorfstrasse", name:"Historischer Ortskern",
   lat:51.65047, lon:6.75673, radius:70, day:1,
+  top:true,
   stay:"20 Minuten",
   short:"Kopfsteinpflaster und geschlossene Bebauung – ein Straßendorf, wie es kaum noch welche gibt.",
   teaser:"Geh langsam und schau nach unten. Das Kopfsteinpflaster ist der Grund, warum dieser Ort ausgezeichnet wurde.",
@@ -1775,7 +1822,7 @@ Am Infoschild an der Mauer findest du eine Gravur des Hafens und des alten Dorfk
     {t:"Giebel zur Straße, Krüppelwalm oben",
      a:`Schau dir die Häuser Dorfstraße vier und sechs genauer an. Beide werden auf etwa achtzehnhundertfünfzig datiert, beide sind eingeschossige Backsteinhäuser, beide stehen mit dem Giebel zur Straße, und beide haben ein Krüppelwalmdach. Krüppelwalm heißt: Die Giebelspitze ist nicht senkrecht abgeschlossen, sondern oben abgeschrägt – ein kleines Dachdreieck sitzt quer darauf. Das schützt den Giebel vor Regen und Wind, und am Niederrhein, wo es beides reichlich gibt, war es die vernünftige Lösung. Wenn du dieses Detail einmal erkannt hast, siehst du es im ganzen Dorf.`}
   ],
-  facts:["Straßendorf in geschlossener Bauweise","Preise im Wettbewerb „Unser Dorf soll schöner werden“ von 1977 bis 1983","Bebauung durchgehend aus Feldbrandsteinen","650-Jahr-Feier im Jahr 2013","Seit 1562 evangelisch"],
+  facts:["Straßendorf in geschlossener Bauweise","Bebauung durchgehend aus Feldbrandsteinen","650-Jahr-Feier im Jahr 2013","Seit 1562 evangelisch"],
   next:"hausnummer-45", transport:"walk",
   audio:`Du gehst jetzt durch den historischen Ortskern von Krudenburg. Nimm das Tempo raus.
 Die Häuser stehen dicht an dicht entlang der einen Straße. Das nennt man ein Straßendorf, und es ist die einfachste Siedlungsform überhaupt: eine Verkehrsachse, links und rechts die Gehöfte. Hier gab es keinen Platz zum Ausufern, denn dahinter kamen die Lippe und die Auen.
@@ -1820,6 +1867,7 @@ Weiter geht es zum Rastplatz mit den Tafeln zum Treidelbetrieb.
      a:`Im Pflaster neben dem Sockel liegt eine Granitplatte mit der Aufschrift Anno neunzehnhundertneunundsiebzig. Der Brunnen, wie du ihn siehst, stammt also aus dieser Zeit und nicht aus dem neunzehnten Jahrhundert. Am Brunnenstock findest du das Wappen und den Namen Krudenburg eingemeißelt. Das ist kein Makel, sondern ein eigenes Stück Ortsgeschichte: In den siebziger Jahren wurde Krudenburg nach Hünxe eingemeindet und gewann kurz darauf bei den Wettbewerben um das schönere Dorf. In genau diese Jahre fällt dieser Brunnen. Ein Dorf, das gerade seine Selbstständigkeit verloren hatte, setzte sich ein Wahrzeichen mit dem eigenen Namen darauf.`}
   ],
   find:"Am hölzernen Wegweiser mit den Armen Brückenweg, Lippeweg und Dorfstraße. Der Brunnen steht auf dem gepflasterten Rund daneben, an der Bruchsteinmauer zur Lippewiese.",
+  top:true,
   stay:"10 Minuten",
   short:"Das Wahrzeichen des Dorfes – und die Erklärung für den Ortsnamen.",
   teaser:"Der Brunnen vor dir trägt einen Frosch. Der steht nicht zufällig da.",
@@ -1837,6 +1885,8 @@ Schau dich von hier einmal im Kreis um, dann hinüber zur Brücke. Dort endet un
   id:"kriegerdenkmal", name:"Kriegerdenkmal",
   lat:51.65037, lon:6.75504, radius:60, day:1,
   details:[
+    {t:"Die Tafel mit den Preisen",
+     a:`Gegenüber dem Denkmal steht eine hölzerne Tafel unter einem kleinen Satteldach, oben das geschnitzte Wappen des Dorfes. Darauf sind in Sprossen die Auszeichnungen aus dem Wettbewerb Unser Dorf soll schöner werden festgehalten: neunzehnhundertsiebenundsiebzig ein Sonderpreis auf Kreisebene, neunzehnhundertneunundsiebzig Bronze im Kreis, einundachtzig Silber im Kreis und erster Platz mit Silber auf Landesebene, dreiundachtzig Gold im Kreis sowie Silber und ein Sonderpreis im Land. Dazu Gold auf Landesebene und Bronze im Bundeswettbewerb. Was diese Reihe erzählt, ist ein Aufstieg über sechs Jahre: erst Kreis, dann Land, dann Bund. Und sie fällt in dieselben Jahre wie der Froschbrunnen von neunzehnhundertneunundsiebzig – ein Dorf, das kurz zuvor seine Selbstständigkeit an Hünxe verloren hatte und sich stattdessen einen Namen machte.`},
     {t:"Crudenburg mit C",
      a:`Lies die Inschrift genau. Als Stifter steht dort die Gemeinde Crudenburg, mit C geschrieben. Diese Schreibweise war früher üblich und begegnet dir in älteren Urkunden immer wieder; das Dorf führt sie bis heute als Nebenform. Am Ortseingang steht sie sogar auf einem Schild. Für sich genommen ist das eine Kleinigkeit, aber sie datiert das Denkmal indirekt: Es stammt aus einer Zeit, in der man den Ort so schrieb – und in der eine Gemeinde Crudenburg noch eigenständig genug war, um als Stifterin aufzutreten. Erst neunzehnhundertfünfundsiebzig wurde Krudenburg Teil der Gemeinde Hünxe.`},
     {t:"Warum solche Denkmäler überall stehen",
@@ -1845,7 +1895,7 @@ Schau dich von hier einmal im Kreis um, dann hinüber zur Brücke. Dort endet un
   stay:"10 Minuten",
   short:"Denkmal für die Gefallenen des Ersten Weltkriegs, gestiftet von der Gemeinde Crudenburg.",
   teaser:"Lies die Inschrift. Beim Namen des Stifters lohnt ein zweiter Blick.",
-  facts:["Gedenkstein für die Gefallenen 1914 bis 1918","Gestiftet von der damaligen Gemeinde Crudenburg","Schreibweise mit C"],
+  facts:["Gedenkstein für die Gefallenen 1914 bis 1918","Gestiftet von der damaligen Gemeinde Crudenburg","Schreibweise mit C","Gegenüber die Tafel mit den Preisen von 1977 bis 1983"],
   next:"alter-hafen", transport:"walk",
   audio:`Vor dir steht das Kriegerdenkmal von Krudenburg.
 Die Inschrift ist schlicht und lautet sinngemäß: zum Gedenken den im Weltkrieg neunzehnhundertvierzehn bis neunzehnhundertachtzehn gefallenen Söhnen. Als Stifterin nennt sich die Gemeinde Crudenburg.
@@ -1858,6 +1908,7 @@ Nimm dir einen Moment. Und wenn du magst, lies die Namen. Das ist die einzige Fo
   id:"alter-hafen", name:"Der alte Hafen",
   lat:51.64974, lon:6.75569, radius:80, day:1,
   find:"Dem grünen Wegweiser „Zum Alten Hafen“ folgen. Der Hafen selbst ist heute eine Wiesensenke ohne Wasser.",
+  top:true,
   stay:"15 Minuten",
   short:"Angelegter Überwinterungshafen der Lippeschiffe – heute trockengefallen.",
   teaser:"Was heute wie eine Wiesensenke aussieht, war der Hafen. Versuch die alte Uferkante zu erkennen.",
@@ -1938,6 +1989,7 @@ Damit endet der Rundgang durch Krudenburg. Für morgen liegen Kirche, Mühle und
 {
   id:"ev-kirche-huenxe", name:"Evangelische Kirche Hünxe",
   lat:51.64282, lon:6.76639, radius:90, day:2,
+  top:true,
   stay:"25 Minuten",
   short:"Gotische Säulenbasilika aus dem 14. Jahrhundert – das älteste Gebäude von Hünxe.",
   teaser:"Such im Inneren das barocke Steingrab an der Wand. Solche gibt es am Niederrhein nur wenige.",
@@ -2014,6 +2066,7 @@ Ein praktischer Hinweis: Das Museum wird ehrenamtlich betreut und hat keine durc
 {
   id:"wassermuehle-gartrop", name:"Wassermühle Gartrop",
   lat:51.66155, lon:6.80862, radius:110, day:2,
+  top:true,
   stay:"30 Minuten",
   short:"Rund 500 Jahre in Betrieb, seit 2014 wieder funktionstüchtig.",
   teaser:"Bleib am Wasserrad stehen und sieh dir das Schiebersystem an, mit dem der Zufluss geregelt wurde.",
@@ -2035,6 +2088,7 @@ Und eine Geschichte, die überliefert, aber nicht überprüfbar ist: Am sechsten
 {
   id:"schloss-gartrop", name:"Schloss Gartrop",
   lat:51.66209, lon:6.80816, radius:130, day:2,
+  top:true,
   stay:"1 Stunde",
   short:"Wasserschloss von 1675, umgeben von einem englischen Landschaftsgarten.",
   teaser:"Schau auf die beiden Pfeiler am Eingangstor. Oben sitzen zwei Göttinnen aus Sandstein.",
@@ -2065,6 +2119,7 @@ Praktisch: Das Schloss ist in Privatbesitz und wird als Hotel und Veranstaltungs
 {
   id:"haus-esselt", name:"Haus Esselt – Otto-Pankok-Museum",
   lat:51.71062, lon:6.69964, radius:200, day:2,
+  top:true,
   stay:"1 Stunde",
   short:"Der Alterssitz des Malers Otto Pankok, heute Museum.",
   teaser:"Achte auf die Kohlezeichnungen. Pankok arbeitete fast ausschließlich in Schwarz.",
@@ -2096,7 +2151,7 @@ const CITIES = {
              center:[45.6540,13.7580], zoom:14, pois:TRIESTE_POIS,
              days:[
                { n:1, label:"Tag 1 · Altstadt", center:[45.6500,13.7710], zoom:15,
-                 note:"Zu Fuß ab Molo IV. Rund 3 Kilometer, mit dem Aufstieg nach San Giusto. Am Abend Korso auf der Riva." },
+                 note:"Zu Fuß ab Molo IV, mit dem Aufstieg nach San Giusto. Am Abend Korso auf der Riva." },
                { n:2, label:"Tag 2 · Miramare", center:[45.6900,13.7290], zoom:13,
                  note:"Vormittag mit dem PKW über den Viale Miramare. Park ab 8, Museum ab 9 Uhr. Am Wochenende früh kommen, Parkplätze und Einlass sind begrenzt." },
                { n:3, label:"Tag 3 · Karst & Öl", center:[45.6140,13.8600], zoom:13,
@@ -2107,7 +2162,7 @@ const CITIES = {
              center:[51.6520,6.7720], zoom:13, pois:HUENXE_POIS,
              days:[
                { n:1, label:"Tag 1 · Krudenburg", center:[51.6506,6.7570], zoom:16,
-                 note:"Zu Fuß durch das Treidlerdorf. Gut ein Kilometer, etwa anderthalb Stunden." },
+                 note:"Zu Fuß durch das Treidlerdorf, entlang der Dorfstraße und hinaus an die Lippe." },
                { n:2, label:"Tag 2 · Hünxe & Gartrop", center:[51.6540,6.7700], zoom:12,
                  note:"Mit Rad oder Wagen: Kirche, Heimatmuseum, Mühle, Schloss, Haus Esselt." }
              ] }
@@ -2116,7 +2171,13 @@ const CITIES = {
 let CITY = CITIES.split;
 let POIS = CITY.pois;
 let activeDay = null;                       // null = Stadt ohne Tagesstruktur
-const activePois = () => activeDay==null ? POIS : POIS.filter(p=>p.day===activeDay);
+let onlyTop = false;   // Kurzfassung: nur die wichtigsten Stationen
+/** Alle Orte des Tages, ungefiltert – Grundlage für die Reihenfolge. */
+const dayPois = () => activeDay==null ? POIS : POIS.filter(p=>p.day===activeDay);
+const activePois = () => onlyTop ? dayPois().filter(p=>p.top || p.custom) : dayPois();
+/* Reihenfolge der Route – dieselbe wie auf der Karte und in der Ortsliste.
+   Wichtig: activePois() liefert die Datenreihenfolge, nicht die Laufordnung. */
+const routePois = () => orderedPois().concat(activePois().filter(p=>p.custom));
 
 /* ============================================================
    ZUSTAND / SPEICHERUNG
@@ -2128,6 +2189,7 @@ const State = {
   volume: 0.9,
   hints: true,          // Hinweis bei Ankunft ansagen
   rate: 0.95,           // Sprechtempo
+  navSpeak: true,       // Wegansage am Ende jeder Führung
   calib: {},            // vor Ort korrigierte Koordinaten: { poiId: [lat, lon] }
   custom: [],           // selbst angelegte Orte
   lastPoi: null,        // zuletzt erkannter Ort (auch für den Foto-Modus)
@@ -2139,7 +2201,7 @@ function loadState(){
   // den Fortschritt der vorher geöffneten Stadt mit.
   State.visited=[]; State.announced=[]; State.calib={}; State.custom=[];
   State.lastPoi=null; State.lastFix=null;
-  State.volume=0.9; State.hints=true; State.rate=0.95;
+  State.volume=0.9; State.hints=true; State.rate=0.95; State.navSpeak=true;
   try{
     const raw = localStorage.getItem(STORE_KEY);
     if(!raw) return;
@@ -2148,6 +2210,7 @@ function loadState(){
     State.volume  = typeof d.volume === "number" ? d.volume : 0.9;
     State.hints   = d.hints !== false;
     State.rate    = typeof d.rate === "number" ? d.rate : 0.95;
+    State.navSpeak= d.navSpeak !== false;
     State.calib   = d.calib && typeof d.calib==="object" ? d.calib : {};
     State.custom  = Array.isArray(d.custom) ? d.custom : [];
     State.lastPoi = d.lastPoi || null;
@@ -2157,7 +2220,7 @@ function loadState(){
 function saveState(){
   try{
     localStorage.setItem(STORE_KEY, JSON.stringify({
-      visited:State.visited, volume:State.volume, hints:State.hints, rate:State.rate,
+      visited:State.visited, volume:State.volume, hints:State.hints, rate:State.rate, navSpeak:State.navSpeak,
       calib:State.calib, custom:State.custom, lastPoi:State.lastPoi, lastFix:State.lastFix
     }));
   }catch(e){}
@@ -2480,7 +2543,7 @@ const UI = {
     else { $("distNum").textContent=(dist/1000).toFixed(1).replace(".",","); $("distUnit").textContent="km"; }
   },
   nav(){
-    const set = activePois();
+    const set = routePois();
     const i = currentTarget ? set.indexOf(currentTarget) : -1;
     $("navPos").textContent = i>=0 ? "Station "+(i+1)+" von "+set.length : "—";
     $("btnPrev").disabled = i<=0;
@@ -2492,6 +2555,7 @@ const UI = {
       : (gpsOn ? "folgt deinem Standort" : "kein Standortsignal");
   },
   progressLine(){
+    if($("daybar") && !$("daybar").classList.contains("hidden")) updateDayNote();
     const set = activePois();
     const done = set.filter(p=>State.visited.includes(p.id)).length;
     const day = (activeDay==null) ? "Tourfortschritt: "
@@ -2599,7 +2663,7 @@ function icon(p, target){
 
 /** Reihenfolge des aktiven Tages: folgt der next-Kette, sonst der Listenfolge. */
 function orderedPois(){
-  const set = activePois().filter(p=>!p.custom);
+  const set = dayPois().filter(p=>!p.custom);
   if(!set.length) return [];
   const byId = {}; set.forEach(p=>byId[p.id]=p);
   const targets = new Set(set.map(p=>p.next).filter(Boolean));
@@ -2608,7 +2672,7 @@ function orderedPois(){
   let cur=start;
   while(cur && !seen.has(cur.id)){ out.push(cur); seen.add(cur.id); cur = cur.next ? byId[cur.next] : null; }
   set.forEach(p=>{ if(!seen.has(p.id)) out.push(p); });   // nichts verlieren
-  return out;
+  return onlyTop ? out.filter(p=>p.top) : out;             // erst ordnen, dann kürzen
 }
 function refreshMarkers(targetId){
   if(!mapAvailable) return;
@@ -2792,7 +2856,7 @@ function showPoiCard(p, dist, lat, lon){
 
   // Audiotext bereitstellen, wenn ein anderer Ort geladen war
   if(Speech.label !== p.name && !Speech.playing && !Speech.paused){
-    Speech.load(p.audio, p.name);
+    Speech.load(stationAudio(p), p.name);
     UI.playState("Bereit: "+p.name);
     UI.playProgress();
     UI.playButtons();
@@ -2853,7 +2917,7 @@ function playPoi(id){
     currentTarget = p;
     showPoiCard(p, (f&&gpsOn) ? haversine(f.lat,f.lon,p.lat,p.lon) : 0, (f&&gpsOn)?f.lat:null, (f&&gpsOn)?f.lon:null);
   }
-  Speech.load(p.audio, p.name);
+  Speech.load(stationAudio(p), p.name);
   Speech.onEnd = ()=>{
     if(!State.visited.includes(p.id)){ State.visited.push(p.id); saveState(); UI.progressLine(); refreshMarkers(currentTarget && currentTarget.id); }
   };
@@ -2882,7 +2946,7 @@ function focusPoi(p){
     $("poiDir").textContent = "Aufenthalt: "+p.stay;
     UI.ring(null, 70);
   }
-  Speech.load(p.audio, p.name);
+  Speech.load(stationAudio(p), p.name);
   UI.playState("Bereit: "+p.name);
   UI.playProgress(); UI.playButtons();
   refreshMarkers(p.id);
@@ -2900,7 +2964,7 @@ function selectPoi(id){
 
 /** Eine Station vor oder zurück, innerhalb des aktiven Tages. */
 function stepPoi(delta){
-  const set = activePois();
+  const set = routePois();
   let i = currentTarget ? set.indexOf(currentTarget) : -1;
   if(i<0) i = 0; else i += delta;
   if(i<0 || i>=set.length) return;
@@ -2930,8 +2994,17 @@ function backToMe(){
 let dayChosenManually = false;
 
 function initDays(){
-  if(!CITY.days){ activeDay=null; $("daybar").classList.add("hidden"); return; }
+  if(!CITY.days){
+    // Stadt ohne Tagesstruktur: keine Reiter, aber dieselbe Zeile mit Umfang
+    activeDay = null;
+    $("dayTabs").innerHTML = "";
+    $("dayTabs").classList.add("hidden");
+    $("daybar").classList.remove("hidden");
+    updateDayNote();
+    return;
+  }
   activeDay = CITY.days[0].n;
+  $("dayTabs").classList.remove("hidden");
   $("daybar").classList.remove("hidden");
   $("dayTabs").innerHTML = CITY.days.map(d=>
     '<button class="daytab'+(d.n===activeDay?" on":"")+'" data-day="'+d.n+'">'+esc(d.label)+'</button>'
@@ -2970,9 +3043,25 @@ function setDay(n, recenter){
   }
 }
 
+/** Schätzt Strecke und Hörzeit des aktiven Tages. */
+function daySummary(){
+  const set = routePois().filter(p=>!p.custom);
+  if(!set.length) return "";
+  let m = 0;
+  for(let i=0;i<set.length-1;i++) m += haversine(set[i].lat,set[i].lon,set[i+1].lat,set[i+1].lon);
+  const words = set.reduce((n,p)=>n + (p.audio||"").split(/\s+/).length, 0);
+  const det   = set.reduce((n,p)=>n + (p.details||[]).length, 0);
+  const detW  = set.reduce((n,p)=>n + (p.details||[]).reduce((k,d)=>k+d.a.split(/\s+/).length,0), 0);
+  const min   = Math.round(words/130), minAll = Math.round((words+detW)/130);
+  const km    = m<1000 ? Math.round(m)+" m" : (m/1000).toFixed(1).replace(".",",")+" km";
+  return set.length+" Stationen · "+km+" · "+min+" min Hörzeit"+
+         (det ? " (mit allen "+det+" Details "+minAll+" min)" : "");
+}
+
 function updateDayNote(){
   const d = CITY.days && CITY.days.find(x=>x.n===activeDay);
-  $("dayNote").textContent = d ? d.note : "";
+  const sum = daySummary();
+  $("dayNote").innerHTML = (d ? esc(d.note) : "") + (sum ? '<span class="daysum">'+esc(sum)+'</span>' : "");
 }
 
 /** Wählt beim ersten Standortsignal den Tag, dessen Orte am nächsten liegen. */
@@ -3371,10 +3460,34 @@ function clearDetailMarks(){
     box.querySelectorAll("button").forEach(b=>b.classList.remove("playing"));
 }
 
+/* ============================================================
+   SPRECHTEXT EINER STATION
+
+   Am Ende jeder Führung wird angesagt, wohin es weitergeht und
+   woran man das Ziel erkennt. Damit muss man unterwegs nicht auf
+   den Bildschirm schauen – der Text im Ohr reicht.
+   ============================================================ */
+function stationAudio(p){
+  let t = p.audio || "";
+  const seq = routePois();
+  const i = seq.indexOf(p);
+  if(!State.navSpeak) return t;              // Wegansage abgeschaltet
+  const nx = (i>=0 && i<seq.length-1) ? seq[i+1] : (p.next ? poiById(p.next) : null);
+  if(nx){
+    t += "\nAls Nächstes: " + nx.name + ".";
+    if(nx.find) t += " " + nx.find;
+    if(State.lastFix && gpsOn){
+      const d = haversine(State.lastFix.lat, State.lastFix.lon, nx.lat, nx.lon);
+      t += " Entfernung ungefähr " + fmtDist(d) + ".";
+    }
+  }
+  return t;
+}
+
 /** Lädt den Haupttext der Station und spielt ihn ab. */
 function playStationAudio(p, andPlay){
   clearDetailMarks();
-  Speech.load(p.audio, p.name);
+  Speech.load(stationAudio(p), p.name);
   if(andPlay){ audioUnlocked = true; Speech.play(); }
   UI.playState((andPlay ? "Führung: " : "Bereit: ")+p.name);
   UI.playProgress();
@@ -3533,7 +3646,7 @@ async function runAnalysis(){
     '<pre class="payload hidden" id="payload"></pre>';
 
   const sf = $("speakFallback");
-  if(sf) sf.onclick = ()=>{ const p=poiById(last.id); Speech.load(p.audio,p.name); Speech.play(); audioUnlocked=true; UI.playButtons(); };
+  if(sf) sf.onclick = ()=>{ const p=poiById(last.id); Speech.load(stationAudio(p),p.name); Speech.play(); audioUnlocked=true; UI.playButtons(); };
 
   $("togglePayload").onclick = ()=>{
     const pre=$("payload");
@@ -3594,7 +3707,7 @@ function switchMode(mode){
 
 function openList(){
   const f = State.lastFix;
-  const seq = orderedPois().concat(activePois().filter(p=>p.custom));
+  const seq = routePois();
   $("listBody").innerHTML = seq.map((p,idx)=>{
     const d = f ? " · "+fmtDist(haversine(f.lat,f.lon,p.lat,p.lon)) : "";
     const done = State.visited.includes(p.id);
@@ -3700,6 +3813,7 @@ function toggleHints(){
   State.hints = !State.hints;
   saveState();
   $("btnHints").textContent = "🔔 Hinweise: "+(State.hints?"an":"aus");
+  $("btnNav").textContent   = "🧭 Wegansage: "+(State.navSpeak?"an":"aus");
   if(!State.hints && Speech.label==="Hinweis") Speech.stop();
 }
 
@@ -3958,6 +4072,7 @@ function boot(cityId, useGps){
   UI.progressLine();
   UI.nav();
   $("btnHints").textContent = "🔔 Hinweise: "+(State.hints?"an":"aus");
+  $("btnNav").textContent   = "🧭 Wegansage: "+(State.navSpeak?"an":"aus");
   $("vol").value = State.volume;
   $("volVal").textContent = Math.round(State.volume*100)+" %";
   $("rate").value = State.rate;
@@ -4025,7 +4140,7 @@ $("tsToggle").onclick = ()=>{
 $("btnPause").onclick = ()=>Speech.pause();
 $("btnStop").onclick  = ()=>{
   Speech.stop(); Speech.idx=0; clearDetailMarks();
-  if(currentTarget) Speech.load(currentTarget.audio, currentTarget.name);
+  if(currentTarget) Speech.load(stationAudio(currentTarget), currentTarget.name);
   UI.playProgress(); UI.playState("Gestoppt.");
 };
 $("arrivalStart").onclick = e => playPoi(e.currentTarget.dataset.poi);
@@ -4073,6 +4188,37 @@ $("sheet").onclick = e=>{ if(e.target.id==="sheet") $("sheet").classList.add("hi
 $("btnRoute").onclick = openRoute;
 $("gpsState").onclick    = toggleGps;
 $("btnHints").onclick    = toggleHints;
+function toggleTop(){
+  onlyTop = !onlyTop;
+  $("btnTop").textContent = "⭐ Kurzfassung: "+(onlyTop?"an":"aus");
+  $("btnTop").classList.toggle("on", onlyTop);
+  renderMarkers();
+  UI.progressLine();
+  if(activeDay!=null) updateDayNote();
+  const set = routePois();
+  if(set.length && (!currentTarget || set.indexOf(currentTarget)<0)) focusPoi(set[0]);
+  else { UI.nav(); if(currentTarget) refreshMarkers(currentTarget.id); }
+  UI.playState(onlyTop ? "Kurzfassung: nur die wichtigsten Stationen." : "Alle Stationen aktiv.");
+}
+
+function jumpToStation(){
+  const set = routePois();
+  const v = prompt("Zu welcher Station? 1 bis "+set.length);
+  const i = parseInt(v,10);
+  if(!isNaN(i) && i>=1 && i<=set.length) focusPoi(set[i-1]);
+}
+
+$("btnTop").onclick      = toggleTop;
+$("btnJump").onclick     = jumpToStation;
+$("btnNav").onclick      = ()=>{
+  State.navSpeak = !State.navSpeak; saveState();
+  $("btnNav").textContent = "🧭 Wegansage: "+(State.navSpeak?"an":"aus");
+  $("btnNav").classList.toggle("on", !State.navSpeak);
+  if(currentTarget && !Speech.playing) Speech.load(stationAudio(currentTarget), currentTarget.name);
+  UI.playState(State.navSpeak
+    ? "Wegansage an – am Ende jeder Führung kommt der Weg zur nächsten Station."
+    : "Wegansage aus – zwischen den Stationen bleibt es still.");
+};
 $("btnMore").onclick     = ()=>{
   const open = $("moreBox").classList.toggle("hidden")===false;
   $("btnMore").textContent = open ? "⋯ Weniger" : "⋯ Mehr";
