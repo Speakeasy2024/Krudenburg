@@ -401,7 +401,7 @@ footer{
     <button class="btn-ghost" id="startNoGps">Ohne Standort fortfahren</button>
     <div id="bootError" style="display:none;background:#B3311F;color:#fff;border-radius:12px;
          padding:12px;margin-top:12px;font-size:13px;text-align:left;line-height:1.4"></div>
-    <p class="ver">Stand: 25.08.2026 i · 55 Stationen · 136 Detailpunkte</p>
+    <p class="ver">Stand: 25.08.2026 k · 55 Stationen · 136 Detailpunkte</p>
     <p class="foot">
       Beim Start fragt der Browser nach dem Standort. Nur mit erlaubtem Zugriff
       erkennt der Guide selbst, wo du stehst. Jede Stadt merkt sich ihren
@@ -3818,6 +3818,7 @@ function applyCalibration(){
     const c = State.calib && State.calib[p.id];
     p.lat = c ? c[0] : p._lat0;
     p.lon = c ? c[1] : p._lon0;
+    p._acc = c && c.length>2 ? c[2] : null;
   });
 }
 
@@ -3849,13 +3850,17 @@ function askCalib(){
 function calibSet(){
   const p = currentTarget, f = State.lastFix;
   if(!p || !f || !gpsOn) return;
-  State.calib[p.id] = [ +f.lat.toFixed(5), +f.lon.toFixed(5) ];
+  // Genauigkeit und Zeitpunkt mitschreiben – ohne sie lässt sich später
+  // nicht beurteilen, wie belastbar eine Messung war.
+  State.calib[p.id] = [ +f.lat.toFixed(5), +f.lon.toFixed(5), Math.round(f.acc||0), Date.now() ];
   saveState();
   applyCalibration();
   renderMarkers();
   evaluate(f.lat, f.lon, f.acc);
   $("calibBox").classList.add("hidden");
-  UI.playState("Position von „"+p.name+"“ auf deinen Standort gesetzt.");
+  const a = Math.round(f.acc||0);
+  UI.playState("Position von „"+p.name+"“ gesetzt – gemessen mit ±"+a+" m"+
+    (a<=10 ? " (gut)." : a<=25 ? " (brauchbar)." : " (unsicher, bei besserem Empfang wiederholen)."));
 }
 
 function calibShow(){
@@ -3864,8 +3869,10 @@ function calibShow(){
   out.textContent = keys.length
     ? "// In die Datei übernehmen: lat/lon der jeweiligen Station ersetzen\n" +
       keys.map(k=>{
-        const p = poiById(k);
-        return (p?p.name:k)+"  →  lat:"+State.calib[k][0]+", lon:"+State.calib[k][1];
+        const p = poiById(k), c = State.calib[k];
+        const acc = c.length>2 ? "   ±"+c[2]+" m" : "   Genauigkeit unbekannt";
+        const gut = c.length>2 ? (c[2]<=10 ? " (gut)" : c[2]<=25 ? " (brauchbar)" : " (unsicher)") : "";
+        return (p?p.name:k)+"  →  lat:"+c[0]+", lon:"+c[1]+acc+gut;
       }).join("\n")
     : "Noch keine Korrekturen gespeichert.";
   out.classList.remove("hidden");
@@ -3966,11 +3973,18 @@ function buildExport(){
   return {
     stadt: CITY.id,
     exportiert: new Date().toISOString(),
+    hinweis: "Bei den Positionskorrekturen steht die gemessene GPS-Genauigkeit in Metern. Unter 10 m ist gut, über 25 m mit Vorsicht verwenden.",
     eigeneOrte: (State.custom||[]).map(c=>({
       id:c.id, name:c.name, lat:c.lat, lon:c.lon, radius:c.radius||60,
       day:c.day, notiz:c.note, angelegt:new Date(c.ts).toISOString()
     })),
-    positionskorrekturen: State.calib||{}
+    positionskorrekturen: Object.keys(State.calib||{}).reduce((o,k)=>{
+      const c = State.calib[k], p = poiById(k);
+      o[k] = { name: p?p.name:k, lat:c[0], lon:c[1],
+               genauigkeitMeter: c.length>2 ? c[2] : null,
+               gemessen: c.length>3 ? new Date(c[3]).toISOString() : null };
+      return o;
+    }, {})
   };
 }
 
@@ -3990,8 +4004,11 @@ function buildSnippet(){
 },`).join("\n");
 
   const cal = Object.keys(d.positionskorrekturen).map(k=>{
-    const p = poiById(k);
-    return "// "+(p?p.name:k)+":  lat:"+d.positionskorrekturen[k][0]+", lon:"+d.positionskorrekturen[k][1];
+    const c = d.positionskorrekturen[k];
+    const acc = c.genauigkeitMeter==null ? "" :
+      "   // gemessen mit ±"+c.genauigkeitMeter+" m"+
+      (c.genauigkeitMeter<=10 ? " (gut)" : c.genauigkeitMeter<=25 ? " (brauchbar)" : " (unsicher – lieber prüfen)");
+    return "// "+c.name+":  lat:"+c.lat+", lon:"+c.lon+acc;
   }).join("\n");
 
   return "// ===== Eigene Orte – in das Array "+({split:"SPLIT_POIS", trieste:"TRIESTE_POIS", huenxe:"HUENXE_POIS"}[CITY.id] || "POIS")+" einfügen =====\n"+
@@ -4014,6 +4031,7 @@ async function askExport(){
   // Fotogrößen echt messen, nicht schätzen
   const all = await PhotoStore.all();
   const mine = Object.keys(all).filter(k=>k.indexOf(CITY.id+"/")===0);
+  exportPhotoCache = { all, mine };
   const urls = [];
   mine.forEach(k=>{ let v=all[k]; if(typeof v==="string") v=[{url:v}];
                     (v||[]).forEach(x=>urls.push(x.url)); });
@@ -4029,10 +4047,15 @@ async function askExport(){
     : "Keine Referenzfotos vorhanden";
 }
 
-async function exportPhotos(){
-  const all = await PhotoStore.all();
-  const mine = Object.keys(all).filter(k=>k.indexOf(CITY.id+"/")===0);
-  if(!mine.length){ UI.playState("Keine Referenzfotos vorhanden."); return; }
+let exportPhotoCache = null;   // wird beim Öffnen gefüllt
+
+/* iOS bricht Downloads ab, wenn zwischen Fingertipp und Auslösen etwas
+   Asynchrones liegt. Deshalb liegen die Daten hier schon bereit, und der
+   Knopf arbeitet ohne Wartezeit – zuerst über das Teilen-Menü, sonst als Datei. */
+function exportPhotos(){
+  const c = exportPhotoCache;
+  if(!c || !c.mine.length){ UI.playState("Keine Referenzfotos vorhanden – Feld einmal schließen und neu öffnen."); return; }
+  const all = c.all, mine = c.mine;
   const lines = mine.map(k=>{
     const id = k.slice(CITY.id.length+1);
     const p  = poiById(id);
@@ -4049,15 +4072,39 @@ async function exportPhotos(){
     return out;
   }).join("\n\n");
   const payload = "// ===== Referenzfotos "+CITY.name+" =====\n"+lines+"\n";
+  const name = "audioguide-fotos-"+CITY.id+".txt";
+  deliverFile(payload, name, "Fotos von "+mine.length+" Station(en)");
+}
+
+/** Gibt eine Textdatei aus: Teilen-Menü, sonst Download, sonst Zwischenablage. */
+function deliverFile(text, name, label){
+  // 1) Teilen-Menü – der zuverlässige Weg auf dem iPhone
   try{
-    const blob = new Blob([payload], {type:"text/plain;charset=utf-8"});
+    const file = new File([text], name, {type:"text/plain"});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      navigator.share({files:[file], title:label})
+        .then(()=>UI.playState(label+" geteilt."))
+        .catch(()=>UI.playState("Teilen abgebrochen."));
+      return;
+    }
+  }catch(e){}
+  // 2) klassischer Download
+  try{
+    const blob = new Blob([text], {type:"text/plain;charset=utf-8"});
     const url  = URL.createObjectURL(blob);
     const a = document.createElement("a");
-    a.href=url; a.download = "audioguide-fotos-"+CITY.id+".txt";
+    a.href=url; a.download=name; a.rel="noopener";
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(()=>URL.revokeObjectURL(url), 4000);
-    UI.playState("Fotos von "+mine.length+" Station(en) gesichert.");
-  }catch(e){ UI.playState("Sichern nicht möglich."); }
+    UI.playState(label+" gesichert.");
+    return;
+  }catch(e){}
+  // 3) Zwischenablage als letzter Ausweg
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text)
+      .then(()=>UI.playState(label+" in die Zwischenablage kopiert."))
+      .catch(()=>UI.playState("Sichern nicht möglich – bitte Bildschirmfoto machen."));
+  } else UI.playState("Sichern nicht möglich.");
 }
 
 async function exportCopy(){
@@ -4073,19 +4120,8 @@ async function exportCopy(){
 
 function exportFile(){
   const payload = JSON.stringify(buildExport(), null, 2)+
-    "\n\n/* Zum Einfügen in index.html:\n\n"+buildSnippet()+"\n*/\n";
-  try{
-    const blob = new Blob([payload], {type:"text/plain;charset=utf-8"});
-    const url  = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "audioguide-"+CITY.id+"-"+new Date().toISOString().slice(0,10)+".txt";
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url), 4000);
-    UI.playState("Datei gesichert.");
-  }catch(e){
-    UI.playState("Sichern nicht möglich – nutze das Kopieren.");
-  }
+    "\n\n/* Zum Einfügen in audioguide.html:\n\n"+buildSnippet()+"\n*/\n";
+  deliverFile(payload, "audioguide-"+CITY.id+"-"+new Date().toISOString().slice(0,10)+".txt", "Meine Daten");
 }
 
 function askReset(){
