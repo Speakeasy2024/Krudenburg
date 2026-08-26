@@ -401,7 +401,7 @@ footer{
     <button class="btn-ghost" id="startNoGps">Ohne Standort fortfahren</button>
     <div id="bootError" style="display:none;background:#B3311F;color:#fff;border-radius:12px;
          padding:12px;margin-top:12px;font-size:13px;text-align:left;line-height:1.4"></div>
-    <p class="ver">Stand: 25.08.2026 k · 55 Stationen · 136 Detailpunkte</p>
+    <p class="ver">Stand: 26.08.2026 i · 62 Stationen · 216 Detailpunkte</p>
     <p class="foot">
       Beim Start fragt der Browser nach dem Standort. Nur mit erlaubtem Zugriff
       erkennt der Guide selbst, wo du stehst. Jede Stadt merkt sich ihren
@@ -631,6 +631,7 @@ footer{
         <button id="refPick" class="rb-opt">🖼 Referenzfoto aus Fotos wählen</button>
         <input type="file" id="refInput" accept="image/*" capture="environment" hidden>
         <input type="file" id="refInput2" accept="image/*" hidden>
+        <button id="gpsTest" class="rb-opt">🩺 Ortung prüfen</button>
         <button id="refTest" class="rb-opt">🩺 Bildspeicher prüfen</button>
         <button id="calibShow" class="rb-opt">Korrekturen anzeigen</button>
         <button id="calibClear" class="rb-opt">Korrekturen löschen</button>
@@ -756,7 +757,7 @@ Wir gehen jetzt Schritt für Schritt hindurch. Und keine Sorge, wenn dein GPS dr
 },
 {
   id:"bronzenes-tor", name:"Bronzenes Tor",
-  lat:43.50752, lon:16.43977, radius:30,
+  lat:43.50752, lon:16.43977, radius:40,
   stay:"5 Minuten",
   find:"Das Tor in der Südmauer, direkt an der Riva. Der schmalste der vier Zugänge.",
   short:"Das Meerestor an der Südseite – früher direkt am Wasser.",
@@ -772,7 +773,7 @@ Wir gehen von hier nach Westen, an der Innenseite der Mauer entlang, zum Eiserne
 },
 {
   id:"kellergewoelbe", name:"Kellergewölbe des Diokletianpalastes",
-  lat:43.50757, lon:16.43977, radius:32,
+  lat:43.50757, lon:16.43977, radius:40,
   top:true,
   stay:"30–45 Minuten",
   find:"Vom Vestibül nach Süden hinunter oder vom Bronzenen Tor an der Riva hinein. Es wird schlagartig kühl.",
@@ -810,7 +811,7 @@ Die zentrale Halle führt geradewegs nach Norden – dorthin, wo du eben herunte
 },
 {
   id:"vestibuel", name:"Vestibül",
-  lat:43.50802, lon:16.44, radius:24,
+  lat:43.50802, lon:16.44, radius:40,
   stay:"10 Minuten",
   find:"An der Südseite des Peristyls die Stufen hinauf und durch die Öffnung. Der runde Raum ist nach oben offen.",
   short:"Der runde Kuppelsaal vor den kaiserlichen Gemächern.",
@@ -831,7 +832,7 @@ Und jetzt das Beste an diesem Ort: die Akustik. Sprich einmal halblaut, oder sum
 },
 {
   id:"peristyl", name:"Peristyl",
-  lat:43.50821, lon:16.44017, radius:28,
+  lat:43.50821, lon:16.44017, radius:40,
   top:true,
   stay:"15–20 Minuten",
   find:"Der einzige größere offene Platz im Palastinneren, dort wo sich die beiden Hauptachsen kreuzen. Erkennbar an den roten Granitsäulen und den Stufen, auf denen Leute sitzen.",
@@ -864,7 +865,7 @@ Setz dich ruhig auf die Stufen. Genau das tun hier alle.`
 },
 {
   id:"kathedrale", name:"Kathedrale des Heiligen Domnius",
-  lat:43.50818, lon:16.44046, radius:24,
+  lat:43.50818, lon:16.44046, radius:40,
   top:true,
   stay:"25 Minuten",
   find:"Der achteckige Bau an der Ostseite des Peristyls, mit dem hohen Turm daneben. Eingang über die Freitreppe mit den Holztüren.",
@@ -904,7 +905,7 @@ Sehenswert sind außerdem die romanische Kanzel aus dem dreizehnten Jahrhundert 
 },
 {
   id:"glockenturm", name:"Glockenturm des Heiligen Domnius",
-  lat:43.50823, lon:16.4403, radius:22,
+  lat:43.50823, lon:16.4403, radius:40,
   stay:"20 Minuten inklusive Aufstieg",
   find:"Direkt an der Kathedrale. Der Aufgang ist im Inneren, das Ticket gilt meist für beides zusammen.",
   short:"Das Wahrzeichen der Stadt – etwa 57 Meter hoch, mit steiler Treppe.",
@@ -932,7 +933,7 @@ Ein guter Tipp: Steig entweder früh am Morgen hinauf oder ungefähr eine Stunde
 },
 {
   id:"jupiter-tempel", name:"Jupiter-Tempel",
-  lat:43.50831, lon:16.43963, radius:24,
+  lat:43.50831, lon:16.43963, radius:40,
   stay:"15 Minuten",
   find:"Von der Westseite des Peristyls in die schmale Gasse hinein. Vor dem Eingang sitzt eine kopflose schwarze Sphinx; sie ist das sicherste Erkennungszeichen.",
   short:"Römischer Tempel, später Taufkapelle – mit kassettierter Steindecke.",
@@ -961,7 +962,7 @@ An der Wand steht außerdem eine Bronzefigur Johannes des Täufers von Ivan Meš
 },
 {
   id:"goldenes-tor", name:"Goldenes Tor",
-  lat:43.50921, lon:16.44068, radius:34,
+  lat:43.50921, lon:16.44068, radius:40,
   top:true,
   stay:"10 Minuten",
   find:"Das große Tor in der Nordmauer, hinter der Statue. Von außen ansehen, dann hindurchgehen.",
@@ -989,7 +990,7 @@ Gleich vor dem Tor wartet die wohl bekannteste Figur der Stadt auf dich.`
 },
 {
   id:"gregor-von-nin", name:"Gregor von Nin",
-  lat:43.50946, lon:16.44083, radius:34,
+  lat:43.50946, lon:16.44083, radius:40,
   stay:"10 Minuten",
   find:"Außerhalb der Nordmauer, direkt vor dem Goldenen Tor. Die Figur ist über acht Meter hoch und nicht zu übersehen.",
   short:"Meštrovićs Kolossalstatue des Bischofs, der die eigene Sprache verteidigte.",
@@ -1009,7 +1010,7 @@ Achte auf die Hand mit dem erhobenen Finger und auf den Gesichtsausdruck. Meštr
 },
 {
   id:"silbernes-tor", name:"Silbernes Tor",
-  lat:43.50816, lon:16.44135, radius:34,
+  lat:43.50816, lon:16.44135, radius:40,
   stay:"10 Minuten",
   find:"Vom Peristyl die Ostachse geradeaus bis zur Mauer. Hinter dem Tor beginnt sofort der Marktbetrieb.",
   short:"Das Osttor, jahrhundertelang zugemauert – heute der Weg zum Markt.",
@@ -1029,7 +1030,7 @@ Direkt hinter dem Tor, im Palastinneren, findest du außerdem die Kirche Sveti D
 },
 {
   id:"eisernes-tor", name:"Eisernes Tor",
-  lat:43.50871, lon:16.43935, radius:30,
+  lat:43.50871, lon:16.43935, radius:40,
   stay:"10 Minuten",
   find:"Das Tor in der Westmauer. Erkennbar am Uhrturm darüber; die Uhr hat vierundzwanzig Ziffern.",
   short:"Das Westtor mit dem alten Glockenturm und der Uhr mit 24 Stunden.",
@@ -1055,7 +1056,7 @@ Geh hindurch nach Westen. Du verlässt jetzt den römischen Palast und betrittst
 },
 {
   id:"pjaca", name:"Pjaca – Volksplatz",
-  lat:43.50899, lon:16.43886, radius:38,
+  lat:43.50899, lon:16.43886, radius:40,
   stay:"15 Minuten",
   find:"Unmittelbar westlich außerhalb des Eisernen Tores. Der Platz mit der Loggia und den drei großen Bögen.",
   short:"Der mittelalterliche Stadtplatz mit der gotischen Loggia des Rathauses.",
@@ -1079,7 +1080,7 @@ Und noch etwas: Die Pjaca ist bis heute ein Treffpunkt der Einheimischen. Wenn d
 },
 {
   id:"marmontova", name:"Marmontova-Straße",
-  lat:43.5093, lon:16.43705, radius:60,
+  lat:43.5093, lon:16.43705, radius:40,
   stay:"15 Minuten",
   find:"Von der Pjaca nach Westen. Die breite, hell gepflasterte Fußgängerstraße zwischen Riva und Republikplatz.",
   short:"Breite Flaniermeile aus weißem Stein, benannt nach einem französischen Marschall.",
@@ -1099,7 +1100,7 @@ Am nördlichen Ende liegt der Republikplatz mit seinen langen Arkaden im venezia
 },
 {
   id:"gruener-markt", name:"Grüner Markt – Pazar",
-  lat:43.50790, lon:16.44190, radius:60,
+  lat:43.50790, lon:16.44190, radius:40,
   stay:"20 Minuten",
   find:"Unmittelbar hinter dem Silbernen Tor, außerhalb der Mauer. Dem Geruch nach Obst und Gemüse folgen.",
   short:"Der Markt, auf dem Split tatsächlich einkauft – direkt hinter dem Silbernen Tor.",
@@ -1115,7 +1116,7 @@ Wenn du satt geschaut hast, geh zurück durch das Tor. Wir gehen ins Zentrum des
 },
 {
   id:"fischmarkt", name:"Fischmarkt – Ribarnica",
-  lat:43.50917, lon:16.43741, radius:45,
+  lat:43.50917, lon:16.43741, radius:40,
   stay:"10 Minuten",
   find:"Wenige Schritte westlich der Marmontova. Offene Markthalle mit Säulen; am Vormittag am belebtesten.",
   short:"Eine Markthalle von 1890 – und laut Einheimischen der einzige Fischmarkt ohne Fliegen.",
@@ -1130,7 +1131,7 @@ Komm am Vormittag. Gegen Mittag ist verkauft, und dann wird gespült. Zurück au
 },
 {
   id:"riva", name:"Riva",
-  lat:43.50847, lon:16.43669, radius:70,
+  lat:43.50847, lon:16.43669, radius:58,
   top:true,
   stay:"20 Minuten",
   find:"Die Uferpromenade an der Südseite der Altstadt. Von überall im Palast einfach nach Süden gehen, bis das Meer kommt.",
@@ -1159,7 +1160,7 @@ Die Riva ist der Ort, an dem sich Split zeigt. Am Abend beginnt die Korzo, das g
 },
 {
   id:"matejuska", name:"Matejuška",
-  lat:43.50762, lon:16.43429, radius:60,
+  lat:43.50762, lon:16.43429, radius:90,
   stay:"20 Minuten",
   find:"Am westlichen Ende der Riva, dort wo die kleinen Holzboote liegen und Steinstufen zum Wasser führen.",
   short:"Alter Fischerhafen mit Holzbooten – der Sonnenuntergangsplatz der Stadt.",
@@ -1245,7 +1246,7 @@ Wir gehen jetzt an der Uferstraße nach Osten. Erst hinaus auf die Mole, dann ö
 },
 {
   id:"piazza-unita", name:"Piazza Unità d'Italia",
-  lat:45.65012, lon:13.76776, radius:55, day:1,
+  lat:45.65012, lon:13.76776, radius:90, day:1,
   top:true,
   stay:"20 Minuten",
   find:"Der große Platz an der Uferstraße, zur Seeseite hin offen. Vom Molo IV rund zehn Minuten nach Osten.",
@@ -1277,7 +1278,7 @@ Setz dich zum Schluss auf einen Kaffee ins Caffè degli Specchi und schau aufs W
 },
 {
   id:"molo-audace", name:"Molo Audace",
-  lat:45.65162, lon:13.76824, radius:55, day:1,
+  lat:45.65162, lon:13.76824, radius:90, day:1,
   stay:"15 Minuten",
   find:"Die steinerne Mole, die vom Ufer aus ins Hafenbecken hinausführt, wenige Schritte nordöstlich der Piazza Unità.",
   short:"Die steinerne Mole ins Meer, benannt nach einem Kriegsschiff von 1918.",
@@ -1303,7 +1304,7 @@ Wenn die Bora weht, der kalte Fallwind vom Karst, steht man hier schwer. Sie err
 },
 {
   id:"piazza-borsa", name:"Piazza della Borsa",
-  lat:45.65042, lon:13.77027, radius:40, day:1,
+  lat:45.65042, lon:13.77027, radius:90, day:1,
   stay:"10 Minuten",
   find:"Direkt hinter der Piazza Unità landeinwärts. Erkennbar am Säulenbau der alten Börse.",
   short:"Der alte Börsenplatz – Triests wirtschaftliches Zentrum vor der Piazza Unità.",
@@ -1329,7 +1330,7 @@ Von hier aus wird es gleich sehr viel älter. Wir gehen ein paar Gassen ins Land
 },
 {
   id:"arco-riccardo", name:"Arco di Riccardo",
-  lat:45.64783, lon:13.76895, radius:28, day:1,
+  lat:45.64783, lon:13.76895, radius:90, day:1,
   stay:"10 Minuten",
   find:"In der Città Vecchia, in einer engen Gasse südlich der Piazza della Borsa. Der Bogen steckt zwischen Wohnhäusern und wirkt eingesunken.",
   short:"Ein römisches Tor mitten in der Altstadt – der Name ist eine Legende.",
@@ -1353,7 +1354,7 @@ Nimm dir hier ruhig zwei Minuten mehr. Die Città Vecchia ist der Teil von Tries
 },
 {
   id:"teatro-romano", name:"Teatro Romano",
-  lat:45.64923, lon:13.77182, radius:40, day:1,
+  lat:45.64923, lon:13.77182, radius:90, day:1,
   stay:"15 Minuten",
   find:"Am Fuß des Hügels von San Giusto, an der Straße unterhalb der Altstadt. Von der Straße aus einsehbar.",
   short:"Ein römisches Theater, das erst 1938 wieder ans Licht kam.",
@@ -1380,7 +1381,7 @@ Von hier sind es nur wenige Schritte zurück in die Geschäftsstadt des neunzehn
 },
 {
   id:"san-giusto", name:"Kathedrale San Giusto",
-  lat:45.6466, lon:13.77244, radius:40, day:1,
+  lat:45.6466, lon:13.77244, radius:57, day:1,
   top:true,
   stay:"25 Minuten",
   find:"Oben auf dem Hügel. Zu Fuß steil hinauf oder mit dem Bus; die Kathedrale steht neben der Burg.",
@@ -1419,7 +1420,7 @@ Der Glockenturm entstand aus dem Vorbau eines römischen Tempels, dessen Reste i
 },
 {
   id:"castello-san-giusto", name:"Castello di San Giusto",
-  lat:45.64739, lon:13.77295, radius:45, day:1,
+  lat:45.64739, lon:13.77295, radius:57, day:1,
   top:true,
   stay:"45 Minuten",
   find:"Unmittelbar neben der Kathedrale auf demselben Hügel. Der Orto Lapidario mit dem Winckelmann-Grabmal liegt dazwischen.",
@@ -1457,7 +1458,7 @@ Nimm für den Abstieg die Treppen an der Nordseite, die Scala dei Giganti. Sie f
 },
 {
   id:"canal-grande", name:"Canal Grande",
-  lat:45.6525, lon:13.77159, radius:55, day:1,
+  lat:45.6525, lon:13.77159, radius:90, day:1,
   top:true,
   stay:"20 Minuten",
   find:"Nördlich der Piazza Unità im Borgo Teresiano. Das Wasserbecken mitten in der Stadt, am Kopfende die Säulenkirche.",
@@ -1484,7 +1485,7 @@ An der Ponte Rosso, der kleinen Brücke über den Kanal, steht die Bronzestatue 
 },
 {
   id:"san-spiridione", name:"Serbisch-orthodoxe Kirche San Spiridione",
-  lat:45.65161, lon:13.77332, radius:30, day:1,
+  lat:45.65161, lon:13.77332, radius:69, day:1,
   stay:"15 Minuten",
   find:"Wenige Schritte östlich des Canal Grande. Blaue Kuppeln, nicht zu verwechseln.",
   short:"Blaue Kuppeln und Goldmosaik – das Zeichen einer Handelsstadt vieler Glauben.",
@@ -1508,7 +1509,7 @@ Bitte respektiere, dass hier Gottesdienst gefeiert wird. Bedeckte Schultern, kei
 },
 {
   id:"sant-antonio", name:"Sant'Antonio Taumaturgo",
-  lat:45.65169, lon:13.77481, radius:35, day:1,
+  lat:45.65169, lon:13.77481, radius:69, day:1,
   stay:"10 Minuten",
   find:"Am Kopfende des Canal Grande, gut sichtbar über das Wasser hinweg.",
   short:"Die klassizistische Tempelfassade am Kopf des Kanals.",
@@ -1533,7 +1534,7 @@ Danach schlage ich eine Pause vor. Zwei Straßen weiter liegt ein Kaffeehaus, da
 },
 {
   id:"caffe-san-marco", name:"Caffè San Marco",
-  lat:45.65297, lon:13.7803, radius:30, day:1,
+  lat:45.65297, lon:13.7803, radius:90, day:1,
   top:true,
   stay:"45 Minuten",
   find:"In der Via Cesare Battisti, etwa zehn Minuten nordöstlich vom Canal Grande. Unscheinbare Fassade, Eingang direkt an der Straße.",
@@ -1561,7 +1562,7 @@ Damit endet der erste Tag. Miramare heben wir uns auf – das ist keine Station 
 },
 {
   id:"barcola", name:"Barcola",
-  lat:45.67955, lon:13.75436, radius:250, day:2,
+  lat:45.67955, lon:13.75436, radius:90, day:2,
   top:true,
   stay:"20 Minuten Zwischenstopp",
   find:"Auf der Küstenstraße nach Nordwesten Richtung Miramare, etwa auf halbem Weg. Promenade mit Pinien und Betonterrassen.",
@@ -1589,7 +1590,7 @@ Schau von hier die Bucht entlang nach Nordwesten. Auf der Landzunge am Ende steh
 },
 {
   id:"miramare-park", name:"Parco di Miramare",
-  lat:45.70115, lon:13.7197, radius:150, day:2,
+  lat:45.70115, lon:13.7197, radius:90, day:2,
   top:true,
   stay:"1 Stunde",
   find:"Der Parkeingang liegt an der Küstenstraße unterhalb des Schlosses. Vom Parkplatz zu Fuß hinein.",
@@ -1688,7 +1689,7 @@ Als Nächstes fahren wir zum Hof. Danach lohnt ein Abstecher ins Rosandratal, da
 },
 {
   id:"fior-rosso", name:"Fior Rosso – Ölhof in Aquilinia",
-  lat:45.60591, lon:13.81368, radius:500, day:3,
+  lat:45.60591, lon:13.81368, radius:90, day:3,
   top:true,
   stay:"1 Stunde",
   find:"Loc. Aquilinia 420. Aquilinia liegt im Nordwesten der Gemeinde Richtung Muggia. Vorher anrufen und nach dem Weg fragen.",
@@ -1712,7 +1713,7 @@ Nimm dir Zeit. Wer selbst erzeugt, erzählt gern davon, und ein Gespräch über 
 },
 {
   id:"val-rosandra", name:"Val Rosandra – Glinščica",
-  lat:45.62000, lon:13.86800, radius:500, day:3,
+  lat:45.62000, lon:13.86800, radius:90, day:3,
   top:true,
   stay:"1–3 Stunden",
   find:"Von Dolina oder Bagnoli aus in das Tal hinein. Parkplätze am Talrand, danach zu Fuß.",
@@ -1755,16 +1756,20 @@ const HUENXE_POIS = [
   lat:51.65487, lon:6.75151, radius:120, day:1, overview:true,
   top:true,
   stay:"5 Minuten",
-  short:"Am Trafohäuschen begrüßen dich zwei Männer, die ein Schiff ziehen.",
-  teaser:"Schau auf die Wand des Trafohäuschens. Die Zeichnung erklärt in einem Bild, wovon dieses Dorf gelebt hat.",
+  short:"Am alten Trafoturm begrüßen dich zwei Männer, die ein Schiff ziehen.",
+  teaser:"Der schmale Turm am Ortseingang ist kein Denkmal, sondern in Betrieb. Das Bild daran erklärt, wovon das Dorf gelebt hat.",
   details:[
+    {t:"Das Bild, das umgezogen ist",
+     a:`Sieh dir das Bild genauer an. Es hängt heute als gerahmte Tafel hinter Glas an der Wand – ursprünglich war dasselbe Motiv unmittelbar auf den Putz des Turms gemalt, in deutlich größerem Format und ohne Rahmen. Bei einer Erneuerung des Putzes ging die Malerei verloren. Übernommen wurde das Motiv aber vollständig: dieselben zwei Männer in derselben Haltung, derselbe Kahn mit der Figur am Ruder, sogar derselbe Schriftzug Lippetreidler in Schreibschrift darunter. Es ist also keine Ersetzung durch etwas Neues, sondern eine Rettung im kleineren Maßstab. Damit reiht sich dieser Turm in ein Muster ein, das dir in Krudenburg noch mehrfach begegnen wird: Die Fähre ist verschwunden, die Mühle im Fluss ist verschwunden, der Hafen ist trocken. Geblieben ist jedes Mal eine verkleinerte Form.`},
+    {t:"Der älteste Trafoturm",
+     a:`Dieser Turm ist mehr als ein Bilderträger. Nach Angaben des Betreibers RWE war er zweitausendzwölf rund hundert Jahre alt und damit der älteste Transformatorenturm in dessen Besitz – gebaut also um neunzehnhundertzwölf. Im Inneren wird Hochspannung von zehntausend Volt in Niederspannung umgewandelt und versorgt damit die Häuser und Höfe im Umkreis von etwa fünfhundert Metern. Der Transformator selbst stammt aus den achtziger Jahren, die Stromschienen aus den fünfziger oder sechziger. Solche Türme werden längst nicht mehr gebaut; beim Umbau der Netze übernimmt ein grüner Kasten am Straßenrand ihre Aufgabe. Für Krudenburg hieße das der Abriss – deshalb wurde bereits zweitausendzwölf zwischen dem Betreiber, dem Heimatverein Hünxe und der Dorfgemeinschaft über einen Erhalt gesprochen. Dass der Turm heute noch steht, spricht dafür, dass daraus etwas geworden ist.`},
     {t:"Ein halbes Dorf auf der Denkmalliste",
-     a:`Krudenburg steht nicht nur als Ensemble unter Schutz – einzelne Häuser sind eigens in der Denkmalliste der Gemeinde eingetragen. Dorfstraße vier, fünf, sechs und zehn, dazu Lippeweg fünf und natürlich Haus Krudenburg selbst in der Dorfstraße vierzehn. Die meisten dieser Wohnhäuser werden um achtzehnhundertfünfzig datiert, das Haus am Lippeweg auf achtzehnhundertfünfundvierzig. Bei einem Ort mit knapp dreihundert Einwohnern ist das eine bemerkenswerte Dichte. Wenn du gleich die Dorfstraße hinuntergehst, kannst du an den Hausnummern ablesen, welche Gebäude gemeint sind.`}
+     a:`Krudenburg steht nicht nur als Ensemble unter Schutz – einzelne Häuser sind eigens in der Denkmalliste der Gemeinde eingetragen. Dorfstraße vier, fünf, sechs und zehn, dazu Lippeweg fünf und natürlich Haus Krudenburg selbst in der Dorfstraße vierzehn. Die meisten dieser Wohnhäuser werden um achtzehnhundertfünfzig datiert, das Haus am Lippeweg auf achtzehnhundertfünfundvierzig. Dass sie alle aus derselben knappen Zeitspanne stammen, ist kein Zufall: Es ist die Folge des Brandes vom achtundzwanzigsten Juni achtzehnhundertvierundvierzig, nach dem der Ortskern binnen eines Jahres neu aufgebaut wurde. Wenn du gleich die Dorfstraße hinuntergehst, kannst du an den Hausnummern ablesen, welche Gebäude gemeint sind.`}
   ],
-  facts:["298 Einwohner, Stand März 2024","Einer von sechs Ortsteilen der Gemeinde Hünxe, seit 1975","Im Naturpark Hohe Mark","Teil der Route der Industriekultur","Historischer Ortskern komplett unter Denkmalschutz"],
+  facts:["298 Einwohner, Stand März 2024","Einer von sechs Ortsteilen der Gemeinde Hünxe, seit 1975","Im Naturpark Hohe Mark","Trafoturm am Ortseingang, knapp 10 m hoch","Motiv früher auf den Putz gemalt, heute als Tafel","Teil der Route der Industriekultur","Historischer Ortskern komplett unter Denkmalschutz"],
   next:"juedischer-friedhof", transport:"walk",
-  audio:`Willkommen in Krudenburg. Bleib am Dorfeingang kurz stehen und schau auf die Wand des Trafohäuschens.
-Dort siehst du eine Zeichnung: zwei Männer, die an einem Seil ein Schiff ziehen. Darunter steht ein Wort, das den ganzen Ort erklärt. Lippetreidler.
+  audio:`Willkommen in Krudenburg. Bleib am Ortseingang kurz stehen und schau zu dem schmalen Turm.
+Das ist ein Transformatorenturm, knapp zehn Meter hoch, und er ist in Betrieb. Daran findest du ein beleuchtetes Bild: zwei Männer, die an einem Seil ein Schiff ziehen. Dazu ein Wort, das den ganzen Ort erklärt. Lippetreidler.
 Treideln heißt, ein Schiff vom Ufer aus stromaufwärts zu ziehen, mit Menschen oder mit Pferden. Genau das war die Arbeit hier. Krudenburg war ein Fischerdorf mit einem Hafen an der Lippe und eine Station für die Pferde und die Pferdeführer, die die Schiffe flussaufwärts zogen.
 Heute leben hier knapp dreihundert Menschen auf einhundertachtundzwanzig Hektar. Das ganze Dorf hat weniger Einwohner als manche Straße in Duisburg. Und trotzdem hat es eine Geschichte, die bis ins vierzehnte Jahrhundert urkundlich belegt ist und vermutlich viel weiter zurückreicht.
 Der historische Ortskern steht komplett unter Denkmalschutz, und Krudenburg gehört zur Route der Industriekultur. Das klingt ungewöhnlich für ein Dorf mit Kopfsteinpflaster und alten Backsteinhäusern, ist aber richtig: Was hier stand, war Verkehrsinfrastruktur.
@@ -1772,25 +1777,47 @@ Wir gehen jetzt ins Dorf hinein. Der erste Halt liegt noch am Rand, am Krudenbur
 },
 {
   id:"juedischer-friedhof", name:"Jüdischer Friedhof Krudenburg",
-  lat:51.65405, lon:6.75066, radius:70, day:1,
+  lat:51.65385, lon:6.75088, radius:65, day:1,
+  find:"Nördlich des Ortes, an der Kreuzung Krudenburger Weg und Dorfstraße.",
+  details:[
+    {t:"Unterricht im Haus Aaron Wolf",
+     a:`Beim Brand von achtzehnhundertvierundvierzig ging auch die Dorfschule verloren; sie hatte schon im Jahr zuvor Feuerschaden gehabt. Bis der Neubau achtzehnhundertsechsundvierzig stand, wurden die Krudenburger Kinder bei Verwandten in den Nachbarorten untergebracht, andere gingen nach Wesel oder Schermbeck. Und für die jüdischen Familien des Dorfes ist überliefert, dass sie ihre Kinder im Hause Aaron Wolf unterrichteten oder sie nach Schermbeck schickten – in denselben Ort, in dem auch ihre Synagoge stand. Aaron Wolf ist einer der Namen, die dir auf dem Gedenkstein hier begegnen. Zwischen dem Friedhof und dieser Notlösung liegen also nur wenige Jahre und ein einziges Haus.`},
+    {t:"Siebzehn Jahre",
+     a:`Dieser Friedhof wurde nur zwischen achtzehnhundertachtundsiebzig und achtzehnhundertfünfundneunzig belegt – siebzehn Jahre. Das ist außergewöhnlich kurz. Jüdische Friedhöfe sind auf Dauer angelegt; ein Grab wird nach jüdischem Verständnis nicht neu belegt, weshalb solche Anlagen oft Jahrhunderte in Gebrauch bleiben. Hier war es nicht einmal eine Generation. Der Grund liegt in der Bevölkerungsentwicklung: Bis zur Mitte des neunzehnten Jahrhunderts wuchs die Zahl jüdischer Einwohner in Schermbeck, Brünen und Krudenburg deutlich an, danach ging sie wieder zurück. Der Friedhof wurde angelegt, als die kleine Gemeinschaft ihren Höhepunkt schon überschritten hatte, und er wurde nicht mehr gebraucht, als sie fortzog.`},
+    {t:"Vier Familien",
+     a:`In den siebziger bis neunziger Jahren des neunzehnten Jahrhunderts lebten in Krudenburg offenbar vier jüdische Familien: Seligmann Wolf, Aaron Wolf, van Gelder und Katzenstein. Sie gehörten zur Gemeinde Schermbeck und nutzten deren Synagoge – rund elf Kilometer entfernt, für damalige Verhältnisse ein weiter Weg, der zu Fuß oder mit dem Fuhrwerk zurückgelegt wurde. Bestattet wurde jedoch hier, im eigenen Ort. Das sagt etwas über beides: über die Zugehörigkeit zu einer größeren Gemeinde und über die Verbundenheit mit dem Dorf, in dem man lebte.`},
+    {t:"Der Gedenkstein der Familie Wolf",
+     a:`Auf dem Friedhof steht eine Steinplatte, die neunzehnhundertsechsundsechzig von Nachfahren der hier bestatteten Familie Wolf gestiftet wurde. Sie nennt fünf Namen: Joseph, seine Frau Rahel, den Sohn Aaron, genannt Raphael, und die Töchter Dina und Sarala. Die Sterbedaten liegen zwischen achtzehnhundertsechsundsechzig und achtzehnhundertfünfundneunzig, jeweils nach jüdischem und nach bürgerlichem Kalender. Der Text schließt mit einer Formel, die auf zahllosen jüdischen Grabsteinen steht: Ihre Seelen seien gebunden im Bündel des Lebens. Neunzehnhunderteinundachtzig besuchte eine Delegation aus Israel den Friedhof. Wer eine Familie sucht, die von hier fortging und nicht vergaß, findet sie in diesem einen Stein.`},
+    {t:"Was fehlt und was unklar ist",
+     a:`Zwei Dinge sollte man wissen. Erstens: Die ursprünglichen Grabsteine sind nicht mehr da. Wie viele erhalten sind, geben die Quellen unterschiedlich an – eine nennt zwei erhaltene Steine, andere sagen, es sei keiner mehr vorhanden. Was heute steht, sind zwei Gedenksteine späterer Zeit. Zweitens eine Überlieferung, die sich nicht bestätigen lässt: Im März neunzehnhundertzwanzig sollen hier auch sieben Aufständische bestattet worden sein, die bei Unruhen in der Nähe von Drevenack ums Leben kamen – es war die Zeit des Ruhraufstands. Ob das zutrifft, ist offen; eine Bestattung Nichtjüdischer auf einem jüdischen Friedhof wäre ungewöhnlich. Die Angabe steht in örtlichen Quellen, ein Beleg fehlt.`}
+  ],
   stay:"10 Minuten",
-  short:"Ein kleiner jüdischer Friedhof am Rand des Dorfes, seit 2008 unter Denkmalschutz.",
+  short:"Belegt nur zwischen 1878 und 1895 – Denkmal seit 2008.",
   teaser:"Am Krudenburger Weg, nahe der Kreuzung zur Dorfstraße, liegt ein jüdischer Friedhof.",
-  facts:["Am Krudenburger Weg nahe der Kreuzung Dorfstraße","Seit 2008 in der Denkmalliste der Gemeinde"],
+  facts:["An der Kreuzung Krudenburger Weg und Dorfstraße","Belegt zwischen 1878 und 1895","Seit 6. Juni 2008 Baudenkmal der Gemeinde Hünxe","Betreut von der Gemeinde Hünxe"],
   next:"burg-krudenburg", transport:"walk",
-  audio:`Am Krudenburger Weg, nicht weit von der Kreuzung zur Dorfstraße, liegt ein jüdischer Friedhof. Er ist klein und leicht zu übersehen.
-Seit zweitausendacht steht er in der Denkmalliste der Gemeinde Hünxe. Zur Zahl der Gräber, zur Belegungszeit und zu den jüdischen Familien, die hier lebten, liegen keine gesicherten Angaben vor.
-Was sich sagen lässt, ist allgemein und trotzdem wichtig: Jüdische Gemeinden am Niederrhein waren über Jahrhunderte klein und ländlich verteilt. Wo es keine Synagoge gab, gab es doch oft einen Friedhof, und der wurde außerhalb der Ortsmitte angelegt. Nach jüdischem Verständnis ist ein Grab auf Dauer angelegt und wird nicht neu belegt. Deshalb überdauern solche Friedhöfe manchmal die Gemeinden, zu denen sie gehörten.
-Wenn du hingehst: Männer bedecken traditionell den Kopf, und Steine statt Blumen sind das übliche Zeichen des Gedenkens. Ansonsten gilt hier dasselbe wie überall an so einem Ort. Ruhig sein, nichts anfassen, kurz stehen bleiben.`
+  audio:`Am Krudenburger Weg, nahe der Kreuzung zur Dorfstraße, liegt der jüdische Friedhof von Krudenburg. Er ist klein und leicht zu übersehen.
+Belegt wurde er nur zwischen achtzehnhundertachtundsiebzig und achtzehnhundertfünfundneunzig. Damals lebten hier vier jüdische Familien: Seligmann Wolf, Aaron Wolf, van Gelder und Katzenstein. Sie gehörten zur Gemeinde Schermbeck und gingen dort in die Synagoge, elf Kilometer entfernt. Ihre Toten aber begruben sie im eigenen Dorf.
+Die ursprünglichen Grabsteine sind verloren. Was du siehst, sind zwei Gedenksteine. Der eine wurde neunzehnhundertsechsundsechzig von Nachfahren der Familie Wolf gestiftet und nennt fünf Namen mit ihren Sterbedaten. Neunzehnhunderteinundachtzig kam eine Delegation aus Israel hierher.
+Seit dem sechsten Juni zweitausendacht steht der Friedhof als Baudenkmal in der Denkmalliste der Gemeinde Hünxe, die ihn auch betreut.
+Nach jüdischem Verständnis ist ein Grab auf Dauer angelegt und wird nicht neu belegt. Deshalb überdauern solche Friedhöfe manchmal die Gemeinschaften, zu denen sie gehörten. Genau das ist hier geschehen.
+Wenn du hingehst: Männer bedecken traditionell den Kopf, und Steine statt Blumen sind das übliche Zeichen des Gedenkens. Ansonsten gilt hier dasselbe wie überall an so einem Ort. Ruhig sein, nichts anfassen, kurz stehen bleiben.
+`
 },
 {
   id:"burg-krudenburg", name:"Burg Krudenburg",
-  lat:51.65076, lon:6.75589, radius:70, day:1,
+  lat:51.65076, lon:6.75589, radius:40, day:1,
   top:true,
   stay:"15 Minuten",
   short:"Vom Rittersitz blieb ein zweigeschossiger Ziegelturm und ein Stück Mauer.",
   teaser:"Der zweigeschossige Ziegelturm links ist alles, was von der Wasserburg übrig ist. Am Infoschild siehst du, wie es hier einmal aussah.",
   details:[
+    {t:"Das Archiv im Turm",
+     a:`Der Dichter Erich Bockemühl, der über dieses Tal geschrieben hat, erwähnt beiläufig etwas Bemerkenswertes: In dem Turm, der von der längst verschwundenen Burg übrig blieb, seien alte Papiere aufbewahrt worden – Schriften zur Geschichte des Tales. Das passt zu einer älteren Nachricht: Als achtzehnhundertsiebzig französische Plünderungsabteilungen erschienen, brachte man das Hünxer Kirchenarchiv eilig auf das feste Schloss Krudenburg. Der Turm, den du vor dir siehst, war also nicht nur ein Wirtschaftsgebäude, sondern zeitweise der sicherste Ort der Gegend. Was in einer Landschaft ohne Berge zählte, war nicht Höhe, sondern dicke Mauern und Wasser ringsum.`},
+    {t:"Die Kirche, die verschwinden sollte",
+     a:`Achtzehnhundertsechsundzwanzig wurden die Ruine der Burgkirche und das Gesindehaus auf dem Vorhof abgerissen. In der örtlichen Überlieferung heißt es dazu, nichts solle mehr an Schloss und Burgherrlichkeit erinnern. Das ist eine bemerkenswerte Absicht: Hier wurde nicht abgerissen, weil etwas baufällig war, sondern weil eine Erinnerung weg sollte. Ein Jahr später verkaufte die Freifrau von Nagell Mühle und Brücke, kurz darauf ging die Herrschaft an eine bürgerliche Familie über. Was übrig blieb, ist ausgerechnet der Turm der Vorburg – das Wirtschaftsgebäude. Die Herrschaft ist verschwunden, ihr Nebengebäude steht.`},
+    {t:"Wo etwas versunken ist",
+     a:`Zum Umgang mit solchen Orten gibt es eine überlieferte Vorstellung, die Josef Wolff im Heimatkalender von neunzehnhundertachtundsechzig unter den niederrheinischen Gebräuchen festgehalten hat: Die Stelle, an der ein Schloss, eine Mühle oder ein Hof versunken ist, galt nach dem Abendläuten als unheimlich. Zur Geisterstunde gehe dort der Geist des früheren Bewohners um, bis ihn jemand anspricht und seinen Wunsch erfüllt. Für Krudenburg ist das ungewöhnlich passend, denn hier trifft beides zu: eine verschwundene Burg und eine verschwundene Mühle, die sogar wörtlich im Wasser versank. Ernst nehmen muss man es nicht. Aber man sollte wissen, wie Menschen früher über Plätze dachten, an denen etwas fehlt.`},
     {t:"Der Turm von 1664",
      a:`Der zweigeschossige Ziegelturm ist der einzige aufrecht stehende Rest der Burg und wird auf sechzehnhundertvierundsechzig datiert. Er gehörte nicht zur Hauptburg, sondern zur Vorburg – also zum Wirtschaftsteil, nicht zum Herrenhaus. Achte auf die Ziegel: ungleichmäßig in Farbe und Format, weil sie in Feldbrandöfen vor Ort gebrannt wurden. Das Herrenhaus selbst stand weiter südwestlich in der Niederung, nicht dort, wo heute gebaut ist. Was du siehst, ist also nicht die Burg, sondern ihr Nebengebäude – und ausgerechnet das hat überlebt.`},
     {t:"Das Infoschild mit der Hafengravur",
@@ -1801,7 +1828,7 @@ Wenn du hingehst: Männer bedecken traditionell den Kopf, und Steine statt Blume
      a:`Such in der Liste die Nummer zweiundzwanzig. Dort steht der Name Benninghoff, und bei Nummer neunundzwanzig taucht er noch einmal auf, mit einem Fragezeichen und dem Zusatz Schloßplatz. Das ist bemerkenswert, wenn man das Datum kennt: Der Plan zeigt achtzehnhundertzwanzig, und am ersten August achtzehnhundertsiebenundzwanzig kaufte die bürgerliche Familie Benninghoff die Herrschaft Krudenburg vom Freiherrn von Nagell. Sieben Jahre vor diesem Kauf wohnten sie also bereits im Dorf, als eine Familie unter fünfundvierzig. Es war kein Adliger, der hier einzog, sondern ein Nachbar, der aufstieg. Und es war dieselbe Familie, die die verfallene Burg gegen Ende des Jahrhunderts abtragen ließ.`}
   ],
   facts:["1363 erstmals urkundlich als Rittersitz erwähnt","Wasserburg auf einer von einem Lippearm umflossenen Insel","Erhaltener Turm der Vorburg von 1664","Um 1893 abgerissen"],
-  next:"kriegerdenkmal", transport:"walk",
+  next:"schlossplatz", transport:"walk",
   audio:`Vor dir liegt das Grundstück der Krudenburg. Von der Dorfstraße aus ist es die einzige Stelle, von der man etwas sieht, denn heute wohnen dort Menschen.
 Erhalten ist ein zweigeschossiger Turm aus Ziegeln und ein Stück angrenzende Mauer. Der Turm gehörte zur Vorburg und wird auf sechzehnhundertvierundsechzig datiert. Alles andere ist weg.
 Dabei war das hier keine kleine Anlage. Die Krudenburg war eine Wasserburg und lag auf einer Insel, die von einem Arm der Lippe umflossen wurde. Sie bestand aus drei Teilen: der Hauptburg, einer ummauerten rechteckigen Vorburg und einer Burgsiedlung. Alle drei waren durch wasserführende Gräben getrennt und über Brücken verbunden. Im achtzehnten Jahrhundert kam noch eine Gartenanlage über zwei weitere Inseln dazu.
@@ -1812,19 +1839,29 @@ Am Infoschild an der Mauer findest du eine Gravur des Hafens und des alten Dorfk
 },
 {
   id:"dorfstrasse", name:"Historischer Ortskern",
-  lat:51.65047, lon:6.75673, radius:70, day:1,
+  lat:51.65047, lon:6.75673, radius:40, day:1,
   top:true,
   stay:"20 Minuten",
   short:"Kopfsteinpflaster und geschlossene Bebauung – ein Straßendorf, wie es kaum noch welche gibt.",
   teaser:"Geh langsam und schau nach unten. Das Kopfsteinpflaster ist der Grund, warum dieser Ort ausgezeichnet wurde.",
   details:[
+    {t:"Häuser, die nicht brennen können",
+     a:`Josef Wolff hat im Heimatkalender von neunzehnhundertachtundsechzig alte niederrheinische Vorstellungen gesammelt, und zwei davon lesen sich nach dem Brand von achtzehnhundertvierundvierzig anders als gedacht. Die eine: Ein altes Haus, in dem die Heinzelmännchen gewohnt oder das sie sogar erbaut haben, werde durch Feuer nicht zerstört. Die andere: In der Mainacht solle jeder Hausherr drei Kreuze auf die Hoftüren zeichnen, um die Wetterhexen zu vertreiben, die durch Blitz und Gewitter Schaden anrichten. In einem Dorf, das ein Blitz in einer Gewitternacht fast ausgelöscht hat, sind das keine Kuriositäten, sondern der Versuch, mit einer Gefahr umzugehen, gegen die es sonst nichts gab. Die Feuerspritze kam zwei Jahre vor dem Brand.`},
+    {t:"Der 28. Juni 1844",
+     a:`An diesem Tag brannte Krudenburg. Der Sommer war trocken gewesen, und über dem Lippetal zog ein Gewitter auf, das keinen Regen brachte. Ein Blitz schlug in eines der ältesten Häuser des Dorfes ein, das des Nachbarn Krebber – kein Eichenfachwerk, nicht ausgemauert, das Dach noch mit Ried gedeckt. Es brannte wie Zunder. Der Wind war flackerig und drehte von Nordwest auf Südwest; das Feuer sprang von Haus zu Haus und wälzte sich durch die Schulgasse. Gegen Morgen setzte Regen ein, zu spät. Menschenleben waren nicht zu beklagen, aber ein Großteil des Dorfes lag in Asche. Wenn du dich hier umschaust: Fast alles, was du siehst, steht auf dieser einen Nacht.`},
+    {t:"Warum es kein Halten gab",
+     a:`Der Lehrer Gaecks hat beschrieben, wie Krudenburg vor achtzehnhundertvierundvierzig aussah, und es klingt nicht wie ein Idyll. Fachwerkhäuser aus Eichen- oder Kiefernholz, die eher schief als gerade standen. Die Gefache mit Lehm gefüllt, der mit Stroh durchknetet und um Stangen geflochten war. Dächer aus Reetstroh, nur teils mit Pfannen. Im Inneren offene Feuerstellen, über denen an einer langen Kette der Kessel hing; der Rauch zog durch ein Loch über der Tür ab. Glas war für die meisten zu teuer, in den Fenstern steckte geöltes Papier. Bei dieser Enge löst nicht nur Funkenflug eine Katastrophe aus, sondern der Brand springt quer von Haus zu Haus. Wer heute die Backsteinwände sieht, sieht die Antwort auf diese Nacht.`},
+    {t:"Wiederaufbau in einem Jahr",
+     a:`Das Bemerkenswerteste an dieser Geschichte ist nicht der Brand, sondern das Tempo danach. Innerhalb eines Jahres, bis achtzehnhundertfünfundvierzig, war das Dorf wieder aufgebaut – und zwar in Vollziegel statt in Fachwerk mit Stroh. Möglich war das aus zwei Gründen. Erstens gab es keine Feuerversicherung: Krudenburg zählte im Clever Land zu den Dörfern ohne Versicherungswert. An ihre Stelle trat die Nachbarschaft. Die Kirchengemeinde Drevenack brachte eine Sammlung auf den Weg, Obrighoven und Wesel schlossen sich an, geholfen wurde mit Geld, Sachleistungen und Handarbeit. Zweitens blühte damals in Krudenburg der Schiffsbau; Handwerker und Werkzeug waren im Ort. Achtzehnhundertzweiundfünfzig legten der Gemeindevorsteher Benninghoff und der Drevenacker Pfarrer über den Wiederaufbau Rechenschaft ab.`},
+    {t:"Die Jahreszahl in der Wand",
+     a:`Achte an den Häusern an der Dorfstraße und am Lippeweg auf die Maueranker – jene schmiedeeisernen Zeichen, die im Verband sitzen und die Deckenbalken halten. An vielen bilden sie eine Jahreszahl, und die lautet auffällig oft achtzehnhundertvierundvierzig oder fünfundvierzig. Das ist kein Zufall und keine Mode. Diese Häuser stehen dort, wo ein Jahr zuvor Fachwerk und Stroh gebrannt haben. Wenn du die Zahlen im Vorbeigehen zählst, hast du den Umfang des Brandes abgeschritten, ohne eine Chronik aufzuschlagen.`},
     {t:"Feldbrandsteine",
      a:`Geh nah an eine Hauswand und schau dir die einzelnen Ziegel an. Sie sind ungleich in Farbe und Format. Vieles ist hier tiefbraun bis fast schwarz, dazwischen liegen hellere, rötliche Steine, manche verzogen, manche mit rauer Oberfläche. Das sind Feldbrandsteine, und aus ihnen besteht der alte Ortskern von Krudenburg praktisch vollständig. Feldbrand heißt: Die Ziegel wurden nicht in einem Ringofen gebrannt, sondern vor Ort in einem aufgeschichteten Meiler aus den ungebrannten Steinen selbst, überdeckt mit Erde. Wer außen lag, bekam weniger Hitze und blieb hell und weich; wer in der Mitte lag, wurde hart und dunkel, manchmal bis zur Sinterung. Deshalb ist keine Wand hier einfarbig. Der Ton kam aus der Lippeaue, also von nebenan. Das Dorf ist buchstäblich aus seinem eigenen Boden gebaut.`},
     {t:"Giebel zur Straße, Krüppelwalm oben",
      a:`Schau dir die Häuser Dorfstraße vier und sechs genauer an. Beide werden auf etwa achtzehnhundertfünfzig datiert, beide sind eingeschossige Backsteinhäuser, beide stehen mit dem Giebel zur Straße, und beide haben ein Krüppelwalmdach. Krüppelwalm heißt: Die Giebelspitze ist nicht senkrecht abgeschlossen, sondern oben abgeschrägt – ein kleines Dachdreieck sitzt quer darauf. Das schützt den Giebel vor Regen und Wind, und am Niederrhein, wo es beides reichlich gibt, war es die vernünftige Lösung. Wenn du dieses Detail einmal erkannt hast, siehst du es im ganzen Dorf.`}
   ],
-  facts:["Straßendorf in geschlossener Bauweise","Bebauung durchgehend aus Feldbrandsteinen","650-Jahr-Feier im Jahr 2013","Seit 1562 evangelisch"],
-  next:"hausnummer-45", transport:"walk",
+  facts:["Straßendorf in geschlossener Bauweise","Bebauung durchgehend aus Feldbrandsteinen","Nach dem Brand vom 28. Juni 1844 binnen eines Jahres neu errichtet","650-Jahr-Feier im Jahr 2013","Seit 1562 evangelisch"],
+  next:"alte-schule", transport:"walk",
   audio:`Du gehst jetzt durch den historischen Ortskern von Krudenburg. Nimm das Tempo raus.
 Die Häuser stehen dicht an dicht entlang der einen Straße. Das nennt man ein Straßendorf, und es ist die einfachste Siedlungsform überhaupt: eine Verkehrsachse, links und rechts die Gehöfte. Hier gab es keinen Platz zum Ausufern, denn dahinter kamen die Lippe und die Auen.
 Ein Großteil der Häuser stammt aus dem neunzehnten Jahrhundert und ist sorgfältig instandgesetzt. Krudenburg hat dafür beim Bundeswettbewerb Unser Dorf soll schöner werden Bronze geholt und im Landeswettbewerb sogar Gold.
@@ -1833,8 +1870,12 @@ Ein Datum am Rande: Seit fünfzehnhundertzweiundsechzig ist der Ort evangelisch.
 },
 {
   id:"hausnummer-45", name:"Auf dem Dudel 4 – Haus Nummer 45",
-  lat:51.6508, lon:6.75686, radius:60, day:1,
+  lat:51.6508, lon:6.75686, radius:40, day:1,
   details:[
+    {t:"Als hier die Schulstube war",
+     a:`Eine Entdeckung, die diesen Ort noch einmal anders zeigt. Der Lehrer Schievelkamp, der von siebzehnhundertzweiundneunzig bis achtzehnhundertachtunddreißig in Krudenburg unterrichtete, zog siebzehnhundertachtundneunzig in das Brückersche Haus Nummer fünfundvierzig – und hatte dort von da an Schulstube und Wohnung zugleich. Das ist dieses Grundstück. Vorher hatte er sich sein Brot zeitweise mit Tagelöhnerarbeit verdienen müssen, weil sein Gehalt nicht gezahlt wurde, und die vorherige Schulstube war ihm gekündigt worden, nachdem einquartierte Truppen sie als Wachstube benutzt hatten. Gemeint ist der Vorgängerbau, nicht das Haus von achtzehnhundertachtunddreißig. Aber vier Jahrzehnte lang wurden auf diesem Platz Kinder unterrichtet.`},
+    {t:"Warum dieses Haus noch steht",
+     a:`Dieses Haus wurde achtzehnhundertachtunddreißig gebaut – sechs Jahre vor dem großen Brand. Und es steht noch, während der Ortskern fast vollständig aus den Jahren vierundvierzig und fünfundvierzig stammt. Der Grund findet sich in der Schilderung jener Nacht: Als der Wind erneut umschlug und das Feuer sich von Sieberg bis Bönneken auf die andere Straßenseite wälzte, richtete die Drevenacker Löschmannschaft ihre Kräfte ausdrücklich darauf, die restlichen Häuser auf dem Dudel zu retten. Das ist genau diese Ecke. Wenn du also wissen willst, warum ausgerechnet hier ein Haus von achtzehnhundertachtunddreißig steht: Es wurde in einer Nacht im Juni gehalten, von Nachbarn aus dem übernächsten Dorf.`},
     {t:"Von Brücker zu Brüggink",
      a:`Auf der Tafel an der Burg endet die Namensliste bei Nummer fünfundvierzig, und dort steht Brücker, mit dem Beinamen Ridder. Das ist dieses Grundstück, im Jahr achtzehnhundertzwanzig. Achtzehn Jahre später wurde das Haus, das du siehst, neu errichtet – der Vorgängerbau von der Tafel steht also nicht mehr. Hundertdreißig Jahre nach dem Plan lautet dieselbe Anschrift Krudenburg Nummer fünfundvierzig, und darauf steht ein anderer Name: Heinrich Brüggink, Maurer. Eine geschlossene Kette ist das nicht, dazwischen fehlen Generationen. Aber es sind zwei feste Punkte an derselben Stelle, mit über einem Jahrhundert dazwischen – und das ist mehr, als sich für die meisten Dorfhäuser überhaupt belegen lässt.`},
     {t:"Der Maurer, der wiederkam",
@@ -1856,7 +1897,7 @@ Weiter geht es zum Rastplatz mit den Tafeln zum Treidelbetrieb.
 },
 {
   id:"dorfbrunnen", name:"Froschbrunnen",
-  lat:51.65061, lon:6.75749, radius:55, day:1,
+  lat:51.65061, lon:6.75749, radius:40, day:1,
   details:[
     {t:"Der Kilometerstein",
      a:`Neben dem Brunnen steht eine rostbraune Stahlplatte mit ausgeschnittenen römischen Ziffern: C C L X V I I, also zweihundertsiebenundsechzig, und daneben klein die Angabe Kilometer. Es ist ein Kilometerstein der Römer-Lippe-Route, eines Radfernwegs, der dem Fluss von der Quelle bis zur Mündung folgt. Dass die Zahl römisch geschrieben ist, hat einen Grund: Die Römer nutzten die Lippe als Verkehrsweg ins Innere Germaniens, und an ihrem Lauf lagen mehrere Lager. Der Stahl ist bewusst unbehandelt gelassen, er rostet und wird mit den Jahren dunkler. Für dich ist die Platte vor allem eines: der Beleg dafür, dass durch dieses Dorf eine überregionale Route führt – und die Erklärung, warum hier an Wochenenden so viele Räder stehen.`},
@@ -1884,8 +1925,10 @@ Schau dich von hier einmal im Kreis um, dann hinüber zur Brücke. Dort endet un
 },
 {
   id:"kriegerdenkmal", name:"Kriegerdenkmal",
-  lat:51.65037, lon:6.75504, radius:60, day:1,
+  lat:51.65037, lon:6.75504, radius:43, day:1,
   details:[
+    {t:"Der März 1945",
+     a:`Der Stein erinnert an den Ersten Weltkrieg. Der Zweite hat das Dorf schwerer getroffen. In der Nacht vom dreiundzwanzigsten auf den vierundzwanzigsten März neunzehnhundertfünfundvierzig fielen Bomben auf den vorderen Teil des Ortes. Mitten in dieser Häusergruppe war neunzehnhundertvierundvierzig ein Luftschutzbunker angelegt worden; er bekam einen Volltreffer, und die Familie Neuköther sowie weitere Krudenburger kamen dabei ums Leben. Am Morgen des vierundzwanzigsten machten weitere Beschießungen diesen Teil des Dorfes dem Erdboden gleich. Zwei Tage später zogen die Truppen über die Militärbrücke zur Hünxer Seite. Krudenburg war damit ein weiteres Mal das, was es seit Jahrhunderten war: ein umkämpfter Übergang über die Lippe.`},
     {t:"Die Tafel mit den Preisen",
      a:`Gegenüber dem Denkmal steht eine hölzerne Tafel unter einem kleinen Satteldach, oben das geschnitzte Wappen des Dorfes. Darauf sind in Sprossen die Auszeichnungen aus dem Wettbewerb Unser Dorf soll schöner werden festgehalten: neunzehnhundertsiebenundsiebzig ein Sonderpreis auf Kreisebene, neunzehnhundertneunundsiebzig Bronze im Kreis, einundachtzig Silber im Kreis und erster Platz mit Silber auf Landesebene, dreiundachtzig Gold im Kreis sowie Silber und ein Sonderpreis im Land. Dazu Gold auf Landesebene und Bronze im Bundeswettbewerb. Was diese Reihe erzählt, ist ein Aufstieg über sechs Jahre: erst Kreis, dann Land, dann Bund. Und sie fällt in dieselben Jahre wie der Froschbrunnen von neunzehnhundertneunundsiebzig – ein Dorf, das kurz zuvor seine Selbstständigkeit an Hünxe verloren hatte und sich stattdessen einen Namen machte.`},
     {t:"Crudenburg mit C",
@@ -1907,19 +1950,25 @@ Nimm dir einen Moment. Und wenn du magst, lies die Namen. Das ist die einzige Fo
 },
 {
   id:"alter-hafen", name:"Der alte Hafen",
-  lat:51.64974, lon:6.75569, radius:80, day:1,
+  lat:51.64974, lon:6.75569, radius:40, day:1,
   find:"Dem grünen Wegweiser „Zum Alten Hafen“ folgen. Der Hafen selbst ist heute eine Wiesensenke ohne Wasser.",
   top:true,
   stay:"15 Minuten",
   short:"Angelegter Überwinterungshafen der Lippeschiffe – heute trockengefallen.",
   teaser:"Was heute wie eine Wiesensenke aussieht, war der Hafen. Versuch die alte Uferkante zu erkennen.",
   details:[
+    {t:"Der Traum des Pastors",
+     a:`Zu den Mühlen an der Lippe gehört eine Geschichte, die zweimal erzählt wird. Ein Pastor wollte einen Sack Korn mahlen lassen, rutschte am Steg ab und ertrank im Mühlengraben – und in der Nacht zuvor habe er genau diesen Vorgang geträumt und seiner Frau beunruhigt davon erzählt. Erich Bockemühl fand die Begebenheit in den alten Papieren des Burgturms und ordnet sie diesem Tal zu; eine andere Überlieferung siedelt denselben Vorfall an der Wassermühle in Gartrop an, mit Datum sechster April siebzehnhundertsiebzehn. Welche Mühle es war, lässt sich nicht mehr klären – vielleicht ist die Geschichte auch gewandert, wie Geschichten das tun. Zum Krudenburger Mühlenbann gehörte jedenfalls das ganze Kirchspiel Hünxe; ein Pastor mit einem Sack Korn wäre hier keine Ausnahme gewesen.`},
+    {t:"Was in der Senke liegt",
+     a:`Der Oberhafen war achtzehnhundertsechsunddreißig geschlossen worden. Acht Jahre später brannte das Dorf, und danach fiel eine Menge Brandschutt an, die irgendwohin musste. In einer heimatkundlichen Darstellung des Ortes heißt es, es habe auf der Hand gelegen, den stillgelegten Hafen genau damit zu verfüllen. Belegt durch eine Grabung ist das nicht – wer es wissen will, müsste graben. Aber die Vorstellung trägt: Die Senke, in die du gerade schaust, ist dann kein leerer Platz, sondern der Ort, an dem das verbrannte Dorf liegt. Krudenburg hätte sich damit buchstäblich selbst begraben und darüber neu gebaut.`},
+    {t:"Die Schiffswerft im Dorf",
+     a:`Zwischen achtzehnhundertvierzig und vierundvierzig erlebte Krudenburg eine kurze Blüte als Schiffbauort. Mindestens drei Dorstener Schiffbaubetriebe ließen hier fertigen – Nachen und Bauteile für Lippekähne. Verarbeitet wurde krumm gewachsenes Holz aus Kopfeichen, weil sich daraus die gebogenen Spanten ergeben, ohne sie zu biegen. Diese Blüte erklärt auch, warum der Wiederaufbau nach dem Brand so schnell gelang: Handwerker, Werkzeug und Holzkenntnis waren im Ort. Einer von ihnen, der Schiffbauer Heinrich Düllmann, zog später ins Ruhrgebiet, kam zu Krupp nach Essen und arbeitete dort an der Entwicklung hochseetüchtiger Rettungsboote für die Marine. Aus einem Dorf ohne Brücke in den Schiffbau des Kaiserreichs.`},
+    {t:"Warum der Hafen verlandete",
+     a:`Die Erklärung, der Wesel-Datteln-Kanal habe den Hafen trockengelegt, greift zu kurz – der Rückgang begann viel früher und aus einem Verwaltungsgrund. Die Hebestelle für die Lippe-Schifffahrtsabgaben, also die Stelle, an der die Schiffer ihre Gebühren entrichteten, wurde von Krudenburg in den neuen Hafen von Fusternberg bei Wesel verlegt. Damit gab es für die Schiffer keinen Anlass mehr, hier anzulegen. Die Benutzung des Hafens nahm so stark ab, dass er mit der Zeit vollständig verlandete. Der Kanalbau im zwanzigsten Jahrhundert hat dann endgültig besiegelt, was eine Verwaltungsentscheidung Jahrzehnte zuvor begonnen hatte. Ein Ort verliert seine Grundlage selten durch ein einziges Ereignis.`},
     {t:"Was auf der Lippe fuhr",
      a:`Die Informationstafel am Ort nennt, womit die Schiffe beladen waren, und die Liste ist aufschlussreich. Eichenholz aus dem Lippischen. Salz aus Salzuflen, Sassendorf und Werl. Und sogenannte Münstersteine aus den Brüchen bei Borken und in den Baumbergen – jener Sandstein, aus dem am Niederrhein und in Westfalen die Kirchen und Grabmäler gearbeitet wurden. Wesel war der Umschlagplatz zwischen dem Rheinland und dem westfälischen Raum, besonders in Richtung Niederlande. Wer hier am Ufer stand, sah also keinen romantischen Fluss, sondern eine Güterstrecke. Und ein Detail, das oft übersehen wird: Schon zur Römerzeit wurde die Lippe befahren.`},
     {t:"Die alte Uferkante",
-     a:`Versuch, die Kante zu finden. Die Hafenbecken sind laut der Informationstafel in Teilen noch im Gelände erkennbar – als flache Senken mit einem Geländeknick, nicht als gemauerte Kaikante. Geh langsam quer darüber und achte auf den Punkt, an dem der Boden abfällt – das war die Wasserlinie. Wenn du sie einmal erkannt hast, kannst du dir die Schiffe vorstellen, die hier im Winter dicht an dicht lagen, mit abgelegten Masten.`}
-  ],
-  details:[
+     a:`Versuch, die Kante zu finden. Die Hafenbecken sind laut der Informationstafel in Teilen noch im Gelände erkennbar – als flache Senken mit einem Geländeknick, nicht als gemauerte Kaikante. Geh langsam quer darüber und achte auf den Punkt, an dem der Boden abfällt – das war die Wasserlinie. Wenn du sie einmal erkannt hast, kannst du dir die Schiffe vorstellen, die hier im Winter dicht an dicht lagen, mit abgelegten Masten.`},
     {t:"Die Mühle, die im Fluss lag",
      a:`Eine Besonderheit, die es so kaum irgendwo gab: In Krudenburg war eine Wassermühle im Fluss selbst verankert, eine sogenannte Mühlenponte. Sie schwamm also und nutzte die Strömung, statt an einem festen Ufergerinne zu sitzen. Das hatte einen Vorteil und einen erheblichen Nachteil. Der Vorteil: Sie funktionierte unabhängig vom Wasserstand, weil sie mit stieg und fiel. Der Nachteil: Sie lag mitten im Fahrwasser. Wollte ein Schiff vorbei, musste die Mühle beiseitegeschoben werden. Mühle und Schifffahrt behinderten sich also gegenseitig, jeden Tag. Seit dem Ende des fünfzehnten Jahrhunderts gab es Versuche, die Befahrbarkeit der Lippe zu verbessern. Am Ende gewann die Schifffahrt: Achtzehnhundertsiebenundzwanzig wurde die Mühlenponte beseitigt, ein Jahr später die niedrige Krudenburger Brücke.`}
   ],
@@ -1933,11 +1982,13 @@ Geh von hier die letzten Meter ans Wasser.`
 },
 {
   id:"infopunkt", name:"Infopunkt Treidlerdorf",
-  lat:51.65077, lon:6.75737, radius:60, day:1,
+  lat:51.65077, lon:6.75737, radius:40, day:1,
   stay:"15 Minuten",
   short:"Informationstafeln zum Treidelbetrieb, dazu Rastmöglichkeit und Toilette.",
   teaser:"Die Tafeln hier erklären den Treidelbetrieb im Detail. Guter Platz für eine Pause.",
   details:[
+    {t:"Der Lippekahn",
+     a:`Auf der Informationstafel ist oben ein Schiff abgebildet, und das lohnt einen genauen Blick. Es ist ein Lippekahn: flach gebaut, mit geringem Tiefgang für einen seichten Fluss, und mit einem großen Segel. Die Schiffe, die hier gezogen wurden, waren also Segelfahrzeuge. Wenn Wind und Richtung passten, segelte man. Flussabwärts half zusätzlich die Strömung. Getreidelt wurde vor allem stromaufwärts und dort, wo der Wind zwischen Ufergehölz und Krümmungen nichts taugte. Das erklärt auch, warum Treideln überhaupt ein eigener Beruf sein konnte: Es war nicht der Normalfall, sondern die Lösung für alles, was Wind und Strömung nicht schafften. Und es erklärt die Leinpfade – ein Segelschiff braucht keinen Weg am Ufer, ein gezogenes schon.`},
     {t:"Was Treideln körperlich bedeutete",
      a:`Ein Punkt, der auf Tafeln oft untergeht: Ein beladenes Lippeschiff wog viele Tonnen und musste gegen die Strömung gezogen werden, über eigens angelegte Leinpfade am Ufer. Pferde machten das erträglich, aber jemand musste sie führen – bei jedem Wetter, viele Stunden am Tag, in gleichmäßigem Schritt. Bei Brücken, Engstellen und Nebenflüssen musste umgespannt werden. Deshalb war Krudenburg Station: Hier wurden die Pferde gewechselt und versorgt. Wenn du also verstehen willst, warum ein so kleines Dorf überhaupt entstand, ist die Antwort ganz einfach: weil Pferde nicht endlos ziehen können.`}
   ],
@@ -1951,11 +2002,15 @@ Danach kommen wir zum Wahrzeichen des Dorfes.`
 },
 {
   id:"lippeufer", name:"Lippeufer und Leinpfad",
-  lat:51.64984, lon:6.75664, radius:100, day:1,
+  lat:51.64984, lon:6.75664, radius:40, day:1,
   stay:"20 Minuten",
   short:"Der Fluss selbst – heute Naturschutzgebiet mit Eisvogel und Storch.",
   teaser:"Schau flussabwärts und halte nach einem blauen Blitz Ausschau. Eisvögel jagen hier regelmäßig.",
   details:[
+    {t:"Der alte von Aaken",
+     a:`Aus der Zeit der Lippeschiffer ist eine Gestalt überliefert, die schon die Erzähler selbst als Sagenhelden bezeichnet haben: der alte von Aaken. Er soll in Wasserstiefeln in den Fluss gestiegen sein und einen schwer beladenen Kahn eigenhändig von der Sandbank gehoben haben, bis er wieder Fahrwasser hatte. Und Räuber am Ufer soll er mit Bruchsteinen beworfen haben. Erich Bockemühl schreibt dazu, die Urgroßmutter habe ihn noch gekannt, er sei der stärkste Mann aller Zeiten gewesen. Ob es ihn gab, ist offen. Interessant ist etwas anderes: Beide Taten sind genau die, die ein Treidler brauchte – ein Schiff wieder flottzubekommen und sich gegen Überfälle am einsamen Leinpfad zu wehren. Eine Berufsgruppe erfindet sich ihren Helden nach ihren eigenen Nöten.`},
+    {t:"Die Mitte des Weges",
+     a:`Eine Regel aus derselben Sammlung passt genau hierher: Man solle abends und nachts nicht in der Mitte eines Weges gehen, der von Pferdehufen betreten wird – dort hätten die Geister ihren Gang, und man könne leicht gegen einen stoßen. Auf einem Leinpfad, über den täglich Treidelpferde zogen, ist das eine sehr konkrete Anweisung. Dazu kommt eine zweite: Irrlichter über feuchtem Gelände und auf Begräbnisplätzen galten als Geister; blieben sie stehen, liege dort ein Schatz vergraben. Irrlichter gibt es in Auen tatsächlich, sie entstehen durch Faulgase über nassem Boden. Wer hier abends steht, hat also beides beisammen: den Weg der Pferde und das Land, in dem die Lichter aufsteigen.`},
     {t:"Was aus diesem Fluss geborgen wurde",
      a:`Die Lippe hat hier mehr hergegeben als Fisch. Aus dem Uferbereich wurden ein frühgeschichtliches Boot geborgen, ein fünfzehn Meter langer Einbaum und ein Mammutschädel. Ein Einbaum von fünfzehn Metern ist kein Kahn, sondern ein Transportmittel – aus einem einzigen Baumstamm gearbeitet, was einen entsprechenden Baum voraussetzt. Und der Mammutschädel führt in eine Zeit, in der hier weder Dorf noch Fluss in heutiger Form existierten. Der Uferschlamm konserviert Holz und Knochen erstaunlich gut, weil unter Wasser kein Sauerstoff herankommt. Genau deshalb liegen die interessantesten Funde dieser Gegend nicht auf dem Acker, sondern im Fluss.`}
   ],
@@ -1970,15 +2025,39 @@ Jetzt gehen wir zurück in den alten Ortskern.`
 },
 {
   id:"lippebruecke", name:"Lippebrücke und alter Übergang",
-  lat:51.65159, lon:6.75833, radius:90, day:1,
+  lat:51.65159, lon:6.75833, radius:67, day:1,
   stay:"10 Minuten",
   short:"Die Stelle, an der man seit sehr langer Zeit über die Lippe kommt.",
   teaser:"Blick flussaufwärts: Irgendwo dort drüben wurden alte Pfähle im Uferschlamm gefunden.",
   details:[
+    {t:"Die Staatsgrenze im Fluss",
+     a:`Für einige Jahre verlief hier eine Staatsgrenze. In napoleonischer Zeit gehörte Krudenburg am rechten Ufer zum französischen Kaiserreich – Mairie Schermbeck, Arrondissement Rees, Departement de la Lippe. Hünxe am anderen Ufer lag im Großherzogtum Berg unter Joachim Murat, Napoleons Schwager. Zwischen den Häusern, die du von hier siehst, lagen also zwei Staaten. Zur Durchsetzung der Kontinentalsperre gegen England unterhielten die Franzosen in Krudenburg einen Zollposten, der den Verkehr über Brücke und Fähre überwachte. Die Zollbeamten, die Douaniers, gehörten zur Armee und trugen Uniform und Dienstgrade. Ein Übergang, der jahrhundertelang zwei Dörfer verband, war für ein paar Jahre die Kontrollstelle zwischen zwei Reichen.`},
+    {t:"Die Entführung von 1812",
+     a:`An diesem Zollposten diente Louis François Félix Royer, geboren siebzehnhundertsechsundachtzig in der Haute-Marne. Er lernte Anna Sybilla Benninghoff kennen, Tochter des wohlhabenden Bauern und Wirts Peter Benninghoff. Die Eltern, streng protestantisch und preußisch gesinnt, verboten dem katholischen Franzosen das Haus. Also inszenierten die beiden eine Entführung: Soldaten holten das Mädchen nachts mit dessen Einverständnis heraus, vor der Schlafzimmertür des Bruders standen Posten, die vorgaben, Schießbefehl zu haben. Weil sie mit dreiundzwanzig noch nicht volljährig war, verlangte der Code Napoléon drei förmliche Bitten um die elterliche Einwilligung; ein Notar aus Rees kam dreimal, jeweils am einundzwanzigsten des Monats, und wurde dreimal abgewiesen. Am dreiundzwanzigsten Dezember achtzehnhundertzwölf heirateten sie in Schermbeck. Die Urkunden liegen bis heute im Personenstandsarchiv auf Schloss Brühl. Aufgeschrieben hat die Geschichte Ernst Bönneken im Heimatkalender neunzehnhundertneunundsechzig – ein Nachfahre.`},
+    {t:"Wie es ausging",
+     a:`Das Ende ist bitter. Der Sohn Pierre Nicolas kam im Mai achtzehnhundertdreizehn in Wesel zur Welt; die Mutter starb vier Monate später im Kindbett, vierundzwanzig Jahre alt, und wurde in Drevenack begraben. Ihre Eltern lehnten es ab, die Sterbende zu besuchen, mit der Begründung, sie hätten keine Tochter mehr; der Bruder Albert und seine Frau fuhren hin und fanden sie sterbend vor. Dessen Frau, selbst gerade Mutter, entwöhnte ihr eigenes Kind, um den Säugling zu stillen. Nach der Kapitulation Wesels musste Royer mit den abziehenden Truppen fort. Sein Sohn wuchs bei den Benninghoffs auf, evangelisch. Der Vater kam jahrelang einmal jährlich aus Frankreich zu Besuch – und weil ihm das Haus verboten war, sah er sein Kind zunächst nur vom Lippedamm aus. Auf der Tafel an der Burg findest du bei Nummer zwanzig den Namen Royer. Der Franzose ist im Dorf geblieben, wenn auch nur als Name.`},
+    {t:"Das Grab der Sechzig",
+     a:`Eine Stelle in Erich Bockemühls Schilderung des Lippetals bleibt rätselhaft und soll deshalb hier stehen: Gegenüber dem Dorf, neben der Fährglocke, habe ein Grab gelegen – das Grab von mehr als sechzig Toten, deren Namen vielleicht niemand kenne. Mehr sagt der Text nicht. Ob es sich um Kriegstote handelte, um Opfer einer Seuche oder um Ertrunkene, wird nicht erklärt, und einen Beleg dafür habe ich nicht. Es ist eine dieser Überlieferungen, die in einem Dorf hängenbleiben, ohne dass jemand sie noch auflösen kann. Wenn du hinüberschaust: Irgendwo dort drüben, in der Nähe der Stelle, an der die Fährglocke hing, soll es gewesen sein.`},
+    {t:"Das Pferd, das schräg lief",
+     a:`Zur Fähre gehörte ein Schlepppferd, das im Dorf stand und dessen Aufgabe es war, schwere Fuhrwerke von der Fähre die steile Rampe hinaufzuziehen. Standen Fuhrknechte mit schwerer Ladung am Hünxer Ufer, gab es dafür einen eigenen Glockenanschlag als Ruf herüber. Das Tier war ein ausgedientes Treidelpferd, und es lief schräg: Vom jahrelangen Ziehen am Leinpfad, immer seitlich zum Seil, konnte es nicht mehr geradeaus gehen. Die Fuhrknechte sagten, es sehe aus, als käme es gerade aus der Wirtschaft. Wenn du wissen willst, was Treideln mit Lebewesen macht, ist das die kürzeste Antwort. Und dieses Pferd hat länger als jeder Mensch im Dorf beide Systeme erlebt – erst das Ziehen der Schiffe, dann das Ziehen der Wagen von der Fähre.`},
+    {t:"Die Nacht, in der die Brücke fehlte",
+     a:`Am achtundzwanzigsten Juni achtzehnhundertvierundvierzig brannte Krudenburg. Die Hünxer Löschmannschaft rückte aus – und kam nicht über den Fluss. Die Fähre, die anstelle der abgebrochenen Brücke eingerichtet worden war, lag wegen des niedrigen Wasserstands fest. So standen die Männer am jenseitigen Ufer und sahen zu, wie das Dorf brannte, breit genug, um alles zu erkennen, und zu weit, um zu helfen. In der Chronik des Hünxer Kirchspiels steht dazu der nüchterne Satz, die Hilfe sei behindert worden wegen des Fehlens der Krudenburger Brücke. Aus Gartrop kam Hilfe schließlich mit dem Kahn des Schlosses über das Wasser. Schon damals, sechzehn Jahre nach dem Abbruch, wurde beklagt, dass eine Brücke fehle. Es sollte noch über hundert Jahre dauern.`},
+    {t:"Die Brücke, die das Dorf selbst gebaut hat",
+     a:`Bis in die erste Hälfte des neunzehnten Jahrhunderts gab es hier eine feste hölzerne Brücke, und ihre Entstehung sagt viel über die Verhältnisse. Bauherr war der Besitzer des Rittersitzes Krudenburg, Freiherr von Strünkede; das Bauholz kam aus seinen eigenen Waldbeständen. Die Arbeit leisteten die Einwohner von Krudenburg, Hünxe, Bruckhausen und Bucholtwelmen unentgeltlich. Dafür durften sie als Fußgänger umsonst hinüber, mit Vieh und Fuhrwerk gegen ein geringes Brückengeld. Der Grund für diesen Eifer war handfest: Die meisten dieser Gemeinden gehörten zum Krudenburger Mühlenbann, mussten ihr Korn also hier mahlen lassen und brauchten zu jeder Jahreszeit einen verlässlichen Weg über den Fluss.`},
+    {t:"Als die Brücke verschwand",
+     a:`Achtzehnhundertsiebenundzwanzig verkaufte die Freifrau von Nagell die schwimmende Wassermühle und die Brücke an die Lippe-Schifffahrtsverwaltung, also an den Staat. Die Mühle wurde sofort abgetragen, angeblich weil sie die Schifffahrt behinderte. Die Brücke überlebte ihre Nachbarin noch einige Jahre und wurde dann ebenfalls abgebaut, obwohl sie jährlich bis zu dreihundertsechzig Taler Pacht einbrachte. Zum genauen Jahr widersprechen sich die Quellen: Die Informationstafel im Ort nennt achtzehnhundertachtundzwanzig, eine heimatkundliche Darstellung achtzehnhundertfünfunddreißig. Ersetzt wurde sie durch eine Fähre – und mit ihr fiel die Vergünstigung für die Nachbargemeinden weg. Das Fährgeld war hoch, die Pacht brachte trotzdem nur einen Bruchteil ein.`},
+    {t:"Der Morgen des 29. Oktober 1863",
+     a:`An diesem Morgen sackte die Fähre, die sich in erbärmlichem Zustand befand, ohne Vorwarnung ab. Es war ein Glücksfall: Weder Menschen noch Fuhrwerk befanden sich darauf. Noch am selben Tag schrieb der Gemeindevorsteher Benninghoff – derselbe Name, der schon auf der Tafel von achtzehnhundertzwanzig steht – einen Bericht an den Landrat in Wesel und bat um eine feste Brücke. Sein Schreiben ist das eindringlichste Zeugnis über den Zustand des Dorfes: Krudenburg habe sich früher eines Wohlstandes und regen Verkehrs erfreut, sei aber seit dem Abbruch der Brücke vom Verkehr abgeschnitten. Viele suchten auswärts Arbeit; sogar ansässige und verheiratete Männer gingen zu Fuß in die fünf bis sechs Stunden entfernten Fabriken nach Oberhausen, Ruhrort und Duisburg.`},
+    {t:"Wenn Eis trieb",
+     a:`Der Alltag ohne Brücke war härter, als es klingt. Wegen des niedrigen Wasserstands brauchte die Fährponte sehr steile Auffahrtsrampen – für leichte Fuhrwerke gefährlich, für schwere oder für Wagen mit Langholz unmöglich. Diese mussten zwei Stunden flussabwärts oder drei Stunden flussaufwärts ausweichen. Bei Eisgang wurde die Ponte in den Hafen geschleppt; Fußgänger setzte man unter Lebensgefahr mit einem Boot über, an manchen Tagen gar nicht. Die Krudenburger gehörten zur Kirchengemeinde Hünxe, konnten also während des Eistreibens weder selbst zur Kirche noch ihre Kinder zum Unterricht schicken. Und in Benninghoffs Bericht steht ein Satz, den man nicht vergisst: Es sei vorgekommen, dass Verstorbene erst nach Tagen zum Friedhof gebracht werden konnten.`},
+    {t:"Neunzig Jahre Anträge",
+     a:`Was nach dem Absacken der Fähre folgte, ist eine Verwaltungsgeschichte von fast biblischer Ausdauer. Achtzehnhundertvierundsechzig fuhr eine Abordnung nach Köln, ein Bürgermeister reiste nach Berlin, der Provinziallandtag stimmte einstimmig zu. Achtzehnhundertfünfundsechzig lehnte der zuständige Minister ab: Er könne dieser Brücke keine erhebliche Bedeutung für den größeren Verkehr beimessen. Ein neuer Anlauf, wieder Zustimmung, dann schweigen die Akten. Einundzwanzig Jahre später, achtzehnhundertneunundachtzig, ein erneuter Antrag von Bürgern aus Hünxe, Krudenburg und Drevenack. Gemeinden sagten Geld zu, andere lehnten ab, die Garnison Wesel erklärte, ein militärisches Interesse bestehe nicht. Achtzehnhunderteinundneunzig scheiterte auch der Vorschlag, einen Ponton der alten Weseler Schiffbrücke zu verwenden. Neunzehnhundertachtzehn ein weiterer Antrag, wieder ohne Ergebnis.`},
+    {t:"Die Brücke der Pioniere",
+     a:`Was schließlich kam, war keine Entscheidung der Verwaltung, sondern des Militärs. Vor dem Zweiten Weltkrieg errichteten Pioniere hier eine hölzerne Brücke – eine Jochkonstruktion auf gerammten Pfählen. Im Krieg wurde sie schwer beschädigt und nach neunzehnhundertfünfundvierzig bald wieder erneuert. Auf alten Aufnahmen sieht man Menschen mit Fahrrädern darüber schieben und andere, die einfach darauf stehen und schauen. Für ein Dorf, das über hundert Jahre auf eine Fähre angewiesen war, war eine feste Verbindung kein Verkehrsbauwerk, sondern das Ende der Abgeschiedenheit. Erst im Mai neunzehnhundertsechsundfünfzig begann der Bau der heutigen Brücke aus Stahl und Beton; ausschlaggebend war der zunehmende Kraftwagenverkehr, für den die enge Dorfstraße ein Hindernis war.`},
     {t:"Ein Name an der Brücke – eine Vermutung",
      a:`Jetzt eine Überlegung, die ausdrücklich eine Vermutung bleibt. Auf der Tafel an der Burg trägt das letzte Haus des Dorfes, Nummer fünfundvierzig, den Namen Brücker, mit dem Beinamen Ridder. Ridder ist niederrheinisch für Ritter. Und Brücker heißt, wörtlich genommen, der von der Brücke. Belegt ist zweierlei: Es gab hier eine Brücke über die Lippe, und für ihre Benutzung wurde Zoll erhoben. Es liegt nahe, beides zu verknüpfen und zu vermuten, diese Familie habe mit der Brücke oder mit dem Zoll zu tun gehabt. Belegt ist das nicht, und es gibt einen guten Einwand: Brücker ist am Niederrhein ein verbreiteter Familienname, und er entstand vielfach schlicht daraus, dass jemand an einer Brücke wohnte, ohne dort ein Amt zu haben. Ein Wohnort wird zum Namen, ein Amt muss es nicht gewesen sein. Nimm es also mit, aber als Frage, nicht als Antwort.`}
   ],
-  facts:["Vor dem Kanalbau war Krudenburg nur per Fähre erreichbar","Für die alte Brücke wurde Zoll erhoben","Pfahlfunde im Uferschlamm sind überliefert","1820 wohnte auf Haus Nr. 45 die Familie Brücker, genannt Ridder"],
+  facts:["Vor dem Kanalbau war Krudenburg nur per Fähre erreichbar","Feste Brücke bis 1828 oder 1835, danach über 120 Jahre nur eine Fähre","Heutige Brücke ab Mai 1956 gebaut","Pfahlfunde im Uferschlamm sind überliefert","1820 wohnte auf Haus Nr. 45 die Familie Brücker, genannt Ridder"],
   next:null, transport:"walk",
   audio:`Wir sind am Lippeübergang, dem letzten Punkt für heute.
 Eine Brücke an dieser Stelle ist alt. Für ihre Benutzung wurde früher Zoll erhoben, und das war eine der Einnahmequellen der Herrschaft Krudenburg. Und es gab Zeiten, da war es andersherum: Bevor der Wesel-Datteln-Kanal den Lippepegel absenkte, war Krudenburg nur über eine Fähre zu erreichen.
@@ -2010,7 +2089,7 @@ Der Baumberger Sandstein kommt übrigens aus dem Münsterland. Er ist weich, fei
 },
 {
   id:"kutzers-kath", name:"Kutzers Kath",
-  lat:51.64265, lon:6.76990, radius:60, day:2,
+  lat:51.64265, lon:6.76990, radius:90, day:2,
   stay:"10 Minuten",
   short:"Das Fachwerkhaus neben dem Rathaus – hier wohnte der Kutscher von Schloss Gartrop.",
   teaser:"Gleich neben dem Rathaus steht ein Fachwerkhaus. Sein Name verrät, wer darin wohnte.",
@@ -2031,7 +2110,7 @@ Schau dir das Fachwerk an, soweit es sichtbar ist, und die Größe des Hauses im
 },
 {
   id:"turmwindmuehle", name:"Turmwindmühle Hünxe",
-  lat:51.64436, lon:6.76355, radius:80, day:2,
+  lat:51.64436, lon:6.76355, radius:90, day:2,
   stay:"10 Minuten",
   short:"1838 erbaut, bis 1964 in Betrieb – heute ein Wohnhaus.",
   teaser:"Der runde Backsteinturm an der Krudenburger Straße war einmal eine Windmühle.",
@@ -2066,7 +2145,7 @@ Ein praktischer Hinweis: Das Museum wird ehrenamtlich betreut und hat keine durc
 },
 {
   id:"wassermuehle-gartrop", name:"Wassermühle Gartrop",
-  lat:51.66155, lon:6.80862, radius:110, day:2,
+  lat:51.66155, lon:6.80862, radius:40, day:2,
   top:true,
   stay:"30 Minuten",
   short:"Rund 500 Jahre in Betrieb, seit 2014 wieder funktionstüchtig.",
@@ -2088,7 +2167,7 @@ Und eine Geschichte, die überliefert, aber nicht überprüfbar ist: Am sechsten
 },
 {
   id:"schloss-gartrop", name:"Schloss Gartrop",
-  lat:51.66209, lon:6.80816, radius:130, day:2,
+  lat:51.66209, lon:6.80816, radius:40, day:2,
   top:true,
   stay:"1 Stunde",
   short:"Wasserschloss von 1675, umgeben von einem englischen Landschaftsgarten.",
@@ -2108,7 +2187,7 @@ Und eine Geschichte, die überliefert, aber nicht überprüfbar ist: Am sechsten
      a:`Der Park ist rund drei Hektar groß und im englischen Landschaftsstil angelegt: gewundene Wege, freie Rasenflächen, Baumgruppen statt Achsen. Ältere Elemente wurden dabei einbezogen, darunter eine barocke Allee im Süden – man sieht also beide Gartenmoden nebeneinander. Achte auf die Eichen: Die ältesten werden auf etwa dreihundert Jahre geschätzt, sind also älter als die Gartengestaltung, die sie heute rahmt. Praktisch: Der Schlossgarten ist grundsätzlich zugänglich, das Haus nur bei Führungen und Veranstaltungen.`}
   ],
   facts:["1675 erbaut, nach niederländischen Vorbildern","Athene und Concordia auf den Torpfeilern, von Johann Wilhelm Gröninger","Schlosskapelle von 1698","Englischer Landschaftsgarten mit rund 300 Jahre alten Eichen"],
-  next:"haus-esselt", transport:"car",
+  next:"waldkreuzung-1944", transport:"car",
   audio:`Du bist am Schloss Gartrop, dem bedeutendsten Bau der Gemeinde.
 Errichtet wurde die heutige Anlage sechzehnhundertfünfundsiebzig, nach niederländischen Vorbildern, durch Albert Gisbert von Hüchtenbruck – den Namen kennst du bereits aus der Kirche in Hünxe. Ein spätmittelalterlicher Winkelbau wurde dabei zu einer zweigeschossigen Vierflügelanlage erweitert. Man geht davon aus, dass darunter noch ältere Grundmauern liegen.
 Zur Anlage gehören das barocke Herrenhaus, eine Vorburg, zwei Torhäuser, eine Kapelle von sechzehnhundertachtundneunzig und die Wassermühle, die du gerade gesehen hast. Umgeben ist alles von einem weit verzweigten System aus Wassergräben.
@@ -2119,7 +2198,7 @@ Praktisch: Das Schloss ist in Privatbesitz und wird als Hotel und Veranstaltungs
 },
 {
   id:"haus-esselt", name:"Haus Esselt – Otto-Pankok-Museum",
-  lat:51.71062, lon:6.69964, radius:200, day:2,
+  lat:51.71062, lon:6.69964, radius:90, day:2,
   top:true,
   stay:"1 Stunde",
   short:"Der Alterssitz des Malers Otto Pankok, heute Museum.",
@@ -2139,6 +2218,215 @@ Politisch war er unbequem. In den dreißiger Jahren lebte er zeitweise unter Sin
 Wenn du also durch die Räume gehst: Das hier ist kein beschauliches Künstlerhaus am Niederrhein. Es ist der Rückzugsort eines Mannes, der eine sehr genaue Vorstellung davon hatte, wen man abbildet und warum.
 Zu den Öffnungszeiten: Das Museum ist an Wochenenden geöffnet, die genauen Zeiten wechseln. Prüf sie vorher, damit du nicht umsonst fährst.
 Damit endet die Runde durch deine eigene Gemeinde. Wenn dir unterwegs etwas aufgefallen ist, das hier fehlt: Der Knopf „Eigener Ort“ wartet.`
+},
+{
+  id:"ev-kirche-drevenack", name:"Evangelische Kirche Drevenack",
+  lat:51.66058, lon:6.74782, radius:70, day:2,
+  find:"Im Ortskern von Drevenack. Turm aus Bruchstein mit Ziegelaufsatz, von weitem erkennbar.",
+  details:[
+    {t:"Ein Grab von 1944",
+     a:`Auf dem Friedhof dieser Kirche wurde am neunten September neunzehnhundertvierundvierzig Heinrich Schüring beigesetzt, der Landwirt und Jäger, der im Wald zwischen Drevenack und Damm getötet worden war. Zwei Tage später wurden an der Stelle seines Todes zehn Menschen öffentlich erhängt. Zwischen der Beisetzung eines Ermordeten und der Hinrichtung von zehn Menschen, von denen acht nichts mit seinem Tod zu tun hatten, lagen also achtundvierzig Stunden. Wer die Station im Wald angesteuert hat, weiß, wovon die Rede ist. Wer sie ausgelassen hat, muss es nicht wissen – aber der Friedhof gehört zu dieser Geschichte.`},
+    {t:"Besitztum des Dreven",
+     a:`Der Ortsname geht wahrscheinlich weiter zurück als alles Gebaute hier. Pfarrer Friedrich Althen, von achtzehnhundertvierundneunzig bis neunzehnhundertfünfundzwanzig hier im Amt, wies darauf hin, dass die Endung acon oder icon von den Kelten stammt, die vor der germanischen Einwanderung in dieser Gegend lebten. Sie wurde an einen Eigennamen gehängt, um dessen Besitz anzuzeigen – so wie Jülich auf Juliacum zurückgeht, das Gut des Julius. Drevenack hätte demnach ursprünglich Drevenakon geheißen und bedeutet: Besitztum des Dreven. Der Name lebt heute noch im Familiennamen Drews weiter. Und das nahe Gut Vinkel, früher Drawinkel, wäre danach ein kleiner Nebensitz desselben Dreven gewesen – ein castellum de Dravewinkel ist bereits zwölfhundertsiebenundsiebzig bezeugt.`},
+    {t:"Ungleiches Recht im Wald",
+     a:`Das Weistum über den Weseler Wald, zu dem auch das Kirchspiel Drevenack gehörte, zeigt sehr deutlich, wie ungleich das Recht damals verteilt war. Wer Erbgenosse war, also zu den alteingesessenen Höfen zählte, durfte unbefugt Holz schlagen, ohne dass es ihm weggenommen wurde – die Waldförster mussten den Vorfall lediglich beim nächsten Holzgericht anzeigen. Ein bloßer Markgenosse dagegen verlor sein Holz und musste es selbst zum Kloster bringen; ein Drittel der Pfändung fiel an die Waldaufsicht. Und ein Ortsfremder wurde kurzerhand festgesetzt. Dieselbe Tat, drei verschiedene Folgen – je nachdem, wer sie beging. Wer sich fragt, wie das Leben vor der Rechtsgleichheit aussah, findet hier eine sehr genaue Antwort.`},
+    {t:"Die Post hieß Peddenberg",
+     a:`Die Postagentur des Ortes hieß amtlich lange nicht Drevenack, sondern Post Peddenberg – nach dem Flurnamen des Hügels an der Landstraße nach Wesel. Und der Postmeister war einer, dem wir in Krudenburg schon begegnet sind: Peter Nikolaus Royer, der Sohn jenes französischen Zöllners, dessen Braut sich achtzehnhundertzwölf zum Schein entführen ließ. Der als Waise bei den Benninghoffs aufgewachsene Junge wurde Postmeister und Landwirt in Drevenack. Dass er als streng galt, ist überliefert – in einem Vers, den die Postillione sangen, wenn sie von Schermbeck kommend in Damm ins Horn stießen. Sinngemäß bedeutete er: Ein Schnaps geht noch, der Royer ist noch weit. Ein französischer Familienname, ein niederrheinischer Reim, und dahinter eine Geschichte, die dreißig Jahre vorher an der Lippebrücke begann. Am Ort erinnert heute ein Gedenkstein „Altes Posthaus Peddenberg“ daran.`},
+    {t:"Die Körbe auf dem Speicher",
+     a:`Zur alten Post gehört eine Geschichte, die man sich im Dorf bis heute erzählt und die Erich Bockemühl selbst als zweifelhaft kennzeichnet. Der alte Postbote habe die Sendungen an der Kirche verteilt, vorzugsweise am Sonntagmorgen; nur Amtspersonen, Pastor, Lehrer und Förster habe er sie ins Haus gebracht. Nach seiner Pensionierung habe man auf seinem Speicher einige Körbe voll unbestellter Briefe gefunden. Zur Rede gestellt, habe er entgegnet, er könne ja nichts dafür, wenn die Leute so wenig zur Kirche kämen. Bockemühl hält dagegen, dass der Postmeister als sehr streng galt und Unterschlagungen kaum verborgen geblieben wären. Er nennt es einen typischen Fall, in dem Überlieferung und historische Wirklichkeit auseinandergehen – und merkt an, dass solche Erzählungen auch nicht ohne Ursache entstehen.`},
+    {t:"Die Mühle auf dem Peddenberg",
+     a:`Auf der Höhe zum Peddenberg hin stand jahrzehntelang eine Windmühle. Neunzehnhundertachtzehn wurde sie abgebaut; die Ruine blieb noch lange stehen. Heute ist dort eine Geschäftsstraße, und wer sich das Bild von damals vorstellen will, muss über ein Dutzend neuerer Häuser gedanklich wegräumen. An ihrem Standort steht heute ein Gedenkstein „Ehemalige Windmühle“. Erhalten ist die Mühle selbst nur als Zeichnung: Der Weseler Maler August Oppenberg rekonstruierte sie in den sechziger Jahren – anhand eines winzigen Bildchens auf einer rund siebzig Jahre alten Ansichtskarte und der Aussagen von Leuten mit gutem Gedächtnis. Alte Drevenacker erinnerten sich noch, wie sie den von der Mutter gekneteten Brotteig zum Müller bringen mussten, der nebenher einen Backofen betrieb.`},
+    {t:"Das Gasthaus nebenan",
+     a:`Unmittelbar neben der Kirche stand jahrhundertelang ein Gasthaus – nach örtlicher Auskunft seit dem sechzehnten Jahrhundert, zeitweise diente das Gebäude auch als Postgebäude. Überregional bekannt war es als Tanzlokal unter dem Namen Zum halben Mond; später hieß es Zum Trotzenberg. In den zwanzehner Jahren schloss es endgültig, das Haus wurde zu Wohnungen umgebaut. Der Name reicht aber viel weiter zurück, als es scheint: Schon zur Zeit des Ritters Goswin von Steck, also um vierzehnhundert, wurde der Drevenacker Zehnt alljährlich am Trotzenberg in der Wirtschaft zum halben Mond vom Hünxer Kirchenvorstand entgegengenommen. Und derselbe halbe Mond sitzt bis heute als Wetterfahne auf dem Turm von Haus Schwarzenstein. Ein Wirtshausname, der sechs Jahrhunderte überdauert hat – und ein weiteres Beispiel dafür, dass in dieser Gegend die Namen zäher sind als die Sache.`},
+    {t:"Ein Turm aus zwei Zeiten",
+     a:`Schau dir den Turm von unten nach oben an. Der untere Teil besteht aus Bruchstein, darüber sitzt ein Aufbau aus Ziegel. Achte auf die Schallöcher im Turm: Sie sind noch romanisch, also älter als die Fenster des Kirchenschiffs, die gotisch sind. Auch am Mauerwerk lässt sich ablesen, dass die Kirche ursprünglich kürzer und niedriger war und später verlängert und erhöht wurde. Im fünfzehnten Jahrhundert wurde aus der Kapelle eine Kirche; vermutlich fiel die Erhöhung in diese Zeit. Der Chor kam wahrscheinlich sechzehnhundertachtzig hinzu – nötig geworden, weil der Raum als Predigtkirche mit Bänken zu klein war. Wer einen Bau lesen will, findet hier fast ein Lehrbuch an einer einzigen Fassade.`},
+    {t:"Die Steine in der Ostwand",
+     a:`In der Ostwand des Chores sitzen sogenannte Memoriensteine, also Gedenksteine für Verstorbene. Aus ihnen wird geschlossen, dass in Drevenack bereits im neunten oder zehnten Jahrhundert eine Hauskapelle bestand. Erwähnt wird eine Kapelle dann Anfang des vierzehnten Jahrhunderts in einem Verzeichnis der Kircheneinkünfte. Ob vom ältesten Bau noch etwas im heutigen Mauerwerk steckt, lässt sich nicht feststellen. Die Anfänge dieser Kirche liegen, wie es in der örtlichen Darstellung heißt, im Dunkeln. Das ist ehrlicher als jede runde Jahreszahl.`},
+    {t:"Achtzehnhundertfünfundzwanzig",
+     a:`Seit der Mitte des sechzehnten Jahrhunderts, wahrscheinlich schon vor fünfzehnhundertdreiundfünfzig, ist die Gemeinde evangelisch – und zwar lutherisch. Achtzehnhundertfünfundzwanzig vereinigte sie sich mit der reformierten Gemeinde Krudenburg und ist seither eine Unionsgemeinde. Das ist mehr als eine Verwaltungsnotiz. Lutherisch und reformiert waren zwei Konfessionen, die hier jahrhundertelang getrennt lebten und sich gegenseitig misstrauten. In Krudenburg gab es zeitweise zwei Schulen nebeneinander, eine lutherische und eine reformierte, weil man die Kinder nicht gemeinsam unterrichten wollte. Diese Kirche ist der Ort, an dem das endete.`},
+    {t:"Die Düne südlich der Kirche",
+     a:`Südlich der Kirche erhob sich ein Hügel, den man neunzehnhundertneunundfünfzig abfuhr, um Sand für den Autobahndamm zu gewinnen. Dabei stieß der Bagger auf Tonscherben und kleine kalkweiße Knochensplitter – ein Grab, das vor rund zweitausendsechshundert Jahren angelegt worden war. Am Ende kamen sechs Bestattungen zum Vorschein, mit Urnen, die sich teils wieder zusammensetzen ließen. Die Fachleute ordnen den Friedhof der jüngeren Hallstattzeit zu, etwa siebenhundert bis vierhundert vor Christus. Der Hügel selbst war eine Flugsanddüne, die sich erst später über den Friedhof geschoben und ihn dadurch bewahrt hat. Zu sehen ist davon nichts mehr, der Hügel ist abgetragen. Aber du weißt jetzt, dass an diesem Platz schon Tote bestattet wurden, als es weder Kirche noch Dorf gab.`}
+  ],
+  stay:"20 Minuten",
+  short:"Romanische Schallöcher, gotische Fenster – und die älteste Spur des Ortes.",
+  teaser:"Schau auf den Turm: unten Bruchstein, oben Ziegel. Der Bau erzählt seine eigene Geschichte.",
+  facts:["Kapelle erstmals Anfang des 14. Jahrhunderts erwähnt","Seit Mitte des 16. Jahrhunderts evangelisch","1825 Union mit der reformierten Gemeinde Krudenburg","Chor vermutlich 1680 angebaut"],
+  next:"kaiser-wilhelm-denkmal", transport:"car",
+  audio:`Zum Abschluss die Kirche von Drevenack – der dritte Sakralbau dieser Runde und der älteste Kern von allen.
+Ihre Anfänge liegen im Dunkeln. Anfang des vierzehnten Jahrhunderts wird eine Kapelle in Drevenack erwähnt, und Gedenksteine in der Ostwand des Chores deuten darauf hin, dass hier schon im neunten oder zehnten Jahrhundert eine Hauskapelle stand.
+Am Bau selbst lässt sich die Geschichte ablesen. Der Turm besteht unten aus Bruchstein und trägt oben einen Ziegelaufbau. Die Schallöcher sind noch romanisch, die Fenster des Schiffes gotisch. Das Mauerwerk zeigt, dass die Kirche einmal kürzer und niedriger war.
+Wichtig für unsere Runde ist ein Datum. Achtzehnhundertfünfundzwanzig schloss sich die lutherische Gemeinde Drevenack mit der reformierten Gemeinde Krudenburg zusammen. Damit endete eine Trennung, die in Krudenburg so weit ging, dass man zeitweise zwei Schulen nebeneinander unterhielt, damit die Kinder nicht gemeinsam lernten.
+Und noch eine Schicht liegt darunter: Südlich der Kirche kam neunzehnhundertneunundfünfzig beim Sandabbau ein Urnenfriedhof zum Vorschein, rund zweitausendsechshundert Jahre alt.
+Damit endet der zweite Tag und mit ihm die Runde durch Hünxe und seine Ortsteile.
+`
+},
+{
+  id:"haus-schwarzenstein", name:"Haus Schwarzenstein",
+  lat:51.64938, lon:6.72446, radius:120, day:2,
+  find:"Vom Dorf Drevenack den Schwarzensteiner Weg nach Westen, über die Autobahnbrücke. Privatbesitz – vom Weg aus schauen.",
+  details:[
+    {t:"Der Hof im Weistum",
+     a:`Schwarzenstein taucht in einer der ältesten Rechtsquellen der Gegend auf. Das Weistum über den Weseler Wald – eine mittelalterliche Aufzeichnung darüber, wer den gemeinsamen Wald wie nutzen durfte – nennt unter den berechtigten Gütern im Kirchspiel Drevenack ausdrücklich den Hof zu Swartsteen. Wie viel jemand nutzen durfte, richtete sich nach der Größe seines Besitzes, und zwar sehr konkret: Ein Hof durfte dreißig Schweine samt einem Eber zur Eichelmast in den Wald treiben, eine Hufe zwölf, eine kleine Kathstelle genau eines. Wer heute Wald sieht, denkt an Bäume. Damals war Wald vor allem Futter, Bauholz und Zaunmaterial – und die Frage, wie viele Schweine man hineintreiben durfte, entschied über den Wohlstand einer Familie.`},
+    {t:"Das Langhaus gegenüber",
+     a:`Gegenüber dem Kastell steht ein großes altes Bauernhaus aus dem frühen achtzehnten Jahrhundert – nach Erich Bockemühl vermutlich das einzige der weiteren Umgebung, das in seiner ursprünglichen Form erhalten blieb. Es ist ein Langhaus: Wohnung, Stall und Scheune unter einem einzigen Dach. Das war die niederrheinisch-westfälische Grundform, nicht die T-Form, für die man sie heute oft hält. Achte auf die tief herabgezogenen Dächer, die bis fast an die Fenster reichen – sie waren der Schutz gegen die Stürme des flachen Landes. Und auf die Wirtschaftlichkeit dieser Bauweise: Ein Dach über allem war deutlich billiger als mehrere Gebäude um einen freien Hof. Viele solcher Höfe fielen den Bomben zum Opfer, andere wurden umgebaut; man setzte quer davor ein neues Wohnhaus, im Plattdeutschen Twasbau genannt.`},
+    {t:"Von 1429 bis heute in Privatbesitz",
+     a:`Die erste sichere Nachricht über diesen Sitz ist eine Verkaufsurkunde vom einundzwanzigsten November vierzehnhundertneunundzwanzig, ausgefertigt vor dem Richter und den Schöffen von Drevenack. Das Pergament liegt bis heute in den Händen der Besitzerfamilie – das ist bemerkenswert, denn die meisten Urkunden dieses Alters sind längst in Staatsarchiven gelandet. Woher der Name kommt, ist unklar; die Überlieferung führt ihn auf einen großen Findling zurück, und solange nichts dagegenspricht, ist das eine plausible Erklärung. In alten Schreibweisen begegnet der Ort als swartsheyn oder zwarsteyn. Wichtig zu wissen, bevor du hingehst: Schwarzenstein ist bis heute ein privater land- und forstwirtschaftlicher Besitz. Man schaut vom Weg aus.`},
+    {t:"Der Turm von 1517",
+     a:`Vom alten Bau ist vor allem der Turm übrig; er hat seine Gestalt im Wesentlichen behalten und trägt die Jahreszahl fünfzehnhundertsiebzehn. Über dem Turmeingang stehen die Wappen der Familien Amelung und Mumm, darunter zwei Sandsteinfiguren. Der übrige Bau wurde achtzehnhundertachtundachtzig bis auf den Turm abgerissen und auf den alten Fundamenten neu errichtet, flacher als zuvor, weil die Familie nur die Sommermonate hier verbrachte; neunzehnhundertsieben folgte der letzte große Umbau. Der Turm ist also, wie in Krudenburg, das einzige Stück, das die Jahrhunderte durchgehalten hat. Am Niederrhein gilt offenbar: Was massiv und schmal ist, überlebt.`},
+    {t:"Der halbe Mond auf dem Dach",
+     a:`Als Wetterfahne sitzt auf dem Turm ein halber Mond. Man hat vermutet, ein Angehöriger der Familie Mumm habe das Zeichen aus den Türkenkriegen mitgebracht. Sicher ist das nicht, und es gibt einen guten Einwand: Die Bezeichnung zum halben Mond taucht in Verbindung mit der Wirtschaft am Trotzenberg in Drevenack schon zu Beginn des fünfzehnten Jahrhunderts auf, also lange vor jenen Kriegen. Möglicherweise ist der Halbmond hier ein altes Ortszeichen und keine Kriegstrophäe. Auch das ist eine dieser Deutungen, die zu gut klingen, um ungeprüft zu bleiben.`},
+    {t:"Der Streit um den Torf",
+     a:`Im sechzehnten Jahrhundert entzündete sich ein langer Streit zwischen den Besitzern und der Stadt Wesel. Die Weseler hatten sich einen Weg mitten durch das Gut gelegt und benutzten ihn selbstverständlich; außerdem stachen sie in den Gräben und Wiesen Torf in großen Mengen und fuhren ihn ab. Die Familie Mumm ließ sich das nicht gefallen. Die Auseinandersetzung zog sich bis fünfzehnhundertvierundachtzig hin und endete damit, dass das Klever Hofgericht der Stadt auferlegte, den Schaden zu ersetzen und die Gerichtskosten zu tragen. Erich Bockemühl erwähnt genau diesen Prozess in seiner Schilderung des Lippetals – als einen Streit, der wie ein Krieg im Kleinen geführt wurde und die Stadt am Strom viel Geld kostete.`},
+    {t:"Der Brief des Königs",
+     a:`Achtzehntes Jahrhundert: Schwarzenstein gehört zeitweise denselben Herren wie Krudenburg. Als die Familie es wegen hoher Schulden verkaufen wollte, war ein Problem im Weg – nach preußischer Vorschrift durften adelige Güter nur an Adelige veräußert werden, und der dritte Ehemann der Besitzerin war ein Prediger, also bürgerlich. Man bat den König um Erlaubnis. Friedrich der Zweite lehnte ab, eigenhändig, in einem Brief vom fünften Februar siebzehnhundertsechsundsiebzig, der bis heute auf Schwarzenstein aufbewahrt wird. Er verwies auf seine Verordnung und forderte, man möge sich einen qualifizierten Käufer suchen. Vier Monate später wurde das Gut trotzdem verkauft, für fünfundzwanzigtausend holländische Gulden, an eine wohlhabende Weseler Witwe.`},
+    {t:"Warum es hier eine Burg gab",
+     a:`Schwarzenstein war ursprünglich eine Wasserburg, umgeben von einem doppelten Graben bis zur Lippe hin; nach dieser Seite blieb die Anlage offen, weil der Fluss den Schutz übernahm. Damit steht sie in derselben Logik wie Krudenburg: Beide Anlagen liegen am Wasser, und bei beiden liegt die Vermutung nahe, dass sie ursprünglich einen Übergang über die Lippe sichern sollten. Wer sich fragt, warum in einer flachen, waldreichen Gegend überhaupt Burgen stehen, findet hier die Antwort. Nicht Höhen wurden verteidigt, sondern Furten und Fähren – die einzigen Stellen, an denen ein Fluss überhaupt zu überwinden war.`}
+  ],
+  stay:"30 Minuten",
+  short:"Ehemaliger Rittersitz westlich von Drevenack – Turm von 1517, bis heute Privatbesitz.",
+  teaser:"Ein Rittersitz, dessen älteste Urkunde noch bei der Familie liegt. Von 1429 bis heute.",
+  facts:["Erste Urkunde 21. November 1429","Turm mit der Jahreszahl 1517","Zeitweise im Besitz der Herren von Krudenburg","Privater land- und forstwirtschaftlicher Besitz"],
+  next:"luehlerheim", transport:"car",
+  audio:`Etwa eine halbe Wegstunde westlich von Drevenack liegt Haus Schwarzenstein, ein ehemaliger Rittersitz – und ein Ort, der mit Krudenburg enger verbunden ist, als man denkt.
+Die erste sichere Urkunde stammt vom einundzwanzigsten November vierzehnhundertneunundzwanzig. Danach wechselten die Besitzer oft: die Familien von Schwarzenstein, van den Ryn, von Ringenberg. Vierzehnhundertvierundfünfzig kaufte Elisabeth aus dem Geschlecht derer von Stecke das Gut – dieselbe Familie, die schon dreizehnhundertzweiundneunzig mit Krudenburg belehnt worden war. Und siebzehnhundertsechzehn ging Schwarzenstein an den Herrn von Krudenburg über. Die Besitzer beider Häuser waren also mehrfach dieselben; die Krudenburger haben immer wieder versucht, Schwarzenstein an sich zu ziehen.
+Vom alten Bau steht vor allem der Turm mit der Jahreszahl fünfzehnhundertsiebzehn. Alles andere wurde achtzehnhundertachtundachtzig abgerissen und neu aufgebaut.
+Eines muss klar sein: Schwarzenstein ist bis heute in Privatbesitz und wird land- und forstwirtschaftlich bewirtschaftet. Es ist kein Museum. Man geht den Weg, schaut vom Zufahrtsbereich aus und respektiert, dass hier Menschen wohnen und arbeiten.
+`
+},
+{
+  id:"luehlerheim", name:"Lühlerheim",
+  lat:51.70478, lon:6.74859, radius:200, day:2,
+  find:"An der Landstraße von Drevenack Richtung Marienthal. Am Ende einer alten Lindenallee, auf der Höhe. Achte auf den Dachreiter der Kapelle.",
+  details:[
+    {t:"1414 – der Lühler Dick als Fischteich",
+     a:`Diese Gegend hat eine Nutzungsart hervorgebracht, die längst vergessen ist. Wegen der strengen Fastenregeln kam der Fischerei früher große Bedeutung zu, und man nutzte nicht nur Flüsse und Kolke, sondern staute auch morastige Sumpfflächen – die sogenannten Dicks – zu Fischgewässern auf. Bereits vierzehnhundertvierzehn verpachtete die Drevenacker Bauerngilde, die damals schon als eigenständig handelnde Körperschaft auftrat, den Lühler Dick an den Drosten Goswin Stecke, mit der Erlaubnis, ihn einzudeichen und anzustauen. Der Pachtzins bestand aus einem Pfund Wachs jährlich an die Kirche zu Drevenack – Wachs für die Kerzen. Und noch achtzehnhundertvierzig entrichtete der benachbarte Langenforter Dick seine Pacht in Form einer halben Tonne Heringe. In einem Verzeichnis von sechzehnhundertvierzig steht diese Gegend also mit Fisch, Hafer, Hühnern und exotischen Gewürzen als Abgaben – Pfeffer und Ingwer von Höfen, die davon nie einen gesehen haben dürften.`},
+    {t:"Barfuß nach Wesel",
+     a:`Um zu verstehen, warum eine Einrichtung wie diese hier entstand, hilft ein Blick auf die Armut der Gegend. Der Sandboden der niederrheinischen Höhe war mager; außer den Besitzern der größeren Höfe führten vor allem die Bewohner der kleinen Kathstellen ein ärmliches Dasein. Schafe suchten im Heidekraut ihre Nahrung, der Boden brachte geringes Weidegras, Kartoffeln und Hafer. Wer sonst nichts hatte, band im Winter Besen aus Ginsterreisern und Glockenheide und schob sie mit der Karre in die Dörfer und Städte, um das Nötigste an Kleidung kaufen zu können. Eine alte Frau erzählte um neunzehnhundert, sie sei als junges Mädchen den Weg nach Wesel barfuß gegangen, um ihre sauber gescheuerten Holzschuhe zu schonen – anziehen durfte sie sie erst vor dem Berliner Tor. Erst als man lernte, Heide und Sumpf urbar zu machen und zu düngen, hoben sich die Verhältnisse.`},
+    {t:"Warum es solche Orte gab",
+     a:`Um zu verstehen, wofür Lühlerheim gegründet wurde, muss man sich das späte neunzehnte Jahrhundert vorstellen. Mit der Industrialisierung zerfielen die alten ständischen Ordnungen, und die Wirtschaftskrise am Ende der siebziger Jahre machte Hunderttausende arbeits- und obdachlos – überwiegend Männer aus dem Handwerk. Eine staatliche Sozialversicherung, die das aufgefangen hätte, gab es noch nicht. Die Reaktion der Obrigkeit war zunächst polizeilich: Allein in Berlin wurden achtzehnhundertzweiundachtzig rund dreiunddreißigtausend Menschen wegen Bettelei verhaftet. Dass das nichts löste, erkannte Friedrich von Bodelschwingh in Bethel; er gründete achtzehnhundertzweiundachtzig die erste deutsche Arbeiterkolonie und nannte die Betroffenen seine Brüder von der Landstraße. Lühlerheim ist nach diesem Vorbild entstanden.`},
+    {t:"Aus Heide wurde Land",
+     a:`Achtzehnhundertvierundachtzig kaufte man dafür rund einhundertzehn Hektar unkultivierte Heide zwischen Drevenack, Damm und Weselerwald – die Lühlerheide. Der rheinische Provinziallandtag gab zweihunderttausend Mark als zinsfreies Darlehen. Am fünfzehnten Februar achtzehnhundertsechsundachtzig wurde die Kolonie mit neunzehn Männern eröffnet. Die Arbeit der ersten Jahrzehnte bestand vor allem darin, Ödland urbar zu machen – nicht nur das eigene, sondern auch mehrere tausend Morgen in den Nachbargemeinden. Wer heute durch diese Landschaft fährt und Felder sieht, wo einst Heide war, sieht zu einem guten Teil die Arbeit von Männern, die man anderswo verhaftet hätte.`},
+    {t:"Ein Hausvater statt eines Aufsehers",
+     a:`Eine Entscheidung am Anfang zeigt, wie das Werk gedacht war. Der Vorstand vereinbarte mit dem Rauhen Haus in Hamburg, dass ein dort ausgebildeter Diakon die Stelle des Hausvaters übernehmen sollte – ausdrücklich kein Verwalter und kein Aufseher. Das Ziel war, entwurzelte Männer durch geregelte Arbeit, eine feste Hausordnung und persönliche Zuwendung wieder soweit zu bringen, dass sie selbständig leben konnten. Gedacht war Lühlerheim als Durchgangsstation; für Alte und Arbeitsunfähige wurde es oft der letzte Aufenthalt. Trotz des evangelischen Charakters stand es immer allen offen, ohne Rücksicht auf die Konfession. Über der Kapellentür steht ein Bibelwort, das den Ankommenden entgegenleuchtet: Kommet her zu mir alle, die ihr mühselig und beladen seid.`},
+    {t:"März 1945",
+     a:`Nach dem großen Bombenangriff auf Wesel im Februar neunzehnhundertfünfundvierzig nahm Lühlerheim auf, was Platz brauchte: ein evangelisches Waisenhaus, eine Stiftung, ein Behelfskrankenhaus, sogar Abteilungen der Sparkasse und des Landratsamtes. Ende März besetzten nach verlustreichen Kämpfen englische Truppen das Gelände; danach folgten Lager für Verschleppte und ein polnisches Lazarett. Die Kolonie musste geräumt werden und konnte erst Monate später in verwahrlostem Zustand zurückgenommen werden – ohne Inventar, ohne Vieh, ohne Maschinen, die Felder verwüstet, die Entwässerung zerstört. Danach begann ein dreizehn Jahre langes Ringen um den Wiederaufbau. Diese Station und das Kriegerdenkmal in Krudenburg gehören zu denselben Wochen im Frühjahr fünfundvierzig.`}
+  ],
+  stay:"20 Minuten",
+  short:"1886 gegründete Arbeiterkolonie – aus Heide wurde Land, aus Wanderern Bewohner.",
+  teaser:"Am Ende der Lindenallee liegt eine Einrichtung, an der man das 19. Jahrhundert lesen kann.",
+  facts:["1884 wurden rund 110 ha Heide erworben","Eröffnet am 15. Februar 1886 mit 19 Männern","Nach dem Vorbild Bodelschwinghs in Bethel","Einrichtung der Diakonie, kein Museum"],
+  next:"haus-esselt", transport:"car",
+  audio:`An der Landstraße von Drevenack Richtung Marienthal liegt auf der Höhe, am Ende einer alten Lindenallee, ein großer Gebäudekomplex mit einer Kapelle. Das ist Lühlerheim.
+Es ist keine Sehenswürdigkeit im üblichen Sinn, sondern eine soziale Einrichtung – und gerade deshalb lohnt der Halt.
+Gegründet wurde sie in einer Zeit, in der die Industrialisierung die alten Ordnungen zerbrach. Nach der Wirtschaftskrise am Ende der siebziger Jahre des neunzehnten Jahrhunderts zogen Hunderttausende arbeits- und obdachlos über die Landstraßen, ohne soziale Absicherung. Die Antwort des Staates war zunächst die Polizei.
+Achtzehnhundertvierundachtzig erwarb man hier rund einhundertzehn Hektar unkultivierte Heide, und am fünfzehnten Februar achtzehnhundertsechsundachtzig nahm die Kolonie ihre Arbeit auf – mit neunzehn Männern. Sie machten Ödland urbar, hier und in den Nachbargemeinden.
+Wichtig ist, wie das gedacht war: Nicht ein Verwalter sollte die Einrichtung führen, sondern ein Hausvater, ausgebildet im Rauhen Haus in Hamburg. Arbeit, feste Ordnung und persönliche Zuwendung, damit die Männer wieder Fuß fassen konnten.
+Und noch heute ist Lühlerheim in Betrieb. Das heißt für dich: Hier leben und arbeiten Menschen. Fahr die Allee hinauf, schau dir die Kapelle an, aber behandle den Ort wie das, was er ist – kein Museum, sondern ein Zuhause auf Zeit.
+`
+},
+{
+  id:"alte-schule", name:"Die alte Schule am Lippeweg",
+  lat:51.65020, lon:6.75702, radius:40, day:1,
+  find:"Am Lippeweg, im unteren Teil des Ortskerns. Zweigeschossiger Ziegelbau im rheinischen Stil mit Krüppelwalmgiebeln.",
+  details:[
+    {t:"Zweimal abgebrannt",
+     a:`Auf der Tafel von achtzehnhundertzwanzig trägt die Schule die Nummer elf, und dem Grundriss nach war sie ein größeres, wahrscheinlich zweigeschossiges Haus. Im Drevenacker Kirchenarchiv liegt eine Neubauzeichnung von achtzehnhundertdreiundvierzig, mit dem Vorhaben, ein zweistöckiges Schulhaus zu errichten – weil die alte Schule abgebrannt sei. Ein Jahr später brannte das Dorf erneut, diesmal ganz. Die Schule hat also innerhalb von zwei Jahren zweimal Feuer erlebt. Der Plan von dreiundvierzig sah zwei Klassenräume vor, eine Lehrerwohnung und ein Zimmer für einen Hilfslehrer. Gebaut wurde am Ende etwas Kleineres: achtzehnhundertsechsundvierzig eine einklassige Schule mit Lehrerwohnung und kleinem Stall – angepasst an die achtzehn Schüler, die dem Dorf noch geblieben waren.`},
+    {t:"Zwei Schulen in einem Dorf",
+     a:`Vor achtzehnhundertfünfundzwanzig gab es in Krudenburg zwei Schulen nebeneinander – eine lutherische und eine reformierte. In einem Ort mit fünfundvierzig Häusern. Der Grund war der Glaube: Es erschien unmöglich, dass Kinder reformierter Eltern die lutherische Schule besuchten, und umgekehrt. Die reformierte Schule wurde siebzehnhundertfünfundachtzig gegründet, auf Anregung des Predigers Terstegen; ein eigenes Schulhaus gab es nicht, man mietete eine Schulstube. Erst die Union der rheinischen Kirchen von achtzehnhundertfünfundzwanzig hob die getrennte Unterrichtung auf. Der Lehrer Schievelkamp, der von siebzehnhundertzweiundneunzig bis achtzehnhundertachtunddreißig amtierte – zweiundfünfzig Jahre – wurde achtzehnhundertsechzehn Lehrer beider Schulen zugleich.`},
+    {t:"Der Lehrer, der die Chronik schrieb",
+     a:`Ab achtzehnhundertsechsundsiebzig unterrichtete hier Wilhelm Gaecks, geboren in Pommern, über Umwege an den Niederrhein gekommen. Er blieb bis neunzehnhundertzehn und tat etwas, wofür ihm dieses Dorf bis heute etwas schuldet: Er trug in die Schulchronik zusammen, was er über Krudenburg in Erfahrung bringen konnte – aus Urkunden des Hünxer Kirchenarchivs und des Archivs des Hauses Krudenburg auf Schloss Gartrop. Beinahe alles, was du auf dieser Runde über das alte Dorf hörst, geht letztlich auf seine Aufzeichnungen zurück: die Beschreibung der Häuser, die Tracht, der Hünxer Wald, das Leben vor dem Brand. Die Originalchronik ist inzwischen abhandengekommen. Man versucht sie aus Einzelstücken zu rekonstruieren.`},
+    {t:"Bis 1969",
+     a:`Das Gebäude von achtzehnhundertsechsundvierzig diente bis neunzehnhundertneunundsechzig als Schule – hundertdreiundzwanzig Jahre. Zur Lippeseite hin führte ein mehrstufiger Eingang zur Lehrerwohnung, an der Rückseite ein schlichterer Nebeneingang zu Stall, Nebenräumen und dem großen Schulzimmer. Gegenüber stand ein schmaler Ziegelbau mit den Toiletten und einem Raum für die Feuerspritze; er wurde neunzehnhundertsechsundvierzig von Räumpanzern zerstört. Wer sich fragt, wie ein Dorf ohne eigene Kirche und ohne Rathaus zusammengehalten wurde: über die Schule. Sie war Unterricht, Lehrerwohnung, Versammlungsort und Feuerwehrgerätehaus in einem.`}
+  ],
+  stay:"10 Minuten",
+  short:"1846 gebaut, bis 1969 in Betrieb – der Ort, an dem die Dorfchronik entstand.",
+  teaser:"Hier stand die Schule des Dorfes. In ihr wurde aufgeschrieben, was du auf dieser Runde hörst.",
+  facts:["Auf der Tafel von 1820 die Nummer 11","1843 und 1844 abgebrannt, 1846 neu gebaut","Bis 1969 als Schule genutzt","Vor 1825 gab es im Dorf zwei Schulen"],
+  next:"hausnummer-45", transport:"walk",
+  audio:`Am Lippeweg steht die alte Schule von Krudenburg.
+Auf der Tafel an der Burg trägt sie die Nummer elf. Achtzehnhundertdreiundvierzig brannte sie ab, ein Jahr später brannte das ganze Dorf. Das heutige Gebäude wurde achtzehnhundertsechsundvierzig errichtet, einklassig, mit Lehrerwohnung und kleinem Stall – angepasst an die achtzehn Schüler, die dem Dorf nach der Katastrophe geblieben waren. Genutzt wurde es bis neunzehnhundertneunundsechzig, also hundertdreiundzwanzig Jahre lang.
+Vor achtzehnhundertfünfundzwanzig gab es hier zwei Schulen nebeneinander, eine lutherische und eine reformierte, weil man die Kinder nicht gemeinsam unterrichten wollte. In einem Dorf mit fünfundvierzig Häusern. Erst die Union der rheinischen Kirchen beendete das.
+Und ein Name gehört hierher: Wilhelm Gaecks, Lehrer von achtzehnhundertsechsundsiebzig bis neunzehnhundertzehn. Er trug in die Schulchronik zusammen, was er über den Ort in Erfahrung bringen konnte. Fast alles, was du auf dieser Runde über das alte Krudenburg hörst, geht auf ihn zurück. Die Chronik selbst ist verschollen.
+Wer wissen will, wie ein Dorf ohne eigene Kirche und ohne Rathaus zusammengehalten wurde: über dieses Haus. Es war Schule, Lehrerwohnung, Versammlungsort und Feuerwehrgerätehaus in einem.
+`
+},
+{
+  id:"schlossplatz", name:"Schlossplatz und Gut Benninghoff",
+  lat:51.65037, lon:6.75590, radius:40, day:1,
+  find:"Gegenüber der Burgauffahrt, nördlich der Dorfstraße. Hofmauer mit Toranlage – bewohntes Privatgut, vom Weg aus schauen.",
+  details:[
+    {t:"Nummer 29 auf der Tafel",
+     a:`Auf dem Plan von achtzehnhundertzwanzig trägt dieser Bereich die Nummer neunundzwanzig, eingetragen als Schlossplatz mit einem Fragezeichen und dem Namen Benninghoff. Hier lag der Vorhof der Burg. Achtzehnhundertsechsundzwanzig kaufte Albert Benninghoff den ganzen Schlossplatz bis zum Zingelgraben – dem inneren Wallgraben der Anlage. Als er achtzehnhundertneunundsechzig starb und sein gleichnamiger Sohn erbte, waren die Schlossgebäude bereits völlig verfallen; der Sohn ließ den Schutt an die Lippeufer fahren. Eine Herrschaft, die vierhundert Jahre gedauert hatte, endete damit als Baumaterial für eine Uferbefestigung.`},
+    {t:"Die Wand in der Hofmauer",
+     a:`Ein Detail für Aufmerksame. Um sechzehnhundertzwanzig gab es auf dem Gut eine reformierte Kirche – wahrscheinlich stellte die Herrschaft dafür die Schlosskapelle zur Verfügung. Der Chronist Gaecks berichtete um achtzehnhundertneunzig, eine Wand dieser Kirche stecke noch in der Scheune des Herrn Benninghoff. Die Scheune wurde neunzehnhundertachtundfünfzig abgebrochen. Aber in der Nordwestecke der Hofmauer soll noch immer ein Teil der alten Kirch- oder Kapellenwand erhalten sein. Wenn du an der Mauer entlanggehst, achte auf einen Abschnitt, der anders gemauert ist als der Rest. Nachgewiesen habe ich es nicht – die Angabe stammt aus der örtlichen Überlieferung.`},
+    {t:"Die eigene Gemeinde",
+     a:`Dass es hier eine Kirche gab, hatte Folgen: Krudenburg hatte von etwa sechzehnhundertzwanzig bis achtzehnhundertsiebzehn eine eigene reformierte Gemeinde mit eigenem Prediger. Fünfzehn Namen sind überliefert. Die Gemeinde war winzig – eine Aufstellung von siebzehnhundertsiebenundvierzig zählt dreiundzwanzig Personen im Ort auf, vom gnädigen Herrn über den Rentmeister und den Jäger bis zur Kuhmagd und zur alten Fährfrau, dazu Gemeindeglieder aus Hünxe und Drevenack. Der Betsaal glich eher einem Keller als einer Kirche und stand achtzehnhundertvierundachtzig im Januar unter Wasser. Achtzehnhundertsiebzehn ging die Stelle ein, achtzehnhundertsechsundzwanzig wurde die Kirche geschlossen und ihr Kapital auf Hünxe, Drevenack und Gartrop verteilt.`},
+    {t:"Die Nacht des Brandes",
+     a:`Beim Brand von achtzehnhundertvierundvierzig war dieser Hof der Angelpunkt. Von hier zog Albrecht Benninghoff mit dem belgischen Kaltblutwallach Max die Feuerspritze am brennenden Nachbarhaus vorbei zum alten Hafen, um Wasser zu bekommen. Die zu Hilfe geeilte Drevenacker Mannschaft stellte ihre Spritze am Turm der Vorburg auf. Und auf dem Vorhof dieses Gutes stand nach der Nacht das gesamte gerettete Vieh des Dorfes im Freien. Benninghoff war Löschmeister, erster Beigeordneter der Bürgermeisterei Schermbeck und Gemeindevorsteher in Crudenburg. Seine Tochter schrieb später, die Krudenburger seien immer schneller am Brand gewesen als die Drevenacker – schon weil der Vater die Spritze pflegte und immer Pferde bereit hatte.`}
+  ],
+  stay:"10 Minuten",
+  short:"Der Vorhof der verschwundenen Burg – heute ein Gutshof in Privatbesitz.",
+  teaser:"Hier lag der Schlossplatz. Von der Herrschaft ist nichts geblieben außer einer Mauer.",
+  facts:["1820 als Schlossplatz eingetragen, Nr. 29","1826 von Albert Benninghoff gekauft","Schlossgebäude bis 1869 verfallen","Bewohntes Privatgut"],
+  next:"kriegerdenkmal", transport:"walk",
+  audio:`Gegenüber der Burgauffahrt liegt der Schlossplatz – heute ein Gutshof, früher der Vorhof der Burg Krudenburg.
+Achtzehnhundertsechsundzwanzig kaufte Albert Benninghoff den gesamten Platz bis zum Zingelgraben. Als sein Sohn dreiundvierzig Jahre später erbte, waren die Schlossgebäude vollständig verfallen. Er ließ den Schutt an die Lippeufer fahren. Von einer Herrschaft, die vierhundert Jahre bestanden hatte, blieb Baumaterial für die Uferbefestigung.
+Ein Rest soll allerdings noch stehen. Um sechzehnhundertzwanzig gab es hier eine reformierte Kirche, vermutlich in der Schlosskapelle. Eine Wand davon steckte noch lange in einer Scheune; die Scheune wurde neunzehnhundertachtundfünfzig abgebrochen. In der Nordwestecke der Hofmauer soll ein Stück dieser Wand erhalten sein.
+Und in der Nacht des Brandes von achtzehnhundertvierundvierzig war dieser Hof der Angelpunkt. Von hier wurde die Feuerspritze zum alten Hafen gezogen, hier stand danach das gerettete Vieh des ganzen Dorfes im Freien.
+Eines noch: Das ist ein bewohntes Privatgut. Schau von der Straße aus.
+`
+},
+{
+  id:"kaiser-wilhelm-denkmal", name:"Kaiser-Wilhelm-Denkmal Drevenack",
+  lat:51.66302, lon:6.74694, radius:50, day:2,
+  find:"Hünxer Straße, Ecke Kirchstraße – rund 350 Meter nördlich der Kirche.",
+  details:[
+    {t:"Die Inschrift",
+     a:`Lies zuerst, was auf dem Stein steht. Die Widmung lautet sinngemäß: Kaiser Wilhelm dem Großen – der Drevenacker Kriegerverein. Zwei Dinge stecken darin. Erstens der Beiname der Große, der Wilhelm dem Ersten nach seinem Tod achtzehnhundertachtundachtzig verliehen wurde, nicht zu Lebzeiten; er war eine bewusste Erhöhung des Reichsgründers zur Nationalfigur. Und zweitens der Stifter: nicht die Gemeinde, nicht die Kirche, sondern der Kriegerverein. Solche Vereine der ehemaligen Soldaten gab es nach achtzehnhunderteinundsiebzig in fast jedem Dorf. Sie pflegten das Andenken an die Kriege, veranstalteten Feiern und errichteten Denkmäler. Ein Kaiserdenkmal in einem Dorf dieser Größe ist deshalb kein Zeichen besonderer Bedeutung des Ortes, sondern der Dichte dieses Vereinswesens.`},
+    {t:"Ein Gefallener",
+     a:`Der Stein hat noch eine zweite Funktion: Er erinnert zugleich an den einzigen Gefallenen, den Drevenack im Krieg von achtzehnhundertsiebzig und einundsiebzig zu beklagen hatte. Einer. Das ist die Zahl, die den Maßstab liefert. Am Krudenburger Kriegerdenkmal, das du gestern gesehen hast, stehen die Namen des Ersten Weltkriegs, und am Ehrenmal des Friedhofs hier kommen die beiden Weltkriege zusammen. Zwischen dem einen Gefallenen von einundsiebzig und den Namenslisten von achtzehn und fünfundvierzig liegen keine hundert Jahre. Wer diese drei Steine nacheinander liest, hat die Geschichte des Krieges im zwanzigsten Jahrhundert an drei Dorfdenkmälern abgelesen.`},
+    {t:"Was solche Steine sind",
+     a:`Nach der Reichsgründung entstanden in Deutschland tausende Kaiser-Wilhelm-Denkmäler, vom monumentalen Reiterstandbild bis zum schlichten Stein am Dorfrand. Sie waren Ausdruck eines Nationalgefühls, das den Kaiser zur Vaterfigur erhob und die Einigung von achtzehnhunderteinundsiebzig als Erfüllung deutete. Nach neunzehnhundertachtzehn verloren sie ihre Selbstverständlichkeit, viele wurden entfernt oder umgewidmet. Dass dieser hier steht, sagt also weniger über den Kaiser aus als über das Dorf: darüber, wie ein niederrheinisches Kirchdorf sich um neunzehnhundert selbst verstand – und wie es später mit diesem Erbe umging, nämlich indem es den Stein stehen ließ.`}
+  ],
+  stay:"10 Minuten",
+  short:"Vom Drevenacker Kriegerverein gestiftet – zugleich Erinnerung an einen Gefallenen von 1870/71.",
+  teaser:"Lies die Widmung. Der Stifter ist aufschlussreicher als der Geehrte.",
+  facts:["Hünxer Straße, Ecke Kirchstraße","Gestiftet vom Drevenacker Kriegerverein","Zugleich Denkmal für den einzigen Gefallenen 1870/71","Am Friedhof ein zweites Ehrenmal für 1914–18 und 1939–45"],
+  next:"haus-schwarzenstein", transport:"car",
+  audio:`An der Ecke Hünxer Straße und Kirchstraße steht das Kaiser-Wilhelm-Denkmal von Drevenack.
+Die Widmung nennt Kaiser Wilhelm den Großen und als Stifter den Drevenacker Kriegerverein. Beides lohnt einen Gedanken. Den Beinamen der Große erhielt Wilhelm der Erste erst nach seinem Tod achtzehnhundertachtundachtzig – es war eine bewusste Erhöhung des Reichsgründers zur Nationalfigur. Und gestiftet hat den Stein nicht die Gemeinde, sondern der Verein der ehemaligen Soldaten. Solche Kriegervereine gab es nach achtzehnhunderteinundsiebzig in fast jedem Dorf.
+Zugleich erinnert der Stein an den einzigen Gefallenen, den Drevenack im Krieg von siebzig und einundsiebzig zu beklagen hatte. Einer. Am Friedhof steht ein zweites Denkmal, mit Kreuz und Inschriftentafeln, für die Gefallenen beider Weltkriege.
+Wenn du das Krudenburger Kriegerdenkmal von gestern dazunimmst, hast du drei Steine in zwei Dörfern – und daran abzulesen, wie sich die Zahl der Namen im zwanzigsten Jahrhundert verändert hat.
+`
+},
+{
+  id:"waldkreuzung-1944", name:"Gedenkstein im Bauernwald – September 1944",
+  lat:51.66616, lon:6.77422, radius:80, day:2,
+  find:"Im Wald zwischen Drevenack und Damm, an der Kreuzung der alten Landstraße mit dem Wirtschaftsweg. Ein Findling mit schwarzer Beschriftung steht am Weg.",
+  details:[
+    {t:"Was hier geschah",
+     a:`Ende März neunzehnhundertvierundvierzig gruben sich drei aus einem Arbeitslager des Ruhrgebiets geflohene sowjetische Kriegsgefangene in diesem Wald einen unterirdischen Unterstand. Er war so getarnt, dass ihn Hunderte von Suchenden monatelang nicht fanden. Sie lebten von Überfällen auf Bauernhöfe der Umgebung – mehr als sechzig Einbrüche in fünfeinhalb Monaten – und leisteten Sabotage- und Nachrichtendienste. Am einunddreißigsten August töteten sie in der Nähe ihres Verstecks den siebenundsechzigjährigen Landwirt und Jäger Heinrich Schüring aus Weselerwald, weil sie fürchteten, er werde sie entdecken. Er wurde niedergeschlagen und erstochen, seine Leiche verscharrt. Der Gedenkstein, der hier am Weg steht, wurde ihm von der Bevölkerung gesetzt.`},
+    {t:"Die acht, die dazukamen",
+     a:`In der Nacht zum vierten September stießen acht weitere Menschen zu den dreien: sechs russische Zwangsarbeiter und zwei junge Ukrainerinnen, die auf Höfen der Umgebung arbeiteten. Der Grund war Angst. Sie waren zum Schanzen an den Westwall befohlen worden und tauchten stattdessen unter. Zwei Tage später wurde der Unterstand entdeckt, mit Handgranaten aufgesprengt und geräumt. Von diesen acht hatte niemand mit dem Mord an Heinrich Schüring zu tun; die meisten waren erst achtundvierzig Stunden im Wald. Eine der beiden Frauen, Maria, war siebzehn Jahre alt, Tochter eines Tierarztes aus Kiew, mit fünfzehn nach Deutschland verschleppt. Die andere hieß Manja. Von den übrigen sind nur Vornamen überliefert.`},
+    {t:"Der 11. September 1944",
+     a:`An diesem Tag wurden hier zehn Menschen öffentlich erhängt, an den Ästen von vier Bäumen an dieser Wegkreuzung. Der Befehl kam von Himmler und der Gauleitung in Essen; ein Urteil war zuvor ohne jede Unterscheidung ergangen – dieselbe Strafe für alle, ob Mörder oder Untergetauchte. Die Hinrichtung sollte der Abschreckung dienen, und deshalb wurden alle Zwangsarbeiter der Umgebung zusammengetrieben und gezwungen zuzusehen. Die Toten blieben bis zum nächsten Morgen hängen. Einer der elf war zuvor in Essen entkommen; er hat den Krieg vermutlich überlebt.`},
+    {t:"Was die Bauern taten",
+     a:`Ein Detail aus den Berichten verdient festgehalten zu werden. Als für die Hinrichtung Stricke und Leitern eingetrieben werden sollten, verweigerten die Bauern der Umgebung sie – sie hätten keine, sagten sie. Mehr konnten sie nicht tun, ohne sich selbst in Gefahr zu bringen. Auch Teile der Parteifunktionäre hielten das Vorhaben für wahnwitzig. Das offene Argument aber, das niemand aussprechen durfte, war ein anderes: Man wusste, dass der Krieg verloren war, und fürchtete die Folgen. Diese Furcht war begründet. Die Berichte selbst halten fest, dass die Hinrichtung nicht abschreckte, sondern Hass säte – und dass sich dieser Hass sieben Monate später entlud, als die Front zusammenbrach.`},
+    {t:"Warum das hier steht",
+     a:`Über diese Ereignisse gibt es zwei ausführliche Darstellungen, und beide sind parteiisch. Eine Zeitungsserie von neunzehnhundertsechzig und einundsechzig erzählt sie in der Sprache ihrer Zeit, mit Begriffen wie Räubernest und mit Beschreibungen, die einem der Täter sein Aussehen als Herkunftsmerkmal anlasten. Ein zeitgleich in der DDR erschienenes Buch verklärte dieselben Menschen zu Helden des Untergrunds und ließ den Mord an einem alten Mann als unvermeidlich erscheinen. Beides ist falsch. Es gab einen Mord, begangen von drei Männern. Und es gab eine öffentliche Hinrichtung von zehn Menschen, von denen acht damit nichts zu tun hatten, angeordnet von einem Staat, der zwischen Schuld und Anwesenheit nicht unterschied. Beides gehört an diesen Ort, und beides gehört nebeneinander.`}
+  ],
+  stay:"15 Minuten",
+  short:"Ort eines Mordes im August 1944 und einer öffentlichen Hinrichtung von zehn Menschen im September 1944.",
+  teaser:"Ein Findling am Waldweg. Er erinnert an einen Toten – an dieser Kreuzung starben elf.",
+  facts:["Gedenkstein für den ermordeten Heinrich Schüring","31. August 1944: Mord an einem 67-jährigen Landwirt","11. September 1944: öffentliche Hinrichtung von zehn Menschen","Angeordnet von der Gauleitung Essen auf Befehl Himmlers"],
+  next:"ev-kirche-drevenack", transport:"car",
+  audio:`Diese Station ist anders als alle anderen dieser Runde. Wenn du dafür nicht in der Stimmung bist, fahr weiter – niemand nimmt es dir übel.
+Im Wald zwischen Drevenack und Damm, an dieser Wegkreuzung, steht ein Findling mit schwarzer Beschriftung. Er erinnert an Heinrich Schüring, Landwirt und Jäger aus Weselerwald, siebenundsechzig Jahre alt. Er wurde hier am einunddreißigsten August neunzehnhundertvierundvierzig getötet – von drei geflohenen sowjetischen Kriegsgefangenen, die sich seit dem Frühjahr in einem getarnten Erdbunker in diesem Wald versteckten und von Überfällen auf die Höfe der Umgebung lebten. Sie fürchteten, der Jäger werde ihr Versteck entdecken.
+Am sechsten September wurde der Unterstand gefunden und geräumt. Elf Menschen kamen heraus: die drei, und acht weitere, die erst zwei Tage zuvor dazugestoßen waren – Zwangsarbeiter, die dem Schanzeinsatz am Westwall entgehen wollten, darunter zwei junge Ukrainerinnen. Eine von ihnen, Maria, war siebzehn.
+Am elften September wurden hier zehn von ihnen öffentlich erhängt, an vier Bäumen an dieser Kreuzung. Auf Befehl Himmlers, ohne Unterscheidung zwischen Mördern und Untergetauchten. Die Zwangsarbeiter der Umgebung wurden zusammengetrieben und mussten zusehen.
+Die Bauern der Gegend verweigerten die geforderten Stricke und Leitern. Das war das Einzige, was sie tun konnten.
+Es gibt an diesem Ort keinen Trost und keine Pointe. Es gibt einen ermordeten alten Mann und zehn Menschen, die an diesen Bäumen starben, von denen acht mit seinem Tod nichts zu tun hatten. Beides ist wahr, und beides gehört hierher.
+`
 }
 ];
 
@@ -2164,7 +2452,7 @@ const CITIES = {
              days:[
                { n:1, label:"Tag 1 · Krudenburg", center:[51.6506,6.7570], zoom:16,
                  note:"Zu Fuß durch das Treidlerdorf, entlang der Dorfstraße und hinaus an die Lippe." },
-               { n:2, label:"Tag 2 · Hünxe & Gartrop", center:[51.6540,6.7700], zoom:12,
+               { n:2, label:"Tag 2 · Hünxe, Gartrop & Drevenack", center:[51.6540,6.7700], zoom:12,
                  note:"Mit Rad oder Wagen: Kirche, Heimatmuseum, Mühle, Schloss, Haus Esselt." }
              ] }
 };
@@ -2708,7 +2996,7 @@ let manualLock=false;   // true, sobald der Nutzer selbst blättert – GPS übe
    dann von selbst wieder ein.
    ------------------------------------------------------------ */
 let gpsMode = "off";          // "high" | "idle" | "off"
-let idleTimer = null, idleAnchor = null;
+let idleTimer = null, idleAnchor = null, idleRadius = 120;
 
 function startGeolocation(){
   if(!("geolocation" in navigator)){
@@ -2731,12 +3019,13 @@ function gpsHigh(){
   UI.nav();
 }
 
-function gpsIdle(anchor){
+function gpsIdle(anchor, radius){
   if(watchId!=null){ navigator.geolocation.clearWatch(watchId); watchId=null; }
   gpsMode = "idle";
   idleAnchor = anchor;
+  idleRadius = Math.max(40, (radius||CONFIG.DEFAULT_RADIUS) + 25);
   if(idleTimer) clearInterval(idleTimer);
-  idleTimer = setInterval(idlePing, 60000);
+  idleTimer = setInterval(idlePing, 25000);
   UI.gps("idle");
   UI.nav();
 }
@@ -2747,7 +3036,7 @@ function idlePing(){
   navigator.geolocation.getCurrentPosition(pos=>{
     const {latitude:lat, longitude:lon, accuracy:acc} = pos.coords;
     State.lastFix = { lat, lon, acc, ts: Date.now() };
-    if(haversine(lat,lon,idleAnchor[0],idleAnchor[1]) > 120){
+    if(haversine(lat,lon,idleAnchor[0],idleAnchor[1]) > idleRadius){
       gpsHigh();                       // du bist weitergegangen
       UI.playState("Ortung wieder aktiv.");
     }
@@ -2756,7 +3045,7 @@ function idlePing(){
 
 function toggleGps(){
   if(gpsMode==="idle") { gpsHigh(); UI.playState("Ortung wieder aktiv."); }
-  else if(gpsMode==="high" && State.lastFix) gpsIdle([State.lastFix.lat, State.lastFix.lon]);
+  else if(gpsMode==="high" && State.lastFix) gpsIdle([State.lastFix.lat, State.lastFix.lon], currentTarget && currentTarget.radius);
 }
 
 function onPos(pos){
@@ -2906,7 +3195,7 @@ function announce(p){
   $("arrivalStart").dataset.poi = p.id;
 
   // Station erreicht – Dauerortung aus, bis du wieder losgehst
-  gpsIdle([p.lat, p.lon]);
+  gpsIdle([p.lat, p.lon], p.radius);
 
   // kurzer Stups, damit man es auch in der Tasche merkt
   if(navigator.vibrate) { try{ navigator.vibrate([40,60,40]); }catch(e){} }
@@ -3822,6 +4111,38 @@ function applyCalibration(){
   });
 }
 
+/** Klartext-Diagnose zur Ortung und zur Ankunftserkennung. */
+function gpsReport(){
+  const L = [];
+  L.push("Ortung: " + (gpsMode==="high" ? "aktiv" : gpsMode==="idle" ? "pausiert (Station erreicht)" : "aus"));
+  L.push("Signal empfangen: " + (gpsOn ? "ja" : "NEIN"));
+  const f = State.lastFix;
+  if(f){
+    const alter = Math.round((Date.now()-f.ts)/1000);
+    L.push("Letzte Messung: " + f.lat.toFixed(5) + ", " + f.lon.toFixed(5));
+    L.push("Genauigkeit: ±" + Math.round(f.acc||0) + " m, vor " + alter + " s");
+  } else L.push("Letzte Messung: keine");
+  L.push("Hinweise angesagt: " + (State.hints ? "an" : "aus"));
+  L.push("Handsteuerung: " + (manualLock ? "AN – GPS ändert die Anzeige nicht" : "aus"));
+  L.push("Ton freigeschaltet: " + (audioUnlocked ? "ja" : "nein"));
+  if(f){
+    const set = activePois();
+    const near = set.map(p=>({p, d: haversine(f.lat,f.lon,p.lat,p.lon)})).sort((a,b)=>a.d-b.d).slice(0,3);
+    L.push("");
+    L.push("Nächste Stationen:");
+    near.forEach(x=>{
+      const r = x.p.radius||CONFIG.DEFAULT_RADIUS;
+      const drin = x.d<=r;
+      const schon = State.announced.includes(x.p.id);
+      L.push("  "+x.p.name+": "+Math.round(x.d)+" m, Radius "+r+" m → "+
+             (drin ? (schon ? "im Radius, aber schon gemeldet" : "WÜRDE AUSLÖSEN") : "zu weit"));
+    });
+  }
+  L.push("");
+  L.push("Bereits gemeldet: " + (State.announced.length ? State.announced.length + " Station(en)" : "keine"));
+  return L.join("\n");
+}
+
 function askCalib(){
   const box = $("calibBox");
   if(!box.classList.contains("hidden")){ box.classList.add("hidden"); return; }
@@ -4155,12 +4476,15 @@ function resetTour(scope){
   UI.progressLine();
   $("arrival").classList.add("hidden");
 
-  // Anzeige sofort auffrischen, damit "bereits gehört" verschwindet
-  if(f && gpsOn && !manualLock) evaluate(f.lat, f.lon, f.acc);
-  else if(currentTarget) showPoiCard(currentTarget, f&&gpsOn ? haversine(f.lat,f.lon,currentTarget.lat,currentTarget.lon) : 0, (f&&gpsOn)?f.lat:null, (f&&gpsOn)?f.lon:null);
+  // Zurücksetzen heißt: von vorn anfangen. Deshalb zurück auf Station 1
+  // der aktuellen Route – auch wenn das GPS gerade etwas anderes meldet.
+  const first = routePois()[0];
+  if(first) focusPoi(first);
+  else if(currentTarget) showPoiCard(currentTarget, 0, null, null);
   refreshMarkers(currentTarget && currentTarget.id);
 
-  UI.playState(scope==="day" ? "Tag "+activeDay+" zurückgesetzt." : "Tour zurückgesetzt.");
+  UI.playState((scope==="day" ? "Tag "+activeDay+" zurückgesetzt" : "Tour zurückgesetzt")+
+    " – zurück auf Station 1. Zum Weiterlaufen auf die Standortanzeige tippen.");
 }
 
 /* ============================================================
@@ -4357,6 +4681,11 @@ $("refInput").onchange   = e=>{ if(e.target.files && e.target.files[0]) saveRefP
 $("refPick").onclick     = ()=>$("refInput2").click();
 $("refInput2").onchange  = e=>{ if(e.target.files && e.target.files[0]) saveRefPhoto(e.target.files[0]); e.target.value=""; };
 $("refDrop").onclick     = deleteRefPhoto;
+$("gpsTest").onclick     = ()=>{
+  const out = $("calibOut");
+  out.textContent = gpsReport();
+  out.classList.remove("hidden");
+};
 $("refTest").onclick     = async ()=>{
   const out = $("calibOut");
   out.textContent = "Prüfe …";
