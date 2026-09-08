@@ -401,7 +401,7 @@ footer{
     <button class="btn-ghost" id="startNoGps">Ohne Standort fortfahren</button>
     <div id="bootError" style="display:none;background:#B3311F;color:#fff;border-radius:12px;
          padding:12px;margin-top:12px;font-size:13px;text-align:left;line-height:1.4"></div>
-    <p class="ver">Stand: 26.08.2026 m · 63 Stationen · 223 Detailpunkte</p>
+    <p class="ver">Stand: 08.09.2026 p · 63 Stationen · 224 Detailpunkte</p>
     <p class="foot">
       Beim Start fragt der Browser nach dem Standort. Nur mit erlaubtem Zugriff
       erkennt der Guide selbst, wo du stehst. Jede Stadt merkt sich ihren
@@ -438,7 +438,35 @@ footer{
     <div id="arrival" class="hidden">
       <div class="line" id="arrivalLine">🎧 Du bist jetzt bei: —</div>
       <div class="hint" id="arrivalHint"></div>
+      <div id="arrivalPick" class="hidden" style="display:flex;flex-direction:column;gap:6px;margin:8px 0"></div>
       <button class="go" id="arrivalStart">▶ Führung starten</button>
+      <button class="go" id="arrivalLater"
+              style="background:transparent;border:1px solid rgba(255,255,255,.5);margin-top:6px">Später</button>
+    </div>
+
+    <!-- Wegweiser: immer sichtbar, solange ein Ziel gesetzt ist -->
+    <div id="wayfinder" class="hidden"
+         style="display:flex;align-items:center;gap:12px;margin:10px 0;padding:12px 14px;
+                border-radius:14px;background:#0E4C60;color:#fff">
+      <div id="wayArrow" style="font-size:30px;line-height:1;transition:transform .3s">⬆️</div>
+      <div style="flex:1;min-width:0">
+        <div id="wayName" style="font-weight:800;font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">—</div>
+        <div id="wayMeta" style="font-size:13px;opacity:.85">—</div>
+      </div>
+      <button id="wayGo" style="white-space:nowrap;padding:9px 12px;border-radius:11px;border:0;
+              background:#fff;color:#0E4C60;font-weight:800">Losgehen</button>
+    </div>
+
+    <!-- Umgebungssuche -->
+    <button id="btnWhere" class="go"
+            style="width:100%;margin:0 0 10px;background:#F3F1EC;color:#0E4C60;border:1px solid rgba(14,76,96,.25)">
+      🧭 Was ist hier?
+    </button>
+    <div id="wherePanel" class="card hidden" style="margin-bottom:10px">
+      <div class="eyebrow">In deiner Nähe</div>
+      <div id="whereOut" style="margin-top:10px;font-size:15px;line-height:1.55">—</div>
+      <button id="whereLens" class="rb-opt" style="margin-top:10px">📷 Mit Google Lens bestimmen</button>
+      <button id="whereClose" class="rb-cancel">Schließen</button>
     </div>
 
     <!-- MODUS 1: GPS-Führung -->
@@ -496,6 +524,13 @@ footer{
           <span style="font-size:20px">🐢</span>
           <input type="range" id="rate" min="0.55" max="1.3" step="0.05" value="0.95" aria-label="Sprechtempo">
           <span id="rateVal" style="font-size:14px;font-weight:700;width:74px;text-align:right">normal</span>
+        </div>
+        <div class="vol">
+          <span style="font-size:20px">🗣️</span>
+          <select id="voiceSel" aria-label="Stimme"
+                  style="flex:1;min-width:0;font-size:14px;padding:7px 8px;border-radius:10px;
+                         border:1px solid rgba(0,0,0,.2);background:#fff;color:#1a1a1a"></select>
+          <button id="voiceTest" class="mini" style="white-space:nowrap">Probe</button>
         </div>
       </div>
 
@@ -633,6 +668,7 @@ footer{
         <input type="file" id="refInput2" accept="image/*" hidden>
         <button id="gpsTest" class="rb-opt">🩺 Ortung prüfen</button>
         <button id="refTest" class="rb-opt">🩺 Bildspeicher prüfen</button>
+        <button id="voiceDiag" class="rb-opt">🩺 Stimmen prüfen</button>
         <button id="calibShow" class="rb-opt">Korrekturen anzeigen</button>
         <button id="calibClear" class="rb-opt">Korrekturen löschen</button>
         <button id="calibCancel" class="rb-cancel">Schließen</button>
@@ -687,7 +723,7 @@ const CONFIG = {
   DEFAULT_RADIUS: 70,          // Standard-Ankunftsradius in Metern
   SPEECH_LANG: "de-DE",
   SPEECH_RATE: 0.95,
-  HINTS: true,                 // kurzer Hinweis bei Ankunft; die Führung startet erst auf Tippen
+  HINTS: false,                // Ankunft nur anzeigen; Ansage nur, wenn ausdrücklich gewünscht
   MAP_CENTER: [43.5081, 16.4402],
   MAP_ZOOM: 16,
 
@@ -724,7 +760,7 @@ const CONFIG = {
 const SPLIT_POIS = [
 {
   id:"diokletianpalast", name:"Diokletianpalast",
-  lat:43.50699, lon:16.44061, radius:120, overview:true,
+  lat:43.50713, lon:16.44083, radius:120, overview:true,
   top:true,
   stay:"1–3 Stunden für den gesamten Palastbezirk",
   find:"Von der Riva aus die Palastmauer im Rücken lassen und außen herum nach Norden gehen. Der Palast ist das gesamte Geviert der Altstadt, kein einzelnes Gebäude.",
@@ -773,7 +809,7 @@ Wir gehen von hier nach Westen, an der Innenseite der Mauer entlang, zum Eiserne
 },
 {
   id:"kellergewoelbe", name:"Kellergewölbe des Diokletianpalastes",
-  lat:43.50757, lon:16.43977, radius:40,
+  lat:43.50785, lon:16.43985, radius:40,
   top:true,
   stay:"30–45 Minuten",
   find:"Vom Vestibül nach Süden hinunter oder vom Bronzenen Tor an der Riva hinein. Es wird schlagartig kühl.",
@@ -803,11 +839,10 @@ Wir gehen von hier nach Westen, an der Innenseite der Mauer entlang, zum Eiserne
   ],
   next:"bronzenes-tor",
   audio:`Du bist jetzt in den Kellergewölben des Diokletianpalastes. Bleib kurz stehen und lass die Augen sich an das Dämmerlicht gewöhnen.
-Diese Hallen waren nie zum Ansehen gedacht. Sie sind das Fundament: Sie trugen die kaiserlichen Wohnräume, die genau über dir lagen. Und weil man sie einfach als tragende Unterkonstruktion baute, wiederholen sie den Grundriss der oberen Etage fast eins zu eins.
-Das ist der eigentliche Schatz dieses Ortes. Die kaiserlichen Wohnräume selbst sind längst verschwunden, überbaut von mittelalterlichen Häusern. Aber hier unten kannst du ihre Form ablesen. Wenn du durch diese Halle gehst, gehst du durch den Abdruck eines Raumes, in dem Diokletian tatsächlich gelebt hat.
+Diese Hallen waren nie zum Ansehen gedacht. Sie sind das Fundament – und darin liegt der eigentliche Schatz dieses Ortes. Warum du hier unten den Grundriss einer verschwundenen Etage ablesen kannst, steht im Detailpunkt „In der Mittelhalle · Der Grundriss der Kaiserzimmer“.
 Über Jahrhunderte wurden diese Gewölbe verfüllt. Die Bewohner der Stadt warfen ihren Abfall hinein, bis vieles bis unter die Decke verschüttet war. Ausgerechnet das hat die Substanz konserviert. Die systematische Freilegung begann erst im zwanzigsten Jahrhundert und ist bis heute nicht überall abgeschlossen.
 Schau dir das Mauerwerk an: massive Quader, unverputzt, mit kräftigen Tonnengewölben. Man findet hier auch Reste einer alten Ölpresse und eines Wasserkanals.
-Die zentrale Halle führt geradewegs nach Norden – dorthin, wo du eben heruntergekommen bist. Genau diesen Weg nahmen auch die Gesandten des Kaisers, nur in umgekehrter Richtung: vom Meer durch das Bronzene Tor, durch diese Untergeschosse und dann hinauf ins Vestibül. Wir gehen jetzt ihren Weg rückwärts, nach Süden, hinaus ans Licht.`
+Und achte auf die Ausrichtung der zentralen Halle. Sie folgt keinem Zufall, sondern einem alten Weg durch den Palast – nachzulesen im Detailpunkt „Die Achse · Der Weg der Gesandten“.`
 },
 {
   id:"vestibuel", name:"Vestibül",
@@ -827,12 +862,12 @@ Die zentrale Halle führt geradewegs nach Norden – dorthin, wo du eben herunte
   audio:`Du stehst im Vestibül. Schau als Erstes nach oben.
 Dieser runde Raum war der Vorraum zu den kaiserlichen Gemächern. Wer den Kaiser sehen wollte, kam vom Peristyl herein, betrat diese Rotunde und wartete hier. Der Raum hatte eine klare Aufgabe: Er sollte einschüchtern.
 Ursprünglich trug er eine geschlossene Kuppel, nach heutigem Forschungsstand mit Mosaiken und farbigem Stein verkleidet. Von dieser Ausstattung ist nichts erhalten, die Kuppel ist oben offen. Das ist ein Verlust, aber es macht den Raum zu etwas Eigenem: Du stehst in einem römischen Zylinder und blickst in den Himmel über Split.
-Achte auf die vier Nischen in der Wand. Man nimmt an, dass dort Statuen standen, vermutlich Bildnisse des Kaisers und der Mitregenten. Sicher belegt ist das nicht.
+Achte auf die vier Nischen in der Wand – wer darin stand, steht im Detailpunkt „Die vier Nischen“.
 Und jetzt das Beste an diesem Ort: die Akustik. Sprich einmal halblaut, oder summe einen Ton. Der Klang steht sekundenlang im Raum. Genau deshalb singen hier oft Klapa-Ensembles, die traditionellen dalmatinischen Männerchöre. Wenn du Glück hast und welche da sind, bleib stehen und hör zu. Das ist einer der Momente, für die man nach Split fährt.`
 },
 {
   id:"peristyl", name:"Peristyl",
-  lat:43.50821, lon:16.44017, radius:40,
+  lat:43.50821, lon:16.44018, radius:40,
   top:true,
   stay:"15–20 Minuten",
   find:"Der einzige größere offene Platz im Palastinneren, dort wo sich die beiden Hauptachsen kreuzen. Erkennbar an den roten Granitsäulen und den Stufen, auf denen Leute sitzen.",
@@ -865,7 +900,7 @@ Setz dich ruhig auf die Stufen. Genau das tun hier alle.`
 },
 {
   id:"kathedrale", name:"Kathedrale des Heiligen Domnius",
-  lat:43.50818, lon:16.44046, radius:40,
+  lat:43.50824, lon:16.44025, radius:40,
   top:true,
   stay:"25 Minuten",
   find:"Der achteckige Bau an der Ostseite des Peristyls, mit dem hohen Turm daneben. Eingang über die Freitreppe mit den Holztüren.",
@@ -927,9 +962,7 @@ Sehenswert sind außerdem die romanische Kanzel aus dem dreizehnten Jahrhundert 
   next:"jupiter-tempel",
   audio:`Der Glockenturm neben der Kathedrale ist das Bild, das die meisten Menschen im Kopf haben, wenn sie an Split denken.
 Anders als der Palast ist er nicht römisch. Der Bau begann im dreizehnten Jahrhundert und zog sich über Jahrhunderte hin. Am Ende des neunzehnten Jahrhunderts war die Substanz so schlecht, dass man den Turm zwischen achtzehnhundertneunzig und neunzehnhundertacht weitgehend abtrug und neu aufmauerte. Bei dieser Maßnahme gingen etliche mittelalterliche Skulpturen verloren – aus heutiger Sicht ein herber Verlust, damals galt es als Rettung.
-Der Turm ist ungefähr siebenundfünfzig Meter hoch. Du kannst hinaufsteigen, und du solltest es tun, wenn du schwindelfrei bist. Die Stufen sind steil, teils offen, und es geht eng zu, wenn dir jemand entgegenkommt. Feste Schuhe helfen.
-Oben liegt dir die ganze Stadt zu Füßen: das Ziegeldächergewirr des Palastes, die Riva, der Hafen mit den Fähren, dahinter die Berge und der Marjan im Westen.
-Ein guter Tipp: Steig entweder früh am Morgen hinauf oder ungefähr eine Stunde vor Sonnenuntergang. Mittags ist der Aufstieg heiß und der Turm voll.`
+Der Turm ist ungefähr siebenundfünfzig Meter hoch, und man kann hinauf. Ob das für dich in Frage kommt, worauf du oben achten solltest und wann die beste Zeit dafür ist, steht im Detailpunkt „Der Aufstieg“.`
 },
 {
   id:"jupiter-tempel", name:"Jupiter-Tempel",
@@ -957,7 +990,7 @@ Ein guter Tipp: Steig entweder früh am Morgen hinauf oder ungefähr eine Stunde
 Vor dem Eingang wacht eine kopflose schwarze Sphinx aus ägyptischem Granit. Auch sie gehört zu den Stücken, die Diokletian aus Ägypten herbringen ließ, und auch sie ist deutlich älter als der Palast.
 Der Tempel war Jupiter geweiht, dem Gott, von dem sich Diokletian als Jovius herleitete. Er lag damit direkt gegenüber dem Mausoleum des Kaisers – Gott und Kaiser einander zugeordnet, quer über den Hof.
 Geh hinein und schau nach oben. Die Tonnendecke ist vollständig aus Stein gearbeitet und in kleine Kassetten gegliedert, mit feinem Rankenwerk. Das ist römische Steinmetzarbeit auf hohem Niveau, weitgehend im Original erhalten.
-Später wurde der Raum christlich umgenutzt, als Baptisterium, als Taufkapelle. Deshalb steht heute ein Taufbecken darin. Seine Seitenplatten sind älter als das Becken selbst: vorromanische kroatische Reliefs, die man in das elfte Jahrhundert datiert. Auf einer davon sitzt eine Herrscherfigur unter einem Bogen, vor ihr eine kniende Gestalt. Es ist die früheste bekannte Darstellung eines europäischen Königs in dieser Form aus dieser Region. Welcher König genau gemeint ist, wird in der Forschung diskutiert und ist nicht endgültig geklärt.
+Später wurde der Raum christlich umgenutzt, als Taufkapelle. Deshalb steht heute ein Taufbecken darin – und dessen Seitenplatten sind das eigentlich Wertvolle in diesem Raum. Warum, steht im Detailpunkt „Das Taufbecken“.
 An der Wand steht außerdem eine Bronzefigur Johannes des Täufers von Ivan Meštrović, dem bedeutendsten kroatischen Bildhauer des zwanzigsten Jahrhunderts. Der Name wird dir in Split noch öfter begegnen.`
 },
 {
@@ -986,11 +1019,11 @@ Dieses Tor war die Adresse des Kaisers. Von hier führte die Straße nach Salona
 Schau auf die Fassade: Über dem Durchgang siehst du Nischen und die Reste einer Säulenordnung. Dort standen einst Statuen, vermutlich die der vier Tetrarchen, also der vier Herrscher, die sich das Reich teilten. Die Figuren sind nicht erhalten, die Zuschreibung stützt sich auf die Bauform und ist nicht abschließend gesichert.
 Technisch interessant ist der Aufbau als doppelte Schleuse. Es gibt einen äußeren und einen inneren Torbogen und dazwischen einen kleinen Hof. Wer unerwünscht war, wurde in diesem Hof eingeschlossen, während oben die Wachen standen.
 Im oberen Geschoss des Tores wurde später die kleine Kirche des heiligen Martin eingebaut, ein sehr schmaler mittelalterlicher Raum direkt im römischen Mauerwerk. Wenn sie geöffnet ist, lohnt der kurze Blick hinein.
-Gleich vor dem Tor wartet die wohl bekannteste Figur der Stadt auf dich.`
+Unmittelbar vor dem Tor steht die wohl bekannteste Figur der Stadt.`
 },
 {
   id:"gregor-von-nin", name:"Gregor von Nin",
-  lat:43.50946, lon:16.44083, radius:40,
+  lat:43.50931, lon:16.44114, radius:40,
   stay:"10 Minuten",
   find:"Außerhalb der Nordmauer, direkt vor dem Goldenen Tor. Die Figur ist über acht Meter hoch und nicht zu übersehen.",
   short:"Meštrovićs Kolossalstatue des Bischofs, der die eigene Sprache verteidigte.",
@@ -1010,7 +1043,7 @@ Achte auf die Hand mit dem erhobenen Finger und auf den Gesichtsausdruck. Meštr
 },
 {
   id:"silbernes-tor", name:"Silbernes Tor",
-  lat:43.50816, lon:16.44135, radius:40,
+  lat:43.50814, lon:16.44129, radius:40,
   stay:"10 Minuten",
   find:"Vom Peristyl die Ostachse geradeaus bis zur Mauer. Hinter dem Tor beginnt sofort der Marktbetrieb.",
   short:"Das Osttor, jahrhundertelang zugemauert – heute der Weg zum Markt.",
@@ -1030,7 +1063,7 @@ Direkt hinter dem Tor, im Palastinneren, findest du außerdem die Kirche Sveti D
 },
 {
   id:"eisernes-tor", name:"Eisernes Tor",
-  lat:43.50871, lon:16.43935, radius:40,
+  lat:43.50877, lon:16.43913, radius:40,
   stay:"10 Minuten",
   find:"Das Tor in der Westmauer. Erkennbar am Uhrturm darüber; die Uhr hat vierundzwanzig Ziffern.",
   short:"Das Westtor mit dem alten Glockenturm und der Uhr mit 24 Stunden.",
@@ -1049,8 +1082,8 @@ Direkt hinter dem Tor, im Palastinneren, findest du außerdem die Kirche Sveti D
   ],
   next:"pjaca",
   audio:`Du stehst am Eisernen Tor, dem westlichen Zugang. Es ist das unauffälligste der vier Tore und zugleich das lebendigste – denn es wurde nie zugemauert. Seit siebzehnhundert Jahren gehen hier Menschen hindurch, ohne Unterbrechung.
-Schau nach oben. Über dem Tor sitzt die Kirche Gospa od Zvonika, Unsere Liebe Frau vom Glockenturm. Ihr schmaler romanischer Turm wird gemeinhin als der älteste erhaltene romanische Glockenturm Dalmatiens bezeichnet, datiert ins elfte Jahrhundert. Er wurde direkt in das römische Mauerwerk gesetzt.
-Und jetzt achte auf die Uhr an der Fassade zum Platz hin. Sie hat vierundzwanzig Stunden auf dem Zifferblatt, nicht zwölf. Solche Uhren gab es im venezianisch geprägten Raum häufiger. Wenn dich hier jemand nach der Uhrzeit fragt, musst du kurz nachrechnen.
+Schau nach oben. Über dem Tor sitzt die Kirche Gospa od Zvonika, Unsere Liebe Frau vom Glockenturm – ihr schmaler Turm hat einen Rekord, siehe Detailpunkt „Der älteste Turm Dalmatiens“.
+Und achte auf die Uhr an der Fassade zum Platz hin – zähl einmal die Ziffern. Warum es mehr sind als erwartet, steht im Detailpunkt „Die Uhr mit vierundzwanzig Stunden“.
 Im Torbogen selbst kannst du oben eine Stelle erkennen, an der ein Relief entfernt wurde. Überliefert ist, dass dort ein antikes Bildwerk saß, das im Zuge der christlichen Umnutzung abgearbeitet wurde. Die genauen Umstände sind nicht sicher belegt.
 Geh hindurch nach Westen. Du verlässt jetzt den römischen Palast und betrittst die mittelalterliche Stadt, die außen an ihn heranwuchs.`
 },
@@ -1074,7 +1107,7 @@ Geh hindurch nach Westen. Du verlässt jetzt den römischen Palast und betrittst
   next:"fischmarkt",
   audio:`Willkommen auf der Pjaca. Offiziell heißt der Platz Narodni trg, Volksplatz, aber niemand in Split sagt das. Pjaca kommt vom venezianischen Wort für Platz und verrät viel über die Geschichte dieser Stadt.
 Als der Palast zu eng wurde, wuchs die Stadt nach Westen. Ab dem dreizehnten Jahrhundert entstand hier das neue Zentrum: Verwaltung, Handel, Rechtsprechung. Wer Macht hatte, saß nicht mehr im römischen Palast, sondern hier.
-Das auffälligste Gebäude ist das alte Rathaus mit seiner gotischen Loggia, errichtet im fünfzehnten Jahrhundert, in venezianischer Zeit. Die drei großen Spitzbögen im Erdgeschoss waren offen, ein überdachter öffentlicher Raum – für Gerichtstage, Ankündigungen, Handel.
+Das auffälligste Gebäude ist das alte Rathaus mit seiner gotischen Loggia aus venezianischer Zeit – dazu mehr im Detailpunkt „Die Loggia des alten Rathauses“.
 Schau dich an den Fassaden um. Du findest gotische Fenster, Renaissanceformen und barocke Umbauten dicht nebeneinander. Splits Bauten wurden selten abgerissen, meist nur überformt.
 Und noch etwas: Die Pjaca ist bis heute ein Treffpunkt der Einheimischen. Wenn du am späten Nachmittag hier sitzt, siehst du die Rituale des dalmatinischen Alltags – Kaffee, der eine Stunde dauert, und Gespräche, die länger dauern als der Kaffee. Ein paar Schritte weiter westlich wartet die Markthalle.`
 },
@@ -1100,7 +1133,7 @@ Am nördlichen Ende liegt der Republikplatz mit seinen langen Arkaden im venezia
 },
 {
   id:"gruener-markt", name:"Grüner Markt – Pazar",
-  lat:43.50790, lon:16.44190, radius:40,
+  lat:43.50815, lon:16.44114, radius:40,
   stay:"20 Minuten",
   find:"Unmittelbar hinter dem Silbernen Tor, außerhalb der Mauer. Dem Geruch nach Obst und Gemüse folgen.",
   short:"Der Markt, auf dem Split tatsächlich einkauft – direkt hinter dem Silbernen Tor.",
@@ -1116,7 +1149,7 @@ Wenn du satt geschaut hast, geh zurück durch das Tor. Wir gehen ins Zentrum des
 },
 {
   id:"fischmarkt", name:"Fischmarkt – Ribarnica",
-  lat:43.50917, lon:16.43741, radius:40,
+  lat:43.50918, lon:16.43757, radius:40,
   stay:"10 Minuten",
   find:"Wenige Schritte westlich der Marmontova. Offene Markthalle mit Säulen; am Vormittag am belebtesten.",
   short:"Eine Markthalle von 1890 – und laut Einheimischen der einzige Fischmarkt ohne Fliegen.",
@@ -1131,7 +1164,7 @@ Komm am Vormittag. Gegen Mittag ist verkauft, und dann wird gespült. Zurück au
 },
 {
   id:"riva", name:"Riva",
-  lat:43.50847, lon:16.43669, radius:58,
+  lat:43.50897, lon:16.43686, radius:58,
   top:true,
   stay:"20 Minuten",
   find:"Die Uferpromenade an der Südseite der Altstadt. Von überall im Palast einfach nach Süden gehen, bis das Meer kommt.",
@@ -1160,7 +1193,7 @@ Die Riva ist der Ort, an dem sich Split zeigt. Am Abend beginnt die Korzo, das g
 },
 {
   id:"matejuska", name:"Matejuška",
-  lat:43.50762, lon:16.43429, radius:90,
+  lat:43.50758, lon:16.43418, radius:90,
   stay:"20 Minuten",
   find:"Am westlichen Ende der Riva, dort wo die kleinen Holzboote liegen und Steinstufen zum Wasser führen.",
   short:"Alter Fischerhafen mit Holzbooten – der Sonnenuntergangsplatz der Stadt.",
@@ -1177,11 +1210,11 @@ Hier wird es leiser. Keine Kreuzfahrtschiffe, keine Souvenirstände. Stattdessen
 In den Jahren nach zweitausend wurde der Bereich neu gestaltet und für alle geöffnet: breite Steinstufen, die zum Wasser hinunterführen, eine Mole, ein paar Bänke. Es ist eine einfache Lösung, und sie funktioniert.
 Genau deshalb ist Matejuška der Ort, an dem sich abends halb Split trifft. Junge Leute sitzen mit einem Getränk auf den Stufen, Familien schauen aufs Wasser, Fischer machen ihre Boote fest.
 Setz dich hin und schau nach Westen. Die Sonne geht hinter dem Marjan und den Inseln unter, und das Licht auf dem Wasser wird für ein paar Minuten kupferfarben. Wenn du für den Tag einen Schlusspunkt suchst, ist er hier.
-Und wenn du noch Kraft hast: Der Weg zum Marjan beginnt gleich dahinter.`
+Und wenn du noch Kraft hast: Der Weg zum Marjan beginnt unmittelbar dahinter.`
 },
 {
   id:"marjan", name:"Marjan",
-  lat:43.50732, lon:16.43241, radius:90,
+  lat:43.50721, lon:16.43272, radius:90,
   top:true,
   stay:"1–3 Stunden",
   find:"Von Matejuška durch das Viertel Varoš die Treppen hinauf. Zehn bis fünfzehn Minuten Aufstieg bis zum Aussichtspunkt Vidilica.",
@@ -1246,7 +1279,7 @@ Wir gehen jetzt an der Uferstraße nach Osten. Erst hinaus auf die Mole, dann ö
 },
 {
   id:"piazza-unita", name:"Piazza Unità d'Italia",
-  lat:45.65012, lon:13.76776, radius:90, day:1,
+  lat:45.64984, lon:13.76789, radius:90, day:1,
   top:true,
   stay:"20 Minuten",
   find:"Der große Platz an der Uferstraße, zur Seeseite hin offen. Vom Molo IV rund zehn Minuten nach Osten.",
@@ -1270,9 +1303,9 @@ Wir gehen jetzt an der Uferstraße nach Osten. Erst hinaus auf die Mole, dann ö
   ],
   next:"arco-riccardo", transport:"walk",
   audio:`Du stehst auf der Piazza Unità d'Italia. Bleib einen Moment am Rand stehen und geh dann langsam zur offenen Seite.
-Dieser Platz gilt als der größte zum Meer hin offene Platz Europas. Drei Seiten sind mit Palästen bebaut, die vierte ist einfach das Meer. Das ist ungewöhnlich: Die meisten großen Plätze Europas sind geschlossene Räume. Dieser hier ist eine Bühne, die sich zum Horizont hin öffnet.
+Dieser Platz gilt als der größte zum Meer hin offene Platz Europas – drei Seiten Paläste, die vierte einfach Wasser. Was das bedeutet, steht im Detailpunkt „Die offene Seeseite“.
 Die Gebäude erzählen, wer hier das Sagen hatte. Das Rathaus mit dem Uhrturm entstand achtzehnhundertfünfundsiebzig nach Plänen von Giuseppe Bruni. Oben auf dem Turm schlagen zwei bronzene Figuren die Stunde; die Triestiner nennen sie Michez und Jachez. Daneben stehen die Paläste der großen Handels- und Versicherungshäuser, darunter der einstige Sitz des Österreichischen Lloyd. Das ist keine Fürstenarchitektur, das ist Kaufmannsarchitektur.
-Am oberen Ende steht der Brunnen der vier Erdteile aus der Mitte des achtzehnten Jahrhunderts. Vier Figuren stehen für Europa, Asien, Afrika und Amerika – Australien fehlt, es war zur Entstehungszeit noch nicht Teil dieses Weltbildes. Der Brunnen feiert den Hafen, der die Welt nach Triest holte.
+Am oberen Ende steht der Brunnen der vier Erdteile aus der Mitte des achtzehnten Jahrhunderts – ein Denkmal, das weder einem Herrscher noch einem Heiligen gilt. Wem stattdessen, steht im Detailpunkt „Der Brunnen der vier Erdteile“.
 Ein dunkles Datum gehört auch hierher: Im September neunzehnhundertachtunddreißig verkündete Mussolini von diesem Platz aus die italienischen Rassengesetze. Es gibt keinen Grund, das auszulassen.
 Setz dich zum Schluss auf einen Kaffee ins Caffè degli Specchi und schau aufs Wasser. Danach geht es landeinwärts in die engen Gassen der Città Vecchia.`
 },
@@ -1304,7 +1337,7 @@ Wenn die Bora weht, der kalte Fallwind vom Karst, steht man hier schwer. Sie err
 },
 {
   id:"piazza-borsa", name:"Piazza della Borsa",
-  lat:45.65042, lon:13.77027, radius:90, day:1,
+  lat:45.65040, lon:13.77043, radius:90, day:1,
   stay:"10 Minuten",
   find:"Direkt hinter der Piazza Unità landeinwärts. Erkennbar am Säulenbau der alten Börse.",
   short:"Der alte Börsenplatz – Triests wirtschaftliches Zentrum vor der Piazza Unità.",
@@ -1326,11 +1359,11 @@ Wenn die Bora weht, der kalte Fallwind vom Karst, steht man hier schwer. Sie err
 Das auffälligste Gebäude ist die alte Börse, errichtet zu Beginn des neunzehnten Jahrhunderts nach Plänen von Antonio Mollari. Schau dir die Fassade an: Säulen, Dreiecksgiebel, die Form eines antiken Tempels. Das war Absicht. Der Handel sollte aussehen wie etwas Erhabenes.
 Der Platz zeigt gut, wie Triest funktionierte. Hier wurden Schiffsladungen gehandelt, Versicherungen abgeschlossen, Kredite vergeben. Die beiden großen Versicherungskonzerne, die aus dieser Stadt hervorgingen, gehören bis heute zu den größten Europas.
 In der Mitte steht eine Säule mit dem Standbild Kaiser Leopolds des Ersten. Auch das ist typisch: In Triest stehen habsburgische Denkmäler auf italienischen Plätzen, und niemand findet das seltsam.
-Von hier aus wird es gleich sehr viel älter. Wir gehen ein paar Gassen ins Landesinnere, in das Viertel, das die Triestiner Città Vecchia nennen. Dort steht ein römischer Bogen, an dem die meisten Besucher vorbeilaufen.`
+Wenige Schritte weiter wird es sehr viel älter. Wir gehen ein paar Gassen ins Landesinnere, in das Viertel, das die Triestiner Città Vecchia nennen. Dort steht ein römischer Bogen, an dem die meisten Besucher vorbeilaufen.`
 },
 {
   id:"arco-riccardo", name:"Arco di Riccardo",
-  lat:45.64783, lon:13.76895, radius:90, day:1,
+  lat:45.64772, lon:13.76877, radius:90, day:1,
   stay:"10 Minuten",
   find:"In der Città Vecchia, in einer engen Gasse südlich der Piazza della Borsa. Der Bogen steckt zwischen Wohnhäusern und wirkt eingesunken.",
   short:"Ein römisches Tor mitten in der Altstadt – der Name ist eine Legende.",
@@ -1354,7 +1387,7 @@ Nimm dir hier ruhig zwei Minuten mehr. Die Città Vecchia ist der Teil von Tries
 },
 {
   id:"teatro-romano", name:"Teatro Romano",
-  lat:45.64923, lon:13.77182, radius:90, day:1,
+  lat:45.64942, lon:13.77186, radius:90, day:1,
   stay:"15 Minuten",
   find:"Am Fuß des Hügels von San Giusto, an der Straße unterhalb der Altstadt. Von der Straße aus einsehbar.",
   short:"Ein römisches Theater, das erst 1938 wieder ans Licht kam.",
@@ -1381,7 +1414,7 @@ Von hier sind es nur wenige Schritte zurück in die Geschäftsstadt des neunzehn
 },
 {
   id:"san-giusto", name:"Kathedrale San Giusto",
-  lat:45.6466, lon:13.77244, radius:57, day:1,
+  lat:45.64656, lon:13.77210, radius:57, day:1,
   top:true,
   stay:"25 Minuten",
   find:"Oben auf dem Hügel. Zu Fuß steil hinauf oder mit dem Bus; die Kathedrale steht neben der Burg.",
@@ -1420,7 +1453,7 @@ Der Glockenturm entstand aus dem Vorbau eines römischen Tempels, dessen Reste i
 },
 {
   id:"castello-san-giusto", name:"Castello di San Giusto",
-  lat:45.64739, lon:13.77295, radius:57, day:1,
+  lat:45.64709, lon:13.77231, radius:57, day:1,
   top:true,
   stay:"45 Minuten",
   find:"Unmittelbar neben der Kathedrale auf demselben Hügel. Der Orto Lapidario mit dem Winckelmann-Grabmal liegt dazwischen.",
@@ -1428,7 +1461,7 @@ Der Glockenturm entstand aus dem Vorbau eines römischen Tempels, dessen Reste i
   teaser:"Geh den Rundweg auf den Wällen. Von dort siehst du den ganzen Golf.",
   details:[
     {t:"Am Eingang · Michez und Jachez, die Originale",
-     a:`Gleich hinter der Zugbrücke, im großen Vestibül, stehen zwei bronzene Figuren, die einen Hammer heben. Es sind Michez und Jachez – und zwar die Originale. Die beiden Stundenschläger vom Uhrturm des Rathauses an der Piazza Unità stehen heute hier im Trockenen, oben auf dem Turm hängen ihre Nachfolger. Wenn du gestern oder heute unten auf dem Platz warst und sie hast schlagen sehen, siehst du jetzt die echten aus der Nähe. Im selben Raum liegt außerdem der sogenannte Melone, ein Steinstück vermutlich römischer Herkunft, das zu den kuriosen Wahrzeichen der Stadt zählt.`},
+     a:`Gleich hinter der Zugbrücke, im großen Vestibül, stehen zwei bronzene Figuren, die einen Hammer heben. Es sind Michez und Jachez – und zwar die Originale. Die beiden Stundenschläger vom Uhrturm des Rathauses an der Piazza Unità stehen heute hier im Trockenen, oben auf dem Turm hängen ihre Nachfolger. Wer sie unten auf dem Platz hat schlagen sehen, sieht hier die echten aus der Nähe. Im selben Raum liegt außerdem der sogenannte Melone, ein Steinstück vermutlich römischer Herkunft, das zu den kuriosen Wahrzeichen der Stadt zählt.`},
     {t:"Im Hof · Drei Bastionen, drei Jahrhunderte",
      a:`Geh in den großen Innenhof und schau dir die drei Ecken an. Jede Bastion hat eine andere Form, und das ist kein Geschmack, sondern Technikgeschichte. Die runde Bastion stammt aus den Jahren fünfzehnhundertacht und neun, aus venezianischer Zeit. Die vieleckige entstand ab fünfzehnhundertdreiundfünfzig. Die dreieckige wurde erst sechzehnhundertsechsunddreißig fertig. Je später gebaut, desto spitzer und flacher – eine Antwort auf immer bessere Artillerie, denn schräge Flächen lenken Kugeln ab und schaffen freies Schussfeld entlang der Mauer. An dieser einen Anlage kannst du hundertdreißig Jahre Kriegstechnik ablesen.`},
     {t:"Casa del Capitano · Kapelle und Sala Caprin",
@@ -1458,7 +1491,7 @@ Nimm für den Abstieg die Treppen an der Nordseite, die Scala dei Giganti. Sie f
 },
 {
   id:"canal-grande", name:"Canal Grande",
-  lat:45.6525, lon:13.77159, radius:90, day:1,
+  lat:45.65213, lon:13.77225, radius:90, day:1,
   top:true,
   stay:"20 Minuten",
   find:"Nördlich der Piazza Unità im Borgo Teresiano. Das Wasserbecken mitten in der Stadt, am Kopfende die Säulenkirche.",
@@ -1480,12 +1513,12 @@ Nimm für den Abstieg die Treppen an der Nordseite, die Scala dei Giganti. Sie f
   audio:`Du stehst am Canal Grande. Der Name ist selbstbewusst für ein Becken dieser Größe, aber der Kanal hat eine klare Aufgabe erfüllt.
 Er wurde Mitte des achtzehnten Jahrhunderts gegraben, als Triest nach der Erklärung zum Freihafen aus allen Nähten platzte. Kaiserin Maria Theresia ließ die alten Salinen nördlich der Altstadt trockenlegen und ein neues Stadtviertel im rechten Winkel darüber legen. Es heißt bis heute Borgo Teresiano.
 Der Kanal war der Kern dieses Plans. Segelschiffe konnten hineinfahren und direkt vor den Lagerhäusern löschen. Waren wurden also nicht durch die Stadt gekarrt, sondern kamen an der Haustür an. Das ist Stadtplanung als Logistik.
-Am Kopfende steht die Kirche Sant'Antonio Taumaturgo, zu der wir gleich noch kommen. Dieser Blick über das Wasser auf die Säulenfront ist das Bild, das die meisten von Triest mitnehmen.
-An der Ponte Rosso, der kleinen Brücke über den Kanal, steht die Bronzestatue von James Joyce. Der irische Schriftsteller lebte über zehn Jahre in Triest, arbeitete als Sprachlehrer und schrieb hier an seinen Werken. Die Figur geht, mit Hut, den Blick zur Seite, als sei sie gerade unterwegs zu einer Stunde.`
+Am Kopfende steht die Kirche Sant'Antonio Taumaturgo, die in diesem Guide eine eigene Station hat. Dieser Blick über das Wasser auf die Säulenfront ist das Bild, das die meisten von Triest mitnehmen.
+Und auf der Ponte Rosso, der kleinen Brücke über den Kanal, steht ein Denkmal, das keines sein will – siehe Detailpunkt „Die Statue von James Joyce“.`
 },
 {
   id:"san-spiridione", name:"Serbisch-orthodoxe Kirche San Spiridione",
-  lat:45.65161, lon:13.77332, radius:69, day:1,
+  lat:45.65161, lon:13.77340, radius:69, day:1,
   stay:"15 Minuten",
   find:"Wenige Schritte östlich des Canal Grande. Blaue Kuppeln, nicht zu verwechseln.",
   short:"Blaue Kuppeln und Goldmosaik – das Zeichen einer Handelsstadt vieler Glauben.",
@@ -1509,7 +1542,7 @@ Bitte respektiere, dass hier Gottesdienst gefeiert wird. Bedeckte Schultern, kei
 },
 {
   id:"sant-antonio", name:"Sant'Antonio Taumaturgo",
-  lat:45.65169, lon:13.77481, radius:69, day:1,
+  lat:45.65155, lon:13.77498, radius:69, day:1,
   stay:"10 Minuten",
   find:"Am Kopfende des Canal Grande, gut sichtbar über das Wasser hinweg.",
   short:"Die klassizistische Tempelfassade am Kopf des Kanals.",
@@ -1534,7 +1567,7 @@ Danach schlage ich eine Pause vor. Zwei Straßen weiter liegt ein Kaffeehaus, da
 },
 {
   id:"caffe-san-marco", name:"Caffè San Marco",
-  lat:45.65297, lon:13.7803, radius:90, day:1,
+  lat:45.65280, lon:13.78039, radius:90, day:1,
   top:true,
   stay:"45 Minuten",
   find:"In der Via Cesare Battisti, etwa zehn Minuten nordöstlich vom Canal Grande. Unscheinbare Fassade, Eingang direkt an der Straße.",
@@ -1554,7 +1587,7 @@ Danach schlage ich eine Pause vor. Zwei Straßen weiter liegt ein Kaffeehaus, da
   ],
   next:null, transport:"walk",
   audio:`Setz dich hier hinein. Das Caffè San Marco ist der Ort, an dem die literarische Seite Triests am dichtesten ist.
-Eröffnet wurde es neunzehnhundertvierzehn, kurz vor dem Ersten Weltkrieg. Es wurde schnell zum Treffpunkt jener Kreise, die auf einen Anschluss an Italien hofften – und im Krieg von österreichischen Soldaten verwüstet. Später baute man es wieder auf.
+Eröffnet wurde es neunzehnhundertvierzehn, kurz vor dem Ersten Weltkrieg. Was im Krieg mit ihm geschah und warum dieser Raum eine Rekonstruktion ist, steht im Detailpunkt „Verwüstet 1915“.
 In den Jahrzehnten danach saßen hier die Autoren, für die Triest bis heute bekannt ist: Umberto Saba, der in der Stadt eine Buchhandlung führte, und Italo Svevo, Kaufmann und Romancier, dessen Englischlehrer übrigens James Joyce war. Diese Stadt hat auf sehr wenig Fläche sehr viel Literatur hervorgebracht.
 Schau dich um, während du wartest. Die Marmortischchen, die dunklen Holzvertäfelungen, die gemalten Masken an der Wand, das Messing. Der Raum ist noch immer wienerisch geschnitten: hoch, ruhig, gemacht zum Sitzenbleiben.
 Heute ist ein Teil des Cafés eine Buchhandlung. Man kann also einen Kaffee bestellen, ein Buch vom Regal nehmen und beides zusammen benutzen. Wenn du in Triest nur an einem Ort länger sitzt, dann hier.
@@ -1590,7 +1623,7 @@ Schau von hier die Bucht entlang nach Nordwesten. Auf der Landzunge am Ende steh
 },
 {
   id:"miramare-park", name:"Parco di Miramare",
-  lat:45.70115, lon:13.7197, radius:90, day:2,
+  lat:45.70217, lon:13.71731, radius:90, day:2,
   top:true,
   stay:"1 Stunde",
   find:"Der Parkeingang liegt an der Küstenstraße unterhalb des Schlosses. Vom Parkplatz zu Fuß hinein.",
@@ -1616,11 +1649,9 @@ Schau von hier die Bucht entlang nach Nordwesten. Auf der Landzunge am Ende steh
   ],
   next:"miramare-schloss", transport:"walk",
   audio:`Du bist im Park von Miramare. Bevor du zum Schloss gehst, nimm dir Zeit für den Garten. Er ist nicht die Kulisse des Schlosses, er ist das eigentliche Lebenswerk seines Bauherrn.
-Als Erzherzog Ferdinand Maximilian von Habsburg diese Landzunge in den fünfziger Jahren des neunzehnten Jahrhunderts erwarb, war sie ein nackter Karstfelsen: Stein, Wind, kaum Erde. Er ließ Erdreich herbeischaffen, Wasserleitungen legen und Zehntausende Bäume pflanzen.
-Für die botanische Gestaltung holte er Anton Jelinek, einen Gärtner, der an der Weltumsegelung der Fregatte Novara teilgenommen hatte. Aus solchen Reisen kamen Pflanzen aus aller Welt hierher. Auch später, als Maximilian bereits in Mexiko war, ließ er noch Gewächse nach Miramare schicken.
-Der Park ist zweigeteilt: nahe am Schloss geometrische, italienisch geprägte Anlagen mit Wasserbecken und Skulpturen, weiter hinten ein englischer Landschaftsgarten mit gewundenen Wegen, Teichen und dichtem Bestand.
-Such das Castelletto, das kleine Schlösschen. Dort wohnte das Paar während der Bauzeit. Später lebte hier auch Charlotte, nach ihrer Rückkehr aus Mexiko.
-Und geh unbedingt hinunter zum kleinen Hafen. Am Ende der Mole sitzt eine Sphinx aus rotem Granit, ägyptisch, aus ptolemäischer Zeit – deutlich älter als alles andere hier. Sie ist das letzte erhaltene Stück aus Maximilians ägyptischer Sammlung.`
+Als Erzherzog Ferdinand Maximilian von Habsburg diese Landzunge in den fünfziger Jahren des neunzehnten Jahrhunderts erwarb, war sie ein nackter Karstfelsen: Stein, Wind, kaum Erde. Alles, was hier wächst, musste herbeigeschafft werden. Woher die Pflanzen kamen und wie der Park aufgeteilt ist, steht im Detailpunkt „Überall · Woher die Pflanzen kamen“.
+Suche das Castelletto, das kleine Schlösschen. Dort wohnte das Paar während der Bauzeit. Später lebte hier auch Charlotte, nach ihrer Rückkehr aus Mexiko.
+Und geh unbedingt hinunter zum kleinen Hafen. Am Ende der Mole sitzt eine Sphinx – das mit Abstand älteste Stück dieser Anlage. Mehr dazu im Detailpunkt „Am Ende der Mole · Die Sphinx“.`
 },
 {
   id:"miramare-schloss", name:"Schloss Miramare",
@@ -1685,7 +1716,7 @@ Zum Schluss ein praktischer Hinweis: Das Museum ist täglich von neun bis neunze
 In Triest ging es um Hafen, Handel und Kaffeehäuser. Hier geht es um Hänge, Wein und Öl. Der Karst fällt zum Meer hin ab, und auf den Südhängen wachsen Reben und Olivenbäume.
 Zwei Dinge machen diesen Ort besonders. Das eine ist die Zweisprachigkeit: Auf den Schildern steht alles doppelt, und die Mehrheit der Einwohner gehört zur slowenischen Volksgruppe. Das andere ist das Öl. Diese Gemeinde gilt als Zentrum des Olivenanbaus in der Provinz Triest und wurde zweitausendeins in den italienischen Verband der Ölstädte aufgenommen.
 Nimm dir Zeit für die Fahrt und schau aus dem Fenster. Trockenmauern, kleine Terrassen, Steinhäuser mit Innenhöfen. Der Karst ist karg, und alles, was hier wächst, ist der Landschaft abgerungen worden.
-Als Nächstes fahren wir zum Hof. Danach lohnt ein Abstecher ins Rosandratal, das gleich nebenan beginnt.`
+Ganz in der Nähe liegt der Hof. Und ein Abstecher ins Rosandratal lohnt sich, das gleich nebenan beginnt.`
 },
 {
   id:"fior-rosso", name:"Fior Rosso – Ölhof in Aquilinia",
@@ -1906,7 +1937,9 @@ Weiter geht es zum Rastplatz mit den Tafeln zum Treidelbetrieb.
     {t:"Drei Hochwasser auf einer Tafel",
      a:`Am Sockel unter dem Frosch sitzt eine kleine Metalltafel mit der Überschrift Hochwasser. Darauf sind drei Daten festgehalten, jeweils mit einer Linie für den erreichten Stand: der vierundzwanzigste Januar achtzehnhundertneunundachtzig, der siebenundzwanzigste November achtzehnhundertneunzig und der zwölfte Februar neunzehnhundertsechsundvierzig. Zwei davon liegen keine zwei Jahre auseinander – für die Menschen, die das erlebt haben, war das kein historisches Ereignis, sondern eine Wiederholung. Die Striche sind nüchterner als jeder Text: Wer hier wohnte, wusste, wie hoch das Wasser kommen kann. Und das Denkmal dafür steht mitten im Dorf, nicht am Ufer.`},
     {t:"Der Brunnen ist jünger als er aussieht",
-     a:`Im Pflaster neben dem Sockel liegt eine Granitplatte mit der Aufschrift Anno neunzehnhundertneunundsiebzig. Der Brunnen, wie du ihn siehst, stammt also aus dieser Zeit und nicht aus dem neunzehnten Jahrhundert. Am Brunnenstock findest du das Wappen und den Namen Krudenburg eingemeißelt. Das ist kein Makel, sondern ein eigenes Stück Ortsgeschichte: In den siebziger Jahren wurde Krudenburg nach Hünxe eingemeindet und gewann kurz darauf bei den Wettbewerben um das schönere Dorf. In genau diese Jahre fällt dieser Brunnen. Ein Dorf, das gerade seine Selbstständigkeit verloren hatte, setzte sich ein Wahrzeichen mit dem eigenen Namen darauf.`}
+     a:`Im Pflaster neben dem Sockel liegt eine Granitplatte mit der Aufschrift Anno neunzehnhundertneunundsiebzig. Der Brunnen, wie du ihn siehst, stammt also aus dieser Zeit und nicht aus dem neunzehnten Jahrhundert. Am Brunnenstock findest du das Wappen und den Namen Krudenburg eingemeißelt. Das ist kein Makel, sondern ein eigenes Stück Ortsgeschichte: In den siebziger Jahren wurde Krudenburg nach Hünxe eingemeindet und gewann kurz darauf bei den Wettbewerben um das schönere Dorf. In genau diese Jahre fällt dieser Brunnen. Ein Dorf, das gerade seine Selbstständigkeit verloren hatte, setzte sich ein Wahrzeichen mit dem eigenen Namen darauf.`},
+    {t:"Was Krudenburg heute ist",
+     a:`Fast alles auf dieser Runde handelt von etwas, das vorbei ist. Deshalb zum Schluss ein Blick auf das, was der Ort jetzt ist. Krudenburg hat rund dreihundert Einwohner, und die Zahl der Häuser hat sich in sechshundert Jahren kaum verändert – der Dorfplan von achtzehnhundertzwanzig zählt fünfundvierzig. Verändert hat sich der Grund, warum Menschen herkommen. Jahrhundertelang war es der Fluss: Schifffahrt, Zoll, Mühlenbann, Fähre. Heute ist es der Weg am Fluss. Direkt neben diesem Brunnen steht der Kilometerstein der Römer-Lippe-Route, und der Ort liegt außerdem an der Route der Industriekultur. Krudenburg lebt heute zu einem guten Teil von Menschen, die auf zwei Rädern vorbeikommen und anhalten. Dazu kommt, was die Bewohner selbst auf die Beine stellen – eine Dorfgemeinschaft, die sich um den Trafoturm ebenso kümmert wie um den Weihnachtsmarkt. Nüchtern betrachtet ist das dieselbe Bewegung wie immer: Ein Ort am Wasser lebt von denen, die vorbeikommen. Nur ziehen sie heute keine Schiffe mehr.`}
   ],
   find:"Am hölzernen Wegweiser mit den Armen Brückenweg, Lippeweg und Dorfstraße. Der Brunnen steht auf dem gepflasterten Rund daneben, an der Bruchsteinmauer zur Lippewiese.",
   top:true,
@@ -1995,7 +2028,7 @@ Geh von hier die letzten Meter ans Wasser.`
   facts:["Informationstafeln zum Treidelbetrieb","Rastplatz für Rad- und Wandertouren","Kiosk in der Sommersaison geöffnet"],
   next:"dorfbrunnen", transport:"walk",
   audio:`Du bist am Infopunkt des Treidlerdorfes. Hier stehen Tafeln, die den Treidelbetrieb im Detail erklären, und das ergänzt gut, was wir bisher gehört haben.
-Ein Punkt, der auf den Tafeln oft untergeht: Treideln war Schwerstarbeit. Ein beladenes Lippeschiff wog viele Tonnen, und es musste gegen die Strömung gezogen werden, über Leinpfade, die eigens am Ufer angelegt worden waren. Pferde machten das erträglicher, aber jemand musste sie führen, bei jedem Wetter, viele Stunden am Tag.
+Ein Punkt, der auf den Tafeln oft untergeht: Treideln war Schwerstarbeit – und genau daraus erklärt sich, warum dieses Dorf überhaupt entstand. Nachzulesen im Detailpunkt „Was Treideln körperlich bedeutete“.
 Das ist der Grund, warum Krudenburg zur Route der Industriekultur gehört. Man denkt dabei an Zechen und Hochöfen. Aber der Transport gehört genauso dazu, und das hier ist seine ältere Stufe: Muskelkraft, Wasser und ein Seil.
 Der Rastplatz ist gut angelegt, mit Toilette und einer Lademöglichkeit für E-Bikes. In der Sommersaison hat hier ein Kiosk geöffnet. Für Radfahrer auf der Römer-Lippe-Route ist das eine der beliebtesten Pausen der ganzen Strecke.
 Danach kommen wir zum Wahrzeichen des Dorfes.`
@@ -2083,9 +2116,8 @@ Damit endet der Rundgang durch Krudenburg. Für morgen liegen Kirche, Mühle und
   next:"kutzers-kath", transport:"walk",
   audio:`Der zweite Tag beginnt in Hünxe selbst, an der evangelischen Kirche. Sie ist das älteste erhaltene Gebäude des Ortes.
 Hünxe wird bereits zehnzweiundneunzig urkundlich erwähnt, damals als de Hungese. Die Kirche selbst wurde im vierzehnten Jahrhundert errichtet, als dreischiffige gotische Säulenbasilika mit sechs Jochen und einem fünfseitig schließenden Chor. Ursprünglich war sie dem heiligen Suitbertus geweiht, einem angelsächsischen Missionar, der am Niederrhein wirkte. Gegen Ende des sechzehnten Jahrhunderts schloss sich die Gemeinde der Reformation an.
-Das Bemerkenswerteste steht im Inneren. Es ist der Epitaph für den Freiherrn Albrecht Georg von Hüchtenbroeck, der sechzehnhundertfünfunddreißig geboren wurde und siebzehnhundertsechzehn starb. Gefertigt hat ihn Wilhelm Gröninger aus Baumberger Sandstein.
-Warum das zählt: Barocke Steingräber dieser Art sind am Niederrhein selten. Die Werkstatt Gröninger war überregional bedeutend, und dass ein Werk von dieser Hand in einer Dorfkirche steht, sagt etwas über die Familie aus, die es in Auftrag gab. Denselben Namen wirst du gleich noch einmal hören – die Hüchtenbruck saßen auf Schloss Gartrop, unserem übernächsten Ziel.
-Der Baumberger Sandstein kommt übrigens aus dem Münsterland. Er ist weich, fein zu bearbeiten und leider auch empfindlich. Wenn dir Verwitterungsspuren auffallen: Das ist der Preis für die feine Ausführung.`
+Das Bemerkenswerteste steht im Inneren: ein barockes Grabmal, wie man es am Niederrhein selten findet. Wer darunter liegt und warum das etwas über dieses Dorf sagt, steht im Detailpunkt „Der Epitaph von Gröninger“.
+Einen Namen solltest du dir merken – Hüchtenbroeck. Er begegnet dir auf Schloss Gartrop wieder, ganz gleich, in welcher Reihenfolge du die Stationen abgehst.`
 },
 {
   id:"kutzers-kath", name:"Kutzers Kath",
@@ -2191,9 +2223,8 @@ Und eine Geschichte, die überliefert, aber nicht überprüfbar ist: Am sechsten
   audio:`Du bist am Schloss Gartrop, dem bedeutendsten Bau der Gemeinde.
 Errichtet wurde die heutige Anlage sechzehnhundertfünfundsiebzig, nach niederländischen Vorbildern, durch Albert Gisbert von Hüchtenbruck – den Namen kennst du bereits aus der Kirche in Hünxe. Ein spätmittelalterlicher Winkelbau wurde dabei zu einer zweigeschossigen Vierflügelanlage erweitert. Man geht davon aus, dass darunter noch ältere Grundmauern liegen.
 Zur Anlage gehören das barocke Herrenhaus, eine Vorburg, zwei Torhäuser, eine Kapelle von sechzehnhundertachtundneunzig und die Wassermühle, die du gerade gesehen hast. Umgeben ist alles von einem weit verzweigten System aus Wassergräben.
-Bleib am Eingangstor stehen und schau nach oben. Auf den beiden Backsteinpfeilern sitzen nahezu lebensgroße Sandsteinfiguren: links Athene mit Medusenschild, Eule und Speer, rechts Concordia, die Eintracht. Zugeschrieben werden sie Johann Wilhelm Gröninger. Das ist eine bewusste Ansage: Weisheit und Eintracht bewachen dieses Haus.
-Der Park ist im englischen Landschaftsstil angelegt, rund drei Hektar groß, mit Eichen, die etwa dreihundert Jahre alt sind. Ältere Elemente wurden einbezogen, darunter eine barocke Allee im Süden.
-Und noch eine Entdeckung aus jüngerer Zeit: Bei den Restaurierungsarbeiten ab zweitausendfünf kamen alte Wandbespannungen zum Vorschein, die sogenannten Gartroper Chinoiserien. Neun zusammenhängende Leinwände von dreieinhalb Metern Höhe, auf grünem, silbrig schimmerndem Grund, mit Ranken, exotischen Vögeln und chinesisch inspirierten Szenen. Sie gelten in dieser Form und Qualität als einzigartig im Rheinland.
+Bleib am Eingangstor stehen und schau nach oben – auf den Backsteinpfeilern sitzen zwei Sandsteinfiguren, die eine sehr bewusste Botschaft tragen. Wer sie darstellen und wer sie geschaffen hat, steht im Detailpunkt „Am Tor · Athene und Concordia“.
+Drei Dinge lohnen darüber hinaus: der englische Landschaftspark mit seinen dreihundertjährigen Eichen, das weit verzweigte Gräftensystem – und eine Entdeckung aus jüngerer Zeit, die bei den Restaurierungsarbeiten ab zweitausendfünf im Inneren zum Vorschein kam. Beides ist in den Detailpunkten „Ringsum · Der englische Landschaftsgarten“ und „Im Inneren · Die Gartroper Chinoiserien“ beschrieben.
 Praktisch: Das Schloss ist in Privatbesitz und wird als Hotel und Veranstaltungsort genutzt. Der Schlossgarten ist grundsätzlich zugänglich, das Haus nur bei Führungen und Veranstaltungen. Termine vorher prüfen.`
 },
 {
@@ -2213,9 +2244,8 @@ Praktisch: Das Schloss ist in Privatbesitz und wird als Hotel und Veranstaltungs
   next:null, transport:"car",
   audio:`Zum Abschluss Haus Esselt in Drevenack, ein zweigeschossiger Ziegelbau aus dem siebzehnten Jahrhundert, errichtet auf den Grundmauern einer älteren Anlage.
 Neunzehnhundertneunundfünfzig erwarb der Maler, Grafiker und Bildhauer Otto Pankok dieses Anwesen. Er lebte hier bis zu seinem Tod neunzehnhundertsechsundsechzig. Zwei Jahre später wurde das Museum gegründet.
-Pankok ist eine Figur, die man kennen sollte, gerade in dieser Gegend. Er arbeitete fast ausschließlich in Schwarz, vor allem mit Kohle, in großen Formaten und mit sehr direkter, körperlicher Strichführung. Seine Bilder sind nicht gefällig, sie sind wuchtig.
-Politisch war er unbequem. In den dreißiger Jahren lebte er zeitweise unter Sinti und Roma in Düsseldorf und porträtierte sie – zu einer Zeit, als der Staat dieselben Menschen erfasste und später deportierte. Die Nationalsozialisten stellten seine Arbeiten als entartet aus und belegten ihn mit Ausstellungsverbot. Viele der von ihm gezeichneten Menschen wurden ermordet. Seine Bilder sind für einige von ihnen das einzige erhaltene Porträt.
-Wenn du also durch die Räume gehst: Das hier ist kein beschauliches Künstlerhaus am Niederrhein. Es ist der Rückzugsort eines Mannes, der eine sehr genaue Vorstellung davon hatte, wen man abbildet und warum.
+Pankok ist eine Figur, die man kennen sollte, gerade in dieser Gegend. Er arbeitete fast ausschließlich in Schwarz, vor allem mit Kohle, in großen Formaten und mit sehr direkter Strichführung. Seine Bilder sind nicht gefällig, sie sind wuchtig. Warum sie darüber hinaus Dokumente sind, steht im Detailpunkt „Die Porträts, die Zeugnis sind“.
+Wenn du durch die Räume gehst: Das hier ist kein beschauliches Künstlerhaus am Niederrhein. Es ist der Rückzugsort eines Mannes, der eine sehr genaue Vorstellung davon hatte, wen man abbildet und warum.
 Zu den Öffnungszeiten: Das Museum ist an Wochenenden geöffnet, die genauen Zeiten wechseln. Prüf sie vorher, damit du nicht umsonst fährst.
 Damit endet die Runde durch deine eigene Gemeinde. Wenn dir unterwegs etwas aufgefallen ist, das hier fehlt: Der Knopf „Eigener Ort“ wartet.`
 },
@@ -2390,7 +2420,7 @@ Eines noch: Das ist ein bewohntes Privatgut. Schau von der Straße aus.
     {t:"Die Inschrift",
      a:`Lies zuerst, was auf dem Stein steht. Die Widmung lautet sinngemäß: Kaiser Wilhelm dem Großen – der Drevenacker Kriegerverein. Zwei Dinge stecken darin. Erstens der Beiname der Große, der Wilhelm dem Ersten nach seinem Tod achtzehnhundertachtundachtzig verliehen wurde, nicht zu Lebzeiten; er war eine bewusste Erhöhung des Reichsgründers zur Nationalfigur. Und zweitens der Stifter: nicht die Gemeinde, nicht die Kirche, sondern der Kriegerverein. Solche Vereine der ehemaligen Soldaten gab es nach achtzehnhunderteinundsiebzig in fast jedem Dorf. Sie pflegten das Andenken an die Kriege, veranstalteten Feiern und errichteten Denkmäler. Ein Kaiserdenkmal in einem Dorf dieser Größe ist deshalb kein Zeichen besonderer Bedeutung des Ortes, sondern der Dichte dieses Vereinswesens.`},
     {t:"Ein Gefallener",
-     a:`Der Stein hat noch eine zweite Funktion: Er erinnert zugleich an den einzigen Gefallenen, den Drevenack im Krieg von achtzehnhundertsiebzig und einundsiebzig zu beklagen hatte. Einer. Das ist die Zahl, die den Maßstab liefert. Am Krudenburger Kriegerdenkmal, das du gestern gesehen hast, stehen die Namen des Ersten Weltkriegs, und am Ehrenmal des Friedhofs hier kommen die beiden Weltkriege zusammen. Zwischen dem einen Gefallenen von einundsiebzig und den Namenslisten von achtzehn und fünfundvierzig liegen keine hundert Jahre. Wer diese drei Steine nacheinander liest, hat die Geschichte des Krieges im zwanzigsten Jahrhundert an drei Dorfdenkmälern abgelesen.`},
+     a:`Der Stein hat noch eine zweite Funktion: Er erinnert zugleich an den einzigen Gefallenen, den Drevenack im Krieg von achtzehnhundertsiebzig und einundsiebzig zu beklagen hatte. Einer. Das ist die Zahl, die den Maßstab liefert. Am Krudenburger Kriegerdenkmal, der ersten Runde dieses Guides, stehen die Namen des Ersten Weltkriegs, und am Ehrenmal des Friedhofs hier kommen die beiden Weltkriege zusammen. Zwischen dem einen Gefallenen von einundsiebzig und den Namenslisten von achtzehn und fünfundvierzig liegen keine hundert Jahre. Wer diese drei Steine nacheinander liest, hat die Geschichte des Krieges im zwanzigsten Jahrhundert an drei Dorfdenkmälern abgelesen.`},
     {t:"Was solche Steine sind",
      a:`Nach der Reichsgründung entstanden in Deutschland tausende Kaiser-Wilhelm-Denkmäler, vom monumentalen Reiterstandbild bis zum schlichten Stein am Dorfrand. Sie waren Ausdruck eines Nationalgefühls, das den Kaiser zur Vaterfigur erhob und die Einigung von achtzehnhunderteinundsiebzig als Erfüllung deutete. Nach neunzehnhundertachtzehn verloren sie ihre Selbstverständlichkeit, viele wurden entfernt oder umgewidmet. Dass dieser hier steht, sagt also weniger über den Kaiser aus als über das Dorf: darüber, wie ein niederrheinisches Kirchdorf sich um neunzehnhundert selbst verstand – und wie es später mit diesem Erbe umging, nämlich indem es den Stein stehen ließ.`}
   ],
@@ -2402,7 +2432,7 @@ Eines noch: Das ist ein bewohntes Privatgut. Schau von der Straße aus.
   audio:`An der Ecke Hünxer Straße und Kirchstraße steht das Kaiser-Wilhelm-Denkmal von Drevenack.
 Die Widmung nennt Kaiser Wilhelm den Großen und als Stifter den Drevenacker Kriegerverein. Beides lohnt einen Gedanken. Den Beinamen der Große erhielt Wilhelm der Erste erst nach seinem Tod achtzehnhundertachtundachtzig – es war eine bewusste Erhöhung des Reichsgründers zur Nationalfigur. Und gestiftet hat den Stein nicht die Gemeinde, sondern der Verein der ehemaligen Soldaten. Solche Kriegervereine gab es nach achtzehnhunderteinundsiebzig in fast jedem Dorf.
 Zugleich erinnert der Stein an den einzigen Gefallenen, den Drevenack im Krieg von siebzig und einundsiebzig zu beklagen hatte. Einer. Am Friedhof steht ein zweites Denkmal, mit Kreuz und Inschriftentafeln, für die Gefallenen beider Weltkriege.
-Wenn du das Krudenburger Kriegerdenkmal von gestern dazunimmst, hast du drei Steine in zwei Dörfern – und daran abzulesen, wie sich die Zahl der Namen im zwanzigsten Jahrhundert verändert hat.
+Nimm das Krudenburger Kriegerdenkmal dazu, dann hast du drei Steine in zwei Dörfern – und daran abzulesen, wie sich die Zahl der Namen im zwanzigsten Jahrhundert verändert hat.
 `
 },
 {
@@ -2510,8 +2540,9 @@ const State = {
   visited: [],          // IDs bereits gehörter Orte
   announced: [],        // IDs, die in dieser Sitzung angekündigt wurden
   volume: 0.9,
-  hints: true,          // Hinweis bei Ankunft ansagen
+  hints: false,         // Ankunftshinweis zusätzlich vorlesen (Standard: aus)
   rate: 0.95,           // Sprechtempo
+  voiceURI: null,       // gewählte Stimme (null = automatisch)
   navSpeak: true,       // Wegansage am Ende jeder Führung
   calib: {},            // vor Ort korrigierte Koordinaten: { poiId: [lat, lon] }
   custom: [],           // selbst angelegte Orte
@@ -2524,7 +2555,7 @@ function loadState(){
   // den Fortschritt der vorher geöffneten Stadt mit.
   State.visited=[]; State.announced=[]; State.calib={}; State.custom=[];
   State.lastPoi=null; State.lastFix=null;
-  State.volume=0.9; State.hints=true; State.rate=0.95; State.navSpeak=true;
+  State.volume=0.9; State.hints=false; State.rate=0.95; State.navSpeak=true; State.voiceURI=null;
   try{
     const raw = localStorage.getItem(STORE_KEY);
     if(!raw) return;
@@ -2533,6 +2564,7 @@ function loadState(){
     State.volume  = typeof d.volume === "number" ? d.volume : 0.9;
     State.hints   = d.hints !== false;
     State.rate    = typeof d.rate === "number" ? d.rate : 0.95;
+    State.voiceURI= typeof d.voiceURI === "string" ? d.voiceURI : null;
     State.navSpeak= d.navSpeak !== false;
     State.calib   = d.calib && typeof d.calib==="object" ? d.calib : {};
     State.custom  = Array.isArray(d.custom) ? d.custom : [];
@@ -2543,7 +2575,7 @@ function loadState(){
 function saveState(){
   try{
     localStorage.setItem(STORE_KEY, JSON.stringify({
-      visited:State.visited, volume:State.volume, hints:State.hints, rate:State.rate, navSpeak:State.navSpeak,
+      visited:State.visited, volume:State.volume, hints:State.hints, rate:State.rate, navSpeak:State.navSpeak, voiceURI:State.voiceURI,
       calib:State.calib, custom:State.custom, lastPoi:State.lastPoi, lastFix:State.lastFix
     }));
   }catch(e){}
@@ -2633,13 +2665,40 @@ const Speech = {
   parts:[], raw:[], idx:0, playing:false, paused:false, voice:null, label:"",
   keepAlive:null, onEnd:null,
 
-  pickVoice(){
+  germanVoices(){
     const v = window.speechSynthesis ? speechSynthesis.getVoices() : [];
-    if(!v.length) return;
-    this.voice =
-      v.find(x=>x.lang && x.lang.toLowerCase()==="de-de" && /anna|petra|markus|google|deutsch|german/i.test(x.name)) ||
-      v.find(x=>x.lang && x.lang.toLowerCase()==="de-de") ||
-      v.find(x=>x.lang && x.lang.toLowerCase().startsWith("de")) || null;
+    return v.filter(x=>x.lang && x.lang.toLowerCase().startsWith("de"));
+  },
+
+  // Rangfolge: je höher, desto natürlicher klingt die Stimme erfahrungsgemäß
+  score(x){
+    const n = (x.name||"") + " " + (x.voiceURI||"");
+    let s = 0;
+    if(/premium|enhanced|neural|natural|siri/i.test(n)) s += 60;
+    if(/google/i.test(n))                               s += 40;
+    if(/^de-de$/i.test(x.lang||""))                     s += 20;
+    if(x.localService)                                  s += 5;
+    if(/compact|eloquence|espeak|kompakt/i.test(n))     s -= 50;
+    return s;
+  },
+
+  pickVoice(){
+    const v = this.germanVoices();
+    if(!v.length){ this.voice = null; return; }
+    if(State.voiceURI){
+      const chosen = v.find(x=>x.voiceURI===State.voiceURI);
+      if(chosen){ this.voice = chosen; return; }
+    }
+    this.voice = v.slice().sort((a,b)=>this.score(b)-this.score(a))[0] || null;
+  },
+
+  voiceLabel(x){
+    let n = (x.name||"Stimme").replace(/\s*\(.*?\)\s*$/,"").trim();
+    const tags = [];
+    if(/premium|enhanced|neural|natural/i.test((x.name||"")+(x.voiceURI||""))) tags.push("hochwertig");
+    if(/compact|kompakt/i.test(x.name||"")) tags.push("einfach");
+    if(!x.localService) tags.push("online");
+    return n + (tags.length ? " · " + tags.join(", ") : "");
   },
 
   split(text){
@@ -2888,6 +2947,164 @@ const UI = {
   }
 };
 
+
+/* ============================================================
+   WEGWEISER – zeigt dauerhaft an, wohin es geht
+   ============================================================ */
+let wayTarget = null;
+
+function setWayTarget(p){
+  wayTarget = p || null;
+  updateWayfinder();
+}
+
+/** Nächstes sinnvolles Ziel: gesetzt, sonst der Nachfolger der aktuellen Station. */
+function guessWayTarget(){
+  if(wayTarget) return wayTarget;
+  if(currentTarget && currentTarget.next){
+    const n = poiById(currentTarget.next);
+    if(n && !State.visited.includes(n.id)) return n;
+  }
+  const set = routePois().filter(p=>!State.visited.includes(p.id));
+  const f = State.lastFix;
+  if(f && gpsOn && set.length){
+    return set.slice().sort((a,b)=>
+      haversine(f.lat,f.lon,a.lat,a.lon) - haversine(f.lat,f.lon,b.lat,b.lon))[0];
+  }
+  return set[0] || null;
+}
+
+function updateWayfinder(){
+  const box = $("wayfinder"); if(!box) return;
+  const p = guessWayTarget();
+  if(!p){ box.classList.add("hidden"); return; }
+  box.classList.remove("hidden");
+  $("wayName").textContent = p.name;
+
+  const f = State.lastFix;
+  const arrow = $("wayArrow");
+  if(f && gpsOn){
+    const d = haversine(f.lat, f.lon, p.lat, p.lon);
+    const b = bearing(f.lat, f.lon, p.lat, p.lon);
+    let txt = fmtDist(d) + " · Richtung " + compass(b);
+    if(lastHeading != null){
+      const rel = ((b - lastHeading + 540) % 360) - 180;
+      arrow.style.transform = "rotate(" + rel + "deg)";
+      txt += Math.abs(rel) < 25 ? " · geradeaus"
+           : (rel > 0 ? " · rechts halten" : " · links halten");
+    } else {
+      arrow.style.transform = "rotate(0deg)";
+      txt += " · halte das Gerät flach für die Richtung";
+    }
+    if(d <= (p.radius || CONFIG.DEFAULT_RADIUS)) txt = "Du bist da · " + fmtDist(d);
+    $("wayMeta").textContent = txt;
+  } else if(gpsMode === "idle"){
+    $("wayMeta").textContent = "Ortung im Sparbetrieb – tippe auf Losgehen";
+  } else {
+    $("wayMeta").textContent = "Kein Standortsignal · " + (p.find ? p.find : "Ziel aus der Liste gewählt");
+  }
+
+  const go = $("wayGo");
+  go.textContent = (gpsMode === "idle" || !gpsOn) ? "Losgehen" : "Route";
+  go.onclick = ()=>{
+    if(gpsMode === "idle" || !gpsOn){
+      gpsHigh();
+      UI.playState("Ortung wieder aktiv – der Wegweiser zeigt zur nächsten Station.");
+      updateWayfinder();
+    } else {
+      const mode = (currentTarget && currentTarget.transport) || "walk";
+      openRoute(p.lat, p.lon, p.name, mode);
+    }
+  };
+}
+
+
+/* ============================================================
+   WAS IST HIER? – eigene Stationen plus Wikipedia im Umkreis
+   ============================================================ */
+async function whereAmI(){
+  const panel = $("wherePanel"), out = $("whereOut");
+  panel.classList.remove("hidden");
+  const f = State.lastFix;
+
+  // 1) Eigene Stationen – funktioniert immer, auch ohne Netz
+  const parts = [];
+  if(f){
+    const near = POIS
+      .map(p=>({p, d:haversine(f.lat,f.lon,p.lat,p.lon)}))
+      .filter(x=>x.d < 800).sort((a,b)=>a.d-b.d).slice(0,6);
+    if(near.length){
+      parts.push('<b>Stationen dieses Guides</b>');
+      near.forEach(({p,d})=>{
+        parts.push('<div style="margin:6px 0"><a href="#" data-poi="'+p.id+
+          '" style="color:#0E4C60;font-weight:700;text-decoration:none">'+esc(p.name)+'</a>'+
+          ' <span style="opacity:.7">· '+fmtDist(d)+
+          (State.visited.includes(p.id) ? ' · gehört' : '')+'</span></div>');
+      });
+    } else {
+      parts.push('<b>Stationen dieses Guides</b><div style="opacity:.7">Keine im Umkreis von 800 Metern.</div>');
+    }
+  } else {
+    parts.push('<div style="opacity:.7">Noch kein Standort. Schalte die Ortung ein.</div>');
+  }
+  out.innerHTML = parts.join("") + '<div style="margin-top:12px;opacity:.7">Suche in Wikipedia …</div>';
+  bindWhereLinks();
+
+  // 2) Wikipedia im Umkreis – ohne Schlüssel, braucht aber Netz
+  if(!f) return;
+  try{
+    /* Gestaffelt suchen: erst ganz eng, damit vor dem Neptunbrunnen nicht
+       das halbe Schloss erscheint. Erst wenn nichts kommt, wird der Kreis
+       größer. Der zuletzt verwendete Radius steht in der Überschrift. */
+    let hits = [], usedRadius = 0;
+    for(const rad of [80, 180, 400]){
+      const url = "https://de.wikipedia.org/w/api.php?action=query&list=geosearch"
+        + "&gscoord=" + f.lat + "%7C" + f.lon
+        + "&gsradius=" + rad + "&gslimit=10&format=json&origin=*";
+      const r = await fetch(url, { cache:"no-store" });
+      const j = await r.json();
+      hits = (j.query && j.query.geosearch) || [];
+      usedRadius = rad;
+      if(hits.length) break;
+    }
+    const wiki = [];
+    wiki.push('<div style="margin-top:14px"><b>Wikipedia im Umkreis von '+usedRadius+' m</b></div>');
+    if(!hits.length){
+      wiki.push('<div style="opacity:.7">Nichts verzeichnet.</div>');
+    } else {
+      hits.forEach(h=>{
+        const link = "https://de.wikipedia.org/wiki/" + encodeURIComponent(h.title.replace(/ /g,"_"));
+        wiki.push('<div style="margin:6px 0"><a href="'+link+'" target="_blank" rel="noopener"'+
+          ' style="color:#0E4C60;font-weight:700;text-decoration:none">'+esc(h.title)+'</a>'+
+          ' <span style="opacity:.7">· '+fmtDist(h.dist)+'</span></div>');
+      });
+    }
+    out.innerHTML = parts.join("") + wiki.join("");
+    bindWhereLinks();
+  }catch(e){
+    out.innerHTML = parts.join("") +
+      '<div style="margin-top:14px;opacity:.7">Wikipedia nicht erreichbar – vermutlich kein Netz. '+
+      'Die Stationen oben funktionieren trotzdem.</div>';
+    bindWhereLinks();
+  }
+}
+
+function bindWhereLinks(){
+  $("whereOut").querySelectorAll("a[data-poi]").forEach(a=>{
+    a.onclick = ev=>{ ev.preventDefault();
+      $("wherePanel").classList.add("hidden");
+      focusPoi(poiById(a.dataset.poi)); };
+  });
+}
+
+/** Letzter Ausweg für alles, was nirgends verzeichnet ist. */
+function openLens(){
+  const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const url = iOS ? "https://www.google.com/search?udm=50"
+                  : "https://lens.google.com/";
+  window.open(url, "_blank", "noopener");
+}
+
 /* ============================================================
    KARTE
    ============================================================ */
@@ -3062,6 +3279,7 @@ function gpsIdle(anchor, radius){
   idleTimer = setInterval(idlePing, 25000);
   UI.gps("idle");
   UI.nav();
+  updateWayfinder();
 }
 
 /** Sparsame Einzelabfrage: grobe Genauigkeit, kein Dauerbetrieb. */
@@ -3156,6 +3374,7 @@ function evaluate(lat,lon,acc){
   }
 
   if(arrived) announce(arrived.p);
+  updateWayfinder();
 }
 
 function showPoiCard(p, dist, lat, lon){
@@ -3228,20 +3447,77 @@ function announce(p){
   $("arrival").classList.remove("hidden");
   $("arrivalStart").dataset.poi = p.id;
 
+  // Liegen mehrere Stationen im Radius, lässt sich hier direkt wählen.
+  const box = $("arrivalPick");
+  if(box){
+    const f = State.lastFix;
+    const near = (f && gpsOn) ? poisInReach(f.lat, f.lon) : [];
+    if(near.length > 1){
+      $("arrivalLine").textContent = "🎧 Hier liegen "+near.length+" Stationen";
+      $("arrivalHint").textContent = "Wähle, was du hören möchtest.";
+      box.innerHTML = "";
+      near.forEach(({p:q,d})=>{
+        const b = document.createElement("button");
+        b.className = "go";
+        b.style.cssText = "background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);text-align:left";
+        b.innerHTML = esc(q.name) + ' <span style="opacity:.75;font-weight:400">· '+fmtDist(d)+
+                      (State.visited.includes(q.id) ? " · gehört" : "")+'</span>';
+        b.onclick = ()=> playPoi(q.id);
+        box.appendChild(b);
+      });
+      box.classList.remove("hidden");
+      $("arrivalStart").classList.add("hidden");
+    } else {
+      box.classList.add("hidden");
+      box.innerHTML = "";
+      $("arrivalStart").classList.remove("hidden");
+    }
+  }
+
   // Station erreicht – Dauerortung aus, bis du wieder losgehst
   gpsIdle([p.lat, p.lon], p.radius);
 
   // kurzer Stups, damit man es auch in der Tasche merkt
   if(navigator.vibrate) { try{ navigator.vibrate([40,60,40]); }catch(e){} }
 
-  // Nur der Hinweis wird angesagt. Die Führung startet ausschließlich auf Tippen.
+  // Kein Ton von selbst. Nur ein kurzer Signalton, damit man es in der Tasche merkt.
+  chime();
+
+  // Ansage nur, wenn ausdrücklich eingeschaltet.
   if(CONFIG.HINTS && State.hints && audioUnlocked && !manualLock && !Speech.playing){
-    Speech.load("Du bist jetzt bei: "+p.name+". "+(p.teaser||""), "Hinweis");
+    Speech.load("Du bist jetzt bei: "+p.name+".", "Hinweis");
     Speech.play();
-    UI.playState("Hinweis – tippe auf „▶ Führung starten“ für die ganze Erklärung.");
-  } else if(!audioUnlocked){
-    UI.playState("Der Browser startet Ton erst nach einer Berührung. Tippe auf „▶ Führung starten“.");
   }
+  UI.playState("Angekommen – tippe auf „▶ Führung starten“, wenn du soweit bist.");
+}
+
+/** Kurzer Zweiklang bei Ankunft – ohne Sprache, ohne Datei. */
+function chime(){
+  try{
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if(!Ctx) return;
+    const ctx = chime._ctx || (chime._ctx = new Ctx());
+    if(ctx.state === "suspended") ctx.resume();
+    const t = ctx.currentTime;
+    [[880,0],[1174,0.14]].forEach(([f,off])=>{
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = "sine"; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t+off);
+      g.gain.exponentialRampToValueAtTime(0.18*(State.volume||0.9), t+off+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t+off+0.32);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(t+off); o.stop(t+off+0.36);
+    });
+  }catch(e){}
+}
+
+/** Alle Stationen, die gerade im Radius liegen – für die Auswahl bei dichter Bebauung. */
+function poisInReach(lat, lon){
+  if(lat==null) return [];
+  return activePois()
+    .map(p => ({ p, d: haversine(lat, lon, p.lat, p.lon) }))
+    .filter(x => x.d <= (x.p.radius || CONFIG.DEFAULT_RADIUS))
+    .sort((a,b) => a.d - b.d);
 }
 
 function playPoi(id){
@@ -3255,6 +3531,8 @@ function playPoi(id){
   Speech.load(stationAudio(p), p.name);
   Speech.onEnd = ()=>{
     if(!State.visited.includes(p.id)){ State.visited.push(p.id); saveState(); UI.progressLine(); refreshMarkers(currentTarget && currentTarget.id); }
+    // Nach dem Hören zeigt der Wegweiser von selbst auf das nächste Ziel.
+    setWayTarget(p.next ? poiById(p.next) : null);
   };
   const ok = Speech.play();
   if(ok){
@@ -3761,13 +4039,14 @@ async function saveRefPhoto(file){
   const p = currentTarget;
   if(!p || !file) return;
   const shrunk = await shrink(file, CONFIG.REF_PHOTO_MAX, CONFIG.REF_PHOTO_QUALITY);
+  // Zuerst prüfen: ein misslungenes Foto darf kein vorhandenes verdrängen.
+  if(!shrunk || !shrunk.url) return;
   const list = (await loadStationPhotos(p.id)).slice();
   const refs = list.filter(x=>x.kind!=="guide");
   if(refs.length >= MAX_REF){
     const oldest = refs.sort((a,b)=>a.ts-b.ts)[0];           // ältestes weicht
     list.splice(list.indexOf(oldest), 1);
   }
-  if(!shrunk || !shrunk.url){ UI.playState("Bild konnte nicht gelesen werden."); return; }
   list.push({kind:"ref", url:shrunk.url, ts:Date.now()});
   const ok = await saveStationPhotos(p.id, list);
   $("calibBox").classList.add("hidden");
@@ -3782,7 +4061,12 @@ async function saveRefPhoto(file){
 async function deleteRefPhoto(){
   const p = currentTarget; if(!p) return;
   const list = (await loadStationPhotos(p.id)).filter(x=>x.kind==="guide");
-  await saveStationPhotos(p.id, list);
+  const gut = (list||[]).filter(x=>x && x.url && x.url.length > 200);
+  if(!gut.length){
+    UI.playState("Kein Foto übernommen – siehe Hinweis oben.");
+    return;
+  }
+  await saveStationPhotos(p.id, gut);
   $("calibBox").classList.add("hidden");
   showRefPhoto(p);
   UI.playState("Referenzfotos entfernt.");
@@ -3800,8 +4084,13 @@ async function attachPhotosToStation(){
       : ph.url;
     list.push({kind:"guide", url:small, ts:Date.now(), note:note});
   }
-  await saveStationPhotos(p.id, list);
-  UI.playState(Photos.length+" Foto(s) zu „"+p.name+"“ übernommen.");
+  const gut = (list||[]).filter(x=>x && x.url && x.url.length > 200);
+  if(!gut.length){
+    UI.playState("Kein Foto übernommen – siehe Hinweis oben.");
+    return;
+  }
+  await saveStationPhotos(p.id, gut);
+  UI.playState(gut.length+" Foto(s) zu „"+p.name+"“ übernommen.");
   showRefPhoto(p);
 }
 
@@ -3937,32 +4226,68 @@ function initPhotoUI(){
 
 async function addFiles(files){
   for(const f of files){
-    if(!f.type.startsWith("image/")) continue;
+    // Ein leerer Typ ist kein Ausschlussgrund: iPhones liefern HEIC-Dateien
+    // gelegentlich ohne MIME-Angabe aus. Entschieden wird beim Umwandeln.
+    const typ = f.type || "";
+    if(typ && !typ.startsWith("image/")) continue;
     const shrunk = await shrink(f, 1280, .82);
-    Photos.push(shrunk);
+    if(shrunk && shrunk.url) Photos.push(shrunk);
   }
   renderThumbs();
 }
 
-/** Verkleinert das Foto vor der Übertragung – spart Daten und Tokens. */
-function shrink(file, maxSide, quality){
-  return new Promise(res=>{
+/** Zeichnet eine Bildquelle verkleinert auf eine Leinwand und gibt JPEG zurück. */
+function drawToJpeg(src, w, h, maxSide, quality){
+  const scale = Math.min(1, maxSide/Math.max(w,h));
+  const c = document.createElement("canvas");
+  c.width = Math.max(1, Math.round(w*scale));
+  c.height = Math.max(1, Math.round(h*scale));
+  c.getContext("2d").drawImage(src, 0, 0, c.width, c.height);
+  return c.toDataURL("image/jpeg", quality);
+}
+
+/* Verkleinert das Foto und wandelt es dabei nach JPEG.
+   iPhones liefern seit Jahren HEIC. Der klassische Weg über new Image()
+   scheitert daran je nach Browser lautlos, deshalb wird zuerst
+   createImageBitmap versucht – das kommt mit HEIC zurecht. */
+async function shrink(file, maxSide, quality){
+  // Weg 1: createImageBitmap – versteht HEIC dort, wo das System es kann
+  if(typeof createImageBitmap === "function"){
+    try{
+      const bmp = await createImageBitmap(file);
+      const dataUrl = drawToJpeg(bmp, bmp.width, bmp.height, maxSide, quality);
+      if(bmp.close) bmp.close();
+      if(dataUrl && dataUrl.length > 200)
+        return { mime:"image/jpeg", dataBase64: dataUrl.split(",")[1], url:dataUrl };
+    }catch(e){ /* weiter mit Weg 2 */ }
+  }
+
+  // Weg 2: klassisch über ein Bildelement
+  const viaImg = await new Promise(res=>{
     const url = URL.createObjectURL(file);
     const img = new Image();
     img.onload = ()=>{
-      const scale = Math.min(1, maxSide/Math.max(img.width,img.height));
-      const c = document.createElement("canvas");
-      c.width = Math.round(img.width*scale); c.height = Math.round(img.height*scale);
-      c.getContext("2d").drawImage(img,0,0,c.width,c.height);
-      const dataUrl = c.toDataURL("image/jpeg", quality);
+      let out = null;
+      try{ out = drawToJpeg(img, img.naturalWidth||img.width, img.naturalHeight||img.height, maxSide, quality); }
+      catch(e){ out = null; }
       URL.revokeObjectURL(url);
-      res({ mime:"image/jpeg", dataBase64: dataUrl.split(",")[1], url:dataUrl });
+      res(out && out.length > 200
+        ? { mime:"image/jpeg", dataBase64: out.split(",")[1], url:out }
+        : null);
     };
-    img.onerror = ()=>{ URL.revokeObjectURL(url);
-      UI.playState("Das Bild konnte nicht gelesen werden. Bei iPhone-Fotos hilft: Einstellungen → Kamera → Formate → „Maximale Kompatibilität“.");
-      res({mime:file.type,dataBase64:"",url:""}); };
+    img.onerror = ()=>{ URL.revokeObjectURL(url); res(null); };
     img.src = url;
   });
+  if(viaImg) return viaImg;
+
+  // Beide Wege gescheitert – klar sagen, woran es liegt
+  const heic = /heic|heif/i.test(file.type || "") || /\.(heic|heif)$/i.test(file.name || "");
+  UI.playState(heic
+    ? "Dieses iPhone-Foto liegt als HEIC vor und liess sich hier nicht umwandeln. "
+      + "Abhilfe: Einstellungen → Kamera → Formate → „Maximale Kompatibilität“. "
+      + "Danach nimmt die Kamera JPEG auf."
+    : "Das Bild konnte nicht gelesen werden (" + (file.type || "unbekanntes Format") + ").");
+  return null;
 }
 
 /** Fotos aus dem Speicher entfernen und Objekt-URLs freigeben. */
@@ -4116,11 +4441,13 @@ function openList(){
   $("sheet").classList.remove("hidden");
 }
 
-function openRoute(){
-  const b=$("btnRoute");
-  const lat=b.dataset.lat, lon=b.dataset.lon;
+function openRoute(lat, lon, name, mode){
+  if(lat == null){
+    const b=$("btnRoute");
+    lat=b.dataset.lat; lon=b.dataset.lon; mode=b.dataset.mode || "walk";
+  }
   if(!lat) return;
-  const mode = b.dataset.mode || "walk";
+  mode = mode || "walk";
   const apple  = { car:"d", transit:"r", walk:"w" }[mode] || "w";
   const google = { car:"driving", transit:"transit", walk:"walking" }[mode] || "walking";
   const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -4383,8 +4710,23 @@ async function askExport(){
   $("exportOut").classList.remove("hidden");
   box.classList.remove("hidden");
 
-  // Fotogrößen echt messen, nicht schätzen
-  const all = await PhotoStore.all();
+  // Fotogrößen echt messen, nicht schätzen.
+  // Schlägt der Speicher fehl, bleibt der Knopf nicht stumm stehen –
+  // er sagt, woran es liegt.
+  let all = {};
+  try{
+    all = await PhotoStore.all();
+  }catch(e){
+    exportPhotoCache = null;
+    $("exportSummary").textContent =
+      d.eigeneOrte.length+" eigene "+(d.eigeneOrte.length===1?"Ort":"Orte")+" · "+
+      Object.keys(d.positionskorrekturen).length+" Positionskorrekturen · "+
+      "Bildspeicher nicht lesbar";
+    $("exportPics").disabled = false;
+    $("exportPics").textContent = "Bildspeicher prüfen";
+    $("exportPics").dataset.mode = "diag";
+    return;
+  }
   const mine = Object.keys(all).filter(k=>k.indexOf(CITY.id+"/")===0);
   exportPhotoCache = { all, mine };
   const urls = [];
@@ -4396,10 +4738,16 @@ async function askExport(){
     d.eigeneOrte.length+" eigene "+(d.eigeneOrte.length===1?"Ort":"Orte")+" · "+
     Object.keys(d.positionskorrekturen).length+" Positionskorrekturen · "+
     urls.length+" Fotos ("+kb(raw)+", in der Datei "+kb(inFile)+")";
-  $("exportPics").disabled = mine.length===0;
+  // Der Knopf bleibt immer bedienbar. Ohne Fotos erklärt er, was fehlt,
+  // statt sich grau zu stellen und den Grund zu verschweigen.
+  const fremd = Object.keys(all).length - mine.length;
+  $("exportPics").disabled = false;
+  $("exportPics").dataset.mode = mine.length ? "save" : "empty";
   $("exportPics").textContent = mine.length
     ? "Referenzfotos sichern ("+mine.length+" Stationen)"
-    : "Keine Referenzfotos vorhanden";
+    : (fremd > 0
+        ? "Keine Fotos für "+CITY.name+" – "+fremd+" für andere Städte"
+        : "Noch keine Referenzfotos aufgenommen");
 }
 
 let exportPhotoCache = null;   // wird beim Öffnen gefüllt
@@ -4408,8 +4756,29 @@ let exportPhotoCache = null;   // wird beim Öffnen gefüllt
    Asynchrones liegt. Deshalb liegen die Daten hier schon bereit, und der
    Knopf arbeitet ohne Wartezeit – zuerst über das Teilen-Menü, sonst als Datei. */
 function exportPhotos(){
+  const btn = $("exportPics");
+  const mode = btn && btn.dataset.mode;
+  if(mode === "diag"){
+    const out = $("exportOut");
+    out.classList.remove("hidden");
+    out.textContent = "Der Bildspeicher liess sich nicht lesen.\n\n"
+      + "Tippe unten auf „🩺 Bildspeicher prüfen“ – dort steht die Ursache.\n"
+      + "Häufig hilft: Seite neu laden, oder den privaten Modus verlassen.";
+    return;
+  }
+  if(mode === "empty"){
+    const out = $("exportOut");
+    out.classList.remove("hidden");
+    out.textContent = "Für "+CITY.name+" ist noch kein Referenzfoto gespeichert.\n\n"
+      + "So legst du eines an: eine Station wählen, im Stationsfeld auf\n"
+      + "„📷 Referenzfoto“ tippen und aufnehmen. Danach erscheint es hier.\n\n"
+      + "Die Positionskorrekturen und eigenen Orte oben sind davon unabhängig\n"
+      + "und lassen sich schon jetzt sichern.";
+    return;
+  }
   const c = exportPhotoCache;
-  if(!c || !c.mine.length){ UI.playState("Keine Referenzfotos vorhanden – Feld einmal schließen und neu öffnen."); return; }
+  if(!c || !c.mine.length){
+    UI.playState("Keine Referenzfotos vorhanden – Feld einmal schließen und neu öffnen."); return; }
   const all = c.all, mine = c.mine;
   const lines = mine.map(k=>{
     const id = k.slice(CITY.id.length+1);
@@ -4547,6 +4916,8 @@ function boot(cityId, useGps){
   $("volVal").textContent = Math.round(State.volume*100)+" %";
   $("rate").value = State.rate;
   $("rateVal").textContent = rateLabel(State.rate);
+  Speech.pickVoice();
+  bindVoiceControls();
   UI.playButtons();
 
   // Sprachausgabe innerhalb der Nutzergeste freischalten (iOS-Voraussetzung)
@@ -4614,6 +4985,63 @@ $("btnStop").onclick  = ()=>{
   UI.playProgress(); UI.playState("Gestoppt.");
 };
 $("arrivalStart").onclick = e => playPoi(e.currentTarget.dataset.poi);
+$("arrivalLater").onclick = ()=>{
+  $("arrival").classList.add("hidden");
+  UI.playState("Bereit – starte die Führung, wenn du soweit bist.");
+};
+
+// ---- Stimmenliste füllen und bedienen ----------------------------------
+function fillVoiceList(){
+  const sel = $("voiceSel"); if(!sel) return;
+  const list = Speech.germanVoices().slice().sort((a,b)=>Speech.score(b)-Speech.score(a));
+  sel.innerHTML = "";
+  const auto = document.createElement("option");
+  auto.value = ""; auto.textContent = "Automatisch";
+  sel.appendChild(auto);
+  list.forEach(v=>{
+    const o = document.createElement("option");
+    o.value = v.voiceURI; o.textContent = Speech.voiceLabel(v);
+    sel.appendChild(o);
+  });
+  sel.value = State.voiceURI || "";
+  if(!list.length){
+    auto.textContent = "Keine deutsche Stimme gefunden";
+    sel.disabled = true;
+  } else { sel.disabled = false; }
+}
+
+function speakVoiceSample(){
+  if(!("speechSynthesis" in window)) return;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(
+      "Willkommen in Krudenburg. Bleib am Ortseingang kurz stehen und schau zu dem schmalen Turm.");
+    u.lang = CONFIG.SPEECH_LANG;
+    u.volume = State.volume;
+    u.rate = State.rate || CONFIG.SPEECH_RATE;
+    if(Speech.voice) u.voice = Speech.voice;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+function bindVoiceControls(){
+  const sel = $("voiceSel"); if(!sel) return;
+  fillVoiceList();
+  sel.addEventListener("change", ()=>{
+    State.voiceURI = sel.value || null;
+    Speech.pickVoice();
+    saveState();
+    speakVoiceSample();
+  });
+  const btn = $("voiceTest");
+  if(btn) btn.addEventListener("click", speakVoiceSample);
+  if("speechSynthesis" in window){
+    speechSynthesis.addEventListener
+      ? speechSynthesis.addEventListener("voiceschanged", ()=>{ Speech.pickVoice(); fillVoiceList(); })
+      : (speechSynthesis.onvoiceschanged = ()=>{ Speech.pickVoice(); fillVoiceList(); });
+  }
+}
+
 function rateLabel(r){
   if(r < 0.7)  return "sehr langsam";
   if(r < 0.85) return "langsam";
@@ -4655,7 +5083,10 @@ $("tabPhoto").onclick = ()=>switchMode("photo");
 $("btnList").onclick  = openList;
 $("sheetClose").onclick = ()=>$("sheet").classList.add("hidden");
 $("sheet").onclick = e=>{ if(e.target.id==="sheet") $("sheet").classList.add("hidden"); };
-$("btnRoute").onclick = openRoute;
+$("btnRoute").onclick = ()=>openRoute();
+$("btnWhere").onclick   = whereAmI;
+$("whereClose").onclick = ()=>$("wherePanel").classList.add("hidden");
+$("whereLens").onclick  = openLens;
 $("gpsState").onclick    = toggleGps;
 $("btnHints").onclick    = toggleHints;
 function toggleTop(){
@@ -4727,6 +5158,45 @@ $("refTest").onclick     = async ()=>{
   try{ out.textContent = await PhotoStore.selftest(); }
   catch(e){ out.textContent = "Selbsttest abgebrochen: " + e; }
 };
+
+const _vd = $("voiceDiag");
+if(_vd) _vd.onclick = ()=>{
+  const out = $("calibOut");
+  out.classList.remove("hidden");
+  if(!("speechSynthesis" in window)){
+    out.textContent = "Dieses Gerät bietet keine Sprachausgabe im Browser.";
+    return;
+  }
+  const all = speechSynthesis.getVoices();
+  const de  = Speech.germanVoices();
+  const L = [];
+  L.push("Stimmen insgesamt: " + all.length + " · davon deutsch: " + de.length);
+  L.push("");
+  if(!de.length){
+    L.push("Keine deutsche Stimme gefunden. Lade die Seite neu –");
+    L.push("manche Browser liefern die Liste erst verzögert.");
+  } else {
+    const best = de.slice().sort((a,b)=>Speech.score(b)-Speech.score(a));
+    best.forEach(v=>{
+      const mark = (Speech.voice && v.voiceURI===Speech.voice.voiceURI) ? "▶ " : "   ";
+      L.push(mark + v.name + "  [" + v.lang + "]");
+      L.push("      " + (v.localService ? "auf dem Gerät" : "online") + " · Rang " + Speech.score(v));
+    });
+  }
+  L.push("");
+  const ua = navigator.userAgent;
+  const iOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform==="MacIntel" && navigator.maxTouchPoints>1);
+  if(iOS){
+    L.push("Hinweis für iPhone und iPad:");
+    L.push("Safari darf nur die eingebauten Stimmen verwenden.");
+    L.push("Premium- oder erweiterte Stimmen, die du in den");
+    L.push("Bedienungshilfen geladen hast, erscheinen hier nicht");
+    L.push("und lassen sich im Browser nicht auswählen.");
+    L.push("Das ist eine Beschränkung des Systems, kein Fehler der App.");
+  }
+  out.textContent = L.join("\n");
+};
+
 $("calibShow").onclick   = calibShow;
 $("calibClear").onclick  = calibClear;
 $("calibCancel").onclick = ()=>$("calibBox").classList.add("hidden");
