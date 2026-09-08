@@ -178,6 +178,19 @@ main{flex:1;padding:16px 14px 8px;display:flex;flex-direction:column;gap:14px}
 .refphoto .cap+.pstrip{margin-top:12px}
 .refphoto .cap{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:6px}
 .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+
+/* Sichtbarer Fokus für Tastatur- und Schaltersteuerung.
+   :focus-visible zeigt ihn nur dort, wo er gebraucht wird –
+   beim Tippen mit dem Finger bleibt die Oberfläche ruhig. */
+button:focus-visible, a:focus-visible, input:focus-visible,
+select:focus-visible, [tabindex]:focus-visible{
+  outline:3px solid #0E4C60;
+  outline-offset:2px;
+  border-radius:8px;
+}
+@media (prefers-contrast: more){
+  button:focus-visible, a:focus-visible{ outline-width:4px }
+}
 .tag{
   background:var(--stone);border-radius:9px;padding:5px 10px;
   font-size:12.5px;font-weight:600;color:var(--ink-soft);
@@ -395,13 +408,13 @@ footer{
     <div class="citypick" id="citypick">
       <button class="cityopt on" data-city="split"><b>🇭🇷 Split</b><span>Diokletianpalast · 17 Orte</span></button>
       <button class="cityopt" data-city="trieste"><b>🇮🇹 Triest</b><span>Altstadt · Miramare · Karst · 3 Tage</span></button>
-      <button class="cityopt" data-city="huenxe"><b>🏡 Hünxe</b><span>Krudenburg · Gartrop · 2 Tage</span></button>
+      <button class="cityopt" data-city="huenxe"><b>🏡 Hünxe</b><span>Krudenburg · Gartrop · Drevenack · 3 Tage</span></button>
     </div>
     <button class="btn-primary" id="startBtn">🎧 Audio Tour starten</button>
     <button class="btn-ghost" id="startNoGps">Ohne Standort fortfahren</button>
     <div id="bootError" style="display:none;background:#B3311F;color:#fff;border-radius:12px;
          padding:12px;margin-top:12px;font-size:13px;text-align:left;line-height:1.4"></div>
-    <p class="ver">Stand: 08.09.2026 x · 63 Stationen · 225 Detailpunkte</p>
+    <p class="ver">Stand: 09.09.2026 q · 63 Stationen · 225 Detailpunkte</p>
     <p class="foot">
       Beim Start fragt der Browser nach dem Standort. Nur mit erlaubtem Zugriff
       erkennt der Guide selbst, wo du stehst. Jede Stadt merkt sich ihren
@@ -548,14 +561,38 @@ footer{
       </div>
     </section>
 
-    <!-- MODUS 2: Foto-Führung -->
+    <!-- MODUS 2: Vor Ort bestimmen -->
     <section id="photoMode" class="hidden">
       <div class="card">
-        <div class="eyebrow">Innenraum-Modus</div>
+        <div class="eyebrow">Ohne GPS weiterkommen</div>
         <h3 style="font-size:23px;margin-top:8px">Was sehe ich hier?</h3>
         <p class="desc">
-          In Gebäuden ist GPS oft ungenau. Fotografiere den Raum, das Detail oder die
-          Inschrift vor dir – die Analyse nutzt zusätzlich deinen letzten bekannten Standort.
+          In Gebäuden und engen Gassen ist die Ortung ungenau. Hier findest du
+          drei Wege, trotzdem herauszufinden, wovor du stehst.
+        </p>
+
+        <button class="ctrl main" id="btnWhere2" style="width:100%;margin-top:4px;padding:16px;font-size:16px">
+          🧭 Umgebung durchsuchen
+        </button>
+        <div class="privacy" style="margin-top:8px">
+          Nutzt deinen zuletzt bekannten Standort. Zeigt zuerst die Stationen dieses
+          Guides – das geht auch ohne Netz – und danach passende Wikipedia-Artikel
+          mit Bild, sofern eine Verbindung besteht.
+        </div>
+
+        <button class="ctrl" id="btnLens2" style="width:100%;margin-top:14px;padding:16px;font-size:16px">
+          📷 Mit Google Lens bestimmen
+        </button>
+        <div class="privacy" style="margin-top:8px">
+          Öffnet die Bildersuche von Google in einem neuen Fenster. Dort richtest du
+          die Kamera auf das Gebäude oder das Detail. Das geschieht außerhalb dieses
+          Guides; es werden keine Daten von hier übergeben.
+        </div>
+
+        <div class="eyebrow" style="margin-top:20px">Für später festhalten</div>
+        <p class="desc" style="margin-top:6px">
+          Du kannst ein Foto aufnehmen und der aktuellen Station zuordnen – als
+          eigenes Referenzbild oder als Erinnerung an eine offene Frage.
         </p>
         <div class="shot-row">
           <button class="shot" id="btnCapture">📷 Foto aufnehmen</button>
@@ -564,30 +601,17 @@ footer{
         <input type="file" id="fileCapture" accept="image/*" capture="environment" hidden>
         <input type="file" id="filePick" accept="image/*" multiple hidden>
         <div class="thumbs" id="thumbs"></div>
-        <div class="privacy">
-          🔒 Fotos bleiben nur im Arbeitsspeicher, solange dieser Bildschirm offen ist,
-          und werden nicht von selbst gespeichert. Zum Auswerten werden sie einmalig
-          an dein Backend gesendet. Nur wenn du „📌 Zur Station“ tippst, bleibt ein Bild
-          dauerhaft bei der jeweiligen Sehenswürdigkeit.
-        </div>
+        <input class="qinput" id="question" placeholder="Notiz zum Foto, z. B. „Wofür wurde dieser Raum benutzt?“">
+        <div class="chips" id="chips"></div>
         <div class="shot-row hidden" id="photoActions">
           <button class="shot alt" id="btnAttach">📌 Zur Station</button>
           <button class="shot alt" id="btnDropPhotos">🗑 Verwerfen</button>
         </div>
-
-        <input class="qinput" id="question" placeholder="Deine Frage, z. B. „Wofür wurde dieser Raum benutzt?“">
-        <div class="chips" id="chips"></div>
-
-        <div class="eyebrow" style="margin-top:16px">Antwortlänge</div>
-        <div class="chips" id="lenChips">
-          <button class="chip" data-len="short">Kurz · 30 s</button>
-          <button class="chip on" data-len="normal">Normal · 1–2 min</button>
-          <button class="chip" data-len="long">Mehr · bis 3 min</button>
+        <div class="privacy">
+          🔒 Aufgenommene Bilder bleiben auf diesem Gerät. Sie werden nirgendwohin
+          gesendet. Erst mit „📌 Zur Station“ bleiben sie dauerhaft gespeichert und
+          lassen sich später über „Meine Daten“ sichern.
         </div>
-
-        <button class="ctrl main" id="btnAnalyze" style="width:100%;margin-top:16px;padding:18px;font-size:17px">
-          🔎 Foto analysieren
-        </button>
 
         <div id="analysisOut"></div>
       </div>
@@ -599,7 +623,7 @@ footer{
       <div class="progressline" id="progressLine">Tourfortschritt: 0 von 17 Sehenswürdigkeiten</div>
       <div class="tabs">
         <button class="tab on" id="tabGps">🎧 GPS-FÜHRUNG</button>
-        <button class="tab" id="tabPhoto">📷 FOTO-FÜHRUNG</button>
+        <button class="tab" id="tabPhoto">🧭 OHNE GPS</button>
       </div>
       <div class="more">
         <button id="btnList">📍 Alle Orte</button>
@@ -608,21 +632,29 @@ footer{
 
       <div id="moreBox" class="hidden">
         <div class="more">
-          <button id="btnAdd">➕ Eigener Ort</button>
-          <button id="btnHints">🔔 Hinweise: an</button>
-        </div>
-        <div class="more">
           <button id="btnTop">⭐ Kurzfassung: aus</button>
           <button id="btnNav">🧭 Wegansage: an</button>
         </div>
         <div class="more">
-          <button id="btnCalib">🎯 Position &amp; Foto</button>
-          <button id="btnExport">⬇️ Meine Daten</button>
+          <button id="btnHints">🔔 Hinweise: an</button>
+          <button id="btnOffline">🗺 Karte offline</button>
         </div>
         <div class="more">
-          <button id="btnOffline">🗺 Karte offline</button>
-          <button id="btnReset">🔄 Zurücksetzen</button>
+          <button id="btnAdd">➕ Eigener Ort</button>
+          <button id="btnTech">🔧 Technik</button>
         </div>
+      </div>
+
+      <div id="techBox" class="resetbox hidden">
+        <div class="rb-title">Technik</div>
+        <div class="rb-sub" style="text-align:left">
+          Alles, was man unterwegs selten braucht: Position korrigieren,
+          Fotos, Daten sichern und Diagnosen.
+        </div>
+        <button id="btnCalib" class="rb-opt">🎯 Position &amp; Foto</button>
+        <button id="btnExport" class="rb-opt">⬇️ Meine Daten sichern</button>
+        <button id="btnReset" class="rb-opt">🔄 Fortschritt zurücksetzen</button>
+        <button id="techCancel" class="rb-cancel">Schließen</button>
       </div>
 
       <div id="offlineBox" class="resetbox hidden">
@@ -666,11 +698,18 @@ footer{
         <button id="refPick" class="rb-opt">🖼 Referenzfoto aus Fotos wählen</button>
         <input type="file" id="refInput" accept="image/*" capture="environment" hidden>
         <input type="file" id="refInput2" accept="image/*" hidden>
-        <button id="gpsTest" class="rb-opt">🩺 Ortung prüfen</button>
-        <button id="refTest" class="rb-opt">🩺 Bildspeicher prüfen</button>
-        <button id="voiceDiag" class="rb-opt">🩺 Stimmen prüfen</button>
         <button id="calibShow" class="rb-opt">Korrekturen anzeigen</button>
         <button id="calibClear" class="rb-opt">Korrekturen löschen</button>
+        <button id="diagMore" class="rb-opt" style="margin-top:10px">🩺 Prüfen &amp; Aufräumen …</button>
+        <div id="diagBox" class="hidden">
+          <button id="gpsTest" class="rb-opt">🩺 Ortung prüfen</button>
+          <button id="refTest" class="rb-opt">🩺 Bildspeicher prüfen</button>
+          <button id="voiceDiag" class="rb-opt">🩺 Stimmen prüfen</button>
+          <button id="verDiag" class="rb-opt">🩺 Welcher Stand läuft?</button>
+          <button id="libClear" class="rb-opt">🧹 Kartenspeicher leeren</button>
+          <button id="refClear" class="rb-opt">🧹 Eigene Fotos dieser Stadt löschen</button>
+          <button id="dbgToggle" class="rb-opt">🐞 Konsolenausgabe umschalten</button>
+        </div>
         <button id="calibCancel" class="rb-cancel">Schließen</button>
         <pre class="payload hidden" id="calibOut"></pre>
       </div>
@@ -712,7 +751,125 @@ window.addEventListener("error", function(e){
                   (e.lineno ? "  (Zeile " + e.lineno + ")" : "");
 });
 </script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+/* Fehlersammler. Muss vor allem anderen stehen, damit auch frühe
+   Fehler erfasst werden. „Script error." ohne Text bedeutet, dass der
+   Fehler in einer fremd geladenen Datei auftrat – dann fehlt der Inhalt. */
+window.__fehler = [];
+
+/* Nicht jede Browser-Ansicht bietet alle console-Methoden an.
+   In der In-App-Ansicht des iPhones fehlt zum Beispiel console.info.
+   Deshalb wird hier nie direkt darauf zugegriffen. */
+window.__log = function(art, text){
+  // Alles wandert in die interne Liste und ist über
+  // „🩺 Welcher Stand läuft?" abrufbar.
+  try{ window.__fehler.push({ text:text, quelle:art, zeile:0 }); }catch(_){}
+  // In die Browser-Konsole nur auf ausdrücklichen Wunsch. Sonst blendet
+  // die App-interne Ansicht eine große Leiste ein, die den Bildschirm frisst.
+  try{
+    if(localStorage.getItem("audioguide-debug") !== "1") return;
+    const c = window.console;
+    if(c && typeof c[art] === "function") c[art](text);
+    else if(c && typeof c.log === "function") c.log(text);
+  }catch(_){}
+};
+// Fehler des Browsers abfangen, damit sie nicht als rote Leiste erscheinen,
+// sondern in der Diagnose nachlesbar sind.
+window.addEventListener("error", e=>{
+  window.__fehler.push({
+    text: e.message || "unbekannt",
+    quelle: (e.filename || "").split("/").pop() || "fremde Datei",
+    zeile: e.lineno || 0
+  });
+});
+window.addEventListener("unhandledrejection", e=>{
+  window.__fehler.push({ text: "Nicht behandelt: " + (e.reason && e.reason.message || e.reason), quelle:"", zeile:0 });
+});
+</script>
+<script>
+/* Leaflet laden – in dieser Reihenfolge:
+   1. aus dem Gerätespeicher, falls schon einmal geholt (geht ohne Netz)
+   2. als gewöhnliches Script-Tag vom Anbieter (braucht keine CORS-Freigabe)
+   3. gar nicht – dann läuft der Guide ohne Karte weiter
+
+   Wichtig: Ein Script-Tag lädt auch dort, wo fetch an CORS scheitert.
+   Deshalb ist es der Hauptweg. Das Ablegen im Gerät wird nur nebenbei
+   versucht und darf folgenlos misslingen. */
+window.LEAFLET_READY = (function(){
+  const URL_JS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+  const KEY = "leaflet-1.9.4-js";
+
+  function db(){
+    return new Promise(res=>{
+      try{
+        const rq = indexedDB.open("audioguide-lib", 1);
+        rq.onupgradeneeded = e => e.target.result.createObjectStore("lib");
+        rq.onsuccess = e => res(e.target.result);
+        rq.onerror   = () => res(null);
+        setTimeout(()=>res(null), 2000);
+      }catch(_){ res(null); }
+    });
+  }
+
+  async function ausSpeicher(){
+    const d = await db(); if(!d) return null;
+    return new Promise(res=>{
+      try{
+        const t = d.transaction("lib","readonly").objectStore("lib").get(KEY);
+        t.onsuccess = () => res(t.result || null);
+        t.onerror   = () => res(null);
+      }catch(_){ res(null); }
+    });
+  }
+
+  async function inSpeicher(code){
+    const d = await db(); if(!d) return;
+    try{ d.transaction("lib","readwrite").objectStore("lib").put(code, KEY); }catch(_){}
+  }
+
+  function ausfuehren(code){
+    try{
+      const el = document.createElement("script");
+      el.textContent = code;
+      document.head.appendChild(el);
+    }catch(_){}
+    return typeof window.L !== "undefined";
+  }
+
+  function perTag(){
+    return new Promise(res=>{
+      const el = document.createElement("script");
+      el.src = URL_JS;
+      el.async = false;
+      el.onload  = () => res(typeof window.L !== "undefined");
+      el.onerror = () => res(false);
+      setTimeout(()=>res(typeof window.L !== "undefined"), 10000);
+      document.head.appendChild(el);
+    });
+  }
+
+  return (async function(){
+    // 1. eigener Vorrat
+    try{
+      const code = await ausSpeicher();
+      if(code && ausfuehren(code)) return true;
+    }catch(_){}
+
+    // 2. gewöhnliches Script-Tag
+    if(await perTag()){
+      // nebenbei für das nächste Mal sichern; scheitert das, ist nichts verloren
+      try{
+        const r = await fetch(URL_JS);
+        if(r.ok) inSpeicher(await r.text());
+      }catch(_){}
+      return true;
+    }
+
+    window.__log("warn", "Leaflet nicht verfügbar – der Guide läuft ohne Karte weiter.");
+    return false;
+  })();
+})();
+</script>
 <script>
 "use strict";
 
@@ -736,6 +893,7 @@ const CONFIG = {
   // Solange dieser Wert leer ist, läuft die App vollständig ohne Claude.
   // ============================================================
   CLAUDE_BACKEND_URL: "",
+  VERSION: "09.09.2026 q",     // eine Stelle für alles: Kopfzeile, Titel, Diagnose
 
   // Referenzfotos: bewusst klein. 560 px reichen, um wiederzuerkennen,
   // wo man steht – und ergeben rund 25 KB pro Bild.
@@ -1090,7 +1248,12 @@ Direkt hinter dem Tor, im Palastinneren, findest du außerdem die Kirche Sveti D
   teaser:"Schau über dem Tor auf die Uhr. Sie hat vierundzwanzig Stunden statt zwölf.",
   details:[
     {t:"Warum die Zählung unten beginnt",
-     a:`Wer Zifferblätter gewohnt ist, stolpert hier über etwas. Die Zählung beginnt nicht oben, sondern unten: Wo bei einer normalen Uhr die Sechs sitzt, steht hier die Vierundzwanzig, und von dort läuft es im Uhrzeigersinn weiter – die Zwei sitzt also auf der Sieben, die Vier auf der Acht. Der Grund ist, dass dies keine Uhr ist, die einfach vierundzwanzig statt zwölf Stunden zeigt. Sie folgt den italienischen Stunden, auch italische Stunden genannt: Gezählt wird von eins bis vierundzwanzig, aber beginnend mit dem Sonnenuntergang. Diese Zählweise stammt aus jüdischer und islamischer Tradition und kam vermutlich über venezianische Kaufleute nach Europa – was zu Split passt, das jahrhundertelang venezianisch war. Unten auf diesem Zifferblatt steht also nicht die Mitte der Nacht, sondern der Übergang in den neuen Tag. Bei einer modernen Vierundzwanzig-Stunden-Uhr steht unten die Null als Mitternacht und oben die Zwölf als Sonnenhöchststand. Gleiche Stelle, andere Bedeutung.`},
+     a:`Wer Zifferblätter gewohnt ist, stolpert hier. Die Zählung beginnt nicht oben. Sie beginnt unten.
+Wo bei einer normalen Uhr die Sechs sitzt, steht hier die Vierundzwanzig. Von dort läuft es im Uhrzeigersinn weiter. Die Zwei sitzt also auf der Sieben. Die Vier auf der Acht.
+Der Grund: Das ist keine Uhr, die einfach vierundzwanzig statt zwölf Stunden zeigt. Sie folgt den italienischen Stunden. Gezählt wird von eins bis vierundzwanzig, aber beginnend mit dem Sonnenuntergang.
+Diese Zählweise stammt aus jüdischer und islamischer Tradition. Nach Europa kam sie vermutlich über venezianische Kaufleute. Das passt zu Split, das jahrhundertelang venezianisch war.
+Unten steht auf diesem Zifferblatt also nicht die Mitte der Nacht. Dort steht der Übergang in den neuen Tag.
+Bei einer modernen Vierundzwanzig-Stunden-Uhr ist es umgekehrt. Unten die Null als Mitternacht, oben die Zwölf als Sonnenhöchststand. Gleiche Stelle, andere Bedeutung.`},
     {t:"Alte Ordnung, neue Zeit",
      a:`Die spannende Frage ist, ob die Uhr heute noch nach der alten Zählung läuft. Sie tut es nicht – und das lässt sich in einem Blick prüfen. Halt deine eigene Uhr daneben. Steht der Zeiger dort, wo du ihn nach heutiger Zeit erwartest, mit der Zwölf oben und der Vierundzwanzig unten, dann zeigt sie schlicht unsere Stunde. Bei italienischer Zählung müsste er weit rechts stehen, denn seit dem Sonnenuntergang des Vortages sind am Vormittag schon sechzehn oder siebzehn Stunden vergangen. Der Unterschied beträgt Dutzende von Grad, den kann man nicht verwechseln. Nachvollziehbar wird damit ein Vorgang, der vielen alten Turmuhren widerfahren ist: Das Werk wurde irgendwann auf die moderne Zeit umgestellt, weil eine echte italische Uhr ständig nachjustiert werden muss – der Sonnenuntergang wandert übers Jahr um Stunden. Das Zifferblatt blieb, wie es war. Du siehst also eine alte Ordnung, die eine neue Zeit anzeigt. Achte außerdem darauf, dass es nur einen Zeiger gibt. Minutenzeiger kamen an Turmuhren erst später auf, und viele haben nie einen bekommen. Ablesbar ist die Stunde, bestenfalls das Viertel – und mehr brauchte damals auch niemand.`},
     {t:"Der älteste Turm Dalmatiens",
@@ -1300,7 +1463,10 @@ const TRIESTE_POIS = [
     {t:"Der alte Hafen dahinter",
      a:`Schau nach Norden, an der Uferlinie entlang. Dort beginnt der Porto Vecchio, der alte Hafen: eine ausgedehnte Fläche mit Lagerhallen, Hydraulikzentrale und Gleisanlagen aus der habsburgischen Zeit. Er wurde ab den siebziger Jahren des neunzehnten Jahrhunderts angelegt, als Triest der wichtigste Seehafen Österreich-Ungarns war, und lag danach jahrzehntelang weitgehend still. Für Triest ist dieses Gelände beides zugleich – der größte Schatz und das größte ungelöste Problem der Stadtentwicklung. Wenn du dort hineinschaust, siehst du Industriearchitektur des neunzehnten Jahrhunderts in einer Vollständigkeit, die selten geworden ist.`},
     {t:"Der Hafen, von dem man wegfuhr",
-     a:`Von Triest aus fuhr man nicht nur mit Waren, sondern auch mit Menschen. Um neunzehnhundert war die Stadt einer der großen Auswandererhäfen Mitteleuropas; die Reedereien des Österreichischen Lloyd und später die Cosulich-Linie brachten Passagiere nach Nord- und Südamerika. Wer aus Böhmen, Ungarn, Galizien oder dem Küstenland aufbrach, kam mit der Bahn hierher, wartete in Sammelunterkünften und ging dann an genau dieser Uferfront an Bord. Für viele war der Blick, den du gerade hast, das Letzte, was sie von Europa sahen.`}
+     a:`Von Triest aus verschiffte man nicht nur Waren. Auch Menschen.
+Um neunzehnhundert war die Stadt einer der großen Auswandererhäfen Mitteleuropas. Der Österreichische Lloyd brachte Passagiere nach Nord- und Südamerika, später die Cosulich-Linie.
+Wer aus Böhmen aufbrach, aus Ungarn, aus Galizien oder dem Küstenland, kam mit der Bahn hierher. Wartete in Sammelunterkünften. Und ging dann an genau dieser Uferfront an Bord.
+Für viele war der Blick, den du gerade hast, das Letzte, was sie von Europa sahen.`}
   ],
   facts:["Pier im alten Passagierhafen","Blick auf die gesamte Uferfront","Zu Fuß rund 10 Minuten bis zur Piazza Unità"],
   next:"molo-audace", transport:"walk",
@@ -1510,7 +1676,10 @@ Der Glockenturm entstand aus dem Vorbau eines römischen Tempels, dessen Reste i
     {t:"Casa del Capitano · Kapelle und Sala Caprin",
      a:`Der Museumsrundgang beginnt im ältesten Teil, dem Haus des Kapitäns von vierzehnhundertachtundsechzig. Der erste Raum ist die spätgotische Kapelle des heiligen Georg; achte im Gewölbe auf das Wappen Friedrichs des Dritten und auf die Buchstabenfolge A E I O U, seine persönliche Devise, deren Bedeutung bis heute umstritten ist. Im Obergeschoss liegt die Sala Caprin, ein venezianisch möblierter Saal mit Truhen, Skulpturen und Gemälden aus dem sechzehnten bis achtzehnten Jahrhundert. An der Decke hängt das wichtigste Bild der Sammlung, ein großformatiger Triumph Venedigs.`},
     {t:"Wehrgänge · Die Waffenkammer",
-     a:`In den überdachten Wehrgängen ist die Waffensammlung untergebracht, und sie ist chronologisch geordnet: Stangenwaffen, Schwerter und Dolche, Armbrüste, dann Feuerwaffen – ein Gang durch die Entwicklung der europäischen Bewaffnung vom Mittelalter bis ins neunzehnte Jahrhundert. Der Kern der Sammlung sind alte städtische Hellebarden, dazu kamen private Sammlungen. Wenn du in der Kathedrale die Hellebarde des heiligen Sergius gesehen hast: Hier siehst du, wie gewöhnlich diese Waffenform in Wahrheit war. Und geh anschließend hinaus auf die offenen Wehrgänge – der Rundblick auf Stadt, Golf und Karst ist der eigentliche Grund, warum die meisten heraufkommen.`},
+     a:`In den überdachten Wehrgängen liegt die Waffensammlung. Sie ist nach Zeit geordnet. Erst Stangenwaffen, dann Schwerter und Dolche, dann Armbrüste, zuletzt Feuerwaffen. Ein Gang durch fünfhundert Jahre europäischer Bewaffnung.
+Den Kern bilden alte städtische Hellebarden. Dazu kamen später private Sammlungen.
+Achte darauf, wenn du in der Kathedrale die Hellebarde des heiligen Sergius gesehen hast. Hier siehst du, wie gewöhnlich diese Waffenform in Wahrheit war.
+Und geh danach hinaus auf die offenen Wehrgänge. Der Rundblick auf Stadt, Golf und Karst ist der eigentliche Grund, warum die meisten heraufkommen.`},
     {t:"Bastione Lalio · Das Lapidario Tergestino",
      a:`Auf der rechten Seite des Hofes führt der Weg hinunter in die Untergeschosse der vieleckigen Bastion. Dort liegt das Lapidario Tergestino, eröffnet zweitausendeins: rund einhundertdreißig Inschriften, Reliefs und Skulpturen aus dem römischen Tergeste, alle in der Stadt selbst gefunden. Sie stammen vom Kapitolshügel, auf dem du gerade stehst, von Heiligtümern, von der Stadtmauer, vom Theater und aus den Gräberfeldern. Auf den Grabsteinen stehen die Namen von Einwohnern, die vor zweitausend Jahren hier lebten. Ein eigener Raum zeigt Mosaikböden einer römischen Meeresvilla aus Barcola – jenem Küstenabschnitt, an dem du auf dem Weg nach Miramare vorbeikommst. Die Villa selbst ist nicht mehr sichtbar, ihre Böden sind hier.`},
     {t:"Zum Schluss · Eine Burg ohne Schlacht",
@@ -1654,7 +1823,9 @@ Damit endet der erste Tag. Miramare heben wir uns auf – das ist keine Station 
     {t:"Die Topolini",
      a:`Die stufenförmigen Betonterrassen am Wasser heißen bei den Triestinern Topolini, Mäuschen – wegen ihrer runden Form, wenn man von oben darauf schaut. Sie entstanden Mitte des zwanzigsten Jahrhunderts, als man das Ufer für alle zugänglich machte. Für Ortsfremde sieht das zunächst nüchtern aus, fast lieblos. Nach einer halben Stunde versteht man das System: Man hat eine ebene Fläche, Schatten aus dem Pinienhain, Wasser in Reichweite und trockene Füße. Es ist keine Strandromantik, es ist eine funktionierende Lösung für eine Küste, die keinen Sand hat.`},
     {t:"Die Barcolana",
-     a:`An einem Sonntag im Oktober findet vor dieser Küste die Barcolana statt, eine Segelregatta, die seit neunzehnhundertneunundsechzig ausgetragen wird. Sie ist offen für jeden, der ein Boot hat, und gilt gemessen an der Zahl der Teilnehmer als eine der größten Regatten der Welt – regelmäßig sind es weit über tausend Boote, die gemeinsam starten. Der Golf ist an diesem Tag von Segeln bedeckt. Wenn du im Oktober hier bist, brauchst du keine Eintrittskarte: Die Küste ist die Tribüne, und der beste Platz ist genau dort, wo du gerade stehst.`}
+     a:`An einem Sonntag im Oktober findet vor dieser Küste die Barcolana statt. Eine Segelregatta, seit neunzehnhundertneunundsechzig.
+Mitmachen darf jeder, der ein Boot hat. Nach der Zahl der Teilnehmer gilt sie als eine der größten Regatten der Welt. Weit über tausend Boote starten gemeinsam. An diesem Tag ist der ganze Golf von Segeln bedeckt.
+Wenn du im Oktober hier bist, brauchst du keine Eintrittskarte. Die Küste ist die Tribüne. Und der beste Platz ist genau der, auf dem du gerade stehst.`}
   ],
   facts:[
     "Rund zwei Kilometer lange Promenade",
@@ -1841,9 +2012,17 @@ const HUENXE_POIS = [
   teaser:"Der schmale Turm am Ortseingang ist kein Denkmal, sondern in Betrieb. Das Bild daran erklärt, wovon das Dorf gelebt hat.",
   details:[
     {t:"Der älteste Trafoturm",
-     a:`Dieser Turm ist mehr als ein Bilderträger. Nach Angaben des Betreibers RWE war er zweitausendzwölf rund hundert Jahre alt und damit der älteste Transformatorenturm in dessen Besitz – gebaut also um neunzehnhundertzwölf. Im Inneren wird Hochspannung von zehntausend Volt in Niederspannung umgewandelt und versorgt damit die Häuser und Höfe im Umkreis von etwa fünfhundert Metern. Der Transformator selbst stammt aus den achtziger Jahren, die Stromschienen aus den fünfziger oder sechziger. Solche Türme werden längst nicht mehr gebaut; beim Umbau der Netze übernimmt ein grüner Kasten am Straßenrand ihre Aufgabe. Für Krudenburg hieße das der Abriss – deshalb wurde bereits zweitausendzwölf zwischen dem Betreiber, dem Heimatverein Hünxe und der Dorfgemeinschaft über einen Erhalt gesprochen. Dass der Turm heute noch steht, spricht dafür, dass daraus etwas geworden ist.`},
+     a:`Dieser Turm trägt nicht nur ein Bild. Er arbeitet.
+Der Betreiber RWE nannte ihn zweitausendzwölf rund hundert Jahre alt. Damit war er der älteste Transformatorenturm in dessen Besitz. Gebaut also um neunzehnhundertzwölf.
+Drinnen wird Hochspannung umgewandelt, zehntausend Volt. Der Strom versorgt die Häuser und Höfe im Umkreis von etwa fünfhundert Metern. Der Transformator stammt aus den achtziger Jahren, die Stromschienen sind noch älter.
+Solche Türme baut niemand mehr. Wenn die Netze umgebaut werden, übernimmt ein grüner Kasten am Straßenrand die Aufgabe. Für den Turm hieße das: Abriss.
+Deshalb sprachen schon zweitausendzwölf der Betreiber, der Heimatverein Hünxe und die Dorfgemeinschaft über einen Erhalt. Dass der Turm heute noch steht, spricht dafür, dass daraus etwas geworden ist.`},
     {t:"Das Bild, das umgezogen ist",
-     a:`Sieh dir das Bild genauer an. Es hängt heute als gerahmte Tafel hinter Glas an der Wand – ursprünglich war dasselbe Motiv unmittelbar auf den Putz des Turms gemalt, in deutlich größerem Format und ohne Rahmen. Bei einer Erneuerung des Putzes ging die Malerei verloren. Übernommen wurde das Motiv aber vollständig: dieselben zwei Männer in derselben Haltung, derselbe Kahn mit der Figur am Ruder, sogar derselbe Schriftzug Lippetreidler in Schreibschrift darunter. Es ist also keine Ersetzung durch etwas Neues, sondern eine Rettung im kleineren Maßstab. Damit reiht sich dieser Turm in ein Muster ein, das dir in Krudenburg noch mehrfach begegnen wird: Die Fähre ist verschwunden, die Mühle im Fluss ist verschwunden, der Hafen ist trocken. Geblieben ist jedes Mal eine verkleinerte Form.`},
+     a:`Sieh dir das Bild genauer an. Heute hängt es als gerahmte Tafel hinter Glas.
+Früher war dasselbe Motiv direkt auf den Putz gemalt. Viel größer. Ohne Rahmen. Beim Erneuern des Putzes ging die Malerei verloren.
+Das Motiv aber blieb, vollständig. Dieselben zwei Männer in derselben Haltung. Derselbe Kahn mit der Figur am Ruder. Sogar derselbe Schriftzug darunter, in Schreibschrift: Lippetreidler.
+Es wurde also nichts ersetzt. Es wurde etwas gerettet, nur kleiner.
+Damit passt dieser Turm in ein Muster, das dir in Krudenburg noch öfter begegnet. Die Fähre ist weg. Die Mühle im Fluss ist weg. Der Hafen ist trocken. Geblieben ist jedes Mal eine verkleinerte Form.`},
     {t:"Ein halbes Dorf auf der Denkmalliste",
      a:`Krudenburg steht nicht nur als Ensemble unter Schutz – einzelne Häuser sind eigens in der Denkmalliste der Gemeinde eingetragen. Dorfstraße vier, fünf, sechs und zehn, dazu Lippeweg fünf und natürlich Haus Krudenburg selbst in der Dorfstraße vierzehn. Die meisten dieser Wohnhäuser werden um achtzehnhundertfünfzig datiert, das Haus am Lippeweg auf achtzehnhundertfünfundvierzig. Dass sie alle aus derselben knappen Zeitspanne stammen, ist kein Zufall: Es ist die Folge des Brandes vom achtundzwanzigsten Juni achtzehnhundertvierundvierzig, nach dem der Ortskern binnen eines Jahres neu aufgebaut wurde. Wenn du gleich die Dorfstraße hinuntergehst, kannst du an den Hausnummern ablesen, welche Gebäude gemeint sind.`}
   ],
@@ -1864,7 +2043,10 @@ Wir gehen jetzt ins Dorf hinein. Der erste Halt liegt noch am Rand, am Krudenbur
     {t:"Siebzehn Jahre",
      a:`Dieser Friedhof wurde nur zwischen achtzehnhundertachtundsiebzig und achtzehnhundertfünfundneunzig belegt – siebzehn Jahre. Das ist außergewöhnlich kurz. Jüdische Friedhöfe sind auf Dauer angelegt; ein Grab wird nach jüdischem Verständnis nicht neu belegt, weshalb solche Anlagen oft Jahrhunderte in Gebrauch bleiben. Hier war es nicht einmal eine Generation. Der Grund liegt in der Bevölkerungsentwicklung: Bis zur Mitte des neunzehnten Jahrhunderts wuchs die Zahl jüdischer Einwohner in Schermbeck, Brünen und Krudenburg deutlich an, danach ging sie wieder zurück. Der Friedhof wurde angelegt, als die kleine Gemeinschaft ihren Höhepunkt schon überschritten hatte, und er wurde nicht mehr gebraucht, als sie fortzog.`},
     {t:"Vier Familien",
-     a:`In den siebziger bis neunziger Jahren des neunzehnten Jahrhunderts lebten in Krudenburg offenbar vier jüdische Familien: Seligmann Wolf, Aaron Wolf, van Gelder und Katzenstein. Sie gehörten zur Gemeinde Schermbeck und nutzten deren Synagoge – rund elf Kilometer entfernt, für damalige Verhältnisse ein weiter Weg, der zu Fuß oder mit dem Fuhrwerk zurückgelegt wurde. Bestattet wurde jedoch hier, im eigenen Ort. Das sagt etwas über beides: über die Zugehörigkeit zu einer größeren Gemeinde und über die Verbundenheit mit dem Dorf, in dem man lebte.`},
+     a:`In den siebziger bis neunziger Jahren des neunzehnten Jahrhunderts lebten hier vier jüdische Familien. Sie hießen Seligmann Wolf, Aaron Wolf, van Gelder und Katzenstein.
+Zur Synagoge gingen sie nach Schermbeck, elf Kilometer weit. Zu Fuß oder mit dem Fuhrwerk. Für damalige Verhältnisse ein weiter Weg.
+Begraben aber haben sie ihre Toten hier, im eigenen Dorf.
+Das sagt etwas über beides: über die Zugehörigkeit zu einer größeren Gemeinde, und über die Verbundenheit mit dem Ort, in dem man lebte.`},
     {t:"Der Gedenkstein der Familie Wolf",
      a:`Auf dem Friedhof steht eine Steinplatte, die neunzehnhundertsechsundsechzig von Nachfahren der hier bestatteten Familie Wolf gestiftet wurde. Sie nennt fünf Namen: Joseph, seine Frau Rahel, den Sohn Aaron, genannt Raphael, und die Töchter Dina und Sarala. Die Sterbedaten liegen zwischen achtzehnhundertsechsundsechzig und achtzehnhundertfünfundneunzig, jeweils nach jüdischem und nach bürgerlichem Kalender. Der Text schließt mit einer Formel, die auf zahllosen jüdischen Grabsteinen steht: Ihre Seelen seien gebunden im Bündel des Lebens. Neunzehnhunderteinundachtzig besuchte eine Delegation aus Israel den Friedhof. Wer eine Familie sucht, die von hier fortging und nicht vergaß, findet sie in diesem einen Stein.`},
     {t:"Unterricht im Haus Aaron Wolf",
@@ -1904,7 +2086,10 @@ Wenn du hingehst: Männer bedecken traditionell den Kopf, und Steine statt Blume
     {t:"Die Kirche, die verschwinden sollte",
      a:`Achtzehnhundertsechsundzwanzig wurden die Ruine der Burgkirche und das Gesindehaus auf dem Vorhof abgerissen. In der örtlichen Überlieferung heißt es dazu, nichts solle mehr an Schloss und Burgherrlichkeit erinnern. Das ist eine bemerkenswerte Absicht: Hier wurde nicht abgerissen, weil etwas baufällig war, sondern weil eine Erinnerung weg sollte. Ein Jahr später verkaufte die Freifrau von Nagell Mühle und Brücke, kurz darauf ging die Herrschaft an eine bürgerliche Familie über. Was übrig blieb, ist ausgerechnet der Turm der Vorburg – das Wirtschaftsgebäude. Die Herrschaft ist verschwunden, ihr Nebengebäude steht.`},
     {t:"Das Archiv im Turm",
-     a:`Der Dichter Erich Bockemühl, der über dieses Tal geschrieben hat, erwähnt beiläufig etwas Bemerkenswertes: In dem Turm, der von der längst verschwundenen Burg übrig blieb, seien alte Papiere aufbewahrt worden – Schriften zur Geschichte des Tales. Das passt zu einer älteren Nachricht: Als achtzehnhundertsiebzig französische Plünderungsabteilungen erschienen, brachte man das Hünxer Kirchenarchiv eilig auf das feste Schloss Krudenburg. Der Turm, den du vor dir siehst, war also nicht nur ein Wirtschaftsgebäude, sondern zeitweise der sicherste Ort der Gegend. Was in einer Landschaft ohne Berge zählte, war nicht Höhe, sondern dicke Mauern und Wasser ringsum.`},
+     a:`Der Dichter Erich Bockemühl hat über dieses Tal geschrieben. Beiläufig erwähnt er etwas Bemerkenswertes. In dem Turm, der von der Burg übrig blieb, seien alte Papiere aufbewahrt worden. Schriften zur Geschichte des Tales.
+Das passt zu einer älteren Nachricht. Sechzehnhundertsiebzig erschienen hier französische Plünderungsabteilungen. Da brachte man das Hünxer Kirchenarchiv eilig auf das feste Schloss Krudenburg.
+Der Turm vor dir war also mehr als ein Wirtschaftsgebäude. Er war zeitweise der sicherste Ort der Gegend.
+In einer Landschaft ohne Berge zählte eben nicht die Höhe. Es zählten dicke Mauern und Wasser ringsum.`},
     {t:"Wo etwas versunken ist",
      a:`Zum Umgang mit solchen Orten gibt es eine überlieferte Vorstellung, die Josef Wolff im Heimatkalender von neunzehnhundertachtundsechzig unter den niederrheinischen Gebräuchen festgehalten hat: Die Stelle, an der ein Schloss, eine Mühle oder ein Hof versunken ist, galt nach dem Abendläuten als unheimlich. Zur Geisterstunde gehe dort der Geist des früheren Bewohners um, bis ihn jemand anspricht und seinen Wunsch erfüllt. Für Krudenburg ist das ungewöhnlich passend, denn hier trifft beides zu: eine verschwundene Burg und eine verschwundene Mühle, die sogar wörtlich im Wasser versank. Ernst nehmen muss man es nicht. Aber man sollte wissen, wie Menschen früher über Plätze dachten, an denen etwas fehlt.`}
   ],
@@ -1931,7 +2116,11 @@ Am Infoschild an der Mauer findest du eine Gravur des Hafens und des alten Dorfk
     {t:"Warum es kein Halten gab",
      a:`Der Lehrer Gaecks hat beschrieben, wie Krudenburg vor achtzehnhundertvierundvierzig aussah, und es klingt nicht wie ein Idyll. Fachwerkhäuser aus Eichen- oder Kiefernholz, die eher schief als gerade standen. Die Gefache mit Lehm gefüllt, der mit Stroh durchknetet und um Stangen geflochten war. Dächer aus Reetstroh, nur teils mit Pfannen. Im Inneren offene Feuerstellen, über denen an einer langen Kette der Kessel hing; der Rauch zog durch ein Loch über der Tür ab. Glas war für die meisten zu teuer, in den Fenstern steckte geöltes Papier. Bei dieser Enge löst nicht nur Funkenflug eine Katastrophe aus, sondern der Brand springt quer von Haus zu Haus. Wer heute die Backsteinwände sieht, sieht die Antwort auf diese Nacht.`},
     {t:"Häuser, die nicht brennen können",
-     a:`Josef Wolff hat im Heimatkalender von neunzehnhundertachtundsechzig alte niederrheinische Vorstellungen gesammelt, und zwei davon lesen sich nach dem Brand von achtzehnhundertvierundvierzig anders als gedacht. Die eine: Ein altes Haus, in dem die Heinzelmännchen gewohnt oder das sie sogar erbaut haben, werde durch Feuer nicht zerstört. Die andere: In der Mainacht solle jeder Hausherr drei Kreuze auf die Hoftüren zeichnen, um die Wetterhexen zu vertreiben, die durch Blitz und Gewitter Schaden anrichten. In einem Dorf, das ein Blitz in einer Gewitternacht fast ausgelöscht hat, sind das keine Kuriositäten, sondern der Versuch, mit einer Gefahr umzugehen, gegen die es sonst nichts gab. Die Feuerspritze kam zwei Jahre vor dem Brand.`},
+     a:`Josef Wolff hat neunzehnhundertachtundsechzig alte niederrheinische Vorstellungen gesammelt. Zwei davon klingen nach dem Brand von achtzehnhundertvierundvierzig anders als gedacht.
+Die erste: Ein altes Haus, in dem die Heinzelmännchen gewohnt haben, werde durch Feuer nicht zerstört. Erst recht nicht, wenn sie es selbst erbaut haben.
+Die zweite: In der Mainacht solle jeder Hausherr drei Kreuze auf die Hoftüren zeichnen. Gegen die Wetterhexen, die durch Blitz und Gewitter Schaden anrichten.
+In einem Dorf, das ein Blitz in einer Gewitternacht fast ausgelöscht hat, sind das keine Kuriositäten. Es war der Versuch, mit einer Gefahr umzugehen, gegen die es sonst nichts gab.
+Die Feuerspritze kam zwei Jahre vor dem Brand.`},
     {t:"Wiederaufbau in einem Jahr",
      a:`Das Bemerkenswerteste an dieser Geschichte ist nicht der Brand, sondern das Tempo danach. Innerhalb eines Jahres, bis achtzehnhundertfünfundvierzig, war das Dorf wieder aufgebaut – und zwar in Vollziegel statt in Fachwerk mit Stroh. Möglich war das aus zwei Gründen. Erstens gab es keine Feuerversicherung: Krudenburg zählte im Clever Land zu den Dörfern ohne Versicherungswert. An ihre Stelle trat die Nachbarschaft. Die Kirchengemeinde Drevenack brachte eine Sammlung auf den Weg, Obrighoven und Wesel schlossen sich an, geholfen wurde mit Geld, Sachleistungen und Handarbeit. Zweitens blühte damals in Krudenburg der Schiffsbau; Handwerker und Werkzeug waren im Ort. Achtzehnhundertzweiundfünfzig legten der Gemeindevorsteher Benninghoff und der Drevenacker Pfarrer über den Wiederaufbau Rechenschaft ab.`},
     {t:"Die Jahreszahl in der Wand",
@@ -1981,9 +2170,17 @@ Weiter geht es zum Rastplatz mit den Tafeln zum Treidelbetrieb.
   lat:51.65061, lon:6.75749, radius:40, day:1,
   details:[
     {t:"Der Kilometerstein",
-     a:`Neben dem Brunnen steht eine rostbraune Stahlplatte mit ausgeschnittenen römischen Ziffern: C C L X V I I, also zweihundertsiebenundsechzig, und daneben klein die Angabe Kilometer. Es ist ein Kilometerstein der Römer-Lippe-Route, eines Radfernwegs, der dem Fluss von der Quelle bis zur Mündung folgt. Dass die Zahl römisch geschrieben ist, hat einen Grund: Die Römer nutzten die Lippe als Verkehrsweg ins Innere Germaniens, und an ihrem Lauf lagen mehrere Lager. Der Stahl ist bewusst unbehandelt gelassen, er rostet und wird mit den Jahren dunkler. Für dich ist die Platte vor allem eines: der Beleg dafür, dass durch dieses Dorf eine überregionale Route führt – und die Erklärung, warum hier an Wochenenden so viele Räder stehen.`},
+     a:`Neben dem Brunnen steht eine rostbraune Stahlplatte. Schau sie dir an.
+Darin sind Ziffern ausgeschnitten, aber römische. C, C, L, X, V, I, I. Zusammen ergibt das zweihundertsiebenundsechzig. Klein daneben steht: Kilometer.
+Es ist ein Kilometerstein. Er gehört zur Römer-Lippe-Route, einem Radweg, der dem Fluss von der Quelle bis zur Mündung folgt.
+Warum römische Ziffern? Weil die Römer die Lippe als Verkehrsweg benutzten. An ihrem Lauf lagen mehrere Lager.
+Und noch ein Detail: Der Stahl bleibt absichtlich unbehandelt. Er rostet. Er wird jedes Jahr ein Stück dunkler.
+Für dich sagt diese Platte vor allem eines. Durch dieses Dorf führt eine überregionale Route. Deshalb stehen hier an Wochenenden so viele Räder.`},
     {t:"Warum ein Frosch",
-     a:`Der Frosch ist das Wahrzeichen von Krudenburg, und er verweist auf den Ortsnamen. Dieser wird nach gängiger Deutung von Krötenburg abgeleitet – als sicher gilt das nicht, aber es ist die Erklärung, die vor Ort auf den Informationstafeln steht. Das klingt wenig herrschaftlich für einen Rittersitz, passt aber genau zur Lage: Ein Dorf in der Lippeaue, zwischen Fluss, Altarmen und feuchten Wiesen, hat Kröten und Frösche im Überfluss. Wo andere Orte sich nach einem Heiligen oder einem Adelsgeschlecht benennen, hat dieser sich nach dem benannt, was hier am lautesten war. Wenn du im Frühjahr abends am Wasser stehst, hörst du, warum.`},
+     a:`Der Frosch ist das Wahrzeichen von Krudenburg. Er verweist auf den Ortsnamen. Der wird meist von Krötenburg abgeleitet. Sicher ist das nicht, aber so steht es auf den Tafeln im Ort.
+Für einen Rittersitz klingt das wenig herrschaftlich. Zur Lage passt es dafür genau. Ein Dorf in der Lippeaue, zwischen Fluss, Altarmen und nassen Wiesen, hat Kröten und Frösche im Überfluss.
+Andere Orte benennen sich nach einem Heiligen oder einem Adelsgeschlecht. Dieser hat sich nach dem benannt, was hier am lautesten war.
+Steh im Frühjahr abends am Wasser. Dann hörst du, warum.`},
     {t:"Drei Hochwasser auf einer Tafel",
      a:`Am Sockel unter dem Frosch sitzt eine kleine Metalltafel mit der Überschrift Hochwasser. Darauf sind drei Daten festgehalten, jeweils mit einer Linie für den erreichten Stand: der vierundzwanzigste Januar achtzehnhundertneunundachtzig, der siebenundzwanzigste November achtzehnhundertneunzig und der zwölfte Februar neunzehnhundertsechsundvierzig. Zwei davon liegen keine zwei Jahre auseinander – für die Menschen, die das erlebt haben, war das kein historisches Ereignis, sondern eine Wiederholung. Die Striche sind nüchterner als jeder Text: Wer hier wohnte, wusste, wie hoch das Wasser kommen kann. Und das Denkmal dafür steht mitten im Dorf, nicht am Ufer.`},
     {t:"Der Brunnen ist jünger als er aussieht",
@@ -2011,7 +2208,10 @@ Schau dich von hier einmal im Kreis um, dann hinüber zur Brücke. Dort endet un
   lat:51.65037, lon:6.75504, radius:43, day:1,
   details:[
     {t:"Die Tafel mit den Preisen",
-     a:`Gegenüber dem Denkmal steht eine hölzerne Tafel unter einem kleinen Satteldach, oben das geschnitzte Wappen des Dorfes. Darauf sind in Sprossen die Auszeichnungen aus dem Wettbewerb Unser Dorf soll schöner werden festgehalten: neunzehnhundertsiebenundsiebzig ein Sonderpreis auf Kreisebene, neunzehnhundertneunundsiebzig Bronze im Kreis, einundachtzig Silber im Kreis und erster Platz mit Silber auf Landesebene, dreiundachtzig Gold im Kreis sowie Silber und ein Sonderpreis im Land. Dazu Gold auf Landesebene und Bronze im Bundeswettbewerb. Was diese Reihe erzählt, ist ein Aufstieg über sechs Jahre: erst Kreis, dann Land, dann Bund. Und sie fällt in dieselben Jahre wie der Froschbrunnen von neunzehnhundertneunundsiebzig – ein Dorf, das kurz zuvor seine Selbstständigkeit an Hünxe verloren hatte und sich stattdessen einen Namen machte.`},
+     a:`Gegenüber dem Denkmal steht eine hölzerne Tafel unter einem kleinen Satteldach. Oben das geschnitzte Wappen des Dorfes.
+Darauf stehen, Sprosse für Sprosse, die Auszeichnungen aus dem Wettbewerb Unser Dorf soll schöner werden. Es beginnt neunzehnhundertsiebenundsiebzig mit einem Sonderpreis im Kreis. Zwei Jahre später Bronze im Kreis. Einundachtzig Silber im Kreis, dazu der erste Platz mit Silber im Land. Dreiundachtzig Gold im Kreis, Silber und ein Sonderpreis im Land. Und schließlich Gold im Land und Bronze im Bund.
+Lies die Reihe von unten nach oben, dann siehst du einen Aufstieg in sechs Jahren. Erst der Kreis. Dann das Land. Dann der Bund.
+Es sind dieselben Jahre wie beim Froschbrunnen von neunzehnhundertneunundsiebzig. Ein Dorf hatte kurz zuvor seine Selbstständigkeit an Hünxe verloren. Und machte sich stattdessen einen Namen.`},
     {t:"Crudenburg mit C",
      a:`Lies die Inschrift genau. Als Stifter steht dort die Gemeinde Crudenburg, mit C geschrieben. Diese Schreibweise war früher üblich und begegnet dir in älteren Urkunden immer wieder; das Dorf führt sie bis heute als Nebenform. Am Ortseingang steht sie sogar auf einem Schild. Für sich genommen ist das eine Kleinigkeit, aber sie datiert das Denkmal indirekt: Es stammt aus einer Zeit, in der man den Ort so schrieb – und in der eine Gemeinde Crudenburg noch eigenständig genug war, um als Stifterin aufzutreten. Erst neunzehnhundertfünfundsiebzig wurde Krudenburg Teil der Gemeinde Hünxe.`},
     {t:"Warum solche Denkmäler überall stehen",
@@ -2043,11 +2243,17 @@ Nimm dir einen Moment. Und wenn du magst, lies die Namen. Das ist die einzige Fo
     {t:"Was auf der Lippe fuhr",
      a:`Die Informationstafel am Ort nennt, womit die Schiffe beladen waren, und die Liste ist aufschlussreich. Eichenholz aus dem Lippischen. Salz aus Salzuflen, Sassendorf und Werl. Und sogenannte Münstersteine aus den Brüchen bei Borken und in den Baumbergen – jener Sandstein, aus dem am Niederrhein und in Westfalen die Kirchen und Grabmäler gearbeitet wurden. Wesel war der Umschlagplatz zwischen dem Rheinland und dem westfälischen Raum, besonders in Richtung Niederlande. Wer hier am Ufer stand, sah also keinen romantischen Fluss, sondern eine Güterstrecke. Und ein Detail, das oft übersehen wird: Schon zur Römerzeit wurde die Lippe befahren.`},
     {t:"Die alte Uferkante",
-     a:`Versuch, die Kante zu finden. Die Hafenbecken sind laut der Informationstafel in Teilen noch im Gelände erkennbar – als flache Senken mit einem Geländeknick, nicht als gemauerte Kaikante. Geh langsam quer darüber und achte auf den Punkt, an dem der Boden abfällt – das war die Wasserlinie. Wenn du sie einmal erkannt hast, kannst du dir die Schiffe vorstellen, die hier im Winter dicht an dicht lagen, mit abgelegten Masten.`},
+     a:`Versuch, die Kante zu finden. Nach der Informationstafel sind Teile des Hafenbeckens im Gelände noch zu erkennen. Nicht als gemauerte Kaikante. Als flache Senke mit einem Knick im Boden.
+Geh langsam quer darüber. Achte auf den Punkt, an dem der Boden abfällt. Das war die Wasserlinie.
+Hast du sie einmal gefunden, kannst du dir die Schiffe vorstellen. Im Winter lagen sie hier dicht an dicht, die Masten abgelegt.`},
     {t:"Die Mühle, die im Fluss lag",
      a:`Eine Besonderheit, die es so kaum irgendwo gab: In Krudenburg war eine Wassermühle im Fluss selbst verankert, eine sogenannte Mühlenponte. Sie schwamm also und nutzte die Strömung, statt an einem festen Ufergerinne zu sitzen. Das hatte einen Vorteil und einen erheblichen Nachteil. Der Vorteil: Sie funktionierte unabhängig vom Wasserstand, weil sie mit stieg und fiel. Der Nachteil: Sie lag mitten im Fahrwasser. Wollte ein Schiff vorbei, musste die Mühle beiseitegeschoben werden. Mühle und Schifffahrt behinderten sich also gegenseitig, jeden Tag. Seit dem Ende des fünfzehnten Jahrhunderts gab es Versuche, die Befahrbarkeit der Lippe zu verbessern. Am Ende gewann die Schifffahrt: Achtzehnhundertsiebenundzwanzig wurde die Mühlenponte beseitigt, ein Jahr später die niedrige Krudenburger Brücke.`},
     {t:"Der Traum des Pastors",
-     a:`Zu den Mühlen an der Lippe gehört eine Geschichte, die zweimal erzählt wird. Ein Pastor wollte einen Sack Korn mahlen lassen, rutschte am Steg ab und ertrank im Mühlengraben – und in der Nacht zuvor habe er genau diesen Vorgang geträumt und seiner Frau beunruhigt davon erzählt. Erich Bockemühl fand die Begebenheit in den alten Papieren des Burgturms und ordnet sie diesem Tal zu; eine andere Überlieferung siedelt denselben Vorfall an der Wassermühle in Gartrop an, mit Datum sechster April siebzehnhundertsiebzehn. Welche Mühle es war, lässt sich nicht mehr klären – vielleicht ist die Geschichte auch gewandert, wie Geschichten das tun. Zum Krudenburger Mühlenbann gehörte jedenfalls das ganze Kirchspiel Hünxe; ein Pastor mit einem Sack Korn wäre hier keine Ausnahme gewesen.`},
+     a:`Zu den Mühlen an der Lippe gehört eine Geschichte. Sie wird an zwei Orten erzählt.
+Ein Pastor wollte einen Sack Korn mahlen lassen. Am Steg rutschte er ab und ertrank im Mühlengraben. Und in der Nacht davor, so heißt es, habe er genau das geträumt. Er habe seiner Frau am Morgen beunruhigt davon erzählt.
+Erich Bockemühl fand die Begebenheit in den alten Papieren des Burgturms und ordnet sie diesem Tal zu. Eine andere Überlieferung setzt denselben Vorfall an die Wassermühle in Gartrop, mit Datum sechster April siebzehnhundertsiebzehn.
+Welche Mühle es war, lässt sich nicht klären. Vielleicht ist die Geschichte auch gewandert. Das tun Geschichten.
+Für Krudenburg spricht immerhin eines: Zum Mühlenbann gehörte das ganze Kirchspiel Hünxe. Ein Pastor mit einem Sack Korn wäre hier nichts Besonderes gewesen.`},
     {t:"Die Schiffswerft im Dorf",
      a:`Zwischen achtzehnhundertvierzig und vierundvierzig erlebte Krudenburg eine kurze Blüte als Schiffbauort. Mindestens drei Dorstener Schiffbaubetriebe ließen hier fertigen – Nachen und Bauteile für Lippekähne. Verarbeitet wurde krumm gewachsenes Holz aus Kopfeichen, weil sich daraus die gebogenen Spanten ergeben, ohne sie zu biegen. Diese Blüte erklärt auch, warum der Wiederaufbau nach dem Brand so schnell gelang: Handwerker, Werkzeug und Holzkenntnis waren im Ort. Einer von ihnen, der Schiffbauer Heinrich Düllmann, zog später ins Ruhrgebiet, kam zu Krupp nach Essen und arbeitete dort an der Entwicklung hochseetüchtiger Rettungsboote für die Marine. Aus einem Dorf ohne Brücke in den Schiffbau des Kaiserreichs.`},
     {t:"Warum der Hafen verlandete",
@@ -2120,19 +2326,35 @@ Jetzt gehen wir zurück in den alten Ortskern.`
     {t:"Die Entführung von 1812",
      a:`An diesem Zollposten diente Louis François Félix Royer, geboren siebzehnhundertsechsundachtzig in der Haute-Marne. Er lernte Anna Sybilla Benninghoff kennen, Tochter des wohlhabenden Bauern und Wirts Peter Benninghoff. Die Eltern, streng protestantisch und preußisch gesinnt, verboten dem katholischen Franzosen das Haus. Also inszenierten die beiden eine Entführung: Soldaten holten das Mädchen nachts mit dessen Einverständnis heraus, vor der Schlafzimmertür des Bruders standen Posten, die vorgaben, Schießbefehl zu haben. Weil sie mit dreiundzwanzig noch nicht volljährig war, verlangte der Code Napoléon drei förmliche Bitten um die elterliche Einwilligung; ein Notar aus Rees kam dreimal, jeweils am einundzwanzigsten des Monats, und wurde dreimal abgewiesen. Am dreiundzwanzigsten Dezember achtzehnhundertzwölf heirateten sie in Schermbeck. Die Urkunden liegen bis heute im Personenstandsarchiv auf Schloss Brühl. Aufgeschrieben hat die Geschichte Ernst Bönneken im Heimatkalender neunzehnhundertneunundsechzig – ein Nachfahre.`},
     {t:"Wie es ausging",
-     a:`Das Ende ist bitter. Der Sohn Pierre Nicolas kam im Mai achtzehnhundertdreizehn in Wesel zur Welt; die Mutter starb vier Monate später im Kindbett, vierundzwanzig Jahre alt, und wurde in Drevenack begraben. Ihre Eltern lehnten es ab, die Sterbende zu besuchen, mit der Begründung, sie hätten keine Tochter mehr; der Bruder Albert und seine Frau fuhren hin und fanden sie sterbend vor. Dessen Frau, selbst gerade Mutter, entwöhnte ihr eigenes Kind, um den Säugling zu stillen. Nach der Kapitulation Wesels musste Royer mit den abziehenden Truppen fort. Sein Sohn wuchs bei den Benninghoffs auf, evangelisch. Der Vater kam jahrelang einmal jährlich aus Frankreich zu Besuch – und weil ihm das Haus verboten war, sah er sein Kind zunächst nur vom Lippedamm aus. Auf der Tafel an der Burg findest du bei Nummer zwanzig den Namen Royer. Der Franzose ist im Dorf geblieben, wenn auch nur als Name.`},
+     a:`Das Ende ist bitter.
+Im Mai achtzehnhundertdreizehn kam der Sohn zur Welt, in Wesel. Vier Monate später starb die Mutter im Kindbett. Sie wurde vierundzwanzig Jahre alt. Begraben liegt sie in Drevenack.
+Ihre Eltern weigerten sich, die Sterbende zu besuchen. Sie hätten keine Tochter mehr, sagten sie. Der Bruder Albert und seine Frau fuhren hin und fanden sie sterbend vor. Alberts Frau hatte selbst gerade ein Kind. Sie entwöhnte es, um den Säugling zu stillen.
+Nach der Kapitulation Wesels musste Royer mit den abziehenden Truppen fort. Sein Sohn wuchs bei den Benninghoffs auf, evangelisch.
+Der Vater kam jahrelang, einmal im Jahr, aus Frankreich zu Besuch. Das Haus war ihm verboten. Also sah er sein Kind zunächst nur vom Lippedamm aus.
+Auf der Tafel an der Burg steht bei Nummer zwanzig der Name Royer. Der Franzose ist im Dorf geblieben. Wenn auch nur als Name.`},
     {t:"Als die Brücke verschwand",
      a:`Achtzehnhundertsiebenundzwanzig verkaufte die Freifrau von Nagell die schwimmende Wassermühle und die Brücke an die Lippe-Schifffahrtsverwaltung, also an den Staat. Die Mühle wurde sofort abgetragen, angeblich weil sie die Schifffahrt behinderte. Die Brücke überlebte ihre Nachbarin noch einige Jahre und wurde dann ebenfalls abgebaut, obwohl sie jährlich bis zu dreihundertsechzig Taler Pacht einbrachte. Zum genauen Jahr widersprechen sich die Quellen: Die Informationstafel im Ort nennt achtzehnhundertachtundzwanzig, eine heimatkundliche Darstellung achtzehnhundertfünfunddreißig. Ersetzt wurde sie durch eine Fähre – und mit ihr fiel die Vergünstigung für die Nachbargemeinden weg. Das Fährgeld war hoch, die Pacht brachte trotzdem nur einen Bruchteil ein.`},
     {t:"Wenn Eis trieb",
-     a:`Der Alltag ohne Brücke war härter, als es klingt. Wegen des niedrigen Wasserstands brauchte die Fährponte sehr steile Auffahrtsrampen – für leichte Fuhrwerke gefährlich, für schwere oder für Wagen mit Langholz unmöglich. Diese mussten zwei Stunden flussabwärts oder drei Stunden flussaufwärts ausweichen. Bei Eisgang wurde die Ponte in den Hafen geschleppt; Fußgänger setzte man unter Lebensgefahr mit einem Boot über, an manchen Tagen gar nicht. Die Krudenburger gehörten zur Kirchengemeinde Hünxe, konnten also während des Eistreibens weder selbst zur Kirche noch ihre Kinder zum Unterricht schicken. Und in Benninghoffs Bericht steht ein Satz, den man nicht vergisst: Es sei vorgekommen, dass Verstorbene erst nach Tagen zum Friedhof gebracht werden konnten.`},
+     a:`Der Alltag ohne Brücke war härter, als es klingt.
+Das Wasser stand niedrig. Deshalb brauchte die Fähre sehr steile Auffahrtsrampen. Für leichte Fuhrwerke war das gefährlich. Für schwere oder für Wagen mit Langholz war es unmöglich. Die mussten ausweichen: zwei Stunden flussabwärts oder drei Stunden flussaufwärts.
+Und dann der Winter. Bei Eisgang schleppte man die Fähre in den Hafen. Fußgänger setzte man mit einem Boot über, unter Lebensgefahr. An manchen Tagen gar nicht.
+Die Krudenburger gehörten zur Kirche in Hünxe. Solange Eis trieb, kamen sie also nicht zum Gottesdienst. Ihre Kinder nicht zum Unterricht.
+In Benninghoffs Bericht steht dazu ein Satz, den man nicht vergisst. Es sei vorgekommen, dass Verstorbene erst nach Tagen zum Friedhof gebracht werden konnten.`},
     {t:"Die Nacht, in der die Brücke fehlte",
      a:`Am achtundzwanzigsten Juni achtzehnhundertvierundvierzig brannte Krudenburg. Die Hünxer Löschmannschaft rückte aus – und kam nicht über den Fluss. Die Fähre, die anstelle der abgebrochenen Brücke eingerichtet worden war, lag wegen des niedrigen Wasserstands fest. So standen die Männer am jenseitigen Ufer und sahen zu, wie das Dorf brannte, breit genug, um alles zu erkennen, und zu weit, um zu helfen. In der Chronik des Hünxer Kirchspiels steht dazu der nüchterne Satz, die Hilfe sei behindert worden wegen des Fehlens der Krudenburger Brücke. Aus Gartrop kam Hilfe schließlich mit dem Kahn des Schlosses über das Wasser. Schon damals, sechzehn Jahre nach dem Abbruch, wurde beklagt, dass eine Brücke fehle. Es sollte noch über hundert Jahre dauern.`},
     {t:"Der Morgen des 29. Oktober 1863",
-     a:`An diesem Morgen sackte die Fähre, die sich in erbärmlichem Zustand befand, ohne Vorwarnung ab. Es war ein Glücksfall: Weder Menschen noch Fuhrwerk befanden sich darauf. Noch am selben Tag schrieb der Gemeindevorsteher Benninghoff – derselbe Name, der schon auf der Tafel von achtzehnhundertzwanzig steht – einen Bericht an den Landrat in Wesel und bat um eine feste Brücke. Sein Schreiben ist das eindringlichste Zeugnis über den Zustand des Dorfes: Krudenburg habe sich früher eines Wohlstandes und regen Verkehrs erfreut, sei aber seit dem Abbruch der Brücke vom Verkehr abgeschnitten. Viele suchten auswärts Arbeit; sogar ansässige und verheiratete Männer gingen zu Fuß in die fünf bis sechs Stunden entfernten Fabriken nach Oberhausen, Ruhrort und Duisburg.`},
+     a:`An diesem Morgen sackte die Fähre ab, ohne Vorwarnung. Sie war seit langem in erbärmlichem Zustand. Es war ein Glücksfall: Niemand befand sich darauf, auch kein Fuhrwerk.
+Noch am selben Tag schrieb der Gemeindevorsteher Benninghoff an den Landrat in Wesel und bat um eine feste Brücke. Denselben Namen findest du auf der Tafel von achtzehnhundertzwanzig.
+Sein Bericht ist das eindringlichste Zeugnis über den Zustand des Dorfes. Früher, schreibt er, habe Krudenburg Wohlstand und regen Verkehr gekannt. Seit dem Abbruch der Brücke sei es vom Verkehr abgeschnitten.
+Viele suchten auswärts Arbeit. Sogar ansässige, verheiratete Männer gingen zu Fuß in die Fabriken nach Oberhausen, Ruhrort und Duisburg. Fünf bis sechs Stunden Weg. In eine Richtung.`},
     {t:"Neunzig Jahre Anträge",
      a:`Was nach dem Absacken der Fähre folgte, ist eine Verwaltungsgeschichte von fast biblischer Ausdauer. Achtzehnhundertvierundsechzig fuhr eine Abordnung nach Köln, ein Bürgermeister reiste nach Berlin, der Provinziallandtag stimmte einstimmig zu. Achtzehnhundertfünfundsechzig lehnte der zuständige Minister ab: Er könne dieser Brücke keine erhebliche Bedeutung für den größeren Verkehr beimessen. Ein neuer Anlauf, wieder Zustimmung, dann schweigen die Akten. Einundzwanzig Jahre später, achtzehnhundertneunundachtzig, ein erneuter Antrag von Bürgern aus Hünxe, Krudenburg und Drevenack. Gemeinden sagten Geld zu, andere lehnten ab, die Garnison Wesel erklärte, ein militärisches Interesse bestehe nicht. Achtzehnhunderteinundneunzig scheiterte auch der Vorschlag, einen Ponton der alten Weseler Schiffbrücke zu verwenden. Neunzehnhundertachtzehn ein weiterer Antrag, wieder ohne Ergebnis.`},
     {t:"Das Pferd, das schräg lief",
-     a:`Zur Fähre gehörte ein Schlepppferd, das im Dorf stand und dessen Aufgabe es war, schwere Fuhrwerke von der Fähre die steile Rampe hinaufzuziehen. Standen Fuhrknechte mit schwerer Ladung am Hünxer Ufer, gab es dafür einen eigenen Glockenanschlag als Ruf herüber. Das Tier war ein ausgedientes Treidelpferd, und es lief schräg: Vom jahrelangen Ziehen am Leinpfad, immer seitlich zum Seil, konnte es nicht mehr geradeaus gehen. Die Fuhrknechte sagten, es sehe aus, als käme es gerade aus der Wirtschaft. Wenn du wissen willst, was Treideln mit Lebewesen macht, ist das die kürzeste Antwort. Und dieses Pferd hat länger als jeder Mensch im Dorf beide Systeme erlebt – erst das Ziehen der Schiffe, dann das Ziehen der Wagen von der Fähre.`},
+     a:`Zur Fähre gehörte ein Schlepppferd. Es stand im Dorf und hatte eine Aufgabe: schwere Fuhrwerke von der Fähre die steile Rampe hinaufziehen.
+Stand ein Fuhrknecht mit schwerer Ladung drüben am Hünxer Ufer, rief er herüber. Dafür gab es einen eigenen Glockenanschlag.
+Das Tier war ein ausgedientes Treidelpferd. Und es lief schräg. Jahrelang hatte es am Leinpfad gezogen, immer seitlich zum Seil. Geradeaus gehen konnte es nicht mehr.
+Die Fuhrknechte sagten, es sehe aus, als käme es gerade aus der Wirtschaft.
+Wenn du wissen willst, was Treideln mit einem Lebewesen macht: Das ist die kürzeste Antwort. Und dieses Pferd hat beide Zeiten erlebt, länger als mancher Mensch im Dorf. Erst zog es Schiffe. Dann Wagen.`},
     {t:"Die Brücke der Pioniere",
      a:`Was schließlich kam, war keine Entscheidung der Verwaltung, sondern des Militärs. Vor dem Zweiten Weltkrieg errichteten Pioniere hier eine hölzerne Brücke – eine Jochkonstruktion auf gerammten Pfählen. Im Krieg wurde sie schwer beschädigt und nach neunzehnhundertfünfundvierzig bald wieder erneuert. Auf alten Aufnahmen sieht man Menschen mit Fahrrädern darüber schieben und andere, die einfach darauf stehen und schauen. Für ein Dorf, das über hundert Jahre auf eine Fähre angewiesen war, war eine feste Verbindung kein Verkehrsbauwerk, sondern das Ende der Abgeschiedenheit. Erst im Mai neunzehnhundertsechsundfünfzig begann der Bau der heutigen Brücke aus Stahl und Beton; ausschlaggebend war der zunehmende Kraftwagenverkehr, für den die enge Dorfstraße ein Hindernis war.`},
     {t:"Das Grab der Sechzig",
@@ -2321,15 +2543,32 @@ Damit endet die Runde durch deine eigene Gemeinde. Wenn dir unterwegs etwas aufg
     {t:"Ein Grab von 1944",
      a:`Auf dem Friedhof dieser Kirche wurde am neunten September neunzehnhundertvierundvierzig Heinrich Schüring beigesetzt, der Landwirt und Jäger, der im Wald zwischen Drevenack und Damm getötet worden war. Zwei Tage später wurden an der Stelle seines Todes zehn Menschen öffentlich erhängt. Zwischen der Beisetzung eines Ermordeten und der Hinrichtung von zehn Menschen, von denen acht nichts mit seinem Tod zu tun hatten, lagen also achtundvierzig Stunden. Wer die Station im Wald angesteuert hat, weiß, wovon die Rede ist. Wer sie ausgelassen hat, muss es nicht wissen – aber der Friedhof gehört zu dieser Geschichte.`},
     {t:"Das Gasthaus nebenan",
-     a:`Unmittelbar neben der Kirche stand jahrhundertelang ein Gasthaus – nach örtlicher Auskunft seit dem sechzehnten Jahrhundert, zeitweise diente das Gebäude auch als Postgebäude. Überregional bekannt war es als Tanzlokal unter dem Namen Zum halben Mond; später hieß es Zum Trotzenberg. In den zwanzehner Jahren schloss es endgültig, das Haus wurde zu Wohnungen umgebaut. Der Name reicht aber viel weiter zurück, als es scheint: Schon zur Zeit des Ritters Goswin von Steck, also um vierzehnhundert, wurde der Drevenacker Zehnt alljährlich am Trotzenberg in der Wirtschaft zum halben Mond vom Hünxer Kirchenvorstand entgegengenommen. Und derselbe halbe Mond sitzt bis heute als Wetterfahne auf dem Turm von Haus Schwarzenstein. Ein Wirtshausname, der sechs Jahrhunderte überdauert hat – und ein weiteres Beispiel dafür, dass in dieser Gegend die Namen zäher sind als die Sache.`},
+     a:`Direkt neben der Kirche stand jahrhundertelang ein Gasthaus. Seit dem sechzehnten Jahrhundert, sagt die örtliche Überlieferung. Zeitweise diente das Haus auch als Post.
+Bekannt war es weit über den Ort hinaus, als Tanzlokal. Sein Name damals: Zum halben Mond. Später hieß es Zum Trotzenberg. Vor einigen Jahren schloss es endgültig, heute sind dort Wohnungen.
+Jetzt kommt das Erstaunliche. Der Name ist viel älter, als man denkt. Schon um vierzehnhundert nahm der Hünxer Kirchenvorstand hier den Drevenacker Zehnt entgegen. Am Trotzenberg, in der Wirtschaft zum halben Mond.
+Und derselbe halbe Mond sitzt bis heute auf dem Turm von Haus Schwarzenstein, als Wetterfahne.
+Ein Wirtshausname, der sechs Jahrhunderte gehalten hat. In dieser Gegend sind die Namen zäher als die Sache.`},
     {t:"Die Post hieß Peddenberg",
-     a:`Die Postagentur des Ortes hieß amtlich lange nicht Drevenack, sondern Post Peddenberg – nach dem Flurnamen des Hügels an der Landstraße nach Wesel. Und der Postmeister war einer, dem wir in Krudenburg schon begegnet sind: Peter Nikolaus Royer, der Sohn jenes französischen Zöllners, dessen Braut sich achtzehnhundertzwölf zum Schein entführen ließ. Der als Waise bei den Benninghoffs aufgewachsene Junge wurde Postmeister und Landwirt in Drevenack. Dass er als streng galt, ist überliefert – in einem Vers, den die Postillione sangen, wenn sie von Schermbeck kommend in Damm ins Horn stießen. Sinngemäß bedeutete er: Ein Schnaps geht noch, der Royer ist noch weit. Ein französischer Familienname, ein niederrheinischer Reim, und dahinter eine Geschichte, die dreißig Jahre vorher an der Lippebrücke begann. Am Ort erinnert heute ein Gedenkstein „Altes Posthaus Peddenberg“ daran.`},
+     a:`Die Post hieß hier amtlich lange nicht Drevenack. Sie hieß Post Peddenberg, nach dem Hügel an der Landstraße nach Wesel.
+Und der Postmeister ist uns in Krudenburg schon begegnet. Er hieß Peter Nikolaus Royer. Sein Vater war jener französische Zöllner, dessen Braut sich achtzehnhundertzwölf zum Schein entführen ließ. Der Junge wuchs als Waise bei den Benninghoffs auf und wurde Postmeister und Landwirt in Drevenack.
+Streng soll er gewesen sein. Das ist in einem Vers überliefert, den die Postillione sangen, wenn sie von Schermbeck kamen und in Damm ins Horn stießen. Sinngemäß hieß er: Ein Schnaps geht noch, der Royer ist noch weit.
+Ein französischer Name, ein niederrheinischer Reim. Dahinter eine Geschichte, die dreißig Jahre vorher an der Lippebrücke begann.
+Am Ort erinnert heute ein Gedenkstein daran: Altes Posthaus Peddenberg.`},
     {t:"Die Körbe auf dem Speicher",
-     a:`Zur alten Post gehört eine Geschichte, die man sich im Dorf bis heute erzählt und die Erich Bockemühl selbst als zweifelhaft kennzeichnet. Der alte Postbote habe die Sendungen an der Kirche verteilt, vorzugsweise am Sonntagmorgen; nur Amtspersonen, Pastor, Lehrer und Förster habe er sie ins Haus gebracht. Nach seiner Pensionierung habe man auf seinem Speicher einige Körbe voll unbestellter Briefe gefunden. Zur Rede gestellt, habe er entgegnet, er könne ja nichts dafür, wenn die Leute so wenig zur Kirche kämen. Bockemühl hält dagegen, dass der Postmeister als sehr streng galt und Unterschlagungen kaum verborgen geblieben wären. Er nennt es einen typischen Fall, in dem Überlieferung und historische Wirklichkeit auseinandergehen – und merkt an, dass solche Erzählungen auch nicht ohne Ursache entstehen.`},
+     a:`Zur alten Post gehört eine Geschichte. Man erzählt sie im Dorf bis heute. Erich Bockemühl, der sie aufgeschrieben hat, hält sie selbst für zweifelhaft.
+Der alte Postbote habe die Briefe an der Kirche verteilt. Am liebsten sonntagmorgens. Nur den Amtspersonen brachte er sie ins Haus: dem Pastor, dem Lehrer, dem Förster.
+Als er in den Ruhestand ging, habe man auf seinem Speicher Körbe voller Briefe gefunden. Unbestellt. Zur Rede gestellt, habe er geantwortet, er könne ja nichts dafür, wenn die Leute so selten zur Kirche kämen.
+Bockemühl hält dagegen. Der Postmeister sei sehr streng gewesen, so etwas wäre kaum verborgen geblieben.
+Er nennt es einen typischen Fall, in dem Überlieferung und Wirklichkeit auseinandergehen. Und merkt an: Ganz ohne Ursache entstehen solche Geschichten auch nicht.`},
     {t:"Die Mühle auf dem Peddenberg",
      a:`Auf der Höhe zum Peddenberg hin stand jahrzehntelang eine Windmühle. Neunzehnhundertachtzehn wurde sie abgebaut; die Ruine blieb noch lange stehen. Heute ist dort eine Geschäftsstraße, und wer sich das Bild von damals vorstellen will, muss über ein Dutzend neuerer Häuser gedanklich wegräumen. An ihrem Standort steht heute ein Gedenkstein „Ehemalige Windmühle“. Erhalten ist die Mühle selbst nur als Zeichnung: Der Weseler Maler August Oppenberg rekonstruierte sie in den sechziger Jahren – anhand eines winzigen Bildchens auf einer rund siebzig Jahre alten Ansichtskarte und der Aussagen von Leuten mit gutem Gedächtnis. Alte Drevenacker erinnerten sich noch, wie sie den von der Mutter gekneteten Brotteig zum Müller bringen mussten, der nebenher einen Backofen betrieb.`},
     {t:"Ungleiches Recht im Wald",
-     a:`Das Weistum über den Weseler Wald, zu dem auch das Kirchspiel Drevenack gehörte, zeigt sehr deutlich, wie ungleich das Recht damals verteilt war. Wer Erbgenosse war, also zu den alteingesessenen Höfen zählte, durfte unbefugt Holz schlagen, ohne dass es ihm weggenommen wurde – die Waldförster mussten den Vorfall lediglich beim nächsten Holzgericht anzeigen. Ein bloßer Markgenosse dagegen verlor sein Holz und musste es selbst zum Kloster bringen; ein Drittel der Pfändung fiel an die Waldaufsicht. Und ein Ortsfremder wurde kurzerhand festgesetzt. Dieselbe Tat, drei verschiedene Folgen – je nachdem, wer sie beging. Wer sich fragt, wie das Leben vor der Rechtsgleichheit aussah, findet hier eine sehr genaue Antwort.`}
+     a:`Das Weistum über den Weseler Wald galt auch für das Kirchspiel Drevenack. Und es zeigt sehr genau, wie ungleich das Recht damals war.
+Stell dir vor, drei Männer schlagen unbefugt Holz.
+Der erste ist Erbgenosse, gehört also zu den alteingesessenen Höfen. Ihm nimmt niemand etwas weg. Die Waldförster melden den Vorfall beim nächsten Holzgericht, das war alles.
+Der zweite ist nur Markgenosse. Er verliert sein Holz. Und muss es auch noch selbst zum Kloster bringen. Ein Drittel bekommt die Waldaufsicht.
+Der dritte ist ortsfremd. Der wird festgesetzt.
+Dieselbe Tat, drei Folgen. Es kam darauf an, wer sie beging. Wer wissen will, wie das Leben vor der Rechtsgleichheit aussah: Das ist die Antwort.`}
   ],
   stay:"20 Minuten",
   short:"Romanische Schallöcher, gotische Fenster – und die älteste Spur des Ortes.",
@@ -2350,21 +2589,35 @@ Damit endet die Runde durch Drevenack.
   find:"Vom Dorf Drevenack den Schwarzensteiner Weg nach Westen, über die Autobahnbrücke. Privatbesitz – vom Weg aus schauen.",
   details:[
     {t:"Von 1429 bis heute in Privatbesitz",
-     a:`Die erste sichere Nachricht über diesen Sitz ist eine Verkaufsurkunde vom einundzwanzigsten November vierzehnhundertneunundzwanzig, ausgefertigt vor dem Richter und den Schöffen von Drevenack. Das Pergament liegt bis heute in den Händen der Besitzerfamilie – das ist bemerkenswert, denn die meisten Urkunden dieses Alters sind längst in Staatsarchiven gelandet. Woher der Name kommt, ist unklar; die Überlieferung führt ihn auf einen großen Findling zurück, und solange nichts dagegenspricht, ist das eine plausible Erklärung. In alten Schreibweisen begegnet der Ort als swartsheyn oder zwarsteyn. Wichtig zu wissen, bevor du hingehst: Schwarzenstein ist bis heute ein privater land- und forstwirtschaftlicher Besitz. Man schaut vom Weg aus.`},
+     a:`Die erste sichere Nachricht über diesen Sitz ist eine Verkaufsurkunde. Ausgestellt am einundzwanzigsten November vierzehnhundertneunundzwanzig, vor dem Richter und den Schöffen von Drevenack.
+Und das Pergament liegt bis heute bei der Besitzerfamilie. Das ist bemerkenswert. Urkunden dieses Alters landen sonst längst in Staatsarchiven.
+Woher der Name kommt, ist unklar. Die Überlieferung führt ihn auf einen großen Findling zurück. Solange nichts dagegenspricht, ist das plausibel. In alten Schreibweisen heißt der Ort swartsheyn oder zwarsteyn.
+Eines noch, bevor du hingehst. Schwarzenstein ist bis heute privater land- und forstwirtschaftlicher Besitz. Man schaut vom Weg aus.`},
     {t:"Der Turm von 1517",
      a:`Vom alten Bau ist vor allem der Turm übrig; er hat seine Gestalt im Wesentlichen behalten und trägt die Jahreszahl fünfzehnhundertsiebzehn. Über dem Turmeingang stehen die Wappen der Familien Amelung und Mumm, darunter zwei Sandsteinfiguren. Der übrige Bau wurde achtzehnhundertachtundachtzig bis auf den Turm abgerissen und auf den alten Fundamenten neu errichtet, flacher als zuvor, weil die Familie nur die Sommermonate hier verbrachte; neunzehnhundertsieben folgte der letzte große Umbau. Der Turm ist also, wie in Krudenburg, das einzige Stück, das die Jahrhunderte durchgehalten hat. Am Niederrhein gilt offenbar: Was massiv und schmal ist, überlebt.`},
     {t:"Der halbe Mond auf dem Dach",
      a:`Als Wetterfahne sitzt auf dem Turm ein halber Mond. Man hat vermutet, ein Angehöriger der Familie Mumm habe das Zeichen aus den Türkenkriegen mitgebracht. Sicher ist das nicht, und es gibt einen guten Einwand: Die Bezeichnung zum halben Mond taucht in Verbindung mit der Wirtschaft am Trotzenberg in Drevenack schon zu Beginn des fünfzehnten Jahrhunderts auf, also lange vor jenen Kriegen. Möglicherweise ist der Halbmond hier ein altes Ortszeichen und keine Kriegstrophäe. Auch das ist eine dieser Deutungen, die zu gut klingen, um ungeprüft zu bleiben.`},
     {t:"Der Streit um den Torf",
-     a:`Im sechzehnten Jahrhundert entzündete sich ein langer Streit zwischen den Besitzern und der Stadt Wesel. Die Weseler hatten sich einen Weg mitten durch das Gut gelegt und benutzten ihn selbstverständlich; außerdem stachen sie in den Gräben und Wiesen Torf in großen Mengen und fuhren ihn ab. Die Familie Mumm ließ sich das nicht gefallen. Die Auseinandersetzung zog sich bis fünfzehnhundertvierundachtzig hin und endete damit, dass das Klever Hofgericht der Stadt auferlegte, den Schaden zu ersetzen und die Gerichtskosten zu tragen. Erich Bockemühl erwähnt genau diesen Prozess in seiner Schilderung des Lippetals – als einen Streit, der wie ein Krieg im Kleinen geführt wurde und die Stadt am Strom viel Geld kostete.`},
+     a:`Im sechzehnten Jahrhundert gab es hier einen langen Streit. Auf der einen Seite die Besitzer des Gutes, auf der anderen die Stadt Wesel.
+Die Weseler hatten sich einen Weg mitten durch das Gut gelegt. Und benutzten ihn wie selbstverständlich. Dazu stachen sie in den Gräben und Wiesen Torf, in großen Mengen, und fuhren ihn ab.
+Die Familie Mumm ließ sich das nicht gefallen. Der Streit zog sich bis fünfzehnhundertvierundachtzig. Am Ende verurteilte das Klever Hofgericht die Stadt: Schaden ersetzen, Gerichtskosten tragen.
+Erich Bockemühl erwähnt genau diesen Prozess. Er nennt ihn einen Krieg im Kleinen, der die Stadt am Strom viel Geld gekostet hat.`},
     {t:"Der Brief des Königs",
      a:`Achtzehntes Jahrhundert: Schwarzenstein gehört zeitweise denselben Herren wie Krudenburg. Als die Familie es wegen hoher Schulden verkaufen wollte, war ein Problem im Weg – nach preußischer Vorschrift durften adelige Güter nur an Adelige veräußert werden, und der dritte Ehemann der Besitzerin war ein Prediger, also bürgerlich. Man bat den König um Erlaubnis. Friedrich der Zweite lehnte ab, eigenhändig, in einem Brief vom fünften Februar siebzehnhundertsechsundsiebzig, der bis heute auf Schwarzenstein aufbewahrt wird. Er verwies auf seine Verordnung und forderte, man möge sich einen qualifizierten Käufer suchen. Vier Monate später wurde das Gut trotzdem verkauft, für fünfundzwanzigtausend holländische Gulden, an eine wohlhabende Weseler Witwe.`},
     {t:"Der Hof im Weistum",
-     a:`Schwarzenstein taucht in einer der ältesten Rechtsquellen der Gegend auf. Das Weistum über den Weseler Wald – eine mittelalterliche Aufzeichnung darüber, wer den gemeinsamen Wald wie nutzen durfte – nennt unter den berechtigten Gütern im Kirchspiel Drevenack ausdrücklich den Hof zu Swartsteen. Wie viel jemand nutzen durfte, richtete sich nach der Größe seines Besitzes, und zwar sehr konkret: Ein Hof durfte dreißig Schweine samt einem Eber zur Eichelmast in den Wald treiben, eine Hufe zwölf, eine kleine Kathstelle genau eines. Wer heute Wald sieht, denkt an Bäume. Damals war Wald vor allem Futter, Bauholz und Zaunmaterial – und die Frage, wie viele Schweine man hineintreiben durfte, entschied über den Wohlstand einer Familie.`},
+     a:`Schwarzenstein steht in einer der ältesten Rechtsquellen dieser Gegend. Sie heißt Weistum über den Weseler Wald. Darin ist aufgeschrieben, wer den gemeinsamen Wald nutzen durfte und wie viel. Unter den berechtigten Gütern steht ausdrücklich der Hof zu Swartsteen.
+Wie viel jemand nutzen durfte, hing von der Größe seines Besitzes ab. Und das war sehr genau geregelt. Ein Hof durfte dreißig Schweine in den Wald treiben, dazu einen Eber. Eine Hufe zwölf. Eine kleine Kathstelle genau eines.
+Wer heute Wald sieht, denkt an Bäume. Damals war Wald etwas anderes: Futter, Bauholz, Zaunmaterial. Und die Zahl der Schweine entschied über den Wohlstand einer Familie.`},
     {t:"Warum es hier eine Burg gab",
-     a:`Schwarzenstein war ursprünglich eine Wasserburg, umgeben von einem doppelten Graben bis zur Lippe hin; nach dieser Seite blieb die Anlage offen, weil der Fluss den Schutz übernahm. Damit steht sie in derselben Logik wie Krudenburg: Beide Anlagen liegen am Wasser, und bei beiden liegt die Vermutung nahe, dass sie ursprünglich einen Übergang über die Lippe sichern sollten. Wer sich fragt, warum in einer flachen, waldreichen Gegend überhaupt Burgen stehen, findet hier die Antwort. Nicht Höhen wurden verteidigt, sondern Furten und Fähren – die einzigen Stellen, an denen ein Fluss überhaupt zu überwinden war.`},
+     a:`Schwarzenstein war ursprünglich eine Wasserburg. Ein doppelter Graben zog sich bis zur Lippe. Nach dieser Seite blieb die Anlage offen. Den Schutz übernahm der Fluss.
+Genau so ist auch Krudenburg gebaut. Beide liegen am Wasser. Und bei beiden liegt derselbe Verdacht nahe: Sie sollten einen Übergang über die Lippe sichern.
+Damit ist auch die Frage beantwortet, warum in einer flachen, waldreichen Gegend überhaupt Burgen stehen. Verteidigt wurden nicht Höhen. Verteidigt wurden Furten und Fähren. Denn nur dort kam man über den Fluss.`},
     {t:"Das Langhaus gegenüber",
-     a:`Gegenüber dem Kastell steht ein großes altes Bauernhaus aus dem frühen achtzehnten Jahrhundert – nach Erich Bockemühl vermutlich das einzige der weiteren Umgebung, das in seiner ursprünglichen Form erhalten blieb. Es ist ein Langhaus: Wohnung, Stall und Scheune unter einem einzigen Dach. Das war die niederrheinisch-westfälische Grundform, nicht die T-Form, für die man sie heute oft hält. Achte auf die tief herabgezogenen Dächer, die bis fast an die Fenster reichen – sie waren der Schutz gegen die Stürme des flachen Landes. Und auf die Wirtschaftlichkeit dieser Bauweise: Ein Dach über allem war deutlich billiger als mehrere Gebäude um einen freien Hof. Viele solcher Höfe fielen den Bomben zum Opfer, andere wurden umgebaut; man setzte quer davor ein neues Wohnhaus, im Plattdeutschen Twasbau genannt.`}
+     a:`Gegenüber dem Kastell steht ein großes altes Bauernhaus, aus dem frühen achtzehnten Jahrhundert. Erich Bockemühl hielt es für das einzige der Umgebung, das seine ursprüngliche Form behalten hat.
+Es ist ein Langhaus. Wohnung, Stall und Scheune liegen unter einem einzigen Dach. Das war hier die Grundform, nicht die T-Form, für die man sie heute oft hält.
+Achte auf die Dächer. Sie sind tief heruntergezogen, fast bis an die Fenster. Das war der Schutz gegen die Stürme des flachen Landes.
+Und es war billig. Ein Dach über allem kostet weniger als mehrere Gebäude um einen Hof.
+Viele solcher Höfe fielen im Krieg den Bomben zum Opfer. Andere wurden umgebaut. Man setzte quer davor ein neues Wohnhaus. Auf Plattdeutsch heißt das Twasbau.`}
   ],
   stay:"30 Minuten",
   short:"Ehemaliger Rittersitz westlich von Drevenack – Turm von 1517, bis heute Privatbesitz.",
@@ -2383,9 +2636,16 @@ Eines muss klar sein: Schwarzenstein ist bis heute in Privatbesitz und wird land
   find:"An der Landstraße von Drevenack Richtung Marienthal. Am Ende einer alten Lindenallee, auf der Höhe. Achte auf den Dachreiter der Kapelle.",
   details:[
     {t:"1414 – der Lühler Dick als Fischteich",
-     a:`Diese Gegend hat eine Nutzungsart hervorgebracht, die längst vergessen ist. Wegen der strengen Fastenregeln kam der Fischerei früher große Bedeutung zu, und man nutzte nicht nur Flüsse und Kolke, sondern staute auch morastige Sumpfflächen – die sogenannten Dicks – zu Fischgewässern auf. Bereits vierzehnhundertvierzehn verpachtete die Drevenacker Bauerngilde, die damals schon als eigenständig handelnde Körperschaft auftrat, den Lühler Dick an den Drosten Goswin Stecke, mit der Erlaubnis, ihn einzudeichen und anzustauen. Der Pachtzins bestand aus einem Pfund Wachs jährlich an die Kirche zu Drevenack – Wachs für die Kerzen. Und noch achtzehnhundertvierzig entrichtete der benachbarte Langenforter Dick seine Pacht in Form einer halben Tonne Heringe. In einem Verzeichnis von sechzehnhundertvierzig steht diese Gegend also mit Fisch, Hafer, Hühnern und exotischen Gewürzen als Abgaben – Pfeffer und Ingwer von Höfen, die davon nie einen gesehen haben dürften.`},
+     a:`Hier gab es eine Nutzung, die heute niemand mehr kennt. Fisch war wichtig, denn die Fastenregeln waren streng. Man nutzte also nicht nur Flüsse und Kolke. Man staute auch Sumpfflächen auf, zu Fischteichen. Solche Flächen hießen hier Dicks.
+Vierzehnhundertvierzehn verpachtete die Drevenacker Bauerngilde einen davon, den Lühler Dick. Der Pächter durfte ihn eindeichen und anstauen. Der Pachtzins war ungewöhnlich: ein Pfund Wachs im Jahr, an die Kirche zu Drevenack. Wachs für die Kerzen.
+Der Nachbarteich zahlte noch achtzehnhundertvierzig mit einer halben Tonne Heringe.
+Und in einem Verzeichnis von sechzehnhundertvierzig taucht diese Gegend mit einer erstaunlichen Liste auf: Fisch, Hafer, Hühner. Und Pfeffer und Ingwer. Von Höfen, die davon vermutlich nie einen gesehen haben.`},
     {t:"Barfuß nach Wesel",
-     a:`Um zu verstehen, warum eine Einrichtung wie diese hier entstand, hilft ein Blick auf die Armut der Gegend. Der Sandboden der niederrheinischen Höhe war mager; außer den Besitzern der größeren Höfe führten vor allem die Bewohner der kleinen Kathstellen ein ärmliches Dasein. Schafe suchten im Heidekraut ihre Nahrung, der Boden brachte geringes Weidegras, Kartoffeln und Hafer. Wer sonst nichts hatte, band im Winter Besen aus Ginsterreisern und Glockenheide und schob sie mit der Karre in die Dörfer und Städte, um das Nötigste an Kleidung kaufen zu können. Eine alte Frau erzählte um neunzehnhundert, sie sei als junges Mädchen den Weg nach Wesel barfuß gegangen, um ihre sauber gescheuerten Holzschuhe zu schonen – anziehen durfte sie sie erst vor dem Berliner Tor. Erst als man lernte, Heide und Sumpf urbar zu machen und zu düngen, hoben sich die Verhältnisse.`},
+     a:`Warum entstand ausgerechnet hier eine solche Einrichtung? Weil die Gegend arm war. Sehr arm.
+Der Sandboden gab wenig her. Ein paar größere Höfe kamen zurecht. Alle anderen lebten in kleinen Kathstellen, und das hieß: von der Hand in den Mund. Die Schafe suchten ihr Futter im Heidekraut. Der Acker brachte etwas Weidegras, Kartoffeln, Hafer.
+Wer gar nichts hatte, band im Winter Besen. Aus Ginsterreisern, aus Heidekraut. Damit zog er mit der Karre in die Dörfer und in die Städte. Für Kleidung. Mehr war nicht drin.
+Eine alte Frau erzählte um neunzehnhundert von ihrer Jugend. Nach Wesel sei sie barfuß gegangen. Die Holzschuhe habe sie getragen, in der Hand, sauber gescheuert. Angezogen habe sie sie erst kurz vor dem Berliner Tor.
+Besser wurde es erst später. Als man lernte, Heide und Sumpf urbar zu machen.`},
     {t:"Warum es solche Orte gab",
      a:`Um zu verstehen, wofür Lühlerheim gegründet wurde, muss man sich das späte neunzehnte Jahrhundert vorstellen. Mit der Industrialisierung zerfielen die alten ständischen Ordnungen, und die Wirtschaftskrise am Ende der siebziger Jahre machte Hunderttausende arbeits- und obdachlos – überwiegend Männer aus dem Handwerk. Eine staatliche Sozialversicherung, die das aufgefangen hätte, gab es noch nicht. Die Reaktion der Obrigkeit war zunächst polizeilich: Allein in Berlin wurden achtzehnhundertzweiundachtzig rund dreiunddreißigtausend Menschen wegen Bettelei verhaftet. Dass das nichts löste, erkannte Friedrich von Bodelschwingh in Bethel; er gründete achtzehnhundertzweiundachtzig die erste deutsche Arbeiterkolonie und nannte die Betroffenen seine Brüder von der Landstraße. Lühlerheim ist nach diesem Vorbild entstanden.`},
     {t:"Aus Heide wurde Land",
@@ -2393,7 +2653,11 @@ Eines muss klar sein: Schwarzenstein ist bis heute in Privatbesitz und wird land
     {t:"Ein Hausvater statt eines Aufsehers",
      a:`Eine Entscheidung am Anfang zeigt, wie das Werk gedacht war. Der Vorstand vereinbarte mit dem Rauhen Haus in Hamburg, dass ein dort ausgebildeter Diakon die Stelle des Hausvaters übernehmen sollte – ausdrücklich kein Verwalter und kein Aufseher. Das Ziel war, entwurzelte Männer durch geregelte Arbeit, eine feste Hausordnung und persönliche Zuwendung wieder soweit zu bringen, dass sie selbständig leben konnten. Gedacht war Lühlerheim als Durchgangsstation; für Alte und Arbeitsunfähige wurde es oft der letzte Aufenthalt. Trotz des evangelischen Charakters stand es immer allen offen, ohne Rücksicht auf die Konfession. Über der Kapellentür steht ein Bibelwort, das den Ankommenden entgegenleuchtet: Kommet her zu mir alle, die ihr mühselig und beladen seid.`},
     {t:"März 1945",
-     a:`Nach dem großen Bombenangriff auf Wesel im Februar neunzehnhundertfünfundvierzig nahm Lühlerheim auf, was Platz brauchte: ein evangelisches Waisenhaus, eine Stiftung, ein Behelfskrankenhaus, sogar Abteilungen der Sparkasse und des Landratsamtes. Ende März besetzten nach verlustreichen Kämpfen englische Truppen das Gelände; danach folgten Lager für Verschleppte und ein polnisches Lazarett. Die Kolonie musste geräumt werden und konnte erst Monate später in verwahrlostem Zustand zurückgenommen werden – ohne Inventar, ohne Vieh, ohne Maschinen, die Felder verwüstet, die Entwässerung zerstört. Danach begann ein dreizehn Jahre langes Ringen um den Wiederaufbau. Diese Station und das Kriegerdenkmal in Krudenburg gehören zu denselben Wochen im Frühjahr fünfundvierzig.`},
+     a:`Im Februar neunzehnhundertfünfundvierzig wurde Wesel schwer bombardiert. Danach nahm Lühlerheim auf, was Platz brauchte. Ein evangelisches Waisenhaus. Eine Stiftung. Ein Behelfskrankenhaus. Sogar Abteilungen der Sparkasse und des Landratsamtes.
+Ende März besetzten englische Truppen das Gelände, nach verlustreichen Kämpfen. Danach kamen Lager für Verschleppte und ein polnisches Lazarett.
+Die Kolonie musste räumen. Erst Monate später bekam sie das Gelände zurück, und es war verwahrlost. Kein Inventar. Kein Vieh. Keine Maschinen. Die Felder verwüstet, die Entwässerung zerstört.
+Dreizehn Jahre dauerte der Wiederaufbau.
+Diese Station und das Kriegerdenkmal in Krudenburg gehören zu denselben Wochen im Frühjahr fünfundvierzig.`},
     {t:"Praktisch – und was daraus geworden ist",
      a:`Lühlerheim ist heute keine Arbeiterkolonie mehr, sondern eine Dorfgemeinschaft der Evangelischen Stiftung: Pflege, Wohnen und Unterstützung für Menschen in sozialen Notlagen, dazu ein eigener Biohof. Und es ist ausdrücklich offen für Besucher. Im ehemaligen Übernachtungsbereich, einem renovierten Backsteinhaus, liegt das Café Lühlerheide – hausgebackener Kuchen, Waffeln, Eis, dazu Suppen und die Lühlerheider Ofenstulle. Drinnen hängen wechselnde Ausstellungen regionaler Künstler, draußen sitzt man unter alten Kastanien und Eichen, mit Blick über die Felder. Die Zugänge sind barrierefrei, Parkplätze liegen direkt daneben. Zweitausendvierundzwanzig kam ein Archehof dazu, ein inklusiver Lern- und Erlebnisbauernhof mit alten Rassen von Rindern, Ziegen, Eseln und Hühnern. Die Öffnungszeiten wechseln nach Jahreszeit und es gibt eine Winterpause – prüf sie vorher. Und wenn du überlegst, wo dieser Tag eine Pause vertragen könnte: hier.`}
   ],
@@ -2420,7 +2684,10 @@ Und noch heute ist Lühlerheim in Betrieb. Das heißt für dich: Hier leben und 
     {t:"Zwei Schulen in einem Dorf",
      a:`Vor achtzehnhundertfünfundzwanzig gab es in Krudenburg zwei Schulen nebeneinander – eine lutherische und eine reformierte. In einem Ort mit fünfundvierzig Häusern. Der Grund war der Glaube: Es erschien unmöglich, dass Kinder reformierter Eltern die lutherische Schule besuchten, und umgekehrt. Die reformierte Schule wurde siebzehnhundertfünfundachtzig gegründet, auf Anregung des Predigers Terstegen; ein eigenes Schulhaus gab es nicht, man mietete eine Schulstube. Erst die Union der rheinischen Kirchen von achtzehnhundertfünfundzwanzig hob die getrennte Unterrichtung auf. Der Lehrer Schievelkamp, der von siebzehnhundertzweiundneunzig bis achtzehnhundertachtunddreißig amtierte – zweiundfünfzig Jahre – wurde achtzehnhundertsechzehn Lehrer beider Schulen zugleich.`},
     {t:"Der Lehrer, der die Chronik schrieb",
-     a:`Ab achtzehnhundertsechsundsiebzig unterrichtete hier Wilhelm Gaecks, geboren in Pommern, über Umwege an den Niederrhein gekommen. Er blieb bis neunzehnhundertzehn und tat etwas, wofür ihm dieses Dorf bis heute etwas schuldet: Er trug in die Schulchronik zusammen, was er über Krudenburg in Erfahrung bringen konnte – aus Urkunden des Hünxer Kirchenarchivs und des Archivs des Hauses Krudenburg auf Schloss Gartrop. Beinahe alles, was du auf dieser Runde über das alte Dorf hörst, geht letztlich auf seine Aufzeichnungen zurück: die Beschreibung der Häuser, die Tracht, der Hünxer Wald, das Leben vor dem Brand. Die Originalchronik ist inzwischen abhandengekommen. Man versucht sie aus Einzelstücken zu rekonstruieren.`},
+     a:`Ab achtzehnhundertsechsundsiebzig unterrichtete hier Wilhelm Gaecks. Geboren in Pommern, über Umwege an den Niederrhein gekommen. Er blieb bis neunzehnhundertzehn.
+Und er tat etwas, wofür ihm dieses Dorf bis heute etwas schuldet. Er trug in die Schulchronik zusammen, was er über Krudenburg herausfinden konnte. Aus dem Hünxer Kirchenarchiv. Aus dem Archiv des Hauses Krudenburg auf Schloss Gartrop.
+Fast alles, was du auf dieser Runde über das alte Dorf hörst, geht auf ihn zurück. Wie die Häuser aussahen. Was die Leute trugen. Der Hünxer Wald. Das Leben vor dem Brand.
+Die Chronik selbst ist verschollen. Man versucht sie heute aus Einzelstücken wieder zusammenzusetzen.`},
     {t:"Bis 1969",
      a:`Das Gebäude von achtzehnhundertsechsundvierzig diente bis neunzehnhundertneunundsechzig als Schule – hundertdreiundzwanzig Jahre. Zur Lippeseite hin führte ein mehrstufiger Eingang zur Lehrerwohnung, an der Rückseite ein schlichterer Nebeneingang zu Stall, Nebenräumen und dem großen Schulzimmer. Gegenüber stand ein schmaler Ziegelbau mit den Toiletten und einem Raum für die Feuerspritze; er wurde neunzehnhundertsechsundvierzig von Räumpanzern zerstört. Wer sich fragt, wie ein Dorf ohne eigene Kirche und ohne Rathaus zusammengehalten wurde: über die Schule. Sie war Unterricht, Lehrerwohnung, Versammlungsort und Feuerwehrgerätehaus in einem.`}
   ],
@@ -2507,9 +2774,11 @@ Nimm das Krudenburger Kriegerdenkmal dazu, dann hast du drei Steine in zwei Dör
   facts:["Gedenkstein für den ermordeten Heinrich Schüring","31. August 1944: Mord an einem 67-jährigen Landwirt","11. September 1944: öffentliche Hinrichtung von zehn Menschen","Angeordnet von der Gauleitung Essen auf Befehl Himmlers"],
   next:"ev-kirche-drevenack", transport:"car",
   audio:`Diese Station ist anders als alle anderen dieser Runde. Wenn du dafür nicht in der Stimmung bist, fahr weiter – niemand nimmt es dir übel.
-Im Wald zwischen Drevenack und Damm, an dieser Wegkreuzung, steht ein Findling mit schwarzer Beschriftung. Er erinnert an Heinrich Schüring, Landwirt und Jäger aus Weselerwald, siebenundsechzig Jahre alt. Er wurde hier am einunddreißigsten August neunzehnhundertvierundvierzig getötet – von drei geflohenen sowjetischen Kriegsgefangenen, die sich seit dem Frühjahr in einem getarnten Erdbunker in diesem Wald versteckten und von Überfällen auf die Höfe der Umgebung lebten. Sie fürchteten, der Jäger werde ihr Versteck entdecken.
-Am sechsten September wurde der Unterstand gefunden und geräumt. Elf Menschen kamen heraus: die drei, und acht weitere, die erst zwei Tage zuvor dazugestoßen waren – Zwangsarbeiter, die dem Schanzeinsatz am Westwall entgehen wollten, darunter zwei junge Ukrainerinnen. Eine von ihnen, Maria, war siebzehn.
-Am elften September wurden hier zehn von ihnen öffentlich erhängt, an vier Bäumen an dieser Kreuzung. Auf Befehl Himmlers, ohne Unterscheidung zwischen Mördern und Untergetauchten. Die Zwangsarbeiter der Umgebung wurden zusammengetrieben und mussten zusehen.
+Im Wald zwischen Drevenack und Damm, an dieser Wegkreuzung, steht ein Findling mit schwarzer Beschriftung. Er erinnert an Heinrich Schüring. Landwirt und Jäger aus Weselerwald, siebenundsechzig Jahre alt.
+Er wurde hier getötet, am einunddreißigsten August neunzehnhundertvierundvierzig. Die Täter waren drei geflohene sowjetische Kriegsgefangene. Seit dem Frühjahr versteckten sie sich in einem getarnten Erdbunker in diesem Wald und lebten von Überfällen auf die Höfe. Sie fürchteten, der Jäger werde ihr Versteck entdecken.
+Am sechsten September wurde der Unterstand gefunden. Elf Menschen kamen heraus. Die drei. Und acht weitere, die erst zwei Tage vorher dazugestoßen waren: Zwangsarbeiter, die dem Schanzeinsatz am Westwall entgehen wollten. Darunter zwei junge Ukrainerinnen. Eine von ihnen, Maria, war siebzehn.
+Am elften September wurden zehn von ihnen hier öffentlich erhängt. An vier Bäumen an dieser Kreuzung. Auf Befehl Himmlers. Ohne Unterschied zwischen Mördern und Untergetauchten.
+Die Zwangsarbeiter der Umgebung wurden zusammengetrieben. Sie mussten zusehen.
 Die Bauern der Gegend verweigerten die geforderten Stricke und Leitern. Das war das Einzige, was sie tun konnten.
 Es gibt an diesem Ort keinen Trost und keine Pointe. Es gibt einen ermordeten alten Mann und zehn Menschen, die an diesen Bäumen starben, von denen acht mit seinem Tod nichts zu tun hatten. Beides ist wahr, und beides gehört hierher.
 `
@@ -3105,29 +3374,60 @@ async function whereAmI(){
   try{
     /* Gestaffelt suchen: erst ganz eng, damit vor dem Neptunbrunnen nicht
        das halbe Schloss erscheint. Erst wenn nichts kommt, wird der Kreis
-       größer. Der zuletzt verwendete Radius steht in der Überschrift. */
-    let hits = [], usedRadius = 0;
+       größer. Abgefragt wird zugleich das Artikelbild – das kostet die
+       Datei nichts, weil es erst bei Bedarf vom Netz kommt. */
+    let seiten = [], usedRadius = 0;
     for(const rad of [80, 180, 400]){
-      const url = "https://de.wikipedia.org/w/api.php?action=query&list=geosearch"
-        + "&gscoord=" + f.lat + "%7C" + f.lon
-        + "&gsradius=" + rad + "&gslimit=10&format=json&origin=*";
-      const r = await fetch(url, { cache:"no-store" });
-      const j = await r.json();
-      hits = (j.query && j.query.geosearch) || [];
+      const url = "https://de.wikipedia.org/w/api.php?action=query"
+        + "&generator=geosearch&ggscoord=" + f.lat + "%7C" + f.lon
+        + "&ggsradius=" + rad + "&ggslimit=10"
+        + "&prop=pageimages|coordinates|description"
+        + "&piprop=thumbnail&pithumbsize=200"
+        + "&format=json&origin=*";
+      let j2 = null;
+      try{
+        const r = await fetch(url, { cache:"no-store" });
+        if(r.ok) j2 = await r.json();
+      }catch(e){ j2 = null; }
+      seiten = j2 ? Object.values((j2.query && j2.query.pages) || {}) : [];
       usedRadius = rad;
-      if(hits.length) break;
+      if(seiten.length) break;
     }
+
+    // Entfernung selbst rechnen und danach sortieren
+    seiten.forEach(x=>{
+      const c = x.coordinates && x.coordinates[0];
+      x._d = c ? haversine(f.lat, f.lon, c.lat, c.lon) : 99999;
+    });
+    seiten.sort((a,b)=>a._d - b._d);
+
     const wiki = [];
     wiki.push('<div style="margin-top:14px"><b>Wikipedia im Umkreis von '+usedRadius+' m</b></div>');
-    if(!hits.length){
+    if(!seiten.length){
       wiki.push('<div style="opacity:.7">Nichts verzeichnet.</div>');
     } else {
-      hits.forEach(h=>{
+      seiten.forEach(h=>{
         const link = "https://de.wikipedia.org/wiki/" + encodeURIComponent(h.title.replace(/ /g,"_"));
-        wiki.push('<div style="margin:6px 0"><a href="'+link+'" target="_blank" rel="noopener"'+
-          ' style="color:#0E4C60;font-weight:700;text-decoration:none">'+esc(h.title)+'</a>'+
-          ' <span style="opacity:.7">· '+fmtDist(h.dist)+'</span></div>');
+        const bild = h.thumbnail
+          ? '<img src="'+h.thumbnail.source+'" alt="" loading="lazy" '
+            + 'style="width:64px;height:64px;object-fit:cover;border-radius:9px;flex:0 0 auto">'
+          : '<div style="width:64px;height:64px;border-radius:9px;flex:0 0 auto;'
+            + 'background:rgba(14,76,96,.08);display:flex;align-items:center;'
+            + 'justify-content:center;font-size:22px">📄</div>';
+        wiki.push('<a href="'+link+'" target="_blank" rel="noopener" '
+          + 'style="display:flex;gap:10px;align-items:center;margin:8px 0;'
+          + 'text-decoration:none;color:inherit">'
+          + bild
+          + '<span style="min-width:0">'
+          + '<span style="display:block;color:#0E4C60;font-weight:700">'+esc(h.title)+'</span>'
+          + '<span style="display:block;font-size:12.5px;opacity:.7">'
+          + (h._d < 99999 ? fmtDist(h._d) : "")
+          + (h.description ? ' · '+esc(h.description) : '')
+          + '</span></span></a>');
       });
+      wiki.push('<div style="font-size:11px;opacity:.6;margin-top:8px">'
+        + 'Bilder und Texte von Wikipedia, abgerufen bei Bedarf. '
+        + 'Zum Weiterlesen antippen.</div>');
     }
     out.innerHTML = parts.join("") + wiki.join("");
     bindWhereLinks();
@@ -3153,6 +3453,134 @@ function openLens(){
   const url = iOS ? "https://www.google.com/search?udm=50"
                   : "https://lens.google.com/";
   window.open(url, "_blank", "noopener");
+}
+
+
+/* Eigene Aufnahmen einer Stadt entfernen. Nötig, sobald Fotos fest in den
+   Guide übernommen wurden – sonst steht an jeder Station dasselbe zweimal. */
+async function clearOwnPhotos(){
+  const out = $("calibOut");
+  out.classList.remove("hidden");
+  let all;
+  try{ all = await PhotoStore.all(); }
+  catch(e){ out.textContent = "Bildspeicher nicht lesbar."; return; }
+  const mine = Object.keys(all).filter(k=>k.indexOf(CITY.id+"/")===0);
+  if(!mine.length){ out.textContent = "Für "+CITY.name+" sind keine eigenen Fotos gespeichert."; return; }
+
+  const anzahl = mine.reduce((n,k)=>{
+    let v = all[k]; if(typeof v === "string") v = [v];
+    return n + (v ? v.length : 0);
+  }, 0);
+
+  if(!confirm(anzahl+" eigene Fotos an "+mine.length+" Stationen in "+CITY.name+" löschen?\n\n"
+      + "Die fest im Guide hinterlegten Bilder bleiben erhalten. "
+      + "Sichere vorher über „Meine Daten“, falls du sie noch brauchst.")) {
+    out.textContent = "Abgebrochen – es wurde nichts gelöscht.";
+    return;
+  }
+  let weg = 0;
+  for(const k of mine){
+    try{ await PhotoStore.del(k); weg++; }catch(e){}
+  }
+  out.textContent = weg+" von "+mine.length+" Stationen geleert. "
+    + "Die Bilder des Guides bleiben sichtbar.";
+  if(currentTarget) showRefPhoto(currentTarget);
+}
+
+
+/* ============================================================
+   VERSION
+   Safari hält alte Fassungen hartnäckig fest. Damit nie wieder
+   unklar ist, welcher Stand läuft, steht die Kennung an einer
+   Stelle im Programm und wird beim Start sichtbar gemacht.
+   ============================================================ */
+/* Führt einen Startschritt aus. Scheitert er, läuft der Rest trotzdem –
+   und es ist hinterher nachvollziehbar, welcher Schritt es war. */
+function schritt(name, fn){
+  try{ fn(); }
+  catch(e){
+    (window.__fehler = window.__fehler || []).push({ text: name + ": " + e.message, quelle:"Start", zeile:0 });
+    window.__log("error", "Startschritt fehlgeschlagen – " + name + ": " + e.message);
+  }
+}
+
+function initVersion(){
+  const txt = "Stand: " + CONFIG.VERSION;
+  document.querySelectorAll(".ver").forEach(el=>{
+    el.textContent = txt + el.textContent.replace(/^Stand:[^·]*/, "");
+  });
+  const vorher = localStorage.getItem("audioguide-version");
+  if(vorher && vorher !== CONFIG.VERSION){
+    window.__log("log", "Audioguide aktualisiert: " + vorher + " → " + CONFIG.VERSION);
+  }
+  try{ localStorage.setItem("audioguide-version", CONFIG.VERSION); }catch(e){}
+  return txt;
+}
+
+/** Sagt im Klartext, welcher Stand läuft und wie man ihn erneuert. */
+function versionDiag(){
+  const el = $("calibOut");
+  if(!el) return;
+  el.classList.remove("hidden");
+  const zeilen = [
+    "Laufender Stand: " + CONFIG.VERSION,
+    "",
+    "Stimmt das nicht mit der Datei überein, die du hochgeladen hast,",
+    "zeigt der Browser eine ältere Fassung an. Abhilfe:",
+    "",
+    "1. Seite ganz schließen, nicht nur zurückgehen",
+    "2. Erneut öffnen",
+    "3. Falls es dann noch fehlt: Verlauf und Websitedaten leeren",
+    "",
+    "Karte: " + (typeof L !== "undefined" ? "Bibliothek geladen" : "OHNE KARTE"),
+    (typeof L === "undefined"
+      ? "   In der App-internen Ansicht sind fremde Skripte oft\n"
+        + "   gesperrt. In Safari selbst erscheint die Karte meist."
+      : ""),
+    "Bildspeicher: " + (PhotoStore.mode || "noch nicht geöffnet"),
+    "Stadt: " + CITY.name + " · Stationen: " + POIS.length
+      + " · Tage: " + (CITY.days ? CITY.days.length : "keine")
+      + " · aktiver Tag: " + (activeDay==null ? "alle" : activeDay)
+  ];
+  const f = window.__fehler || [];
+  zeilen.push("");
+  if(!f.length){
+    zeilen.push("Keine Fehler seit dem Start.");
+  } else {
+    zeilen.push(f.length + " Fehler seit dem Start:");
+    f.slice(0,8).forEach((x,i)=>{
+      zeilen.push("  " + (i+1) + ". " + x.text);
+      if(x.quelle) zeilen.push("     in " + x.quelle + (x.zeile ? ", Zeile " + x.zeile : ""));
+    });
+    if(f.some(x=>/^Script error/.test(x.text)))
+      zeilen.push("", "„Script error“ ohne Text stammt aus einer fremd geladenen",
+                      "Datei – hier fast immer aus der Kartenbibliothek.",
+                      "Tippe unten auf „Kartenspeicher leeren“ und lade neu.");
+  }
+  el.textContent = zeilen.join("\n");
+}
+
+/** Schaltet die Ausgabe in die Browser-Konsole um. */
+function toggleDebug(){
+  const el = $("calibOut"); if(el) el.classList.remove("hidden");
+  let an = false;
+  try{
+    an = localStorage.getItem("audioguide-debug") === "1";
+    localStorage.setItem("audioguide-debug", an ? "0" : "1");
+  }catch(e){}
+  if(el) el.textContent = an
+    ? "Konsolenausgabe aus. Meldungen stehen weiter unter „Welcher Stand läuft?“."
+    : "Konsolenausgabe an. Sie erscheint erst nach dem Neuladen der Seite.";
+}
+
+/** Wirft die zwischengespeicherte Kartenbibliothek weg. */
+function clearLibCache(){
+  const el = $("calibOut"); if(el) el.classList.remove("hidden");
+  try{
+    const rq = indexedDB.deleteDatabase("audioguide-lib");
+    rq.onsuccess = () => { if(el) el.textContent = "Kartenspeicher geleert. Bitte die Seite neu laden."; };
+    rq.onerror   = () => { if(el) el.textContent = "Kartenspeicher liess sich nicht leeren."; };
+  }catch(e){ if(el) el.textContent = "Kartenspeicher liess sich nicht leeren: " + e.message; }
 }
 
 /* ============================================================
@@ -4260,7 +4688,9 @@ function initPhotoUI(){
     const b=e.target.closest(".chip"); if(!b) return;
     $("question").value = b.dataset.q;
   });
-  $("lenChips").addEventListener("click", e=>{
+  // Die Auswahl der Antwortlänge gehörte zur Bildanalyse und entfällt.
+  const _lc = $("lenChips");
+  if(_lc) _lc.addEventListener("click", e=>{
     const b=e.target.closest(".chip"); if(!b) return;
     answerLength = b.dataset.len;
     [...$("lenChips").children].forEach(c=>c.classList.toggle("on", c===b));
@@ -4269,7 +4699,8 @@ function initPhotoUI(){
   $("btnPick").onclick    = ()=>$("filePick").click();
   $("fileCapture").onchange = e=>addFiles(e.target.files);
   $("filePick").onchange    = e=>addFiles(e.target.files);
-  $("btnAnalyze").onclick = runAnalysis;
+  $("btnWhere2").onclick = ()=>{ switchMode("gps"); whereAmI(); };
+$("btnLens2").onclick  = openLens;
   $("btnDropPhotos").onclick = dropPhotos;
   $("btnAttach").onclick = attachPhotosToStation;
 }
@@ -4357,7 +4788,6 @@ function renderThumbs(){
   $("thumbs").querySelectorAll("button").forEach(b=>{
     b.onclick = ()=>{ Photos.splice(+b.dataset.i,1); renderThumbs(); };
   });
-  $("btnAnalyze").textContent = Photos.length>1 ? "🔎 "+Photos.length+" Fotos analysieren" : "🔎 Foto analysieren";
 }
 
 function buildPhotoContext(){
@@ -5016,11 +5446,18 @@ function boot(cityId, useGps){
   $("cityTitle").textContent = CITY.flag+" "+CITY.title;
   $("splash").style.display="none";
   $("app").classList.add("on");
-  initDays();
-  initMap();
-  initPhotoUI();
-  UI.progressLine();
-  UI.nav();
+  schritt("Version", initVersion);
+  schritt("Tagesleiste", initDays);
+  // Auf den Ladeversuch der Kartenbibliothek warten. Schlägt er fehl,
+  // zeigt initMap den Hinweis statt der Karte – der Guide läuft weiter.
+  if(window.LEAFLET_READY && typeof window.LEAFLET_READY.then === "function"){
+    window.LEAFLET_READY.then(initMap).catch(initMap);
+  } else {
+    initMap();
+  }
+  schritt("Fotobereich", initPhotoUI);
+  schritt("Fortschritt", ()=>UI.progressLine());
+  schritt("Navigation", ()=>UI.nav());
   $("btnHints").textContent = "🔔 Hinweise: "+(State.hints?"an":"aus");
   $("btnNav").textContent   = "🧭 Wegansage: "+(State.navSpeak?"an":"aus");
   $("vol").value = State.volume;
@@ -5195,6 +5632,14 @@ $("btnList").onclick  = openList;
 $("sheetClose").onclick = ()=>$("sheet").classList.add("hidden");
 $("sheet").onclick = e=>{ if(e.target.id==="sheet") $("sheet").classList.add("hidden"); };
 $("btnRoute").onclick = ()=>openRoute();
+$("btnTech").onclick    = ()=>{ $("techBox").classList.toggle("hidden"); };
+$("techCancel").onclick = ()=>$("techBox").classList.add("hidden");
+$("diagMore").onclick   = ()=>{
+  const b = $("diagBox");
+  b.classList.toggle("hidden");
+  $("diagMore").textContent = b.classList.contains("hidden")
+    ? "🩺 Prüfen & Aufräumen …" : "🩺 Prüfen & Aufräumen schließen";
+};
 $("btnWhere").onclick   = whereAmI;
 $("whereClose").onclick = ()=>$("wherePanel").classList.add("hidden");
 $("whereLens").onclick  = openLens;
@@ -5250,6 +5695,10 @@ $("btnExport").onclick   = askExport;
 $("exportCopy").onclick  = exportCopy;
 $("exportFile").onclick  = exportFile;
 $("exportPics").onclick  = exportPhotos;
+const _rc = $("refClear"); if(_rc) _rc.onclick = clearOwnPhotos;
+const _vg = $("verDiag");  if(_vg) _vg.onclick = versionDiag;
+const _lz = $("libClear"); if(_lz) _lz.onclick = clearLibCache;
+const _db = $("dbgToggle"); if(_db) _db.onclick = toggleDebug;
 $("exportCancel").onclick= ()=>{
   $("exportBox").classList.add("hidden");
   const g = $("galleryBox"); if(g) g.remove();
