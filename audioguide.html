@@ -401,7 +401,7 @@ footer{
     <button class="btn-ghost" id="startNoGps">Ohne Standort fortfahren</button>
     <div id="bootError" style="display:none;background:#B3311F;color:#fff;border-radius:12px;
          padding:12px;margin-top:12px;font-size:13px;text-align:left;line-height:1.4"></div>
-    <p class="ver">Stand: 08.09.2026 t · 63 Stationen · 225 Detailpunkte</p>
+    <p class="ver">Stand: 08.09.2026 u · 63 Stationen · 225 Detailpunkte</p>
     <p class="foot">
       Beim Start fragt der Browser nach dem Standort. Nur mit erlaubtem Zugriff
       erkennt der Guide selbst, wo du stehst. Jede Stadt merkt sich ihren
@@ -5202,7 +5202,11 @@ $("addCancel").onclick   = ()=>$("addBox").classList.add("hidden");
 $("btnExport").onclick   = askExport;
 $("exportCopy").onclick  = exportCopy;
 $("exportFile").onclick  = exportFile;
-$("exportCancel").onclick= ()=>$("exportBox").classList.add("hidden");
+$("exportPics").onclick  = exportPhotos;
+$("exportCancel").onclick= ()=>{
+  $("exportBox").classList.add("hidden");
+  const g = $("galleryBox"); if(g) g.remove();
+};
 $("btnCalib").onclick    = askCalib;
 $("calibSet").onclick    = calibSet;
 $("refShot").onclick     = ()=>$("refInput").click();
