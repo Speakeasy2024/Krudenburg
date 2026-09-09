@@ -414,7 +414,7 @@ footer{
     <button class="btn-ghost" id="startNoGps">Ohne Standort fortfahren</button>
     <div id="bootError" style="display:none;background:#B3311F;color:#fff;border-radius:12px;
          padding:12px;margin-top:12px;font-size:13px;text-align:left;line-height:1.4"></div>
-    <p class="ver">Stand: 09.09.2026 q · 63 Stationen · 225 Detailpunkte</p>
+    <p class="ver">Stand: 09.09.2026 x · 63 Stationen · 225 Detailpunkte</p>
     <p class="foot">
       Beim Start fragt der Browser nach dem Standort. Nur mit erlaubtem Zugriff
       erkennt der Guide selbst, wo du stehst. Jede Stadt merkt sich ihren
@@ -473,7 +473,7 @@ footer{
     <!-- Umgebungssuche -->
     <button id="btnWhere" class="go"
             style="width:100%;margin:0 0 10px;background:#F3F1EC;color:#0E4C60;border:1px solid rgba(14,76,96,.25)">
-      🧭 Was ist hier?
+      🔎 Was ist hier?
     </button>
     <div id="wherePanel" class="card hidden" style="margin-bottom:10px">
       <div class="eyebrow">In deiner Nähe</div>
@@ -572,7 +572,7 @@ footer{
         </p>
 
         <button class="ctrl main" id="btnWhere2" style="width:100%;margin-top:4px;padding:16px;font-size:16px">
-          🧭 Umgebung durchsuchen
+          🔎 Umgebung durchsuchen
         </button>
         <div class="privacy" style="margin-top:8px">
           Nutzt deinen zuletzt bekannten Standort. Zeigt zuerst die Stationen dieses
@@ -623,7 +623,7 @@ footer{
       <div class="progressline" id="progressLine">Tourfortschritt: 0 von 17 Sehenswürdigkeiten</div>
       <div class="tabs">
         <button class="tab on" id="tabGps">🎧 GPS-FÜHRUNG</button>
-        <button class="tab" id="tabPhoto">🧭 OHNE GPS</button>
+        <button class="tab" id="tabPhoto">🛰 OHNE GPS</button>
       </div>
       <div class="more">
         <button id="btnList">📍 Alle Orte</button>
@@ -636,11 +636,11 @@ footer{
           <button id="btnNav">🧭 Wegansage: an</button>
         </div>
         <div class="more">
-          <button id="btnHints">🔔 Hinweise: an</button>
+          <button id="btnHints">🗣 Ankunft ansagen: aus</button>
           <button id="btnOffline">🗺 Karte offline</button>
         </div>
         <div class="more">
-          <button id="btnAdd">➕ Eigener Ort</button>
+          <button id="btnWhere3">🔎 Was ist hier?</button>
           <button id="btnTech">🔧 Technik</button>
         </div>
       </div>
@@ -651,6 +651,7 @@ footer{
           Alles, was man unterwegs selten braucht: Position korrigieren,
           Fotos, Daten sichern und Diagnosen.
         </div>
+        <button id="btnAdd" class="rb-opt">➕ Eigenen Ort anlegen</button>
         <button id="btnCalib" class="rb-opt">🎯 Position &amp; Foto</button>
         <button id="btnExport" class="rb-opt">⬇️ Meine Daten sichern</button>
         <button id="btnReset" class="rb-opt">🔄 Fortschritt zurücksetzen</button>
@@ -677,6 +678,11 @@ footer{
         <input class="qinput" id="addName" placeholder="Name, z. B. „Bäckerei in der Gasse“">
         <textarea class="qinput" id="addNote" rows="3"
           placeholder="Was ist hier bemerkenswert? Dieser Text wird später vorgelesen."></textarea>
+        <button id="addShot" class="rb-opt">📷 Foto aufnehmen</button>
+        <button id="addPick" class="rb-opt">🖼 Foto aus der Mediathek</button>
+        <input type="file" id="addFile" accept="image/*" capture="environment" hidden>
+        <input type="file" id="addFile2" accept="image/*" hidden>
+        <div id="addThumb" style="margin:8px 0"></div>
         <button id="addSave" class="rb-opt">Ort speichern</button>
         <button id="addCancel" class="rb-cancel">Abbrechen</button>
       </div>
@@ -893,7 +899,7 @@ const CONFIG = {
   // Solange dieser Wert leer ist, läuft die App vollständig ohne Claude.
   // ============================================================
   CLAUDE_BACKEND_URL: "",
-  VERSION: "09.09.2026 q",     // eine Stelle für alles: Kopfzeile, Titel, Diagnose
+  VERSION: "09.09.2026 x",     // eine Stelle für alles: Kopfzeile, Titel, Diagnose
 
   // Referenzfotos: bewusst klein. 560 px reichen, um wiederzuerkennen,
   // wo man steht – und ergeben rund 25 KB pro Bild.
@@ -2881,7 +2887,7 @@ function loadState(){
     const d = JSON.parse(raw);
     State.visited = Array.isArray(d.visited) ? d.visited : [];
     State.volume  = typeof d.volume === "number" ? d.volume : 0.9;
-    State.hints   = d.hints !== false;
+    State.hints   = d.hints === true;   // Standard ist aus: nur Ton, keine Ansage
     State.rate    = typeof d.rate === "number" ? d.rate : 0.95;
     State.voiceURI= typeof d.voiceURI === "string" ? d.voiceURI : null;
     State.navSpeak= d.navSpeak !== false;
@@ -3344,7 +3350,9 @@ function updateWayfinder(){
 async function whereAmI(){
   const panel = $("wherePanel"), out = $("whereOut");
   panel.classList.remove("hidden");
-  const f = State.lastFix;
+  // Ohne Ortung dient die zuletzt gewählte Station als Bezugspunkt.
+  const f = State.lastFix
+    || (currentTarget ? { lat: currentTarget.lat, lon: currentTarget.lon } : null);
 
   // 1) Eigene Stationen – funktioniert immer, auch ohne Netz
   const parts = [];
@@ -3363,8 +3371,15 @@ async function whereAmI(){
     } else {
       parts.push('<b>Stationen dieses Guides</b><div style="opacity:.7">Keine im Umkreis von 800 Metern.</div>');
     }
+  } else if(currentTarget){
+    parts.push('<b>Kein Standortsignal</b>');
+    parts.push('<div style="opacity:.75;margin:6px 0">Gesucht wird deshalb rund um '
+      + '<b>'+esc(currentTarget.name)+'</b>, die zuletzt gewählte Station. '
+      + 'Wähle in der Liste eine andere, wenn du woanders stehst.</div>');
   } else {
-    parts.push('<div style="opacity:.7">Noch kein Standort. Schalte die Ortung ein.</div>');
+    parts.push('<b>Kein Standortsignal</b>');
+    parts.push('<div style="opacity:.75;margin:6px 0">Schalte die Ortung ein – '
+      + 'oder wähle zuerst eine Station aus der Liste, dann wird um diese herum gesucht.</div>');
   }
   out.innerHTML = parts.join("") + '<div style="margin-top:12px;opacity:.7">Suche in Wikipedia …</div>';
   bindWhereLinks();
@@ -3428,6 +3443,9 @@ async function whereAmI(){
       wiki.push('<div style="font-size:11px;opacity:.6;margin-top:8px">'
         + 'Bilder und Texte von Wikipedia, abgerufen bei Bedarf. '
         + 'Zum Weiterlesen antippen.</div>');
+      // Gefundenes gleich als eigenen Ort festhalten – mit dem Namen von Wikipedia
+      wiki.push('<button class="rb-opt" id="whereKeep" style="margin-top:10px">'
+        + '📍 „' + esc(seiten[0].title) + '“ als eigenen Ort merken</button>');
     }
     out.innerHTML = parts.join("") + wiki.join("");
     bindWhereLinks();
@@ -3440,6 +3458,12 @@ async function whereAmI(){
 }
 
 function bindWhereLinks(){
+  const keep = $("whereKeep");
+  if(keep) keep.onclick = ()=>{
+    const titel = keep.textContent.replace(/^.*?„/, "").replace(/“.*$/, "");
+    $("wherePanel").classList.add("hidden");
+    askAdd(titel);
+  };
   $("whereOut").querySelectorAll("a[data-poi]").forEach(a=>{
     a.onclick = ev=>{ ev.preventDefault();
       $("wherePanel").classList.add("hidden");
@@ -4963,7 +4987,7 @@ function gpsReport(){
     L.push("Letzte Messung: " + f.lat.toFixed(5) + ", " + f.lon.toFixed(5));
     L.push("Genauigkeit: ±" + Math.round(f.acc||0) + " m, vor " + alter + " s");
   } else L.push("Letzte Messung: keine");
-  L.push("Hinweise angesagt: " + (State.hints ? "an" : "aus"));
+  L.push("Ankunft wird angesagt: " + (State.hints ? "ja" : "nein – nur Ton und Vibration"));
   L.push("Handsteuerung: " + (manualLock ? "AN – GPS ändert die Anzeige nicht" : "aus"));
   L.push("Ton freigeschaltet: " + (audioUnlocked ? "ja" : "nein"));
   if(f){
@@ -5054,9 +5078,12 @@ function calibClear(){
 function toggleHints(){
   State.hints = !State.hints;
   saveState();
-  $("btnHints").textContent = "🔔 Hinweise: "+(State.hints?"an":"aus");
+  $("btnHints").textContent = "🗣 Ankunft ansagen: "+(State.hints?"an":"aus");
   $("btnNav").textContent   = "🧭 Wegansage: "+(State.navSpeak?"an":"aus");
   if(!State.hints && Speech.label==="Hinweis") Speech.stop();
+  UI.playState(State.hints
+    ? "Ankunft wird jetzt auch angesagt."
+    : "Ankunft nur noch mit Ton und Vibration – ohne Ansage.");
 }
 
 /* ============================================================
@@ -5087,21 +5114,46 @@ function applyCustom(){
   });
 }
 
-function askAdd(){
+let addFoto = null;   // Bild zum neuen Ort, bis gespeichert wird
+
+async function addFotoNehmen(datei){
+  if(!datei) return;
+  const b = await shrink(datei, CONFIG.REF_PHOTO_MAX, CONFIG.REF_PHOTO_QUALITY);
+  if(!b || !b.url) return;
+  addFoto = b;
+  $("addThumb").innerHTML =
+    '<img src="'+b.url+'" alt="Foto zum eigenen Ort" '
+    + 'style="width:100%;max-height:180px;object-fit:cover;border-radius:11px;display:block">'
+    + '<div style="font-size:12px;opacity:.7;margin-top:5px">Foto übernommen. '
+    + 'Es wird mit dem Ort gespeichert.</div>';
+}
+
+function askAdd(vorschlag){
   const box=$("addBox");
-  if(!box.classList.contains("hidden")){ box.classList.add("hidden"); return; }
+  if(!box.classList.contains("hidden") && !vorschlag){ box.classList.add("hidden"); return; }
   const f=State.lastFix;
-  $("addWhere").textContent = (f && gpsOn)
-    ? "Position: "+f.lat.toFixed(5)+", "+f.lon.toFixed(5)+" (±"+Math.round(f.acc)+" m)"
-    : "Kein Standortsignal – ohne Position lässt sich kein Ort anlegen.";
-  $("addSave").disabled = !(f && gpsOn);
-  $("addName").value=""; $("addNote").value="";
+  if(f && gpsOn){
+    $("addWhere").textContent = "Position: "+f.lat.toFixed(5)+", "+f.lon.toFixed(5)+" (±"+Math.round(f.acc)+" m)";
+  } else if(f){
+    $("addWhere").textContent = "Ortung ruht – es wird der zuletzt bekannte Punkt verwendet: "
+      + f.lat.toFixed(5)+", "+f.lon.toFixed(5)+". Vor Ort später über „Position & Foto“ korrigieren.";
+  } else if(currentTarget){
+    $("addWhere").textContent = "Kein Standortsignal. Der Ort wird bei „"+currentTarget.name
+      + "“ angelegt und lässt sich später korrigieren.";
+  } else {
+    $("addWhere").textContent = "Kein Standortsignal und keine gewählte Station – "
+      + "schalte die Ortung ein oder wähle zuerst eine Station aus der Liste.";
+  }
+  $("addSave").disabled = !(f || currentTarget);
+  $("addName").value = typeof vorschlag === "string" ? vorschlag : "";
+  $("addNote").value = "";
+  addFoto = null; $("addThumb").innerHTML = "";
   box.classList.remove("hidden");
 }
 
-function addSave(){
-  const f=State.lastFix;
-  if(!f || !gpsOn) return;
+async function addSave(){
+  const f = State.lastFix || (currentTarget ? {lat:currentTarget.lat, lon:currentTarget.lon} : null);
+  if(!f) return;
   const name = ($("addName").value||"").trim() || "Eigener Ort";
   State.custom = State.custom || [];
   State.custom.push({
@@ -5111,12 +5163,19 @@ function addSave(){
     note: ($("addNote").value||"").trim(),
     ts: Date.now()
   });
+  const neu = State.custom[State.custom.length-1];
+  if(addFoto){
+    try{
+      await saveStationPhotos(neu.id, [{ kind:"ref", url:addFoto.url, ts:Date.now() }]);
+    }catch(e){}
+  }
   saveState();
   applyCustom();
   renderMarkers();
   UI.progressLine();
   $("addBox").classList.add("hidden");
-  UI.playState("„"+name+"“ gespeichert.");
+  UI.playState("„"+name+"“ gespeichert"+(addFoto ? " – mit Foto." : "."));
+  addFoto = null;
 }
 
 function deleteCustom(id){
@@ -5458,7 +5517,7 @@ function boot(cityId, useGps){
   schritt("Fotobereich", initPhotoUI);
   schritt("Fortschritt", ()=>UI.progressLine());
   schritt("Navigation", ()=>UI.nav());
-  $("btnHints").textContent = "🔔 Hinweise: "+(State.hints?"an":"aus");
+  $("btnHints").textContent = "🗣 Ankunft ansagen: "+(State.hints?"an":"aus");
   $("btnNav").textContent   = "🧭 Wegansage: "+(State.navSpeak?"an":"aus");
   $("vol").value = State.volume;
   $("volVal").textContent = Math.round(State.volume*100)+" %";
@@ -5633,6 +5692,11 @@ $("sheetClose").onclick = ()=>$("sheet").classList.add("hidden");
 $("sheet").onclick = e=>{ if(e.target.id==="sheet") $("sheet").classList.add("hidden"); };
 $("btnRoute").onclick = ()=>openRoute();
 $("btnTech").onclick    = ()=>{ $("techBox").classList.toggle("hidden"); };
+$("btnWhere3").onclick  = ()=>{ switchMode("gps"); whereAmI(); };
+$("addShot").onclick    = ()=>$("addFile").click();
+$("addPick").onclick    = ()=>$("addFile2").click();
+$("addFile").onchange   = e=>addFotoNehmen(e.target.files[0]);
+$("addFile2").onchange  = e=>addFotoNehmen(e.target.files[0]);
 $("techCancel").onclick = ()=>$("techBox").classList.add("hidden");
 $("diagMore").onclick   = ()=>{
   const b = $("diagBox");
