@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Golf & More Huckingen · Fortschritt-Tracker</title>
+<title>Golf Fortschritt-Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -58,7 +58,6 @@
   .metric-toggles button[data-metric="updown"].active { background: var(--gold); }
   .metric-toggles button[data-metric="doubles"].active { background: var(--red); }
   .metric-toggles button[data-metric="score"].active { background: #7fb3d9; }
-  .metric-toggles button[data-metric="hcp"].active { background: #b892d9; }
   .metric-toggles button[data-metric="penalties"].active { background: var(--red); color: #fff; }
 
   svg.chart { width: 100%; height: auto; display: block; }
@@ -73,14 +72,16 @@
   footer { text-align: center; color: var(--text-dim); font-size: 12px; padding: 20px 20px 0; }
   .save-msg { font-size: 12px; color: var(--fairway-bright); margin-top: 10px; min-height: 16px; }
 
-  .hole-row { display: grid; grid-template-columns: 34px 60px 1fr 1fr; gap: 8px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--card-border); }
+  .hole-row { display: grid; grid-template-columns: 28px 42px 48px 1fr 1fr; gap: 6px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--card-border); }
+  .hole-length { font-size: 12px; color: var(--text-dim); text-align: center; }
+  .single-hole-big .hole-length { font-size: 16px; }
   .hole-row:last-child { border-bottom: none; }
   .hole-num { font-family: 'Fraunces', serif; font-weight: 600; color: var(--gold); text-align: center; }
   .par-input { text-align: center; padding: 6px; font-size: 13px; }
   .stepper { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 8px; padding: 4px 6px; }
   .stepper button { padding: 4px 10px; font-size: 14px; background: var(--card-border); color: var(--text); border-radius: 6px; }
   .stepper .stepper-val { min-width: 22px; text-align: center; font-weight: 600; }
-  .hole-labels { display: grid; grid-template-columns: 34px 60px 1fr 1fr; gap: 8px; font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.04em; padding-bottom: 6px; border-bottom: 1px solid var(--card-border); margin-bottom: 4px; }
+  .hole-labels { display: grid; grid-template-columns: 28px 42px 48px 1fr 1fr; gap: 6px; font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.04em; padding-bottom: 6px; border-bottom: 1px solid var(--card-border); margin-bottom: 4px; }
   .scorecard-total { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-dim); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--card-border); }
   .scorecard-total strong { color: var(--fairway-bright); }
   .hole-extra-row { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 0 10px 42px; }
@@ -167,11 +168,16 @@
 
 <header class="hero">
   <div style="display:inline-flex; align-items:center; gap:10px; background: var(--fairway-bright); border-radius: 999px; padding: 8px 20px; margin-bottom:18px;">
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAAA0CAYAAABsIBE6AAAZUklEQVR42u19eWBV1bX3b+1zzp1zMwcyAiGJEIKAI6MakVrAfli1IOIA4rPvSavytPr0qUWtVEXbJ0pLnSulKDO1IlQQRZRBIGFQJoUkDDETSe587zlnr++PewlDBoIiWsj6g5Bkn73WXuu317T3PSH8yGn79u2WWbNmnbdkyZKMm2++2TFkyBC31+s19+7dW/3hh8uqH3jgkV0DBw4MooN+FEQ/VsFeeOGFooqKin4FBQW9V65c2a+0pKRbXn6+JT7e7aypqdUURdQRidqBAweWer3eRdOmTVvaYc4OQDXR9OnTrWvXrr0sPj5+fCAQyHU4HMquXTuTzjuvx+YePXpU9OrVq2rGjBmNNpvNHDVqVOKePXuyv/766wu+/OKLfoapO10ud92NN9741KRJk/7YYdZzGFDjx4/PVxRlciAQ6B0Oh9OTk5OWqqr25c9+9rMFI0aMqGnPHFOnTr124cL5j23bvr3fZUMuW//73z995UUXXRToMO85BKi5c+de+cGKD/4jFAz203Xj04svvvjv2dnZH40ePdr8tnPed9+9N7w95515Rb2Lvly+/INeHeY9B2j8+PG9x44d+/rQocWfTJw48ZnVq1enns75Kyoqirp07cK//e1vH+/Q9llOkydPfuquSXdtvOOOOx4dPny49fvis27dusGDBw8qnzZtmrND62chbdy4MWfcuHEfjB49eu66deuyzgTPhx9+ePodd9xxX4f2zzJa+O67Ax597NFlY8aMufVM8l2wYEH6vHnzBnZY4OzyTN3/NHPm1E8//bRvW+MeeuihHu+8887YZ599Nv908mdm6rDCWUKrVq1SP//886J9+/YltDXulVdemZSdnWXk5nbjgvx8/YEHHnj2dPCfMePFMfPnzx/RYYmzhJhZnGxMSUlJfrduXTkuzsWZmRmckpLMCoGfeGLKk9+Fd2lpaeatt97ywYYNG7I7LHFmSXxfExORPNmYNWvWDKuurkZaWhosFgvcbjdccXGYP3/BIzNmzMj7trx/97snVmVlZa+/5JJL9neY+CwBVLuYCwFFUcDMADOkaSIhIQF7936N8gPl13ybOSdOvH1pSUlJfn5+/u86zHuOAapfv36fJCUlwef1AsxNIPP5AsjJzEk8lbnuvffeAVdd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" alt="Golf & More Huckingen Logo" style="height:28px;">
-    <span style="font-family:'Fraunces',serif; font-weight:600; font-size:15px; color: var(--bg);">Golf & More Huckingen</span>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 21V4" stroke="#0e1b13" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M6 4L17 8L6 12" fill="#c9a24b" stroke="#0e1b13" stroke-width="1.2" stroke-linejoin="round"/>
+      <ellipse cx="6" cy="21.5" rx="4" ry="1.1" fill="#0e1b13" opacity="0.25"/>
+    </svg>
+    <span style="font-family:'Fraunces',serif; font-weight:600; font-size:15px; color: var(--bg);">Golf Fortschritt-Tracker</span>
   </div>
   <h1>Fortschritt-Tracker</h1>
   <p>Nach jeder Runde eintragen – Schnell-Eingabe für die Gesamtzahlen, oder Scorecard-Modus für Loch-für-Loch-Daten inkl. Problemlöcher-Analyse.</p>
+  <p style="font-size:12px; color:var(--text-dim); margin-top:6px;">Golf & More Huckingen · Golfclub Hünxerwald · Golfclub Weselerwald</p>
 </header>
 
 <main>
@@ -199,6 +205,10 @@
         <button type="button" class="btn-primary" id="hcp-save-btn">Speichern</button>
         <button type="button" class="btn-secondary" id="hcp-cancel-btn">Abbrechen</button>
       </div>
+    </div>
+    <button type="button" class="settings-toggle" id="hcp-history-toggle" style="margin-top:10px;">HCP-Verlauf anzeigen</button>
+    <div id="hcp-history-wrap" style="display:none; margin-top:8px;">
+      <div class="card" id="hcp-history-list"></div>
     </div>
   </section>
 
@@ -264,6 +274,10 @@
           <input type="date" id="date" required>
         </div>
         <div>
+          <label for="club">Verein</label>
+          <select id="club"></select>
+        </div>
+        <div>
           <label for="course">Platz</label>
           <select id="course"></select>
         </div>
@@ -273,6 +287,11 @@
             <option value="summer">☀️ Sommergrüns</option>
             <option value="winter">❄️ Wintergrüns</option>
           </select>
+        </div>
+        <div style="display:flex; align-items:flex-end; padding-bottom:2px;">
+          <label style="display:flex; align-items:center; gap:6px; font-weight:400; margin:0;">
+            <input type="checkbox" id="team-match" style="width:auto;"> 🏆 Mannschaftsspiel
+          </label>
         </div>
       </div>
 
@@ -312,7 +331,7 @@
         <button type="button" class="settings-toggle" id="par-settings-toggle">Par-Werte für diesen Platz bearbeiten</button>
         <div id="par-settings" style="display:none; margin-bottom: 14px;"></div>
         <div id="hole-labels-wrap" class="hole-labels">
-          <span>Loch</span><span>Par</span><span>Schläge</span><span>Putts</span>
+          <span>Loch</span><span>Par</span><span>Länge</span><span>Schläge</span><span>Putts</span>
         </div>
         <div id="holes-container"></div>
         <div id="single-hole-container"></div>
@@ -375,7 +394,6 @@
         <button data-metric="updown" class="active">Up-and-Down-Quote %</button>
         <button data-metric="doubles" class="active">Doppelbogey+</button>
         <button data-metric="score" class="active">Rundentrend (Score zu Par)</button>
-        <button data-metric="hcp">HCP-Verlauf (eigene Skala – am besten allein anzeigen)</button>
         <button data-metric="penalties">Strafschläge</button>
       </div>
       <div id="chart-container">
@@ -459,7 +477,7 @@
   </section>
 </main>
 
-<footer>Golf & More Huckingen · Fortschritt-Tracker · Daten werden nur lokal in diesem Browser gespeichert.</footer>
+<footer>Golf Fortschritt-Tracker · Daten werden nur lokal in diesem Browser gespeichert.</footer>
 
 <script>
 const STORAGE_KEY = 'golfPerformanceRounds';
@@ -473,16 +491,70 @@ const COURSES = {
   SuedNord:  { name: 'Süd + Nord (18 Loch)', shortName: 'Süd+Nord', holes: 18, combo: ['Sued', 'Nord'] },
   NordWest:  { name: 'Nord + West (18 Loch)', shortName: 'Nord+West', holes: 18, combo: ['Nord', 'West'] },
   SuedWest:  { name: 'Süd + West (18 Loch)', shortName: 'Süd+West', holes: 18, combo: ['Sued', 'West'] },
+  HuenxerwaldOut:  { name: 'Hünxerwald Loch 1-9', shortName: 'Hünxerwald 1-9', holes: 9 },
+  HuenxerwaldHome: { name: 'Hünxerwald Loch 10-18', shortName: 'Hünxerwald 10-18', holes: 9 },
+  Huenxerwald: { name: 'Hünxerwald (18 Loch)', shortName: 'Hünxerwald', holes: 18, combo: ['HuenxerwaldOut', 'HuenxerwaldHome'] },
+  WeselerwaldOut:  { name: 'Weselerwald Loch 1-9', shortName: 'Weselerwald 1-9', holes: 9 },
+  WeselerwaldHome: { name: 'Weselerwald Loch 10-18', shortName: 'Weselerwald 10-18', holes: 9 },
+  Weselerwald: { name: 'Golfclub Weselerwald (18 Loch)', shortName: 'Weselerwald', holes: 18, combo: ['WeselerwaldOut', 'WeselerwaldHome'] },
 };
 // Offizielle Par-Werte laut Scorekarte Golf & More Huckingen (Stand Masterplan 22.05.2026)
+// bzw. laut Scorekarte Golfclub Hünxerwald (CR Herren 72,7 / Damen 74,7)
 const DEFAULT_PARS = {
   Kurzplatz: [3, 3, 3, 3, 3, 3],
   Nord:      [4, 3, 3, 4, 4, 4, 3, 4, 3],
   Sued:      [4, 3, 5, 4, 3, 5, 3, 4, 3],
   West:      [4, 4, 4, 5, 3, 4, 4, 3, 4],
+  HuenxerwaldOut:  [4, 4, 4, 4, 3, 4, 5, 3, 5],
+  HuenxerwaldHome: [4, 4, 3, 5, 4, 5, 4, 3, 4],
+  // Golfclub Weselerwald, Herren-Gelb CR 72,9 / Slope 133 (Scorekarte, Stand 2026)
+  WeselerwaldOut:  [4, 3, 4, 4, 3, 5, 4, 5, 4],
+  WeselerwaldHome: [3, 5, 4, 4, 5, 4, 3, 4, 4],
 };
+// Stroke-Index (Hcp-Wertung) je Loch – für die Einordnung im Loch-Ranking (schwer vs. eigentlich leicht).
+// Golf & More Huckingen: auf der Scorekarte nicht ausgewiesen, daher hier nicht hinterlegt.
+const HOLE_HCP_INDEX = {
+  HuenxerwaldOut:  [13, 9, 17, 5, 15, 1, 11, 7, 3],
+  HuenxerwaldHome: [10, 16, 12, 6, 4, 2, 14, 18, 8],
+  // Weselerwald: nur eine offizielle 18-Loch-Karte, daher eindeutig und im Loch-Ranking nutzbar
+  WeselerwaldOut:  [13, 15, 7, 5, 17, 1, 11, 9, 3],
+  WeselerwaldHome: [16, 10, 12, 2, 4, 8, 14, 18, 6],
+};
+// Golf & More Huckingen: Stroke-Index ist bei diesem Club je 18-Loch-Kombi eigenständig vergeben
+// (dasselbe Süd-Loch bekommt in "Süd+West" einen anderen Index als in "Süd+Nord"). Daher hier nur
+// pro vollständiger Kombi hinterlegt, NICHT im Loch-Ranking verwendet (das führt Löcher combi-übergreifend
+// zusammen, ein einzelner Index wäre dort irreführend). Reine Referenzdaten für später (z. B. Netto-Scoring).
+const HOLE_HCP_INDEX_COMBO = {
+  // Reihenfolge passend zu COURSES.SuedNord.combo = ['Sued', 'Nord']
+  SuedNord: [7, 9, 3, 5, 13, 15, 17, 1, 11, 6, 18, 16, 10, 12, 2, 4, 14, 8],
+  // Reihenfolge passend zu COURSES.SuedWest.combo = ['Sued', 'West']
+  SuedWest: [8, 10, 4, 6, 14, 16, 18, 2, 12, 3, 17, 15, 1, 9, 11, 5, 13, 7],
+  // NordWest: noch nicht erfasst
+};
+function getHcpIndexProfile(courseKey) {
+  const c = COURSES[courseKey];
+  if (c.combo) return getHcpIndexProfile(c.combo[0]).concat(getHcpIndexProfile(c.combo[1]));
+  return HOLE_HCP_INDEX[courseKey] ? HOLE_HCP_INDEX[courseKey].slice() : Array(c.holes).fill(null);
+}
 
-let activeMetrics = { putts: true, updown: true, doubles: true, score: true, hcp: false, penalties: false };
+// Längen in Metern je Loch (Herren-Abschlag), laut jeweiliger Scorekarte.
+const HOLE_LENGTHS = {
+  HuenxerwaldOut:  [333, 343, 265, 313, 170, 382, 441, 195, 498],
+  HuenxerwaldHome: [326, 291, 208, 493, 404, 476, 280, 133, 352],
+  Nord:      [323, 121, 159, 280, 279, 294, 148, 280, 161],
+  West:      [274, 287, 300, 480, 175, 304, 301, 161, 338],
+  Sued:      [304, 125, 485, 367, 167, 477, 152, 335, 174],
+  Kurzplatz: [45, 55, 65, 70, 75, 35],
+  WeselerwaldOut:  [347, 147, 368, 394, 171, 514, 345, 476, 397],
+  WeselerwaldHome: [126, 447, 328, 376, 518, 337, 161, 284, 365],
+};
+function getLengthProfile(courseKey) {
+  const c = COURSES[courseKey];
+  if (c.combo) return getLengthProfile(c.combo[0]).concat(getLengthProfile(c.combo[1]));
+  return HOLE_LENGTHS[courseKey] ? HOLE_LENGTHS[courseKey].slice() : Array(c.holes).fill(null);
+}
+
+let activeMetrics = { putts: true, updown: true, doubles: true, score: true, penalties: false };
 let editingId = null;
 let entryMode = 'single'; // 'single' (Loch für Loch, Standard) | 'list' | 'quick' (Nachtrag)
 let mode = 'scorecard';   // intern: 'scorecard' | 'quick' – abgeleitet aus entryMode
@@ -515,7 +587,37 @@ function renderHcpStatus() {
   const latest = log[log.length - 1];
   valueEl.textContent = latest.hcp.toFixed(1);
   dateEl.textContent = 'Stand: ' + latest.date;
+  renderHcpHistory();
 }
+function renderHcpHistory() {
+  const listEl = document.getElementById('hcp-history-list');
+  if (!listEl) return;
+  const log = loadHcpLog().slice().reverse(); // neueste zuerst
+  if (log.length === 0) {
+    listEl.innerHTML = '<div class="empty-state">Noch kein HCP hinterlegt.</div>';
+    return;
+  }
+  listEl.innerHTML = log.map((entry, i) => {
+    const prev = log[i + 1]; // in der umgekehrten Liste ist das der vorherige (ältere) Eintrag
+    let delta = '';
+    if (prev) {
+      const diff = entry.hcp - prev.hcp;
+      const cls = diff < 0 ? 'up' : diff > 0 ? 'down' : 'flat';
+      const sign = diff > 0 ? '+' : '';
+      delta = `<span class="trend ${cls}" style="margin-left:8px;">${sign}${diff.toFixed(1)}</span>`;
+    }
+    return `<div style="display:flex; justify-content:space-between; align-items:center; padding:7px 0; ${i < log.length - 1 ? 'border-bottom:1px solid var(--card-border);' : ''}">
+      <span style="font-size:13px; color:var(--text-dim);">${entry.date}</span>
+      <span><strong style="color:var(--fairway-bright);">${entry.hcp.toFixed(1)}</strong>${delta}</span>
+    </div>`;
+  }).join('');
+}
+document.getElementById('hcp-history-toggle').addEventListener('click', () => {
+  const wrap = document.getElementById('hcp-history-wrap');
+  const show = wrap.style.display === 'none';
+  wrap.style.display = show ? 'block' : 'none';
+  if (show) renderHcpHistory();
+});
 document.getElementById('hcp-update-toggle').addEventListener('click', () => {
   const panel = document.getElementById('hcp-update-panel');
   const show = panel.style.display === 'none';
@@ -601,17 +703,49 @@ function roundPenalties(r) {
 }
 
 // ---------- Course select init ----------
-function initCourseSelect() {
+const CLUB_COURSE_GROUPS = {
+  'Golfclub Hünxerwald': {
+    singles: ['HuenxerwaldOut', 'HuenxerwaldHome'],
+    combos: ['Huenxerwald'],
+    default: 'Huenxerwald',
+  },
+  'Golfclub Weselerwald': {
+    singles: ['WeselerwaldOut', 'WeselerwaldHome'],
+    combos: ['Weselerwald'],
+    default: 'Weselerwald',
+  },
+  'Golf & More Huckingen': {
+    singles: ['Kurzplatz', 'Nord', 'Sued', 'West'],
+    combos: ['SuedNord', 'SuedWest', 'NordWest'],
+    default: 'Kurzplatz',
+  },
+};
+
+function populateCourseSelectForClub(club) {
   const sel = document.getElementById('course');
-  const singles = ['Kurzplatz', 'Nord', 'Sued', 'West'];
-  const combos = ['SuedNord', 'SuedWest', 'NordWest'];
-  let html = '<optgroup label="9- / 6-Loch-Schleifen">';
-  html += singles.map(k => `<option value="${k}">${COURSES[k].name}</option>`).join('');
-  html += '</optgroup><optgroup label="18-Loch-Kombinationen">';
-  html += combos.map(k => `<option value="${k}">${COURSES[k].name}</option>`).join('');
+  const g = CLUB_COURSE_GROUPS[club];
+  let html = '<optgroup label="9-/6-Loch-Schleifen">';
+  html += g.singles.map(k => `<option value="${k}">${COURSES[k].name}</option>`).join('');
+  html += '</optgroup><optgroup label="18 Loch">';
+  html += g.combos.map(k => `<option value="${k}">${COURSES[k].name}</option>`).join('');
   html += '</optgroup>';
   sel.innerHTML = html;
-  sel.addEventListener('change', () => { if (mode === 'scorecard') buildHolesUI(); });
+  sel.value = g.default;
+}
+
+function initCourseSelect() {
+  const clubSel = document.getElementById('club');
+  // Hünxerwald zuerst gelistet – Heimatclub ab 2027, Standardauswahl
+  const clubOrder = ['Golfclub Hünxerwald', 'Golfclub Weselerwald', 'Golf & More Huckingen'];
+  clubSel.innerHTML = clubOrder.map(c => `<option value="${c}">${c}</option>`).join('');
+  clubSel.value = 'Golfclub Hünxerwald';
+  populateCourseSelectForClub(clubSel.value);
+
+  clubSel.addEventListener('change', () => {
+    populateCourseSelectForClub(clubSel.value);
+    if (mode === 'scorecard') buildHolesUI();
+  });
+  document.getElementById('course').addEventListener('change', () => { if (mode === 'scorecard') buildHolesUI(); });
 }
 
 // ---------- Mode toggle ----------
@@ -701,6 +835,7 @@ function buildHolesUI(prefill) {
   currentHoleIndex = 0;
   const courseKey = document.getElementById('course').value;
   const pars = getParProfile(courseKey);
+  const lengths = getLengthProfile(courseKey);
   const origins = getHoleOrigins(courseKey);
   const n = pars.length;
   currentHoleValues = [];
@@ -714,6 +849,7 @@ function buildHolesUI(prefill) {
         par: prefill[i].par, strokes: prefill[i].strokes, putts: prefill[i].putts,
         subCourse: prefill[i].subCourse || origins[i].subCourse,
         subHole: prefill[i].subHole || origins[i].subHole,
+        length: lengths[i],
         gir: !!prefill[i].gir,
         fairway: prefill[i].fairway || null,
         penalties: prefill[i].penalties || 0,
@@ -722,6 +858,7 @@ function buildHolesUI(prefill) {
     } else {
       currentHoleValues.push({
         par: pars[i], strokes: pars[i], putts: 2, subCourse: origins[i].subCourse, subHole: origins[i].subHole,
+        length: lengths[i],
         gir: false, fairway: null, penalties: 0, penaltyTypes: []
       });
     }
@@ -737,11 +874,13 @@ const PENALTY_TYPES = [
 ];
 
 function holeRowHtml(h, i) {
+  const lengthCell = `<div class="hole-length">${h.length ? h.length + 'm' : '–'}</div>`;
   if (!extendedTracking) {
     return `
     <div class="hole-row">
       <div class="hole-num">${i + 1}</div>
       <input type="number" class="par-input" min="3" max="6" value="${h.par}" onchange="updateHolePar(${i}, this.value)">
+      ${lengthCell}
       <div class="stepper">
         <button type="button" onclick="stepHole(${i}, 'strokes', -1)">−</button>
         <span class="stepper-val">${h.strokes}</span>
@@ -769,6 +908,7 @@ function holeRowHtml(h, i) {
   <div class="hole-row">
     <div class="hole-num">${i + 1}</div>
     <input type="number" class="par-input" min="3" max="6" value="${h.par}" onchange="updateHolePar(${i}, this.value)">
+    ${lengthCell}
     <div class="stepper">
       <button type="button" onclick="stepHole(${i}, 'strokes', -1)">−</button>
       <span class="stepper-val">${h.strokes}</span>
@@ -923,7 +1063,7 @@ function renderSummary(rounds) {
 function renderChart(rounds) {
   const container = document.getElementById('chart-container');
   if (rounds.length < 2) { container.innerHTML = '<div class="empty-state">Trage mindestens 2 Runden ein, um einen Trend zu sehen.</div>'; return; }
-  const W = 680, H = 260, padL = 34, padR = 14, padT = 14, padB = 30;
+  const W = 680, H = 260, padL = 34, padR = 34, padT = 14, padB = 30;
   const plotW = W - padL - padR, plotH = H - padT - padB;
   const n = rounds.length;
   const xStep = n > 1 ? plotW / (n - 1) : 0;
@@ -932,41 +1072,45 @@ function renderChart(rounds) {
   if (activeMetrics.updown) series.push({ key: 'updown', color: '#c9a24b', values: rounds.map(r => (r.greenMode === 'winter') ? null : udQuote(r)), maxHint: 100, isPercent: true });
   if (activeMetrics.doubles) series.push({ key: 'doubles', color: '#d97757', values: rounds.map(r => r.doubles), maxHint: 5 });
   if (activeMetrics.score) series.push({ key: 'score', color: '#7fb3d9', values: rounds.map(scoreToPar), maxHint: 10 });
-  if (activeMetrics.hcp) {
-    const hcpLog = loadHcpLog();
-    if (hcpLog.length) {
-      // HCP-Verlauf entlang der Runden-Zeitachse abbilden: letzter bekannter Wert bis zu jedem Rundendatum
-      const hcpValues = rounds.map(r => {
-        const applicable = hcpLog.filter(h => h.date <= r.date);
-        return applicable.length ? applicable[applicable.length - 1].hcp : null;
-      });
-      series.push({ key: 'hcp', color: '#b892d9', values: hcpValues, maxHint: 30 });
-    }
-  }
   if (activeMetrics.penalties) {
     series.push({ key: 'penalties', color: '#d97757', values: rounds.map(roundPenalties), maxHint: 5 });
   }
   if (series.length === 0) { container.innerHTML = '<div class="empty-state">Wähle mindestens eine Kennzahl oben aus.</div>'; return; }
-  let globalMax = 1;
-  series.forEach(s => {
+
+  // Zwei unabhängige Y-Achsen: links für Schlagzahlen (3-Putts, Doppel+, Score, Strafschläge, HCP),
+  // rechts für Prozentwerte (Up-and-Down-Quote) – sonst drückt die 0–100%-Skala die Schlag-Linien flach.
+  const leftSeries = series.filter(s => !s.isPercent);
+  const rightSeries = series.filter(s => s.isPercent);
+  let leftMax = 1;
+  leftSeries.forEach(s => {
     const validVals = s.values.filter(v => v !== null && v !== undefined);
-    const m = Math.max(...validVals, s.isPercent ? 100 : s.maxHint);
-    if (m > globalMax) globalMax = m;
+    const m = Math.max(...validVals, s.maxHint);
+    if (m > leftMax) leftMax = m;
   });
-  function yFor(v) { return padT + plotH - (v / globalMax) * plotH; }
+  const rightMax = 100; // Prozentskala ist immer 0–100
+
+  function yForLeft(v) { return padT + plotH - (v / leftMax) * plotH; }
+  function yForRight(v) { return padT + plotH - (v / rightMax) * plotH; }
+  function yFor(s, v) { return s.isPercent ? yForRight(v) : yForLeft(v); }
   function xFor(i) { return padL + i * xStep; }
+
   let gridLines = '';
   for (let g = 0; g <= 4; g++) {
-    const val = (globalMax / 4) * g; const y = yFor(val);
+    const leftVal = (leftMax / 4) * g;
+    const y = yForLeft(leftVal);
     gridLines += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#2f4a37" stroke-width="1"/>`;
-    gridLines += `<text x="${padL - 6}" y="${y + 4}" text-anchor="end" font-size="9" fill="#a9bcae">${Math.round(val)}</text>`;
+    gridLines += `<text x="${padL - 6}" y="${y + 4}" text-anchor="end" font-size="9" fill="#a9bcae">${Math.round(leftVal)}</text>`;
+    if (rightSeries.length > 0) {
+      const rightVal = (rightMax / 4) * g;
+      gridLines += `<text x="${W - padR + 6}" y="${y + 4}" text-anchor="start" font-size="9" fill="${rightSeries[0].color}">${Math.round(rightVal)}%</text>`;
+    }
   }
   let paths = '';
   series.forEach(s => {
     let d = ''; let dots = '';
     s.values.forEach((v, i) => {
       if (v === null || v === undefined) return;
-      const x = xFor(i), y = yFor(v);
+      const x = xFor(i), y = yFor(s, v);
       d += (d === '' ? 'M' : ' L') + ` ${x.toFixed(1)} ${y.toFixed(1)}`;
       dots += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3" fill="${s.color}"/>`;
     });
@@ -981,6 +1125,39 @@ function renderChart(rounds) {
     xLabels += `<text x="${x}" y="${H - 8}" text-anchor="middle" font-size="9" fill="#a9bcae">${short}</text>`;
   });
   container.innerHTML = `<svg class="chart" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${gridLines}${paths}${xLabels}</svg>`;
+}
+
+const CLUB_OF = {
+  Kurzplatz: 'Golf & More Huckingen', Nord: 'Golf & More Huckingen', Sued: 'Golf & More Huckingen', West: 'Golf & More Huckingen',
+  HuenxerwaldOut: 'Golfclub Hünxerwald', HuenxerwaldHome: 'Golfclub Hünxerwald',
+  WeselerwaldOut: 'Golfclub Weselerwald', WeselerwaldHome: 'Golfclub Weselerwald',
+};
+
+function problemRowHtml(b, maxVal) {
+  const courseName = COURSES[b.subCourse] ? COURSES[b.subCourse].shortName : b.subCourse;
+  const overParStr = b.avgOverPar >= 0 ? `+${b.avgOverPar.toFixed(1)}` : b.avgOverPar.toFixed(1);
+  const barColor = b.avgOverPar >= 0
+    ? 'linear-gradient(90deg, var(--gold), var(--red))'
+    : 'linear-gradient(90deg, var(--fairway), var(--fairway-bright))';
+  const barWidth = Math.max(4, (Math.abs(b.avgOverPar) / maxVal) * 100);
+  const idxArr = HOLE_HCP_INDEX[b.subCourse];
+  const idx = idxArr ? idxArr[b.subHole - 1] : null;
+  const idxLabel = idx !== null ? ` (HCP ${idx}${idx <= 6 ? ' · schweres Loch' : idx >= 13 ? ' · eigentlich leicht' : ''})` : '';
+  return `
+  <div class="problem-row">
+    <div class="problem-label">${courseName} · Loch ${b.subHole}${idxLabel}</div>
+    <div class="problem-bar-bg"><div class="problem-bar-fill" style="width:${barWidth}%; background:${barColor};"></div></div>
+    <div class="problem-value">${overParStr} · Ø ${b.avgPutts.toFixed(1)} Putts · ${b.count}×</div>
+  </div>`;
+}
+
+// Erwarteter Ø-Verlust je Schwierigkeitsklasse (grobe, nachvollziehbare Setzung – keine empirisch
+// hergeleitete Kurve). Dient nur als Puffer: schwere Löcher werden nicht ausgeschlossen, sondern
+// müssen einfach mehr kosten als für ihre Schwierigkeit ohnehin zu erwarten wäre, um aufzufallen.
+function expectedOverParForIndex(idx) {
+  if (idx <= 6) return 0.5;   // schwer – hier wird ohnehin mehr Schlagverlust erwartet
+  if (idx <= 12) return 0.2;  // mittel
+  return 0.0;                 // leicht – hier zählt jeder Verlust voll
 }
 
 function renderProblemHoles(rounds) {
@@ -1003,22 +1180,44 @@ function renderProblemHoles(rounds) {
   });
   const list = Object.values(buckets).map(b => ({
     ...b, avgOverPar: b.overParSum / b.count, avgPutts: b.puttsSum / b.count
-  })).sort((a, b) => b.avgOverPar - a.avgOverPar); // schlechtestes zuerst, bestes zuletzt – volle Liste, kein Cutoff
-  const maxVal = Math.max(...list.map(b => Math.abs(b.avgOverPar)), 0.5);
-  document.getElementById('problem-list').innerHTML = list.map(b => {
-    const courseName = COURSES[b.subCourse] ? COURSES[b.subCourse].shortName : b.subCourse;
-    const overParStr = b.avgOverPar >= 0 ? `+${b.avgOverPar.toFixed(1)}` : b.avgOverPar.toFixed(1);
-    const barColor = b.avgOverPar >= 0
-      ? 'linear-gradient(90deg, var(--gold), var(--red))'
-      : 'linear-gradient(90deg, var(--fairway), var(--fairway-bright))';
-    const barWidth = Math.max(4, (Math.abs(b.avgOverPar) / maxVal) * 100);
-    return `
-    <div class="problem-row">
-      <div class="problem-label">${courseName} · Loch ${b.subHole}</div>
-      <div class="problem-bar-bg"><div class="problem-bar-fill" style="width:${barWidth}%; background:${barColor};"></div></div>
-      <div class="problem-value">${overParStr} · Ø ${b.avgPutts.toFixed(1)} Putts · ${b.count}×</div>
-    </div>`;
-  }).join('');
+  }));
+
+  // Pro Verein gruppieren, statt alle Clubs in einer Liste zu vermischen – unterschiedliche Plätze
+  // haben unterschiedliche Schwierigkeitsniveaus, ein direkter Vergleich wäre sonst irreführend.
+  const byClub = {};
+  list.forEach(b => {
+    const club = CLUB_OF[b.subCourse] || b.subCourse;
+    (byClub[club] = byClub[club] || []).push(b);
+  });
+
+  let html = '';
+  Object.keys(byClub).sort().forEach(club => {
+    const clubList = byClub[club].slice().sort((a, b) => b.avgOverPar - a.avgOverPar);
+    const maxVal = Math.max(...clubList.map(b => Math.abs(b.avgOverPar)), 0.5);
+
+    // Zweite Sicht: relativ zur erwarteten Schwierigkeit gewichtet, nicht nach Schwierigkeitsklasse
+    // ausgeschlossen. Ein schweres Loch (Index 1-6), das seinen Erwartungspuffer deutlich übertrifft,
+    // taucht hier genauso auf wie ein leichtes Loch (Index 13-18), das trotz keiner Entschuldigung
+    // Schläge kostet – nur eben mit unterschiedlich hoher Hürde.
+    const focusList = clubList
+      .filter(b => HOLE_HCP_INDEX[b.subCourse]) // nur wo Index-Daten vorliegen
+      .map(b => {
+        const idx = HOLE_HCP_INDEX[b.subCourse][b.subHole - 1];
+        return { ...b, idx, adjustedOverPar: b.avgOverPar - expectedOverParForIndex(idx) };
+      })
+      .filter(b => b.adjustedOverPar > 0.1)
+      .sort((a, b) => b.adjustedOverPar - a.adjustedOverPar)
+      .slice(0, 3);
+
+    html += `<h3 style="font-size:15px; color:var(--fairway-bright); margin:18px 0 8px;">${club}</h3>`;
+    if (focusList.length > 0) {
+      html += `<div style="font-size:12px; color:var(--text-dim); margin-bottom:6px;">Auffällig relativ zur erwarteten Schwierigkeit:</div>`;
+      html += focusList.map(b => problemRowHtml(b, maxVal)).join('');
+      html += `<div style="font-size:11px; color:var(--text-dim); margin:10px 0 14px; border-top:1px solid var(--card-border); padding-top:10px;">Alle Löcher dieses Vereins:</div>`;
+    }
+    html += clubList.map(b => problemRowHtml(b, maxVal)).join('');
+  });
+  document.getElementById('problem-list').innerHTML = html;
 }
 
 function renderTable(rounds) {
@@ -1030,8 +1229,9 @@ function renderTable(rounds) {
     const courseName = COURSES[r.course] ? COURSES[r.course].shortName : (r.course || '–');
     const scLabel = r.holesData ? ' 📋' : '';
     const winterLabel = (r.greenMode === 'winter') ? ' ❄️' : '';
+    const teamLabel = r.teamMatch ? ' 🏆' : '';
     return `<tr>
-      <td>${r.date}${scLabel}${winterLabel}</td><td>${escapeHtml(courseName)}</td><td>${r.score !== null && r.score !== undefined ? r.score : '–'}</td>
+      <td>${r.date}${scLabel}${winterLabel}${teamLabel}</td><td>${escapeHtml(courseName)}</td><td>${r.score !== null && r.score !== undefined ? r.score : '–'}</td>
       <td class="num">${r.putts3}</td><td class="num">${ud}</td><td class="num">${r.doubles}</td>
       <td><button class="btn-gold" onclick="editRound('${r.id}')" style="margin-right:6px;">Bearbeiten</button><button class="btn-danger" onclick="deleteRound('${r.id}')">Löschen</button></td>
     </tr>`;
@@ -1099,9 +1299,14 @@ function computeStats(rounds) {
     });
   });
   const worstHoles = Object.values(buckets)
-    .map(b => ({ ...b, avgOverPar: b.overParSum / b.count }))
-    .filter(b => b.avgOverPar > 0)
-    .sort((a, b) => b.avgOverPar - a.avgOverPar)
+    .map(b => {
+      const idxArr = HOLE_HCP_INDEX[b.subCourse];
+      const idx = idxArr ? idxArr[b.subHole - 1] : null;
+      const avgOverPar = b.overParSum / b.count;
+      return { ...b, avgOverPar, adjustedOverPar: idx !== null ? avgOverPar - expectedOverParForIndex(idx) : avgOverPar };
+    })
+    .filter(b => b.adjustedOverPar > 0.1)
+    .sort((a, b) => b.adjustedOverPar - a.adjustedOverPar) // dieselbe Gewichtung wie im Loch-Ranking der App
     .slice(0, 3);
 
   return {
@@ -1299,7 +1504,6 @@ function buildTrainerReport(rangeVal) {
     }
   }
 
-  text += `\n– erstellt mit Golf & More Huckingen Fortschritt-Tracker`;
   return text;
 }
 
@@ -1426,14 +1630,26 @@ function deleteRound(id) {
   renderAll();
 }
 
+function getClubForCourseKey(courseKey) {
+  for (const club in CLUB_COURSE_GROUPS) {
+    const g = CLUB_COURSE_GROUPS[club];
+    if (g.singles.includes(courseKey) || g.combos.includes(courseKey)) return club;
+  }
+  return null;
+}
+
 function editRound(id) {
   const rounds = loadRounds();
   const r = rounds.find(x => x.id === id);
   if (!r) return;
   editingId = id;
   document.getElementById('date').value = r.date;
-  document.getElementById('course').value = r.course || 'Kurzplatz';
+  const club = getClubForCourseKey(r.course) || document.getElementById('club').value;
+  document.getElementById('club').value = club;
+  populateCourseSelectForClub(club);
+  document.getElementById('course').value = r.course || CLUB_COURSE_GROUPS[club].default;
   document.getElementById('green-mode').value = r.greenMode || 'summer';
+  document.getElementById('team-match').checked = !!r.teamMatch;
   document.getElementById('udMade').value = r.udMade;
   document.getElementById('udTries').value = r.udTries;
   document.getElementById('udMade-val').textContent = r.udMade;
@@ -1469,6 +1685,9 @@ function cancelEdit() {
   document.getElementById('note').value = '';
   document.getElementById('date').valueAsDate = new Date();
   document.getElementById('green-mode').value = 'summer';
+  document.getElementById('team-match').checked = false;
+  document.getElementById('club').value = 'Golfclub Hünxerwald';
+  populateCourseSelectForClub('Golfclub Hünxerwald');
   document.getElementById('form-heading').textContent = 'Neue Runde eintragen';
   document.getElementById('save-round-btn').textContent = 'Runde speichern';
   document.getElementById('edit-banner').style.display = 'none';
@@ -1504,6 +1723,7 @@ document.getElementById('save-round-btn').addEventListener('click', function() {
       putts3, doubles,
       udMade, udTries,
       greenMode: document.getElementById('green-mode').value,
+      teamMatch: document.getElementById('team-match').checked,
       note: document.getElementById('note').value || '',
       holesData: currentHoleValues.map(h => {
         const base = { par: h.par, strokes: h.strokes, putts: h.putts, subCourse: h.subCourse, subHole: h.subHole };
@@ -1523,6 +1743,7 @@ document.getElementById('save-round-btn').addEventListener('click', function() {
       udMade: parseInt(document.getElementById('udMade').value) || 0,
       udTries: parseInt(document.getElementById('udTries').value) || 0,
       greenMode: document.getElementById('green-mode').value,
+      teamMatch: document.getElementById('team-match').checked,
       note: document.getElementById('note').value || '',
       holesData: null
     };
