@@ -101,6 +101,12 @@
   .single-hole-nav button:disabled { opacity: 0.3; }
   .single-hole-title { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; color: var(--fairway-bright); }
   .single-hole-dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 16px; }
+  .caddy-card { background: var(--card); border: 1px solid var(--gold); border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; text-align: left; }
+  .caddy-hist { font-size: 14px; color: var(--text); }
+  .caddy-hist-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim); margin-right: 6px; }
+  .caddy-flag { font-size: 13px; color: var(--red); margin-top: 4px; }
+  .caddy-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); font-weight: 700; margin-top: 10px; }
+  .caddy-text { font-size: 16px; color: var(--fairway-bright); font-weight: 600; margin-top: 2px; line-height: 1.4; }
   .single-hole-dot { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--card-border); background: var(--bg-alt); color: var(--text-dim); font-size: 11px; font-weight: 600; cursor: pointer; }
   .single-hole-dot.current { background: var(--gold); color: #2a2205; border-color: transparent; }
   .single-hole-dot.done { background: var(--fairway); color: #0e1b13; border-color: transparent; }
@@ -162,6 +168,110 @@
   .cz-log-total { display: flex; justify-content: space-between; font-size: 13px; padding-top: 8px; border-top: 1px solid var(--card-border); }
   .cz-log-total strong { color: var(--gold); }
   .cz-reset-btn { width: 100%; margin-top: 10px; padding: 10px; border-radius: 999px; border: 1px solid var(--red); background: none; color: var(--red); font-size: 12px; font-weight: 600; }
+
+  .rb-search-input { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--card-border); background: var(--bg-alt); color: var(--text); font-size: 14px; font-family: 'Inter', sans-serif; margin-bottom: 6px; }
+  .rb-search-input::placeholder { color: var(--text-dim); }
+  .rb-filter-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .rb-filter-chip { font-size: 11px; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--card-border); background: var(--bg-alt); color: var(--text-dim); cursor: pointer; }
+  .rb-filter-chip.active { background: var(--gold); color: #2a2205; border-color: transparent; }
+  .rb-empty { font-size: 13px; color: var(--text-dim); text-align: center; padding: 20px 0; }
+  .rb-card { background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; cursor: pointer; }
+  .rb-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .rb-card-title { font-family: 'Fraunces', serif; font-weight: 600; font-size: 15px; color: var(--fairway-bright); margin: 0; }
+  .rb-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+  .rb-tag { font-size: 10px; padding: 2px 8px; border-radius: 999px; background: var(--card); color: var(--text-dim); white-space: nowrap; }
+  .rb-tag.rb-tag-hole { background: var(--fairway); color: #0e1b13; }
+  .rb-tag.rb-tag-penalty { background: var(--red); color: #fff; }
+  .rb-tag.rb-tag-free { background: var(--fairway-bright); color: #0e1b13; }
+  .rb-easy { font-size: 13.5px; color: var(--text); margin-top: 10px; line-height: 1.55; background: var(--card); border-radius: 8px; padding: 10px 12px; }
+  .rb-easy-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--fairway-bright); font-weight: 700; display: block; margin-bottom: 4px; }
+  .rb-summary { font-size: 13px; color: var(--text-dim); margin-top: 10px; line-height: 1.5; }
+  .rb-summary-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-dim); font-weight: 700; display: block; margin-bottom: 4px; }
+  .rb-procedure { display: none; font-size: 12.5px; color: var(--text-dim); margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--card-border); line-height: 1.5; }
+  .rb-card.rb-open .rb-procedure { display: block; }
+  .rb-toggle-hint { font-size: 11px; color: var(--text-dim); margin-top: 8px; text-align: right; }
+  .rb-hole-status { font-size: 12px; color: var(--text-dim); background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; }
+
+  .tm-session-card { background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; margin-bottom: 14px; }
+  .tm-session-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .tm-date { font-family: 'Fraunces', serif; font-weight: 600; font-size: 16px; color: var(--fairway-bright); }
+  .tm-status-badge { font-size: 11px; padding: 3px 10px; border-radius: 999px; font-weight: 700; white-space: nowrap; }
+  .tm-status-badge.historisch { background: var(--card-border); color: var(--text); }
+  .tm-status-badge.aktuell { background: var(--fairway-bright); color: #0e1b13; }
+  .tm-meta-line { font-size: 12px; color: var(--text-dim); margin-top: 6px; }
+  .tm-score-box { display: flex; gap: 20px; margin: 14px 0; }
+  .tm-score-item { text-align: center; }
+  .tm-score-value { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700; color: var(--gold); }
+  .tm-score-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.03em; }
+  .tm-warning { font-size: 12px; color: var(--text); background: rgba(217,119,87,0.12); border: 1px solid var(--red); border-radius: 8px; padding: 9px 12px; margin: 12px 0; }
+  .tm-target-labels { display: grid; grid-template-columns: 48px 1fr 1fr 1fr 1fr; gap: 6px; font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.03em; padding-bottom: 6px; border-bottom: 1px solid var(--card-border); margin-bottom: 2px; }
+  .tm-target-row { display: grid; grid-template-columns: 48px 1fr 1fr 1fr 1fr; gap: 6px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--card-border); font-size: 13px; cursor: pointer; }
+  .tm-target-row .tm-t { font-family: 'Fraunces', serif; color: var(--fairway-bright); font-weight: 600; }
+  .tm-shots-detail { display: none; padding: 6px 0 14px; }
+  .tm-shots-detail.open { display: block; }
+  .tm-shot-labels, .tm-shot-line { display: grid; grid-template-columns: 22px 1fr 1fr 1fr 1fr 1fr; gap: 5px; font-size: 10.5px; padding: 3px 0; }
+  .tm-shot-labels { color: var(--text-dim); text-transform: uppercase; font-size: 9px; }
+  .tm-shot-line { color: var(--text); }
+  .tm-new-row { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 8px; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--card-border); }
+  .tm-new-row .tm-new-label { font-family: 'Fraunces', serif; color: var(--fairway-bright); font-size: 13px; }
+  .tm-new-row input { padding: 8px 9px; border-radius: 6px; border: 1px solid var(--card-border); background: var(--bg-alt); color: var(--text); font-size: 13px; text-align: right; }
+
+  .bag-row { display: grid; grid-template-columns: 1fr 70px 70px 28px; gap: 6px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--card-border); }
+  .bag-labels { display: grid; grid-template-columns: 1fr 70px 70px 28px; gap: 6px; font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.03em; padding-bottom: 6px; border-bottom: 1px solid var(--card-border); margin-bottom: 2px; }
+  .bag-row input[type="text"] { background: none; border: none; color: var(--text); font-size: 14px; font-family: 'Inter', sans-serif; padding: 4px 0; }
+  .bag-row input[type="number"] { width: 100%; padding: 7px 8px; border-radius: 6px; border: 1px solid var(--card-border); background: var(--bg-alt); color: var(--text); font-size: 13px; text-align: right; }
+  .bag-del-btn { background: none; border: none; color: var(--text-dim); font-size: 16px; cursor: pointer; padding: 0; }
+  .bag-add-row { display: flex; gap: 8px; margin-top: 12px; }
+  .bag-add-row input { flex: 1; padding: 9px 10px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--bg-alt); color: var(--text); font-size: 13px; }
+  .bag-rec-box { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--card-border); }
+  .bag-rec-input-row { display: flex; gap: 8px; margin-bottom: 12px; }
+  .bag-rec-input-row input { flex: 1; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--bg-alt); color: var(--text); font-size: 14px; }
+  .bag-rec-result { background: var(--card); border-radius: 10px; padding: 12px 14px; margin-top: 4px; }
+  .bag-rec-club { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; }
+  .bag-rec-club .name { font-family: 'Fraunces', serif; font-weight: 600; color: var(--fairway-bright); }
+  .bag-rec-club .delta { font-size: 12px; color: var(--text-dim); }
+
+  /* Hünxerwald-Caddy */
+  .cx-facts { font-size: 13px; color: var(--text); }
+  .cx-dim { font-size: 12px; color: var(--text-dim); margin-top: 3px; line-height: 1.45; }
+  .cx-dim-inline { font-size: 12px; color: var(--text-dim); font-weight: 400; }
+  .cx-text-sm { font-size: 13.5px; color: var(--text); margin-top: 4px; line-height: 1.45; }
+  .cx-sub { font-size: 12px; font-weight: 700; color: var(--fairway-bright); margin-top: 12px; }
+  .cx-rec { font-size: 15px; font-weight: 600; color: var(--fairway-bright); margin-top: 4px; }
+  .cx-alt { font-size: 13px; color: var(--text); margin-top: 8px; padding-top: 6px; border-top: 1px dashed var(--card-border); }
+  .cx-risk { font-size: 12.5px; color: var(--red); margin-top: 3px; }
+  .cx-tipp { font-size: 13px; color: var(--text); font-style: italic; margin-top: 2px; line-height: 1.5; }
+  .cx-calc-row { display: flex; gap: 8px; margin-top: 6px; align-items: center; }
+  .cx-calc-row input { flex: 1; padding: 8px 10px; font-size: 14px; }
+  .cx-details { margin-top: 10px; font-size: 12px; color: var(--text-dim); }
+  .cx-details summary { cursor: pointer; color: var(--gold); }
+  .cx-hz { display: flex; justify-content: space-between; gap: 10px; padding: 5px 0; border-bottom: 1px solid var(--card-border); }
+  .cx-hz-d { white-space: nowrap; color: var(--text); }
+  .cx-head { font-size: 16px; font-weight: 600; color: var(--fairway-bright); margin-top: 2px; line-height: 1.35; }
+  .cx-dist-row { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
+  .comp-toggle { display: flex; align-items: flex-start; gap: 8px; font-weight: 400; margin: 0; font-size: 12.5px; color: var(--text);
+    background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 8px; padding: 9px 12px; }
+  .comp-toggle:has(input:checked) { border-color: var(--gold); background: rgba(201,162,75,0.12); }
+  .comp-banner { font-size: 12px; font-weight: 600; color: var(--gold); margin-bottom: 6px; }
+  .review-card { background: var(--bg-alt); border: 1px solid var(--gold); border-radius: 12px; padding: 12px 14px; margin-top: 12px; }
+  .backup-reminder { margin-top: 12px; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+    font-size: 13px; color: var(--text); background: rgba(201,162,75,0.12); border: 1px solid var(--gold); border-radius: 10px; padding: 10px 12px; }
+  .cx-live { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; min-width: 78px; padding: 4px 10px; border-radius: 12px; background: var(--bg-alt); border: 1px solid var(--fairway); font-size: 13px; color: var(--text); line-height: 1.2; }
+  .cx-live strong { font-family: 'Fraunces', serif; font-size: 20px; color: var(--fairway-bright); }
+  .cx-live span { font-size: 10px; color: var(--text-dim); }
+  .cx-gps-btn { padding: 9px 14px; font-size: 13px; white-space: nowrap; flex-shrink: 0; }
+  .cx-chip-scroll { display: flex; gap: 5px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+  .cx-chip-scroll .mini-pill { flex-shrink: 0; }
+  .cx-teeclub { display: flex; align-items: center; gap: 8px; margin: 4px 0 12px; }
+  .hx-round-grid .full-row { grid-column: 1 / -1; order: 99; }
+  .hx-round-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .bag-streu-line { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 0 0 8px; margin-top: -4px; }
+  .bag-streu-line button { background: none; border: none; color: var(--gold); font-size: 12px; padding: 0; white-space: nowrap; }
+  .bag-streu-editor { background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+  .bag-streu-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .bag-streu-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+  .bag-streu-editor input, .bag-streu-editor select { padding: 7px 8px; font-size: 13px; }
+  @media (max-width: 480px) { .hx-round-grid { grid-template-columns: 1fr 1fr; } .bag-streu-grid { grid-template-columns: repeat(3, 1fr); } }
 </style>
 </head>
 <body>
@@ -253,6 +363,113 @@
     </div>
   </section>
 
+  <section>
+    <h2 class="cz-toggle" id="rb-section-toggle">📖 Regelbuch ▾</h2>
+    <div class="card" id="rb-panel" style="display:none;">
+      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Golfregeln 2023–2026 (R&amp;A/USGA), Kurzfassung der häufigsten Situationen – ersetzt nicht das offizielle Regelbuch, hilft aber für die schnelle Einschätzung auf dem Platz.</p>
+
+      <input type="text" class="rb-search-input" id="rb-search" placeholder="Situation oder Bahn suchen, z. B. &quot;Divot&quot; oder &quot;Bahn 10&quot;...">
+      <div class="rb-filter-row" id="rb-category-filters">
+        <button type="button" class="rb-filter-chip active" data-cat="alle" onclick="rbSetCategory('alle')">Alle</button>
+        <button type="button" class="rb-filter-chip" data-cat="regel" onclick="rbSetCategory('regel')">⚖️ Regeln</button>
+        <button type="button" class="rb-filter-chip" data-cat="etikette" onclick="rbSetCategory('etikette')">🤝 Etikette</button>
+        <button type="button" class="rb-filter-chip" data-cat="kleidung" onclick="rbSetCategory('kleidung')">👕 Kleidung</button>
+      </div>
+      <div class="rb-filter-row" id="rb-hole-filters"></div>
+
+      <div id="rb-hole-status" class="rb-hole-status" style="display:none;"></div>
+
+      <div id="rb-list"></div>
+      <div id="rb-empty" class="rb-empty" style="display:none;">Keine Treffer – anders formulieren oder Bahn-Filter zurücksetzen.</div>
+
+      <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--card-border);">
+        <div style="font-size:12px; color:var(--text-dim); margin-bottom:10px;">Für alles, was hier nicht abgedeckt ist – die vollständigen Original-Dokumente:</div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <a href="https://golfclub-huenxerwald.de/wp-content/uploads/2026/05/Platzregeln-Version-2026.pdf" target="_blank" rel="noopener" class="video-link" style="text-align:left;">📄 Platzregeln (PDF)</a>
+          <a href="https://golfclub-huenxerwald.de/wp-content/uploads/2026/05/Verhaltensvorschriften-fuer-den-Spielbetrieb-und-Clubturniere-2026.pdf" target="_blank" rel="noopener" class="video-link" style="text-align:left;">📄 Verhaltensvorschriften (PDF)</a>
+          <a href="https://golfclub-huenxerwald.de/wp-content/uploads/2026/05/Kleiderordnung-2026.pdf" target="_blank" rel="noopener" class="video-link" style="text-align:left;">📄 Kleiderordnung (PDF)</a>
+          <a href="https://golfclub-huenxerwald.de/wp-content/uploads/2026/05/Rahmenausschreibung_Wettspielordnung_Version-2026.pdf" target="_blank" rel="noopener" class="video-link" style="text-align:left;">📄 Rahmenausschreibung / Wettspielordnung (PDF)</a>
+          <a href="https://www.randa.org/en/rog/the-rules-of-golf" target="_blank" rel="noopener" class="video-link" style="text-align:left;">📖 Offizielle Golfregeln komplett (R&amp;A)</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="cz-toggle" id="tm-section-toggle">🏌️‍♂️ TrackMan ▾</h2>
+    <div class="card" id="tm-panel" style="display:none;">
+      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Deine gemessenen Schlagdaten – getrennt von der Rundenerfassung. Historische Messungen bleiben erhalten, auch wenn neue dazukommen.</p>
+      <div id="tm-session-list"></div>
+
+      <button type="button" class="settings-toggle" id="tm-new-toggle">+ Neue Messung hinzufügen</button>
+      <div id="tm-new-wrap" style="display:none; margin-top:10px;">
+        <p style="font-size:12px; color:var(--text-dim); margin:0 0 10px;">Carry und Total, so weit du sie kennst – leer lassen, was du nicht getestet hast. Die neue Messung wird "Aktuell", die bisherige rutscht automatisch zu "Historisch".</p>
+        <div class="form-grid" style="margin-bottom:10px;">
+          <div>
+            <label for="tm-new-date">Datum der Messung</label>
+            <input type="date" id="tm-new-date">
+          </div>
+          <div>
+            <label for="tm-new-source">Quelle</label>
+            <input type="text" id="tm-new-source" value="TrackMan Combine">
+          </div>
+        </div>
+        <div class="tm-new-row" style="border-bottom:2px solid var(--card-border); padding-bottom:8px;">
+          <div></div><div style="font-size:10px; color:var(--text-dim); text-transform:uppercase;">Carry (m)</div><div style="font-size:10px; color:var(--text-dim); text-transform:uppercase;">Total (m)</div>
+        </div>
+        <div id="tm-new-rows"></div>
+        <div class="form-actions" style="margin-top:14px;">
+          <button type="button" class="btn-primary" id="tm-new-save-btn">Als neue Messung speichern</button>
+          <button type="button" class="btn-secondary" id="tm-new-cancel-btn">Abbrechen</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="cz-toggle" id="hv-section-toggle">🎯 Lochvorschau ▾</h2>
+    <div class="card" id="hv-panel" style="display:none;">
+      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Deine persönliche Historie an einem Loch, verbunden mit deinem Bag – für die Vorbereitung, nicht während des Spiels gedacht.</p>
+      <div class="form-grid" style="margin-bottom:12px;">
+        <div>
+          <label for="hv-club">Verein</label>
+          <select id="hv-club"></select>
+        </div>
+        <div>
+          <label for="hv-bahn">Bahn</label>
+          <select id="hv-bahn"></select>
+        </div>
+        <div>
+          <label for="hv-hole">Loch</label>
+          <select id="hv-hole"></select>
+        </div>
+      </div>
+      <button type="button" class="btn-primary" id="hv-show-btn" style="width:100%; margin-bottom:14px;">Anzeigen</button>
+      <div id="hv-result"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="cz-toggle" id="bag-section-toggle">🎒 Mein Bag ▾</h2>
+    <div class="card" id="bag-panel" style="display:none;">
+      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Deine Schläger mit typischer Weite (Carry, in Metern) – manuell eingetragen, da die TrackMan-Combine-Daten keiner Schlägerzuordnung entsprechen. Leer lassen, was du noch nicht kennst. Streuung je Schläger (TrackMan-Donut) über „bearbeiten“ – nutzt der Hünxerwald-Caddy.</p>
+      <div class="bag-labels"><span>Schläger</span><span>Carry</span><span>Total</span><span></span></div>
+      <div id="bag-list"></div>
+      <div class="bag-add-row">
+        <input type="text" id="bag-new-name" placeholder="Neuer Schläger, z. B. 4 Eisen">
+        <button type="button" class="btn-secondary" id="bag-add-btn">+ Hinzufügen</button>
+      </div>
+
+      <div class="bag-rec-box">
+        <label for="bag-rec-distance" style="font-weight:600;">Schlägerempfehlung</label>
+        <div class="bag-rec-input-row" style="margin-top:8px;">
+          <input type="number" id="bag-rec-distance" placeholder="Entfernung zum Ziel in Metern">
+          <button type="button" class="btn-primary" id="bag-rec-btn">Empfehlen</button>
+        </div>
+        <div id="bag-rec-result"></div>
+      </div>
+    </div>
+  </section>
 
   <section>
     <h2 id="form-heading">Neue Runde eintragen</h2>
@@ -292,6 +509,44 @@
           <label style="display:flex; align-items:center; gap:6px; font-weight:400; margin:0;">
             <input type="checkbox" id="team-match" style="width:auto;"> 🏆 Mannschaftsspiel
           </label>
+        </div>
+        <div class="full">
+          <label class="comp-toggle">
+            <input type="checkbox" id="competition-mode" style="width:auto;">
+            <span>⚖️ Wettspiel-Modus – Caddy gibt keine Schläger-, Ziel- oder Windempfehlungen (Regel 4.3). Distanz, Fahne, Hindernisse und Regelbuch bleiben.</span>
+          </label>
+        </div>
+        <div class="full" id="hx-round-fields" style="display:none;">
+          <div class="hx-round-grid">
+            <div>
+              <label for="hx-pin">Fahne (Tagesposition)</label>
+              <select id="hx-pin">
+                <option value="">–</option>
+                <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
+              </select>
+            </div>
+            <div>
+              <label for="hx-tee">Abschlag</label>
+              <select id="hx-tee">
+                <option value="gelb">Gelb</option>
+                <option value="rot">Rot</option>
+              </select>
+            </div>
+            <div class="full-row">
+              <label style="display:flex; align-items:center; gap:6px; font-weight:400; margin:0;">
+                <input type="checkbox" id="hx-live" style="width:auto;"> 📍 Live-Distanz zur Grünmitte, Bildschirm bleibt an (braucht mehr Akku)
+              </label>
+            </div>
+            <div class="full-row">
+              <label style="display:flex; align-items:center; gap:6px; font-weight:400; margin:0;">
+                <input type="checkbox" id="hx-wind" style="width:auto;"> 🌬️ Wind einrechnen (Wetterdaten, braucht Mobilfunk)
+              </label>
+            </div>
+            <div>
+              <label for="hx-sv">Spielvorgabe</label>
+              <input type="number" id="hx-sv" min="-10" max="54" placeholder="z. B. 21" title="Leer lassen = automatisch aus HCPI, Slope und CR (Gelb). Eintrag überschreibt.">
+            </div>
+          </div>
         </div>
       </div>
 
@@ -376,6 +631,8 @@
         <input type="file" id="import-file" accept="application/json" style="display:none">
       </div>
       <div class="save-msg" id="save-msg"></div>
+      <div id="round-review"></div>
+      <div id="backup-reminder" class="backup-reminder" style="display:none;"></div>
     </div>
   </section>
 
@@ -483,6 +740,9 @@
 const STORAGE_KEY = 'golfPerformanceRounds';
 const PAR_KEY = 'golfPerformanceParProfiles';
 const HCP_KEY = 'golfPerformanceHcpLog';
+const TM_SESSIONS_KEY = 'golfPerformanceTrackmanSessions';
+const TM_SHOTS_KEY = 'golfPerformanceTrackmanShots';
+const BAG_KEY = 'golfPerformanceBag';
 const COURSES = {
   Kurzplatz: { name: 'Kurzplatz (6 Loch)', shortName: 'Kurzplatz', holes: 6 },
   Nord:      { name: 'Nordkurs (9 Loch)', shortName: 'Nord', holes: 9 },
@@ -575,6 +835,93 @@ function saveHcpLog(log) {
   try { localStorage.setItem(HCP_KEY, JSON.stringify(log)); return true; }
   catch (e) { return false; }
 }
+
+// ---------- TrackMan (Phase 1: Datenmodell, Phase 2: Historie) ----------
+function loadTmSessions() {
+  try { const raw = localStorage.getItem(TM_SESSIONS_KEY); return raw ? JSON.parse(raw) : []; }
+  catch (e) { return []; }
+}
+function saveTmSessions(sessions) {
+  try { localStorage.setItem(TM_SESSIONS_KEY, JSON.stringify(sessions)); return true; }
+  catch (e) { return false; }
+}
+function loadTmShots() {
+  try { const raw = localStorage.getItem(TM_SHOTS_KEY); return raw ? JSON.parse(raw) : []; }
+  catch (e) { return []; }
+}
+function saveTmShots(shots) {
+  try { localStorage.setItem(TM_SHOTS_KEY, JSON.stringify(shots)); return true; }
+  catch (e) { return false; }
+}
+
+// Einmalige Erstbefüllung mit der TrackMan-Combine-Messung vom 19.09.2024 (aus den Screenshots
+// übertragen). Läuft nur, wenn noch gar keine TrackMan-Session existiert – überschreibt nie
+// spätere eigene Einträge. Schlägerzuordnung ist bei Combine-Daten nicht bekannt (club: null),
+// darf daher nie automatisch als "aktuelle Schlägerdistanz" interpretiert werden.
+function seedTrackmanIfEmpty() {
+  if (loadTmSessions().length > 0) return; // schon Daten vorhanden, nichts tun
+
+  const sessionId = 'tm_2024_09_19';
+  const session = {
+    id: sessionId,
+    date: '2024-09-19',
+    source: 'TrackMan Combine',
+    status: 'historisch',
+    player: 'Sascha Gerstung',
+    ageAtTest: 52,
+    hcpAtTest: 22,
+    mode: 'Indoor',
+    ball: 'Premium',
+    tempC: 25,
+    combineScore: 42.8,
+    estimatedHandicap: 32,
+    targets: [
+      { target: 55,  label: '55 m',  avgScore: 17.0, avgClubSpeed: 50.7, avgBallSpeed: 62.6, avgSpinRate: 4532, avgAttackAngle: -2.5, avgCarry: 50.5,  avgTotal: 66.1,  avgSide: 3.4,  avgSideDir: 'L', avgFromPin: 17.8, consistency: 12.5 },
+      { target: 65,  label: '65 m',  avgScore: 54.3, avgClubSpeed: 56.1, avgBallSpeed: 67.1, avgSpinRate: 6152, avgAttackAngle: -2.3, avgCarry: 68.1,  avgTotal: 76.3,  avgSide: 5.1,  avgSideDir: 'L', avgFromPin: 8.7,  consistency: 27.6 },
+      { target: 75,  label: '75 m',  avgScore: 52.8, avgClubSpeed: 54.4, avgBallSpeed: 68.9, avgSpinRate: 5353, avgAttackAngle: -1.9, avgCarry: 70.6,  avgTotal: 81.7,  avgSide: 4.7,  avgSideDir: 'L', avgFromPin: 9.4,  consistency: 11.5 },
+      { target: 85,  label: '85 m',  avgScore: 57.5, avgClubSpeed: 61.5, avgBallSpeed: 78.9, avgSpinRate: 5868, avgAttackAngle: -1.1, avgCarry: 87.8,  avgTotal: 96.8,  avgSide: 0.8,  avgSideDir: 'R', avgFromPin: 9.7,  consistency: 22.6 },
+      { target: 95,  label: '95 m',  avgScore: 42.2, avgClubSpeed: 63.5, avgBallSpeed: 79.2, avgSpinRate: 5013, avgAttackAngle: 0.3,  avgCarry: 87.6,  avgTotal: 99.9,  avgSide: 3.7,  avgSideDir: 'L', avgFromPin: 18.2, consistency: 26.4 },
+      { target: 105, label: '105 m', avgScore: 50.2, avgClubSpeed: 70.4, avgBallSpeed: 90.6, avgSpinRate: 5090, avgAttackAngle: 0.4,  avgCarry: 107.1, avgTotal: 119.7, avgSide: 2.8,  avgSideDir: 'L', avgFromPin: 13.8, consistency: 31.9 },
+      { target: 125, label: '125 m', avgScore: 37.3, avgClubSpeed: 72.4, avgBallSpeed: 93.4, avgSpinRate: 3859, avgAttackAngle: 0.6,  avgCarry: 109.7, avgTotal: 129.2, avgSide: 4.1,  avgSideDir: 'R', avgFromPin: 25.0, consistency: 30.5 },
+      { target: 145, label: '145 m', avgScore: 49.5, avgClubSpeed: 76.9, avgBallSpeed: 102.6,avgSpinRate: 3637, avgAttackAngle: 2.4,  avgCarry: 127.7, avgTotal: 147.3, avgSide: 1.9,  avgSideDir: 'L', avgFromPin: 25.2, consistency: 35.9 },
+      { target: 165, label: '165 m', avgScore: 27.8, avgClubSpeed: 81.2, avgBallSpeed: 113.2,avgSpinRate: 3657, avgAttackAngle: 1.8,  avgCarry: 151.6, avgTotal: 168.8, avgSide: 17.9, avgSideDir: 'R', avgFromPin: 32.4, consistency: 16.0 },
+      { target: 'Drive', label: 'Drive', avgScore: 39.3, avgClubSpeed: 93.4, avgBallSpeed: 130.9, avgSpinRate: 3310, avgAttackAngle: 4.9, avgCarry: 182.5, avgTotal: 204.2, avgSide: 15.7, avgSideDir: 'R', avgFromPin: null, consistency: 23.8 },
+    ],
+  };
+
+  // Einzelshots je Ziel (6 je Ziel, so wie auf den Screenshots). side/sideDir aus z. B. "9.0L".
+  const rawShots = {
+    55:  [[35.0,48.3,60.5,5360,-2.8,57.7,67.4,9.0,'L',9.2],[14.0,53.4,66.8,5580,-4.0,66.9,77.7,1.7,'L',12.0],[0.0,43.5,50.9,1780,-2.8,4.3,29.3,0.7,'R',50.8],[13.0,53.8,65.8,6130,-2.6,66.7,74.3,3.6,'L',12.1],[32.0,55.7,64.4,6060,-0.2,64.4,72.0,1.8,'L',9.6],[8.0,49.4,67.4,2280,-2.8,43.3,76.1,4.8,'L',12.9]],
+    65:  [[0.0,60.5,76.5,6460,-2.6,83.6,91.0,12.4,'L',21.6],[40.0,48.4,61.5,5060,-4.4,57.2,69.7,6.0,'L',10.1],[75.0,53.8,62.7,6150,-4.6,60.6,69.5,1.4,'L',4.6],[60.0,56.2,67.9,6540,-1.4,70.0,76.1,5.0,'L',7.0],[70.0,60.6,67.7,6600,0.0,69.6,75.9,3.1,'L',5.5],[81.0,56.9,66.3,6100,-1.0,67.5,75.3,2.8,'L',3.7]],
+    75:  [[75.0,54.3,69.5,5700,-3.2,72.0,81.9,4.5,'L',5.5],[53.0,54.5,68.2,5790,-0.6,70.7,79.0,8.0,'L',9.4],[55.0,54.4,66.3,5290,-1.6,66.3,77.6,2.1,'L',9.0],[37.0,55.6,66.1,4650,-1.6,64.3,78.8,5.5,'R',12.2],[51.0,54.6,73.5,5390,-2.2,78.7,89.6,9.1,'L',9.7],[46.0,53.2,69.6,5300,-2.2,71.8,83.3,9.8,'L',10.6]],
+    85:  [[61.0,64.6,71.6,5920,2.0,76.4,84.5,2.1,'R',8.9],[27.0,67.2,84.5,6710,-2.2,96.5,102.9,11.8,'R',16.0],[87.0,61.7,79.0,6280,-1.4,88.3,95.6,1.5,'R',3.6],[33.0,63.8,85.9,6390,-1.8,99.4,106.0,3.2,'R',14.7],[54.0,56.5,75.5,5040,-1.6,81.4,94.2,9.5,'L',10.4],[83.0,55.2,77.0,4870,-1.6,84.8,97.6,4.5,'L',4.5]],
+    95:  [[41.0,64.3,87.8,5390,1.4,104.2,113.4,12.0,'L',14.7],[27.0,65.9,74.4,5410,-1.9,78.7,91.2,6.6,'L',17.8],[49.0,65.9,86.4,5730,-1.2,101.2,110.2,11.5,'L',12.8],[48.0,61.0,81.9,5270,-2.0,93.8,104.6,12.8,'R',13.0],[88.0,62.9,84.3,4790,0.8,98.8,110.9,0.9,'R',3.9],[0.0,60.8,60.3,3490,4.4,48.9,69.0,6.1,'L',46.9]],
+    105: [[56.0,72.5,96.0,6050,-0.6,116.6,123.4,4.5,'L',12.3],[40.0,69.7,79.6,6330,1.0,89.1,96.6,3.2,'L',16.3],[80.0,71.0,91.7,6480,-0.4,108.7,114.9,5.2,'L',6.3],[96.0,67.5,92.2,3010,1.2,107.2,132.3,0.7,'L',2.3],[29.0,69.0,82.1,3840,1.2,90.9,110.1,11.9,'L',19.1],[0.0,72.6,102.0,4830,0.0,130.3,141.1,8.7,'R',26.5]],
+    125: [[87.0,74.5,98.5,4610,0.6,124.3,136.9,5.3,'L',5.3],[0.0,72.4,82.3,2932,-1.0,68.3,102.5,2.6,'R',56.9],[42.0,72.4,97.3,4660,-1.6,120.0,134.2,17.9,'R',19.0],[0.0,70.1,82.4,3400,3.0,91.6,112.7,5.1,'R',33.9],[55.0,70.8,98.6,3410,2.8,125.3,144.2,15.1,'L',15.1],[40.0,73.9,101.5,4140,-0.2,128.5,144.7,19.4,'R',19.5]],
+    145: [[81.0,76.2,111.0,4130,-0.4,147.4,162.1,8.1,'L',8.4],[63.0,76.1,101.5,3630,2.8,131.6,148.6,5.9,'L',14.8],[67.0,77.1,108.5,4370,0.8,142.9,155.7,13.0,'R',13.3],[0.0,75.1,76.5,3450,4.4,79.7,100.8,10.1,'R',66.7],[0.0,81.6,107.7,2600,4.1,114.4,150.8,24.9,'L',41.6],[86.0,75.6,110.5,3640,2.8,150.0,165.5,4.5,'R',6.7]],
+    165: [[12.0,77.5,100.7,3580,2.0,128.6,147.2,4.7,'L',36.8],[40.0,76.9,107.7,3200,1.4,139.5,162.0,4.1,'L',25.9],[37.0,78.6,106.6,3680,4.0,142.4,157.8,13.7,'R',26.9],[0.0,86.2,121.7,4710,0.8,161.7,172.3,51.1,'R',52.4],[35.0,86.2,123.6,3110,2.0,172.9,193.2,27.0,'R',27.7],[43.0,82.1,119.1,3660,0.5,164.4,180.3,24.6,'R',24.7]],
+    Drive: [[11.0,93.1,134.3,3630,4.0,186.9,202.7,66.0,'R',null],[38.0,92.8,136.5,2640,5.0,201.1,223.7,24.0,'R',null],[27.0,null,117.0,4220,null,143.5,167.2,27.2,'L',null],[83.0,92.7,137.8,2460,5.8,205.9,229.7,4.8,'R',null],[55.0,94.6,124.3,4400,null,163.1,181.2,11.1,'L',null],[22.0,93.9,135.6,2510,4.8,194.5,220.4,37.9,'R',null]],
+  };
+
+  const shots = [];
+  let shotCounter = 0;
+  Object.keys(rawShots).forEach(target => {
+    const targetKey = target === 'Drive' ? 'Drive' : parseInt(target);
+    rawShots[target].forEach((row, i) => {
+      shotCounter++;
+      shots.push({
+        id: sessionId + '_s' + shotCounter,
+        sessionId, target: targetKey, shotIndex: i + 1, club: null,
+        score: row[0], clubSpeed: row[1], ballSpeed: row[2], spinRate: row[3], attackAngle: row[4],
+        carry: row[5], total: row[6], side: row[7], sideDir: row[8], fromPin: row[9],
+      });
+    });
+  });
+
+  saveTmSessions([session]);
+  saveTmShots(shots);
+}
+
 function renderHcpStatus() {
   const log = loadHcpLog();
   const valueEl = document.getElementById('hcp-current-value');
@@ -638,6 +985,7 @@ document.getElementById('hcp-save-btn').addEventListener('click', () => {
   document.getElementById('hcp-new-value').value = '';
   renderHcpStatus();
   renderAll();
+  if (typeof hxUpdateSvPlaceholder === 'function') { hxUpdateSvPlaceholder(); if (mode === 'scorecard') renderHolesUI(); }
 });
 
 function loadRounds() {
@@ -766,6 +1114,7 @@ function setEntryMode(newEntry) {
 
   updateUdBlockVisibility();
   if (mode === 'scorecard') buildHolesUI();
+  if (typeof gpsLiveSync === 'function') gpsLiveSync();
 }
 function updateUdBlockVisibility() {
   const showAuto = (mode === 'scorecard' && extendedTracking);
@@ -833,6 +1182,7 @@ function buildParSettings() {
 // ---------- Holes UI (scorecard) ----------
 function buildHolesUI(prefill) {
   currentHoleIndex = 0;
+  caddyApproach = {}; caddyApproachSrc = {}; caddyManual = {};
   const courseKey = document.getElementById('course').value;
   const pars = getParProfile(courseKey);
   const lengths = getLengthProfile(courseKey);
@@ -853,13 +1203,14 @@ function buildHolesUI(prefill) {
         gir: !!prefill[i].gir,
         fairway: prefill[i].fairway || null,
         penalties: prefill[i].penalties || 0,
-        penaltyTypes: legacyTypes
+        penaltyTypes: legacyTypes,
+        teeClub: prefill[i].teeClub || null, caddyRec: prefill[i].caddyRec || null
       });
     } else {
       currentHoleValues.push({
         par: pars[i], strokes: pars[i], putts: 2, subCourse: origins[i].subCourse, subHole: origins[i].subHole,
         length: lengths[i],
-        gir: false, fairway: null, penalties: 0, penaltyTypes: []
+        gir: false, fairway: null, penalties: 0, penaltyTypes: [], teeClub: null, caddyRec: null
       });
     }
   }
@@ -939,12 +1290,192 @@ function renderHolesUI() {
   renderScorecardTotal();
 }
 
+// ---------- Caddy-Schnellansicht (Phase 6) ----------
+// Nutzt computeHoleHistory (Phase 5) – kein zweites Analysesystem. Fakt (Historie) und
+// Einschätzung (Caddy-Zeile) sind optisch getrennt, wie in der Spec gefordert.
+// "Wie spielen?" – kombiniert nur, was wir tatsächlich wissen: Schlägerempfehlung nach Lochlänge
+// (Bag), bekannte Hindernisse (Regelbuch), persönliches Fairway-Miss-Muster an diesem Loch.
+// Keine generischen Golf-Weisheiten – ohne Datenbasis wird der Punkt einfach weggelassen.
+// Strategie-Zeilen basieren bewusst auf den letzten 3 Runden an diesem Loch (aktuelle Entwicklung),
+// nicht auf der Gesamthistorie – die zeigt "Deine Historie" oben im Caddy-Text bereits.
+function caddyStrategyLines(h) {
+  const recent = computeHoleHistory(h.subCourse, h.subHole, 3);
+  const lines = [];
+  const length = getLengthProfile(h.subCourse)[h.subHole - 1];
+  // Hindernisse kommen für Hünxerwald aus HUENX_BAHNEN (eigener Block), für andere Plätze liegen keine vor.
+  const hazards = [];
+  const hasHazard = false;
+
+  const bag = loadBag().map(bagMigrateEntry).filter(c => c.carry !== null && c.carry !== undefined);
+  const sortedByCarry = bag.slice().sort((a, b) => b.carry - a.carry);
+
+  // Risikogrund für die aggressive Variante: entweder ein bekanntes Hindernis (Platzwissen/Birdie
+  // Book – strategische Info zur Bahn, keine Regelauskunft) oder – auch ohne bekanntes Hindernis –
+  // die eigene jüngste Genauigkeit an diesem Loch (Fairway-Miss/Strafschläge in den letzten 3
+  // Runden). Reine Distanzdaten reichen für die einfache Empfehlung immer aus; der
+  // Zwei-Optionen-Vergleich braucht zusätzlich einen der beiden.
+  const recentRisk = (recent.fwMissCount >= 1) || (recent.avgPenalties !== null && recent.avgPenalties > 0);
+  const riskReason = hasHazard
+    ? `Hindernis laut Birdie Book (${hazards.map(hz => hz.title).join(', ')})`
+    : (recentRisk ? `deine jüngste Genauigkeit an diesem Loch (letzte ${recent.n} Runde${recent.n > 1 ? 'n' : ''})` : null);
+
+  if (length && sortedByCarry.length > 0) {
+    const aggressive = sortedByCarry[0];
+    // "Passiv" = längster Schläger, der trotzdem spürbar kürzer als die volle Lochlänge bleibt (Layup-Charakter)
+    const passive = sortedByCarry.find(c => c.carry < length * 0.85) || null;
+
+    if (riskReason && passive && passive.name !== aggressive.name) {
+      lines.push({ type: 'passiv', text: `${passive.name} (Carry ${passive.carry.toFixed(0)}m) – kontrolliert vorlegen, Risiko meiden.` });
+      lines.push({ type: 'aggressiv', text: `${aggressive.name} (Carry ${aggressive.carry.toFixed(0)}m) – volle Länge, bewusstes Risiko wegen ${riskReason} für möglichen Schlaggewinn.` });
+    } else {
+      lines.push({ type: 'neutral', text: `${aggressive.name} (Carry ${aggressive.carry.toFixed(0)}m) kommt der Lochlänge (${length}m) am nächsten.` });
+    }
+  }
+
+  if (h.par !== 3 && recent.fwMissSide && recent.fwMissCount >= 1) {
+    lines.push({ type: 'info', text: `Letzte ${recent.n} Runde${recent.n > 1 ? 'n' : ''}: Fairway-Miss meist ${recent.fwMissSide}.` });
+  }
+  if (recent.avgPenalties !== null && recent.avgPenalties > 0) {
+    lines.push({ type: 'info', text: `Letzte ${recent.n} Runde${recent.n > 1 ? 'n' : ''}: Ø ${recent.avgPenalties.toFixed(1)} Strafschläge an diesem Loch.` });
+  }
+
+  return lines;
+}
+
+function caddyQuickCardHtml(h) {
+  if (!h.subCourse || !h.subHole) return '';
+  const hist = computeHoleHistory(h.subCourse, h.subHole);
+  const huenx = hasCaddyCourse(h.subCourse);
+  const hk = caddyHoleKey(h.subCourse, h.subHole);
+
+  let histLine, caddyText = null, standout = null;
+  if (hist.n === 0) {
+    histLine = `Historie: noch keine Runden an diesem Loch`;
+  } else {
+    if (hist.avgPenalties !== null && hist.avgPenalties >= 0.5) standout = `Ø ${hist.avgPenalties.toFixed(1)} Strafschläge`;
+    else if (hist.doublePlusPct >= 30) standout = `${hist.doublePlusPct}% Doppelbogey+`;
+    else if (hist.threePuttPct >= 30) standout = `${hist.threePuttPct}% 3-Putts`;
+    else if (hist.girPct !== null && hist.girPct < 25) standout = `GIR nur ${hist.girPct}%`;
+    if (hist.n < 3) caddyText = `Noch zu wenig persönliche Daten (${hist.n} Runde${hist.n > 1 ? 'n' : ''}).`;
+    else if (hist.avgOverPar >= 1.3) caddyText = `Gehört zu deinen schwierigeren Löchern.`;
+    else if (hist.avgOverPar <= 0.3) caddyText = `Läuft hier bisher gut für dich.`;
+    else caddyText = `Im Rahmen des Üblichen für dich.`;
+    histLine = `Historie: Ø ${hist.avgScore.toFixed(1)} · ${hist.n} Runde${hist.n > 1 ? 'n' : ''}${standout ? ` · <span style="color:var(--red);">${standout}</span>` : ''}`;
+  }
+  const strategyLineHtml = (l) => {
+    if (l.type === 'passiv') return `<div style="margin-bottom:8px; font-size:13px; color:var(--text);"><strong style="color:var(--fairway-bright);">✅ Passiv (Standard):</strong> ${l.text}</div>`;
+    if (l.type === 'aggressiv') return `<div style="margin-bottom:8px; font-size:13px; color:var(--text);"><strong style="color:var(--red);">🎲 Aggressiv:</strong> ${l.text}</div>`;
+    if (l.type === 'info') return `<div style="margin-bottom:4px; font-size:12px; color:var(--text-dim);">${l.text}</div>`;
+    return `<div style="margin-bottom:8px; font-size:13px; color:var(--text);">${l.text}</div>`;
+  };
+  const detailsBlock = (inner) => inner ? `
+    <div class="rb-toggle-hint" style="text-align:left; margin-top:8px; cursor:pointer; color:var(--gold);" onclick="caddyToggleDetails(this)">${caddyDetailsOpen ? 'Details ▴' : 'Details ▾'}</div>
+    <div style="display:${caddyDetailsOpen ? 'block' : 'none'}; margin-top:8px; padding-top:8px; border-top:1px solid var(--card-border);">${inner}</div>` : '';
+
+  if (competitionMode()) {
+    if (!huenx) return `<div class="caddy-card" style="border-color:var(--card-border);"><div class="comp-banner">⚖️ Wettspiel</div><div class="cx-dim" style="margin:0;">${histLine}</div></div>`;
+    return caddyCompetitionCardHtml(h, hk, histLine);
+  }
+  if (!huenx) {
+    if (hist.n === 0) return `<div class="caddy-card"><div class="cx-dim" style="margin:0;">${histLine}</div></div>`;
+    const lines = caddyStrategyLines(h);
+    return `<div class="caddy-card">
+      <div class="cx-dim" style="margin:0;">${histLine}</div>
+      ${caddyText ? `<div class="cx-head">${caddyText}</div>` : ''}
+      ${detailsBlock(lines.map(strategyLineHtml).join(''))}
+    </div>`;
+  }
+
+  // Hünxerwald: Kopfzeile immer sichtbar, Details auf Tap
+  const details = huenxCaddyHtml(hk, { calc: true, holeIndex: currentHoleIndex, inRound: true })
+    + (hist.n > 0 ? caddyStrategyLines(h).filter(l => l.type === 'info').map(strategyLineHtml).join('') : '')
+    + (caddyText ? `<div class="cx-dim" style="margin-top:8px;">Deine Historie: ${caddyText}</div>` : '');
+  wxMaybeFetch();
+  const L = hxLast;
+  const i = currentHoleIndex;
+  let head = '';
+  if (L.tee) head += `<div class="cx-head">🏌️ ${escapeHtml(L.tee.club)}${L.tee.aim ? ' · ' + L.tee.aim : ''}</div>`;
+  const meta = [];
+  if (L.pin) meta.push(L.pin);
+  if (L.strokes !== null && L.strokes !== undefined) meta.push(L.strokes === 0 ? 'kein Vorgabeschlag' : `${L.strokes} Vorgabeschl${L.strokes === 1 ? 'ag' : 'äge'}`);
+  if (wxEnabled()) {
+    const w = hxWindForShot(hk);
+    if (w) {
+      let wt = `🌬️ ${Math.round(w.speed)} km/h aus ${wxDirText(w.dir)}${w.gust ? `, Böen ${Math.round(w.gust)}` : ''}`;
+      if (w.head !== null) wt += ` → ${hxWindShortTxt(w)}${Math.abs(w.cross) >= 5 ? `, ${Math.round(Math.abs(w.cross))} km/h von ${w.cross > 0 ? 'rechts' : 'links'}` : ''}`;
+      meta.push(wt);
+    } else meta.push(wxLoading ? '🌬️ Wetter lädt …' : '🌬️ kein Wetter (Netz?)');
+  }
+  if (meta.length) head += `<div class="cx-dim" style="margin-top:2px;">${meta.join(' · ')}</div>`;
+  const dist = caddyApproach[i];
+  const bahnLen = caddyBahnByKey(hk)[hxContext().tee];
+  const onTee = caddyApproachSrc[i] === 'gps' && dist > bahnLen - 30;  // Live-Wert noch am Abschlag → keine Zweitempfehlung
+  if (dist && L.appr && !onTee) head += `<div class="cx-head" style="margin-top:8px;">🎯 ${Math.round(dist)} m: ${escapeHtml(L.appr.club)} · ${L.appr.aim}</div>`;
+  if (dist && !onTee) {
+    const hz = hxHazardsAheadTxt(caddyBahnByKey(hk), dist);
+    if (hz) head += `<div class="cx-text-sm" style="color:var(--gold);">${hz}</div>`;
+  }
+
+  // Entfernung ohne Tastatur: GPS-Knopf + Antipp-Werte (inkl. Schätzung nach Abschlag)
+  const hasGreen = !!loadGreens()[hk];
+  const live = gpsLiveEnabled() && hasGreen && !gpsLiveError && gpsWatchId !== null;
+  const chipVals = [60, 80, 100, 120, 140, 160, 180, 200];
+  let chips = '';
+  if (live && caddyManual[i]) chips += `<button type="button" class="mini-pill on-gir" onclick="caddyResumeLive(${i})">📍 Live</button>`;
+  if (L.restEst && L.restEst > 30) chips += `<button type="button" class="mini-pill ${dist === L.restEst ? 'on-fw' : ''}" onclick="caddySetApproach(${i}, ${L.restEst})">≈${L.restEst} (Schätzung)</button>`;
+  chips += chipVals.map(v => `<button type="button" class="mini-pill ${dist === v ? 'on-fw' : ''}" onclick="caddySetApproach(${i}, ${v})">${v}</button>`).join('');
+  if (dist && caddyApproachSrc[i] === 'manual') chips = `<button type="button" class="mini-pill" onclick="caddySetApproach(${i}, ${dist - 10})">−10</button><button type="button" class="mini-pill" onclick="caddySetApproach(${i}, ${dist + 10})">+10</button>` + chips;
+  const distRow = `
+    <div class="cx-dist-row">
+      ${live && !caddyManual[i]
+        ? `<div class="cx-live">📍 ${caddyApproachSrc[i] === 'gps' && dist ? `<strong>${Math.round(dist)} m</strong>` : '…'}<span>${gpsLast ? `±${Math.round(gpsLast.acc)} m` : 'sucht'}</span></div>`
+        : `<button type="button" class="btn-primary cx-gps-btn" onclick="caddyMeasure(${i}, '${hk}')" ${hasGreen ? '' : 'style="opacity:.55;"'}>📍 Entfernung</button>`}
+      <div class="cx-chip-scroll">${chips}</div>
+    </div>
+    ${caddyGpsMsg ? `<div class="cx-dim">${caddyGpsMsg}</div>` : ''}`;
+
+  return `<div class="caddy-card">
+    <div class="cx-dim" style="margin:0 0 4px;">${histLine}</div>
+    ${head}
+    ${distRow}
+    ${detailsBlock(details)}
+  </div>`;
+}
+
+// Abschlagschläger per Tap (optional) – Grundlage für Platz-Streuung und "Empfehlung befolgt?"
+function teeClubChipsHtml(h, i) {
+  const len = h.length || null;
+  let clubs = loadBag().map(bagMigrateEntry).filter(c => typeof c.carry === 'number'); // Bag-Reihenfolge
+  if (h.par === 3 && len) clubs = clubs.filter(c => Math.abs(c.carry - len) <= 45);
+  else clubs = clubs.filter(c => c.carry >= 100);
+  if (!clubs.length) return '';
+  const rec = (!competitionMode() && hasCaddyCourse(h.subCourse)) ? hxRecForHole(caddyHoleKey(h.subCourse, h.subHole)) : null;
+  return `<div class="cx-teeclub">
+    <span class="cx-dim-inline">Abschlag mit:</span>
+    <div class="cx-chip-scroll">${clubs.map(c => {
+      const on = h.teeClub === c.name;
+      const isRec = rec === c.name;
+      return `<button type="button" class="mini-pill ${on ? 'on-gir' : ''}" style="${isRec && !on ? 'border-color:var(--gold); color:var(--gold);' : ''}" onclick="setTeeClub(${i}, '${c.name.replace(/'/g, "\\'")}')">${escapeHtml(c.name)}</button>`;
+    }).join('')}</div>
+  </div>`;
+}
+function setTeeClub(i, name) {
+  const h = currentHoleValues[i];
+  if (h.teeClub === name) { h.teeClub = null; h.caddyRec = null; }
+  else {
+    h.teeClub = name;
+    h.caddyRec = (!competitionMode() && hasCaddyCourse(h.subCourse)) ? hxRecForHole(caddyHoleKey(h.subCourse, h.subHole)) : null;
+  }
+  renderHolesUI();
+}
+
 function renderSingleHoleView() {
   const container = document.getElementById('single-hole-container');
   const n = currentHoleValues.length;
   if (currentHoleIndex >= n) currentHoleIndex = n - 1;
   if (currentHoleIndex < 0) currentHoleIndex = 0;
   const h = currentHoleValues[currentHoleIndex];
+  gpsApplyLast(currentHoleIndex);
   const dots = currentHoleValues.map((hv, i) => {
     const cls = i === currentHoleIndex ? 'current' : (hv.strokes !== hv.par || hv.putts !== 2 || hv.gir || hv.fairway || hv.penalties > 0) ? 'done' : '';
     return `<button type="button" class="single-hole-dot ${cls}" onclick="jumpToHole(${i})">${i + 1}</button>`;
@@ -956,14 +1487,19 @@ function renderSingleHoleView() {
       <button type="button" onclick="goToHole(1)" ${currentHoleIndex === n - 1 ? 'disabled' : ''}>›</button>
     </div>
     <div class="single-hole-card single-hole-big">${holeRowHtml(h, currentHoleIndex)}</div>
+    ${teeClubChipsHtml(h, currentHoleIndex)}
+    <div id="caddy-card-wrap">${caddyQuickCardHtml(h)}</div>
     <div class="single-hole-dots">${dots}</div>
   `;
+  gpsLiveSync();
 }
 function goToHole(delta) {
+  caddyDetailsOpen = false; caddyGpsMsg = null;
   currentHoleIndex = Math.max(0, Math.min(currentHoleValues.length - 1, currentHoleIndex + delta));
   renderHolesUI();
 }
 function jumpToHole(i) {
+  caddyDetailsOpen = false; caddyGpsMsg = null;
   currentHoleIndex = i;
   renderHolesUI();
 }
@@ -1490,6 +2026,8 @@ function buildTrainerReport(rangeVal) {
   text += fmtStatBlock(stats);
   if (latestHcp) text += `\nAktuelles HCP: ${latestHcp.hcp.toFixed(1)} (Stand ${latestHcp.date})\n`;
 
+  text += buildCaddyReportBlock(rounds);
+
   if (compareRounds !== null) {
     if (compareRounds.length === 0) {
       text += `\n\nVERGLEICHSZEITRAUM (${compareLabel})\nKeine Runden im Vorjahreszeitraum erfasst.`;
@@ -1505,6 +2043,48 @@ function buildTrainerReport(rangeVal) {
   }
 
   return text;
+}
+
+// Schläger, Streuung und Platzmanagement – TrackMan (Halle) und Platz getrennt, kleine Stichproben kenntlich
+function buildCaddyReportBlock(rounds) {
+  let t = `\n\nSCHLÄGER & STREUUNG (TrackMan, je 6 Schläge)\n`;
+  const bag = loadBag().map(bagMigrateEntry).filter(c => c.streuung);
+  if (!bag.length) t += `Keine Streuungsdaten hinterlegt.\n`;
+  bag.forEach(c => {
+    const s = c.streuung, tend = streuTendenz(s);
+    const flags = [tend.lr ? `Tendenz ${tend.lr}` : null, tend.lk ? `Tendenz ${tend.lk}` : null].filter(Boolean).join(', ');
+    t += `${c.name}: L ${s.links ?? '–'} / R ${s.rechts ?? '–'} / M ${s.mitte ?? '–'} / Lang ${s.lang ?? '–'} / Kurz ${s.kurz ?? '–'} %`
+      + `${flags ? ' – ' + flags : ''} (${s.datum || 'ohne Datum'}${streuVeraltet(s.datum) ? ', veraltet' : ''})\n`;
+  });
+
+  const pl = platzTeeStats(rounds);
+  const plClubs = Object.keys(pl).filter(k => pl[k].n > 0);
+  t += `\nABSCHLÄGE AUF DEM PLATZ (Zeitraum)\n`;
+  if (!plClubs.length) t += `Noch keine Abschlagschläger erfasst.\n`;
+  plClubs.sort((a, b) => pl[b].n - pl[a].n).forEach(k => {
+    const c = pl[k];
+    t += `${k}: ${c.n}× gespielt` + (c.fw ? ` · Fairway ${c.hit}/${c.fw}, links ${c.left}, rechts ${c.right}` : '') + `\n`;
+  });
+
+  const withRec = [];
+  rounds.forEach(r => (r.holesData || []).forEach(hd => { if (hd.teeClub && hd.caddyRec) withRec.push(hd); }));
+  if (withRec.length) {
+    const yes = withRec.filter(x => x.teeClub === x.caddyRec), no = withRec.filter(x => x.teeClub !== x.caddyRec);
+    const avg = arr => arr.length ? (arr.reduce((a, x) => a + (x.strokes - x.par), 0) / arr.length) : null;
+    const f = v => v === null ? '–' : (v > 0 ? '+' : '') + v.toFixed(2);
+    t += `\nCADDY-EMPFEHLUNG (Abschlag)\nBefolgt: ${yes.length} Löcher, Ø ${f(avg(yes))} zu Par · Nicht befolgt: ${no.length} Löcher, Ø ${f(avg(no))} zu Par`;
+    t += withRec.length < 20 ? ` (unter 20 Löchern – noch keine belastbare Aussage)\n` : `\n`;
+  }
+
+  const pen = {};
+  rounds.forEach(r => (r.holesData || []).forEach(hd => {
+    if (!hasCaddyCourse(hd.subCourse) || !hd.penalties) return;
+    const k = caddyHoleKey(hd.subCourse, hd.subHole);
+    pen[k] = (pen[k] || 0) + hd.penalties;
+  }));
+  const penTop = Object.keys(pen).sort((a, b) => pen[b] - pen[a]).slice(0, 3);
+  if (penTop.length) t += `\nMEISTE STRAFSCHLÄGE: ${penTop.map(k => `${CADDY_COURSES[k.split(':')[0]].name} Bahn ${k.split(':')[1]}: ${pen[k]}`).join(' · ')}\n`;
+  return t;
 }
 
 document.getElementById('report-range').addEventListener('change', function() {
@@ -1650,6 +2230,12 @@ function editRound(id) {
   document.getElementById('course').value = r.course || CLUB_COURSE_GROUPS[club].default;
   document.getElementById('green-mode').value = r.greenMode || 'summer';
   document.getElementById('team-match').checked = !!r.teamMatch;
+  document.getElementById('competition-mode').checked = !!r.wettspiel;
+  document.getElementById('hx-pin').value = r.pinPos || '';
+  document.getElementById('hx-tee').value = r.tee || 'gelb';
+  document.getElementById('hx-sv').value = (r.spielvorgabe !== undefined && r.spielvorgabe !== null) ? r.spielvorgabe : '';
+  hxUpdateSvPlaceholder();
+  hxUpdateRoundFieldsVisibility();
   document.getElementById('udMade').value = r.udMade;
   document.getElementById('udTries').value = r.udTries;
   document.getElementById('udMade-val').textContent = r.udMade;
@@ -1686,8 +2272,10 @@ function cancelEdit() {
   document.getElementById('date').valueAsDate = new Date();
   document.getElementById('green-mode').value = 'summer';
   document.getElementById('team-match').checked = false;
+  document.getElementById('competition-mode').checked = false;
   document.getElementById('club').value = 'Golfclub Hünxerwald';
   populateCourseSelectForClub('Golfclub Hünxerwald');
+  hxRestoreFromSettings();
   document.getElementById('form-heading').textContent = 'Neue Runde eintragen';
   document.getElementById('save-round-btn').textContent = 'Runde speichern';
   document.getElementById('edit-banner').style.display = 'none';
@@ -1724,9 +2312,12 @@ document.getElementById('save-round-btn').addEventListener('click', function() {
       udMade, udTries,
       greenMode: document.getElementById('green-mode').value,
       teamMatch: document.getElementById('team-match').checked,
+      wettspiel: document.getElementById('competition-mode').checked,
+      ...hxRoundValues(courseKey),
       note: document.getElementById('note').value || '',
       holesData: currentHoleValues.map(h => {
         const base = { par: h.par, strokes: h.strokes, putts: h.putts, subCourse: h.subCourse, subHole: h.subHole };
+        if (h.teeClub) { base.teeClub = h.teeClub; if (h.caddyRec) base.caddyRec = h.caddyRec; }
         if (extendedTracking) {
           base.gir = h.gir; base.fairway = h.fairway; base.penalties = h.penalties; base.penaltyTypes = h.penaltyTypes;
         }
@@ -1744,6 +2335,7 @@ document.getElementById('save-round-btn').addEventListener('click', function() {
       udTries: parseInt(document.getElementById('udTries').value) || 0,
       greenMode: document.getElementById('green-mode').value,
       teamMatch: document.getElementById('team-match').checked,
+      ...hxRoundValues(courseKey),
       note: document.getElementById('note').value || '',
       holesData: null
     };
@@ -1762,6 +2354,10 @@ document.getElementById('save-round-btn').addEventListener('click', function() {
     rounds.push(entry);
     ok = saveRounds(rounds);
     msg.textContent = ok ? 'Runde gespeichert.' : 'Speichern fehlgeschlagen – Browser-Speicher evtl. voll oder blockiert.';
+    if (ok) {
+      document.getElementById('round-review').innerHTML = roundReviewHtml(entry);
+      backupReminderRender(true);
+    }
     if (mode === 'quick') {
       document.getElementById('score').value = '';
       document.getElementById('putts3').value = '';
@@ -1792,10 +2388,16 @@ document.querySelectorAll('.metric-toggles button').forEach(btn => {
 
 // ---------- Export / Import / Clear ----------
 document.getElementById('export-btn').addEventListener('click', () => {
-  const backup = { rounds: loadRounds(), hcpLog: loadHcpLog(), parProfiles: loadParProfiles() };
+  const backup = {
+    rounds: loadRounds(), hcpLog: loadHcpLog(), parProfiles: loadParProfiles(),
+    trackmanSessions: loadTmSessions(), trackmanShots: loadTmShots(), bag: loadBag(),
+    greens: loadGreens(),
+  };
   const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = 'golf-fortschritt-backup.json'; a.click();
+  const a = document.createElement('a'); a.href = url; a.download = `golf-fortschritt-backup-${todayStr()}.json`; a.click();
+  try { localStorage.setItem(BACKUP_KEY, todayStr()); } catch (e) {}
+  backupReminderRender(false);
   URL.revokeObjectURL(url);
 });
 document.getElementById('import-btn').addEventListener('click', () => document.getElementById('import-file').click());
@@ -1822,6 +2424,25 @@ document.getElementById('import-file').addEventListener('change', function() {
 
       const existingPars = loadParProfiles();
       saveParProfiles({ ...importedPars, ...existingPars });
+
+      // TrackMan-Sessions/Shots mergen wie Runden – bestehende IDs werden nie überschrieben.
+      const importedTmSessions = Array.isArray(imported) ? [] : (imported.trackmanSessions || []);
+      const importedTmShots = Array.isArray(imported) ? [] : (imported.trackmanShots || []);
+      const existingTmSessions = loadTmSessions();
+      const existingTmSessionIds = new Set(existingTmSessions.map(s => s.id));
+      saveTmSessions(existingTmSessions.concat(importedTmSessions.filter(s => !existingTmSessionIds.has(s.id))));
+      const existingTmShots = loadTmShots();
+      const existingTmShotIds = new Set(existingTmShots.map(s => s.id));
+      saveTmShots(existingTmShots.concat(importedTmShots.filter(s => !existingTmShotIds.has(s.id))));
+
+      // Bag mergen – bestehende Schläger-IDs bleiben unangetastet.
+      const importedBag = Array.isArray(imported) ? [] : (imported.bag || []);
+      const existingBag = loadBag();
+      const existingBagIds = new Set(existingBag.map(c => c.id));
+      saveBag(existingBag.concat(importedBag.filter(c => !existingBagIds.has(c.id))));
+
+      // GPS-Grünmitten: vorhandene bleiben, fehlende kommen aus dem Backup
+      if (!Array.isArray(imported) && imported.greens) saveGreens({ ...migrateGreenKeys(imported.greens), ...loadGreens() });
 
       renderHcpStatus();
       renderAll();
@@ -1969,12 +2590,2097 @@ document.getElementById('cz-reset-btn').addEventListener('click', () => {
   czRender();
 });
 
+// ---------- Regelbuch (Golfregeln 2023–2026, R&A/USGA) ----------
+// Kurzfassung häufiger Situationen, keine Vollständigkeit. Jede Situation hat zwei Ebenen:
+// "easy" = einfache Sprache (auch für HCP 54 verständlich), "summary"/"procedure" = offizieller
+// Regeltext für Ligaspiele/Turniere, wo es auf Genauigkeit ankommt.
+// Bahn-Zuordnung nur für Hünxerwald, basierend auf den offiziellen Bahnbeschreibungen und den
+// Platzregeln (Stand 15.05.2026) der Club-Website (golfclub-huenxerwald.de) sowie den vom Nutzer
+// bereitgestellten Bahnkarten-Fotos für Bahn 8 und 9. Alle 18 Bahnen sind jetzt geprüft.
+const RULES_DB = [
+  {
+    title: 'Ball im Aus (OB)',
+    rule: 'Regel 18.2',
+    penalty: '1 Strafschlag',
+    freeRelief: false,
+    easy: 'Dein Ball liegt außerhalb der Platzgrenze (weiße Pfähle/Zaun). Du musst nochmal von der Stelle spielen, wo du vorher warst – und zählst dafür einen Schlag extra dazu. Bist du unsicher, ob der Ball im Aus liegt: spiel direkt einen zweiten Ball hinterher ("ich spiele einen Provisorischen") – dann musst du nicht extra zurücklaufen, falls der erste doch im Aus liegt. Hünxerwald-Besonderheit: Es gibt keine erleichterte Alternativregel bei uns – es bleibt immer beim Zurückgehen. Und: Beim Spielen von Bahn 18 zählt die Fläche von Bahn 10 als Aus!',
+    summary: 'Erleichterung mit Schlag- und Distanzverlust: 1 Strafschlag dazu, nächster Schlag von der Stelle des vorherigen Schlags (z. B. erneut vom Abschlag).',
+    procedure: 'Kein Droppen am Rand des Aus – der Ball muss von der Stelle des vorherigen Schlags gespielt werden. Laut Hünxerwald-Platzregel (Stand 15.05.2026) gibt es hier keine straffreie Erleichterung und keine alternative Local Rule (z. B. Modell-Platzregel E-5) – es bleibt bei Regel 18.2 pur. Bahn 18: die Fläche von Bahn 10 ist Aus, die weißen Pfosten dort sind beim Spielen von Bahn 10 unbewegliche Hemmnisse, beim Spielen von Bahn 18 aber Auspfähle, die nicht bewegt werden dürfen.',
+    keywords: ['aus', 'out of bounds', 'ob', 'weiße pfähle', 'weiße pflöcke'],
+    holes: [3, 18],
+  },
+  {
+    title: 'Ball verloren',
+    rule: 'Regel 18.2 · Suchzeit Regel 7.4',
+    penalty: '1 Strafschlag',
+    freeRelief: false,
+    easy: 'Du findest deinen Ball nach 3 Minuten Suche nicht mehr. Dann ist es wie im Aus: zurück zur alten Stelle, 1 Schlag drauf.',
+    summary: 'Gleiche Behandlung wie Ball im Aus: Distanzverlust. Suchzeit maximal 3 Minuten ab Beginn der Suche.',
+    procedure: 'Nach 3 Minuten ohne Fund gilt der Ball als verloren. Zurück zur Stelle des vorherigen Schlags, 1 Strafschlag dazu. Hinter dir spielende Flights immer durchspielen lassen.',
+    keywords: ['verloren', 'rough', 'gesucht', '3 minuten', 'nicht gefunden'],
+    holes: [],
+  },
+  {
+    title: 'Ball im Wasser / Penalty Area',
+    rule: 'Regel 17',
+    penalty: '1 Strafschlag',
+    freeRelief: false,
+    easy: 'Dein Ball liegt in einem Bereich mit roten Pfählen (Teich, Graben, Wassergraben). Du darfst ihn nicht einfach aufheben und irgendwo hinlegen – du suchst dir eine von mehreren erlaubten Stellen aus und spielst von dort weiter, mit 1 Schlag Strafe. Gute Nachricht für Hünxerwald: Bei uns sind ALLE Penalty Areas rot markiert (keine gelben), das heißt du darfst immer auch seitlich Erleichterung nehmen, nicht nur zurückgehen. Besonderheit Bahn 4: Bist du unsicher, ob dein Ball im Teich vor dem Grün liegt, darfst du dort einen speziellen Provisorischen Ball spielen mit allen Erleichterungsoptionen.',
+    summary: 'Da an diesem Platz ausschließlich rote Pfähle verwendet werden (keine gelben), gilt für jede Penalty Area: 1 Strafschlag, und 2 Optionen zusätzlich zum Distanzverlust – rückwärtige Linie beliebig weit zurück, oder seitliche Erleichterung (2 Schlägerlängen vom Punkt, wo der Ball zuletzt die Grenze gekreuzt hat, nicht näher zum Loch).',
+    procedure: 'Der Ball muss nicht gefunden werden, wenn bekannt oder so gut wie sicher ist, dass er in der Penalty Area liegt. Spielen aus der Penalty Area selbst ist straflos möglich (Ball liegen lassen und normal spielen). Hünxerwald-Sonderregel Bahn 4: Bei Unsicherheit über die Lage des Balls im Teich vor dem Grün darf ein modifizierter provisorischer Ball nach Regel 18.3 gespielt werden, bei dem alle drei Erleichterungsmöglichkeiten nach Regel 17.1d offenstehen (nicht nur Distanzverlust). Wird der Originalball innerhalb der 3-Minuten-Suchzeit in der Penalty Area gefunden, darf frei zwischen Original- und Provisorischem Ball gewählt werden.',
+    keywords: ['wasser', 'penalty area', 'wasserhindernis', 'graben', 'teich', 'wassergraben'],
+    holes: [1, 4, 10, 11, 12, 13, 14, 15, 16],
+  },
+  {
+    title: 'Ball in der Spielverbotszone (ehem. "Biotop")',
+    rule: 'Regel 2.4 (No Play Zone) i. V. m. Regel 17 · Platzregel Nr. 4',
+    penalty: '1 Strafschlag (Ball dort) · 2 Strafschläge / Disqualifikation (Betreten)',
+    freeRelief: false,
+    easy: 'Das sind die Bereiche, die früher "Biotop" hießen – erkennbar an roten Pfählen mit GRÜNEM Kopf, u. a. an Bahn 10 und auf den Brücken zwischen Bahn 10/11 und Bahn 15/16. Hier darfst du nicht mal reingehen, auch nicht um den Ball zu suchen oder zu holen! Liegt dein Ball da drin, musst du Erleichterung nehmen: 1 Schlag Strafe, dann von einer erlaubten Stelle außerhalb weiterspielen. Betrittst du die Zone trotzdem (auch ohne dass dein Ball dort liegt), drohen 2 Strafschläge – beim zweiten Mal sogar Disqualifikation.',
+    summary: 'Spielverbotszonen sind Penalty Areas, die zusätzlich mit rotem Pfahl + grünem Kopf gekennzeichnet sind (u. a. Bahn 10, sowie die Brücken der Bahnen 10/11 und 15/16). Liegt der Ball dort, darf er nicht gespielt werden, wie er liegt – Erleichterung nach Regel 17.1 ist Pflicht, 1 Strafschlag.',
+    procedure: 'Wird der Stand oder Schwung durch die Zone beeinträchtigt, obwohl der Ball selbst außerhalb liegt, gilt straffreie Erleichterung nach Regel 16.1f. Für das Betreten der Zone (unabhängig vom Ball) gilt laut Platzregel Nr. 4 i. V. m. Regel 1.2a: erster Verstoß = Grundstrafe (2 Strafschläge), zweiter Verstoß = Disqualifikation. Zone unter keinen Umständen betreten, auch nicht zum Ballsuchen.',
+    keywords: ['biotop', 'spielverbotszone', 'no play zone', 'betreten verboten', 'grüner kopf'],
+    holes: [10, 11, 15, 16],
+  },
+  {
+    title: 'Ball unspielbar',
+    rule: 'Regel 19',
+    penalty: '1 Strafschlag',
+    freeRelief: false,
+    easy: 'Dein Ball liegt so ungünstig (z. B. unter einem Busch, an der Bunkerkante), dass du ihn nicht vernünftig spielen kannst. Du darfst selbst "unspielbar" erklären – überall auf dem Platz, außer im roten Bereich (da gilt die Wasserregel). Dann: 1 Schlag Strafe, und du wählst zwischen 3 Möglichkeiten weiterzuspielen.',
+    summary: 'Überall auf dem Platz außer in einer Penalty Area darfst du deinen Ball selbst für unspielbar erklären. 3 Optionen: (a) Distanzverlust, (b) rückwärtige Linie beliebig weit zurück, (c) seitlich 2 Schlägerlängen, nicht näher zum Loch.',
+    procedure: 'Im Bunker: alle 3 Optionen bleiben im Bunker – außer man zahlt 2 Strafschläge gesamt für rückwärtige Linie außerhalb des Bunkers (Regel 19.3b). Klassischer Fall: Ball liegt oben an der Bunkerkante und lässt sich nicht kontrolliert spielen.',
+    keywords: ['unspielbar', 'bunkerkante', 'dickicht', 'baum', 'hecke'],
+    holes: [],
+  },
+  {
+    title: 'Boden in Ausbesserung (blaue Pfähle / weiße Linie)',
+    rule: 'Regel 16.1 · Platzregel Nr. 5',
+    penalty: 'keine',
+    freeRelief: true,
+    easy: 'Siehst du blaue Pfähle im Boden oder eine weiße Kreis-Linie um eine Fläche – das heißt "Boden in Ausbesserung" (frisch repariert oder neu gesät). Landet dein Ball da drin, darfst du IMMER straflos raus: nächstgelegene Stelle außerhalb suchen (nicht näher zum Loch), Ball hinlegen, weiterspielen. Kostet nichts. Genauso bei markierten (gepflockten) Bäumen samt dem Gießring drumherum, und bei mit Pfählen/Bändern/Seilen gekennzeichneten Neuanpflanzungen – auch die darfst du straflos umgehen.',
+    summary: 'Boden in Ausbesserung ist durch weiße Einkreisungen und/oder blaue Pfähle gekennzeichnet. Sind beide Markierungen vorhanden, gilt die eingezeichnete Linie als exakte Grenze. Ebenso als unbewegliche Hemmnisse behandelt: alle gepflockten/markierten Bäume inklusive ihrer Gießringe, sowie mit Pfählen, Manschetten, Bändern oder Seilen gekennzeichnete Anpflanzungen.',
+    procedure: 'Straffreie Erleichterung nach Regel 16.1: nächstgelegenen Punkt vollständiger Erleichterung bestimmen (nicht näher zum Loch), von dort maximal eine Schlägerlänge, Ball dort droppen. Gilt genauso, wenn nur Stand oder Schwung durch die Bedingung beeinträchtigt wird, auch wenn der Ball selbst außerhalb liegt.',
+    keywords: ['blauer pfahl', 'blaue pfähle', 'blauer pfosten', 'boden in ausbesserung', 'gur', 'ausbesserung', 'weiße einkreisung', 'markierter baum', 'gießring', 'anpflanzung', 'neupflanzung'],
+    holes: [],
+  },
+  {
+    title: 'Ball im Divot',
+    rule: 'Regel 8.1 (allgemeine Grundsätze)',
+    penalty: 'keine – außer Local Rule',
+    freeRelief: true,
+    easy: 'Dein Ball liegt in einem Erdloch, wo vorher jemand ein Stück Rasen rausgeschlagen hat (Divot). Das ist einfach Pech – du musst ihn trotzdem spielen, wie er liegt. Keine Extra-Erleichterung, außer der Verein hat ausdrücklich eine Ausnahme-Regel rausgegeben (meist nur bei Nässe/Winter).',
+    summary: 'Der Ball muss grundsätzlich gespielt werden, wie er liegt – auch im eigenen oder fremden Divotloch auf dem Fairway. Es gibt keine automatische freie Erleichterung.',
+    procedure: 'Ausnahme nur, wenn die Spielleitung eine Local Rule "Preferred Lies"/Winterregel erlassen hat (meist bei Nässe) – dann gilt deren genauer Wortlaut, oft nur auf kurz gemähten Flächen.',
+    keywords: ['divot', 'pitchmark', 'narbe', 'fairway loch'],
+    holes: [],
+  },
+  {
+    title: 'Bunker: Schläger aufsetzen / Sand berühren',
+    rule: 'Regel 12.2',
+    penalty: '2 Strafschläge bei Verstoß',
+    freeRelief: false,
+    easy: 'Du darfst deinen Schläger im Sand jetzt ganz normal aufsetzen und den Sand berühren – das war früher verboten, ist es heute nicht mehr. Was du trotzdem nicht darfst: absichtlich mit der Hand im Sand rumwühlen, um zu prüfen, wie er sich anfühlt, oder den Schläger direkt vor oder hinter dem Ball extra in den Sand drücken.',
+    summary: 'Seit 2019 deutlich gelockert: Sand mit Hand oder Schläger berühren ist grundsätzlich erlaubt, auch das Aufsetzen des Schlägers vor dem Schlag.',
+    procedure: 'Verboten bleibt: Sand testen (z. B. mit der Hand prüfen), Schläger unmittelbar vor oder hinter dem Ball absichtlich in den Sand drücken, oder eine Übungsbewegung, die den Sand berührt.',
+    keywords: ['bunker', 'sand', 'schläger aufsetzen', 'sand testen', 'sand berührt'],
+    holes: [],
+  },
+  {
+    title: 'Harke / bewegliches Hemmnis im Weg',
+    rule: 'Regel 15.2',
+    penalty: 'keine',
+    freeRelief: true,
+    easy: 'Eine Harke, ein Ast oder ähnliches liegt im Weg? Einfach wegnehmen, das kostet nichts – auch im Bunker oder auf dem Grün. Rollt der Ball dabei weg, legst du ihn straflos an die alte Stelle zurück.',
+    summary: 'Bewegliche Hemmnisse (Harke, Ast, Papier, Tierkot) dürfen straflos entfernt werden – auch im Bunker oder auf dem Grün.',
+    procedure: 'Bewegt sich der Ball dabei, straflos an die ursprüngliche Stelle zurücklegen (ggf. schätzen, falls Stelle unbekannt).',
+    keywords: ['harke', 'rechen', 'bewegliches hemmnis', 'ast'],
+    holes: [],
+  },
+  {
+    title: 'Flaggenstock bedienen',
+    rule: 'Regel 13.2',
+    penalty: '0 Strafschläge (unbedient) · 2 Strafschläge (bedient/gehalten getroffen)',
+    freeRelief: false,
+    easy: 'Du darfst mit der Fahne im Loch putten – seit 2019 erlaubt, kostet nichts, wenn dein Ball die Fahne trifft. ABER: Hält jemand die Fahne extra für dich fest ("bedient") und dein Ball trifft die Person oder die gehaltene Fahne, kostet das 2 Strafschläge. Am sichersten: Fahne einfach immer im Loch stehen lassen.',
+    summary: 'Seit 2019 darf mit Flaggenstock im Loch geputtet werden. Trifft der Ball den unbedienten Stock, ist das straflos.',
+    procedure: 'Wird der Stock von jemandem gehalten oder bedient, und dein Ball trifft die Person oder den gehaltenen Stock: Generalstrafe (2 Strafschläge Zählspiel).',
+    keywords: ['flagge', 'fahne', 'flaggenstock', 'pin', 'bedienen'],
+    holes: [],
+  },
+  {
+    title: 'Ball nach Markieren falsch zurückgelegt',
+    rule: 'Regel 14.2 · bei Fehlspiel Regel 14.7a',
+    penalty: '2 Strafschläge, falls von dort gespielt',
+    freeRelief: false,
+    easy: 'Du hast deinen Ball auf dem Grün markiert, hochgenommen, und dann nicht exakt an dieselbe Stelle zurückgelegt. Fällt dir das VOR dem nächsten Schlag auf: einfach korrigieren, kein Problem. Spielst du aber von der falschen Stelle, kostet das 2 Strafschläge.',
+    summary: 'Der Ball muss exakt an der markierten Stelle zurückgelegt werden. Fällt der Fehler auf, bevor der nächste Schlag gespielt wird: straflos korrigieren.',
+    procedure: 'Wird der Ball von der falschen Stelle gespielt, gilt das als "Spielen von falschem Ort" – Generalstrafe (2 Strafschläge im Zählspiel), der gespielte Schlag zählt trotzdem.',
+    keywords: ['markiert', 'zurücklegen', 'falscher ort', 'markierung', 'ballmarker'],
+    holes: [],
+  },
+  {
+    title: 'Ball von Mitspieler auf dem Grün getroffen',
+    rule: 'Regel 11.1b',
+    penalty: '2 Strafschläge für den spielenden Spieler',
+    freeRelief: false,
+    easy: 'Du puttest, und dein Ball rollt gegen den Ball deines Mitspielers, der auch schon auf dem Grün lag. Das kostet DICH 2 Strafschläge (Ausnahme von der sonst üblichen straflosen Regel!). Der getroffene Ball wird zurückgelegt. Tipp: Bittet euch gegenseitig, den Ball auf dem Grün zu markieren, dann passiert das gar nicht erst.',
+    summary: 'Normalerweise straflos, wenn ein Ball in Bewegung zufällig einen anderen Ball trifft (Regel 11.1a). Ausnahme: Lagen beide Bälle vorher auf dem Grün, bekommt der Spieler, dessen Ball in Bewegung war, die Generalstrafe.',
+    procedure: 'Der getroffene Ball wird an seine ursprüngliche Stelle zurückgelegt. Der eigene Ball wird gespielt, wie er liegen bleibt.',
+    keywords: ['mitspieler ball', 'grün getroffen', 'putt trifft ball', 'ball kollision'],
+    holes: [],
+  },
+  {
+    title: 'Angesprochener Ball fällt vom Tee',
+    rule: 'Regel 6.2b(5)',
+    penalty: 'keine',
+    freeRelief: true,
+    easy: 'Du stellst dich zum Abschlag hin, und der Ball fällt vom Tee (z. B. weil der Schläger ihn versehentlich berührt) – bevor du überhaupt geschlagen hast. Kein Problem, kein Strafschlag: einfach neu auftee\'n und normal weiterspielen.',
+    summary: 'Fällt der Ball beim Ansprechen (oder wird er dabei versehentlich angestoßen) vom Tee, bevor der Schlag ausgeführt wurde, darf er straflos neu aufgeteet werden.',
+    procedure: 'Gilt nur innerhalb des Abschlagbereichs und nur, solange noch kein Schlag ausgeführt wurde – der Ball ist in diesem Moment noch nicht "im Spiel".',
+    keywords: ['fällt vom tee', 'tee ansprechen', 'ball fällt runter', 'angesprochen'],
+    holes: [],
+  },
+  {
+    title: 'Provisorischer Ball',
+    rule: 'Regel 18.3',
+    penalty: '1 Strafschlag, falls der erste Ball nicht gefunden wird / im Aus liegt',
+    freeRelief: false,
+    easy: 'Du bist unsicher, ob dein Ball im Aus oder verloren ist? Dann darfst du, bevor du losgehst, einen zweiten Ball hinterherschlagen ("ich spiele einen Provisorischen") – das spart Zeit. Wichtig: Du musst das vorher laut ankündigen.',
+    summary: 'Bei Verdacht auf "im Aus" oder "verloren" (außerhalb einer Penalty Area) darf ein provisorischer Ball gespielt werden, um Zeit zu sparen.',
+    procedure: 'Muss vor dem Losgehen klar angekündigt werden. Wird der erste Ball gefunden und ist im Spiel, zählt der Provisorische nicht.',
+    keywords: ['provisorisch', 'vorläufig', 'zweiter ball'],
+    holes: [],
+  },
+  // ---- Etikette (Verhaltensvorschriften Hünxerwald, Stand 15.05.2026) – kostet keine Ballstrafe,
+  // aber eigene Sanktionsstufen bei Verstößen. Separat gekennzeichnet, siehe rbCardHtml. ----
+  {
+    category: 'etikette',
+    title: 'Spieltempo & Durchspielen',
+    rule: 'Verhaltensvorschrift Nr. 2 · vgl. Regel 5.6',
+    easy: 'Halt Anschluss zum Flight vor dir. Entsteht mehr als eine volle Spielbahn Abstand, muss die schnellere Gruppe hinter dir sofort durchgelassen werden. Außerhalb des Lochspiels ist "Ready Golf" (wer bereit ist, schlägt zuerst, nicht strikt der Reihe nach) ausdrücklich erwünscht – das beschleunigt spürbar.',
+    summary: 'Jeder Flight ist verpflichtet, den Anschluss an den vorausspielenden Flight zu halten. Entsteht mehr als eine volle Spielbahn Abstand, muss die nachfolgende schnellere Spielergruppe unverzüglich durchgelassen werden. Ready Golf wird außerhalb des Lochspiels ausdrücklich empfohlen.',
+    procedure: 'Bei wiederholter Verzögerung des Spiels greifen die Sanktionsstufen für allgemeines Fehlverhalten (siehe eigener Eintrag).',
+    keywords: ['tempo', 'durchspielen', 'ready golf', 'langsam', 'anschluss', 'lücke', 'spieltempo'],
+    holes: [],
+  },
+  {
+    category: 'etikette',
+    title: 'Start an Tee 10',
+    rule: 'Verhaltensvorschrift Nr. 3',
+    easy: 'Willst du direkt an Bahn 10 starten statt bei Bahn 1? Das geht nur, wenn Bahn 9 komplett frei ist und niemand aus der regulären Runde behindert wird. Spieler in der normalen 18-Loch-Runde haben immer Vorrang.',
+    summary: 'Ein Start an Tee 10 ist nur zulässig, wenn Bahn 9 vollständig frei ist und keine Spieler der regulären Runde behindert werden. Spieler auf der regulären 18-Loch-Runde haben stets Vorrang.',
+    procedure: '',
+    keywords: ['tee 10', 'start bahn 10', 'vorrang'],
+    holes: [9, 10],
+  },
+  {
+    category: 'etikette',
+    title: 'Platzpflege',
+    rule: 'Verhaltensvorschrift Nr. 4',
+    easy: 'Vier Dinge werden von dir erwartet: Pitchmarken auf dem Grün ausbessern, Divots zurücklegen oder verfüllen, Bunker nach Benutzung sorgfältig harken, und mit Trolley/E-Cart nicht über Vorgrüns oder Abschläge fahren.',
+    summary: 'Jeder Spieler ist verpflichtet: Pitchmarken auf dem Grün auszubessern, Divots zurückzulegen oder zu verfüllen, Bunker nach Benutzung sorgfältig zu harken, Trolleys und E-Carts nicht über Vorgrüns oder Abschläge zu fahren, die Platzanlage und Einrichtungen schonend zu behandeln.',
+    procedure: 'Mangelnde Platzpflege zählt als allgemeines Fehlverhalten – siehe Sanktionsstufen.',
+    keywords: ['pitchmarke', 'divot zurücklegen', 'harken', 'trolley', 'ecart', 'platzpflege', 'vorgrün'],
+    holes: [],
+  },
+  {
+    category: 'etikette',
+    title: 'Verhalten auf dem Platz (was nicht erlaubt ist)',
+    rule: 'Verhaltensvorschrift Nr. 5',
+    easy: 'Nicht erlaubt: Schläger werfen, absichtlich den Platz oder Clubeigentum beschädigen, beleidigende Sprache/Gesten, andere beim Schlag ablenken, andere gefährden, oder absichtlich Spielverbotszonen betreten.',
+    summary: 'Nicht gestattet sind insbesondere: Schlägerwerfen, mutwillige Beschädigung des Platzes oder von Clubeigentum, unangemessene oder beleidigende Sprache und Gesten, Ablenkung anderer Spieler während des Schlages, Gefährdung anderer Personen durch unsachgemäßes Verhalten, vorsätzliches Betreten von Spielverbotszonen.',
+    procedure: 'Von allen Spielern wird ein respektvoller und rücksichtsvoller Umgang miteinander erwartet.',
+    keywords: ['schläger werfen', 'ablenkung', 'beleidigung', 'fehlverhalten', 'unsportlich', 'gefährdung'],
+    holes: [],
+  },
+  {
+    category: 'etikette',
+    title: 'Sanktionen bei Fehlverhalten',
+    rule: 'Regel 1.2a i. V. m. Verhaltensvorschriften',
+    easy: 'Bei allgemeinem Fehlverhalten (z. B. schlechte Platzpflege, wiederholtes Trödeln, unsportliches Verhalten): 1. Verstoß = 1 Strafschlag, 2. Verstoß = 2 Strafschläge, 3. Verstoß = Disqualifikation. Bei schwerem Fehlverhalten (absichtliche Beschädigung, Schläger nach Personen werfen, Beleidigungen, vorsätzliche Gefährdung) kann die Spielleitung sofort disqualifizieren – ohne die Stufen davor.',
+    summary: 'Ergänzend zu Regel 1.2a gelten gestufte Sanktionen: bei allgemeinem Fehlverhalten 1. Verstoß = 1 Strafschlag, 2. Verstoß = Grundstrafe (2 Strafschläge), 3. Verstoß = Disqualifikation. Bei schwerwiegendem Fehlverhalten kann die Spielleitung unmittelbar disqualifizieren.',
+    procedure: 'Schwerwiegendes Fehlverhalten umfasst insbesondere: absichtliche Beschädigung von Grüns, Abschlägen oder Einrichtungen, Werfen von Schlägern in Richtung von Personen, Beleidigungen oder aggressives Verhalten, vorsätzliche Gefährdung anderer Personen, vorsätzlicher Verstoß gegen Spielverbote oder Sicherheitsanweisungen. Weitere Maßnahmen bleiben dem Vorstand vorbehalten.',
+    keywords: ['sanktion', 'fehlverhalten', 'strafe verhalten', 'disqualifikation verhalten'],
+    holes: [],
+  },
+  // ---- Kleiderordnung Hünxerwald (Stand 15.05.2026) – keine Ball-Regel, eigene Kategorie. ----
+  {
+    category: 'kleidung',
+    title: 'Kopfbedeckung (Caps)',
+    rule: 'Kleiderordnung 2026',
+    easy: 'Trag deine Cap mit dem Schirm nach vorne, nicht verkehrt rum – das ist ausdrücklich erwünscht. Im Clubhaus wird jede Kopfbedeckung abgenommen.',
+    summary: 'Schirmmützen (Caps) sollen mit der Spitze nach vorne getragen werden. Im Clubhaus sind alle Kopfbedeckungen abzunehmen.',
+    procedure: '',
+    keywords: ['cap', 'mütze', 'kopfbedeckung', 'schirmmütze', 'basecap'],
+    holes: [],
+  },
+  {
+    category: 'kleidung',
+    title: 'Hosen (Jeans, Shorts, Jogginghose)',
+    rule: 'Kleiderordnung 2026 + Aushang "GO/NO-GO"',
+    easy: 'Blue Jeans sind auf Platz und Driving Range tabu, egal welche Marke. Jeans in anderen Farben (schwarz, beige usw.) sind erlaubt. Laut Aushang zusätzlich NO-GO: Cargohose, Jogginghose/Trainingsanzug, Beachshorts, und Shorts kürzer als der halbe Oberschenkel. GO sind lange oder kurze Golf-Stoffhosen, Shorts mindestens knielang.',
+    summary: 'Blue Jeans aller Art sind auf dem Golfplatz und der Driving Range untersagt. Jeans in anderen Farben sind erlaubt. Surfershorts und bademodenähnliche kurze Hosen sind nicht erlaubt (Kleiderordnung 2026).',
+    procedure: 'Zusätzlich laut Aushang "GO/NO-GO" (nicht wortgleich in der Kleiderordnung-PDF, aber am Club ausgehängt): NO-GO sind Cargohose, Jogginghose/Trainingsanzug, Beachshort, Short kürzer als halber Oberschenkel. GO sind lange oder kurze Golf-Stoffhosen, Shorts mindestens Knielänge.',
+    keywords: ['jeans', 'hose', 'shorts', 'surfershorts', 'badehose', 'bermuda', 'jogginghose', 'trainingsanzug', 'cargohose'],
+    holes: [],
+  },
+  {
+    category: 'kleidung',
+    title: 'Schuhe',
+    rule: 'Kleiderordnung 2026 + Aushang "GO/NO-GO"',
+    easy: 'Metallspikes sind nicht erlaubt – nur Softspikes/Noppen oder spikeless Schuhe. Laut Aushang zusätzlich NO-GO: Sandalen, Flip-Flops, normale Turn- und Joggingschuhe.',
+    summary: 'Metalspikes sind nicht erlaubt (Kleiderordnung 2026).',
+    procedure: 'Laut Aushang "GO/NO-GO" zusätzlich nicht erlaubt: Sandalen, Flip-Flops, Turn- und Joggingschuhe. Golfschuhe mit oder ohne Softspikes/Noppen sind das GO.',
+    keywords: ['schuhe', 'spikes', 'metalspikes', 'softspikes', 'golfschuhe', 'sandalen', 'flip flops', 'turnschuhe', 'sneaker'],
+    holes: [],
+  },
+  {
+    category: 'kleidung',
+    title: 'Hemden & Oberteile (inkl. "Hemd aus der Hose")',
+    rule: 'Kleiderordnung 2026 + Aushang "GO/NO-GO"',
+    easy: 'Golfhemden brauchen Kragen UND Ärmel (Polo- oder Stehkragen). Bei Damen sind auch ärmellose Oberteile erlaubt, wenn sie einen Kragen haben. Rückenfrei oder bauchfrei geht nicht. Laut Aushang zusätzlich explizit NO-GO: normales T-Shirt, Fußballshirt, Achselshirt, Hoodie. Wichtig: Ob das Hemd in der Hose steckt, steht auch im Aushang nicht als eigener Punkt – nur der Gürtel ist explizit gelistet (siehe eigener Eintrag "Gürtel").',
+    summary: 'Golfhemden müssen über einen Kragen und Ärmel verfügen. Bei Damen sind auch Oberteile ohne Ärmel erlaubt, wenn sie über einen Kragen verfügen. Rückenfreie oder bauchfreie Oberteile sind nicht erlaubt (Kleiderordnung 2026).',
+    procedure: 'Laut Aushang "GO/NO-GO" ausdrücklich nicht erlaubt: T-Shirt, Fußballshirt, Achselshirt, Hoodie. GO ist "angemessene Oberbekleidung mit Polo- oder Stehkragen". Zum Tragen "in" oder "aus" der Hose trifft weder die Kleiderordnung noch der Aushang eine eigene Aussage.',
+    keywords: ['hemd', 'oberteil', 'kragen', 'ärmel', 'hemd aus der hose', 'hemd in der hose', 'bauchfrei', 'rückenfrei', 'poloshirt', 't-shirt', 'hoodie', 'fußballshirt', 'achselshirt'],
+    holes: [],
+  },
+  {
+    category: 'kleidung',
+    title: 'Gürtel',
+    rule: 'Aushang "GO/NO-GO"',
+    easy: 'Auf dem GO/NO-GO-Aushang am Club steht Gürtel explizit als GO-Punkt – auch wenn die schriftliche Kleiderordnung-PDF das Wort "Gürtel" gar nicht erwähnt. In der Praxis also: Gürtel tragen, das ist die erwartete Ausstattung, nicht nur Geschmackssache.',
+    summary: 'Der Aushang "GO/NO-GO" listet Gürtel ausdrücklich auf der GO-Seite. Die textliche Kleiderordnung 2026 (PDF) enthält dazu keine eigene Formulierung.',
+    procedure: 'Zwei Quellen mit unterschiedlicher Ausführlichkeit: die knappe Kleiderordnung-PDF nennt nur Kragen/Ärmel-Pflicht, keine Jeans, keine Metallspikes. Der bebilderte Aushang am Club geht deutlich detaillierter drauf ein und nennt Gürtel explizit als erwartetes Kleidungsstück.',
+    keywords: ['gürtel', 'belt', 'hosengürtel'],
+    holes: [],
+  },
+  {
+    category: 'kleidung',
+    title: 'Einhaltung der Kleiderordnung',
+    rule: 'Kleiderordnung 2026',
+    easy: 'Die Kleiderordnung gilt für alle: Mitglieder, Gäste, Caddies, Begleitpersonen. Wer dagegen verstößt, kann den Zugang zum Platz und zur Driving Range verweigert bekommen.',
+    summary: 'Die Kleiderordnung gilt für alle Golfer (Mitglieder und Gäste), deren Caddies sowie begleitende Personen. Bei Verstoß kann der Zugang zum Golfplatz, inkl. Driving Range, verwehrt werden.',
+    procedure: '',
+    keywords: ['kleiderordnung verstoß', 'zugang verweigert', 'dress code'],
+    holes: [],
+  },
+];
+const HUENX_HOLE_COUNT = 18;
+// Bahn 8 (2 Grünbunker, kein Wasser) und Bahn 9 (längste Bahn, dichtes baumgesäumtes Fairway,
+// Blitzschutzhütte Bahn-Mitte links, kein Wasser) per Bahnkarten-Foto bestätigt – alle 18 Bahnen vollständig.
+const HUENX_HOLES_CHECKED = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+
+function rbRenderHoleFilters() {
+  const wrap = document.getElementById('rb-hole-filters');
+  let html = '';
+  for (let i = 1; i <= HUENX_HOLE_COUNT; i++) {
+    html += `<button type="button" class="rb-filter-chip" data-hole="${i}" onclick="rbToggleHoleFilter(${i})">Bahn ${i}</button>`;
+  }
+  wrap.innerHTML = html;
+}
+let rbActiveHole = null;
+let rbCategoryFilter = 'alle';
+function rbSetCategory(cat) {
+  rbCategoryFilter = cat;
+  document.querySelectorAll('#rb-category-filters .rb-filter-chip').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.cat === cat);
+  });
+  rbRenderList();
+}
+function rbMatchesCategory(entry) {
+  if (rbCategoryFilter === 'alle') return true;
+  const cat = entry.category === 'etikette' ? 'etikette' : entry.category === 'kleidung' ? 'kleidung' : 'regel';
+  return cat === rbCategoryFilter;
+}
+function rbToggleHoleFilter(h) {
+  rbActiveHole = (rbActiveHole === h) ? null : h;
+  document.querySelectorAll('.rb-filter-chip').forEach(btn => {
+    btn.classList.toggle('active', parseInt(btn.dataset.hole) === rbActiveHole);
+  });
+  const statusEl = document.getElementById('rb-hole-status');
+  if (rbActiveHole && !HUENX_HOLES_CHECKED.includes(rbActiveHole)) {
+    statusEl.style.display = 'block';
+    statusEl.textContent = `Bahn ${rbActiveHole} ist noch nicht im Detail geprüft – es werden nur die allgemeinen Regeln angezeigt, keine bahn-spezifischen Hindernisse.`;
+  } else {
+    statusEl.style.display = 'none';
+  }
+  rbRenderList();
+}
+
+function rbCardHtml(entry) {
+  const isEtikette = entry.category === 'etikette';
+  const isKleidung = entry.category === 'kleidung';
+  const holeTags = entry.holes.map(h => `<span class="rb-tag rb-tag-hole">Bahn ${h}</span>`).join('');
+  let catTag;
+  if (isKleidung) catTag = `<span class="rb-tag" style="background:#c9a24b; color:#2a2205;">👕 Kleidung</span>`;
+  else if (isEtikette) catTag = `<span class="rb-tag" style="background:#7fb3d9; color:#0e1b13;">🤝 Etikette</span>`;
+  else catTag = `<span class="rb-tag" style="background:var(--fairway); color:#0e1b13;">⚖️ Regel</span>`;
+  const penaltyTag = (isEtikette || isKleidung) ? '' : (entry.freeRelief
+    ? `<span class="rb-tag rb-tag-free">straflos</span>`
+    : `<span class="rb-tag rb-tag-penalty">${entry.penalty}</span>`);
+  const procedureLabel = isKleidung ? 'Offizieller Wortlaut (Kleiderordnung Hünxerwald)'
+    : isEtikette ? 'Offizieller Wortlaut (Verhaltensvorschriften Hünxerwald)'
+    : 'Offizieller Regeltext (für Ligaspiele)';
+  return `
+  <div class="rb-card" onclick="this.classList.toggle('rb-open')">
+    <div class="rb-card-head">
+      <h4 class="rb-card-title">${entry.title}</h4>
+    </div>
+    <div class="rb-tags">${catTag}<span class="rb-tag">${entry.rule}</span>${penaltyTag}${holeTags}</div>
+    <div class="rb-easy"><span class="rb-easy-label">Einfach erklärt</span>${entry.easy}</div>
+    <div class="rb-procedure">
+      <span class="rb-summary-label">${procedureLabel}</span>
+      <div class="rb-summary">${entry.summary}</div>
+      <div style="margin-top:8px;">${entry.procedure}</div>
+    </div>
+    <div class="rb-toggle-hint">antippen für den offiziellen Wortlaut ▾</div>
+  </div>`;
+}
+
+function rbToggleGeneral(btn) {
+  const wrap = btn.nextElementSibling;
+  const show = wrap.style.display === 'none';
+  wrap.style.display = show ? 'block' : 'none';
+  btn.textContent = show ? `Allgemeine Regeln ausblenden` : btn.dataset.collapsedLabel;
+}
+
+function rbRenderList() {
+  const query = document.getElementById('rb-search').value.trim().toLowerCase();
+  let holeFromQuery = null;
+  const holeMatch = query.match(/(?:bahn|loch)\s*(\d{1,2})/);
+  if (holeMatch) holeFromQuery = parseInt(holeMatch[1]);
+  const activeHole = rbActiveHole || holeFromQuery;
+
+  const listEl = document.getElementById('rb-list');
+  const emptyEl = document.getElementById('rb-empty');
+
+  if (activeHole) {
+    // Zwei Ebenen: erst was an DIESER Bahn tatsächlich vorkommt, dann (eingeklappt) die
+    // allgemeingültigen Regeln, die überall gelten könnten, aber nichts Bahn-Spezifisches sind.
+    const specific = RULES_DB.filter(e => e.holes.includes(activeHole) && rbMatchesCategory(e));
+    const general = RULES_DB.filter(e => e.holes.length === 0 && rbMatchesCategory(e));
+    emptyEl.style.display = 'none';
+    let html = `<h3 style="font-size:14px; color:var(--fairway-bright); margin:4px 0 10px;">Für Bahn ${activeHole} relevant</h3>`;
+    html += specific.length > 0
+      ? specific.map(rbCardHtml).join('')
+      : `<div class="rb-empty" style="padding:10px 0 18px; text-align:left;">Keine besonderen Hindernisse für diese Bahn bekannt – es gelten nur die allgemeinen Regeln unten.</div>`;
+    const collapsedLabel = `Allgemeine Regeln anzeigen (${general.length})`;
+    html += `<button type="button" class="settings-toggle" data-collapsed-label="${collapsedLabel}" onclick="rbToggleGeneral(this)" style="margin:8px 0 10px;">${collapsedLabel}</button>`;
+    html += `<div style="display:none;">${general.map(rbCardHtml).join('')}</div>`;
+    listEl.innerHTML = html;
+    return;
+  }
+
+  // Kein Bahn-Filter aktiv: normale Textsuche über alle Einträge.
+  const filtered = RULES_DB.filter(entry => {
+    if (!rbMatchesCategory(entry)) return false;
+    if (!query) return true;
+    const haystack = (entry.title + ' ' + entry.keywords.join(' ') + ' ' + entry.summary).toLowerCase();
+    return haystack.includes(query);
+  });
+  if (filtered.length === 0) {
+    listEl.innerHTML = '';
+    emptyEl.style.display = 'block';
+    return;
+  }
+  emptyEl.style.display = 'none';
+  listEl.innerHTML = filtered.map(rbCardHtml).join('');
+}
+
+document.getElementById('rb-section-toggle').addEventListener('click', () => {
+  const panel = document.getElementById('rb-panel');
+  const show = panel.style.display === 'none';
+  panel.style.display = show ? 'block' : 'none';
+  document.getElementById('rb-section-toggle').textContent = '📖 Regelbuch ' + (show ? '▴' : '▾');
+  if (show) { rbRenderHoleFilters(); rbRenderList(); }
+});
+document.getElementById('rb-search').addEventListener('input', rbRenderList);
+
+// ---------- Lochvorschau (Phase 5): Persönliche Lochhistorie + Bag verbinden ----------
+// Nutzt dieselbe subCourse/subHole-Zuordnung wie das Loch-Ranking – kein zweites Analysesystem.
+function collectHoleEntries(subCourse, subHole) {
+  const rounds = loadRounds();
+  const entries = [];
+  rounds.forEach(r => {
+    if (!r.holesData) return;
+    r.holesData.forEach((h, i) => {
+      const sc = h.subCourse || r.course;
+      const sh = h.subHole || (i + 1);
+      if (sc === subCourse && sh === subHole) entries.push({ ...h, _roundDate: r.date });
+    });
+  });
+  return entries.sort((a, b) => a._roundDate.localeCompare(b._roundDate));
+}
+function computeHoleHistory(subCourse, subHole, limit) {
+  let entries = collectHoleEntries(subCourse, subHole); // chronologisch aufsteigend sortiert
+  if (limit) entries = entries.slice(-limit); // nur die letzten N Vorkommen dieses Lochs
+  const n = entries.length;
+  if (n === 0) return { n: 0 };
+  const strokesArr = entries.map(h => h.strokes).slice().sort((a, b) => a - b);
+  const par = entries[0].par;
+  const avgScore = strokesArr.reduce((a, b) => a + b, 0) / n;
+  const median = n % 2 === 1 ? strokesArr[(n - 1) / 2] : (strokesArr[n / 2 - 1] + strokesArr[n / 2]) / 2;
+  const diffs = entries.map(h => h.strokes - h.par);
+  const birdieN = diffs.filter(d => d <= -1).length;
+  const parN = diffs.filter(d => d === 0).length;
+  const bogeyN = diffs.filter(d => d === 1).length;
+  const doublePlusN = diffs.filter(d => d >= 2).length;
+  const threePuttN = entries.filter(h => h.putts >= 3).length;
+  const penEntries = entries.filter(h => h.penalties !== undefined);
+  const girEntries = entries.filter(h => h.gir !== undefined);
+  const fwEntries = entries.filter(h => h.par !== 3 && h.fairway);
+  const fwMisses = fwEntries.filter(h => h.fairway !== 'hit');
+  let fwMissSide = null;
+  if (fwMisses.length > 0) {
+    const counts = {};
+    fwMisses.forEach(h => { counts[h.fairway] = (counts[h.fairway] || 0) + 1; });
+    const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
+    fwMissSide = ({ left: 'links', right: 'rechts' })[top[0]] || top[0];
+  }
+  const missedGreen = girEntries.filter(h => !h.gir);
+  return {
+    n, par, avgScore, avgOverPar: avgScore - par, median, best: strokesArr[0], worst: strokesArr[n - 1],
+    birdiePct: Math.round(birdieN / n * 100), parPct: Math.round(parN / n * 100),
+    bogeyPct: Math.round(bogeyN / n * 100), doublePlusPct: Math.round(doublePlusN / n * 100),
+    threePuttPct: Math.round(threePuttN / n * 100),
+    avgPenalties: penEntries.length ? penEntries.reduce((a, h) => a + (h.penalties || 0), 0) / penEntries.length : null,
+    girPct: girEntries.length ? Math.round(girEntries.filter(h => h.gir).length / girEntries.length * 100) : null,
+    girCount: girEntries.length,
+    fwPct: fwEntries.length ? Math.round(fwEntries.filter(h => h.fairway === 'hit').length / fwEntries.length * 100) : null,
+    fwCount: fwEntries.length, fwMissSide, fwMissCount: fwMisses.length,
+    udPct: missedGreen.length ? Math.round(missedGreen.filter(h => h.strokes <= h.par).length / missedGreen.length * 100) : null,
+    udCount: missedGreen.length,
+  };
+}
+function physicalHoleNumber(subCourse, subHole) {
+  if (subCourse === 'HuenxerwaldHome' || subCourse === 'WeselerwaldHome') return subHole + 9;
+  return subHole;
+}
+
+function hvPopulateHoles() {
+  const club = document.getElementById('hv-club').value;
+  const bahnSel = document.getElementById('hv-bahn');
+  const g = CLUB_COURSE_GROUPS[club];
+  bahnSel.innerHTML = g.singles.map(k => `<option value="${k}">${COURSES[k].name}</option>`).join('');
+  hvPopulateHoleNumbers();
+}
+function hvPopulateHoleNumbers() {
+  const subCourse = document.getElementById('hv-bahn').value;
+  const n = COURSES[subCourse].holes;
+  const holeSel = document.getElementById('hv-hole');
+  let html = '';
+  for (let i = 1; i <= n; i++) html += `<option value="${i}">Loch ${i}</option>`;
+  holeSel.innerHTML = html;
+}
+document.getElementById('hv-club').addEventListener('change', hvPopulateHoles);
+document.getElementById('hv-bahn').addEventListener('change', hvPopulateHoleNumbers);
+
+document.getElementById('hv-section-toggle').addEventListener('click', () => {
+  const panel = document.getElementById('hv-panel');
+  const show = panel.style.display === 'none';
+  panel.style.display = show ? 'block' : 'none';
+  document.getElementById('hv-section-toggle').textContent = '🎯 Lochvorschau ' + (show ? '▴' : '▾');
+  if (show && document.getElementById('hv-club').options.length === 0) {
+    const clubOrder = ['Golfclub Hünxerwald', 'Golfclub Weselerwald', 'Golf & More Huckingen'];
+    document.getElementById('hv-club').innerHTML = clubOrder.map(c => `<option value="${c}">${c}</option>`).join('');
+    hvPopulateHoles();
+  }
+});
+
+function hvShow() {
+  const subCourse = document.getElementById('hv-bahn').value;
+  const subHole = parseInt(document.getElementById('hv-hole').value);
+  const par = getParProfile(subCourse)[subHole - 1];
+  const length = getLengthProfile(subCourse)[subHole - 1];
+  const idxArr = HOLE_HCP_INDEX[subCourse];
+  const idx = idxArr ? idxArr[subHole - 1] : null;
+  const physHole = physicalHoleNumber(subCourse, subHole);
+  const courseName = COURSES[subCourse].shortName;
+
+  let html = `<div class="tm-session-card">`;
+  html += `<div class="tm-date">${courseName} · Loch ${subHole}</div>`;
+  html += `<div class="tm-meta-line">Par ${par}${length ? ' · ' + length + ' m' : ''}${idx ? ' · HCP-Index ' + idx : ''}</div>`;
+
+  const hist = computeHoleHistory(subCourse, subHole);
+  html += `<div style="margin-top:14px; font-weight:600;">Deine Historie</div>`;
+  if (hist.n === 0) {
+    html += `<div class="rb-empty" style="text-align:left; padding:8px 0;">Noch keine Runden an diesem Loch erfasst.</div>`;
+  } else {
+    html += `<div class="tm-meta-line" style="margin-top:4px;">${hist.n} Runde${hist.n > 1 ? 'n' : ''} erfasst${hist.n < 3 ? ' – Datenbasis noch klein, Aussagen mit Vorsicht genießen' : ''}</div>`;
+    html += `<div class="tm-score-box">
+      <div class="tm-score-item"><div class="tm-score-value">${hist.avgScore.toFixed(1)}</div><div class="tm-score-label">Ø Score</div></div>
+      <div class="tm-score-item"><div class="tm-score-value">${hist.median.toFixed(1)}</div><div class="tm-score-label">Median</div></div>
+      <div class="tm-score-item"><div class="tm-score-value">${hist.best}–${hist.worst}</div><div class="tm-score-label">Beste–Schlechteste</div></div>
+    </div>`;
+    html += `<div class="tm-meta-line">Birdie ${hist.birdiePct}% · Par ${hist.parPct}% · Bogey ${hist.bogeyPct}% · Doppel+ ${hist.doublePlusPct}% · 3-Putt ${hist.threePuttPct}%</div>`;
+    const extras = [];
+    if (hist.girPct !== null) extras.push(`GIR ${hist.girPct}% (${hist.girCount})`);
+    if (hist.fwPct !== null) extras.push(`Fairway ${hist.fwPct}% (${hist.fwCount})`);
+    if (hist.udPct !== null) extras.push(`Up&Down ${hist.udPct}% (${hist.udCount})`);
+    if (hist.avgPenalties !== null) extras.push(`Ø Strafschläge ${hist.avgPenalties.toFixed(1)}`);
+    if (extras.length) html += `<div class="tm-meta-line" style="margin-top:4px;">${extras.join(' · ')}</div>`;
+  }
+
+  if (hasCaddyCourse(subCourse)) {
+    html += `<div style="margin-top:14px; font-weight:600;">Bahn ${physHole} – Caddy</div>`;
+    html += `<div style="margin-top:6px;">${competitionMode() ? caddyInfoOnlyHtml(caddyHoleKey(subCourse, subHole)) : huenxCaddyHtml(caddyHoleKey(subCourse, subHole), { calc: false })}</div>`;
+  }
+
+  if (length && !competitionMode()) {
+    const matches = bagClosestMatches(length, 2);
+    html += `<div class="bag-rec-box" style="margin-top:14px; padding-top:14px;">`;
+    html += `<div style="font-weight:600; margin-bottom:8px;">Schlägerempfehlung vom Abschlag (nach Lochlänge, ohne Wind/Höhe)</div>`;
+    html += matches.length > 0
+      ? `<div class="bag-rec-result">${bagMatchesHtml(matches)}</div>`
+      : `<div class="rb-empty" style="text-align:left; padding:4px 0;">Noch keine Carry-Weiten im Bag hinterlegt.</div>`;
+    html += `</div>`;
+  }
+
+  html += `</div>`;
+  document.getElementById('hv-result').innerHTML = html;
+}
+document.getElementById('hv-show-btn').addEventListener('click', hvShow);
+
+// ---------- Mein Bag (Phase 3) ----------
+function loadBag() {
+  try { const raw = localStorage.getItem(BAG_KEY); return raw ? JSON.parse(raw) : []; }
+  catch (e) { return []; }
+}
+function saveBag(bag) {
+  try { localStorage.setItem(BAG_KEY, JSON.stringify(bag)); return true; }
+  catch (e) { return false; }
+}
+// Einmalige Anpassung der Standardbestückung für bereits angelegte Bags: 3 Holz raus, Hybrid als
+// 4er benannt, GW/SW/LW nach Grad statt Buchstaben-Namen. Läuft nur einmal (Flag), rührt eigene
+// Änderungen/Werte danach nicht mehr an.
+// Einmalige Übernahme echter, schlägerzugeordneter Carry/Total/Streuung-Werte aus der
+// Club-App (Golf & More Huckingen, Screenshots). 5i/7i/9i vom 25.03.2026 (aktuell),
+// 6i vom 19.04.2024 (knapp 2 Jahre alt – bewusst mit Datum markiert, nicht gleich behandelt).
+function applyRealBagDataOnce() {
+  const FLAG = 'golfPerformanceBagRealDataApplied';
+  if (localStorage.getItem(FLAG)) return;
+  const bag = loadBag().map(bagMigrateEntry);
+  const updates = {
+    '5 Eisen': { carry: 142.5, total: 153.5, consistency: 9.5, measuredDate: '2026-03-25' },
+    '7 Eisen': { carry: 126.6, total: 134.3, consistency: 6.3, measuredDate: '2026-03-25' },
+    '9 Eisen': { carry: 117.8, total: 120.6, consistency: 3.1, measuredDate: '2026-03-25' },
+    '6 Eisen': { carry: 137.9, total: 143.3, consistency: 2.3, measuredDate: '2024-04-19' },
+  };
+  bag.forEach(c => { if (updates[c.name]) Object.assign(c, updates[c.name]); });
+  saveBag(bag);
+  localStorage.setItem(FLAG, '1');
+}
+
+function migrateBagDefaultsV2() {
+  const FLAG = 'golfPerformanceBagMigratedV2';
+  if (localStorage.getItem(FLAG)) return;
+  let bag = loadBag().map(bagMigrateEntry);
+  bag = bag.filter(c => c.name !== '3 Holz');
+  bag.forEach(c => {
+    if (c.name === 'Hybrid') c.name = '4 Hybrid';
+    else if (c.name === 'GW') c.name = '45°';
+    else if (c.name === 'SW') c.name = '50°';
+    else if (c.name === 'LW') c.name = '54°';
+  });
+  saveBag(bag);
+  localStorage.setItem(FLAG, '1');
+}
+
+function seedBagIfEmpty() {
+  if (loadBag().length > 0) return;
+  const defaultClubs = ['Driver', '5 Holz', '4 Hybrid', '5 Eisen', '6 Eisen', '7 Eisen', '8 Eisen', '9 Eisen', 'PW', '45°', '50°', '54°'];
+  const bag = defaultClubs.map((name, i) => ({ id: 'bag_' + i, name, carry: null, total: null }));
+  saveBag(bag);
+}
+// Abwärtskompatibel: alte Bag-Einträge hatten ein einzelnes "distance"-Feld statt Carry/Total.
+function bagMigrateEntry(club) {
+  if (club.carry === undefined) club.carry = (club.distance !== undefined && club.distance !== null) ? club.distance : null;
+  if (club.total === undefined) club.total = null;
+  if (club.consistency === undefined) club.consistency = null;
+  if (club.measuredDate === undefined) club.measuredDate = null;
+  return club;
+}
+
+function renderBag() {
+  const bag = loadBag().map(bagMigrateEntry);
+  const listEl = document.getElementById('bag-list');
+  const now = new Date();
+  listEl.innerHTML = bag.map(club => {
+    const isOld = club.measuredDate && (now - new Date(club.measuredDate)) > 1000 * 60 * 60 * 24 * 548; // > 18 Monate
+    const subtitleParts = [];
+    if (club.consistency !== null && club.consistency !== undefined) subtitleParts.push(`Streuung ±${club.consistency}m`);
+    if (club.measuredDate) subtitleParts.push(`Gemessen: ${club.measuredDate}${isOld ? ' (älter als 18 Monate)' : ''}`);
+    const subtitle = subtitleParts.length
+      ? `<div style="font-size:11px; color:${isOld ? 'var(--red)' : 'var(--text-dim)'}; padding: 0 0 8px 0; margin-top:-4px;">${subtitleParts.join(' · ')}</div>`
+      : '';
+    return `
+    <div class="bag-row">
+      <input type="text" value="${club.name.replace(/"/g, '&quot;')}" onchange="bagUpdateName('${club.id}', this.value)">
+      <input type="number" placeholder="m" value="${club.carry !== null ? club.carry : ''}" onchange="bagUpdateField('${club.id}', 'carry', this.value)">
+      <input type="number" placeholder="m" value="${club.total !== null ? club.total : ''}" onchange="bagUpdateField('${club.id}', 'total', this.value)">
+      <button type="button" class="bag-del-btn" onclick="bagDeleteClub('${club.id}')">✕</button>
+    </div>
+    ${subtitle}
+    <div class="bag-streu-line">${bagStreuSummaryHtml(club)}<button type="button" onclick="bagStreuToggle('${club.id}')">${bagStreuOpen.has(club.id) ? 'schließen' : 'bearbeiten'}</button></div>
+    ${platzLineFor(club.name) ? `<div class="cx-dim" style="margin:-4px 0 8px;">${platzLineFor(club.name)}</div>` : ''}
+    ${bagStreuOpen.has(club.id) ? bagStreuEditorHtml(club) : ''}`;
+  }).join('');
+}
+function bagUpdateName(id, name) {
+  const bag = loadBag().map(bagMigrateEntry);
+  const club = bag.find(c => c.id === id);
+  if (club) { club.name = name; saveBag(bag); }
+}
+function bagUpdateField(id, field, val) {
+  const bag = loadBag().map(bagMigrateEntry);
+  const club = bag.find(c => c.id === id);
+  if (club) { club[field] = val === '' ? null : parseFloat(val); delete club.distance; saveBag(bag); }
+}
+function bagDeleteClub(id) {
+  saveBag(loadBag().filter(c => c.id !== id));
+  renderBag();
+}
+document.getElementById('bag-add-btn').addEventListener('click', () => {
+  const nameInput = document.getElementById('bag-new-name');
+  const name = nameInput.value.trim();
+  if (!name) return;
+  const bag = loadBag();
+  bag.push({ id: 'bag_' + Date.now().toString(36), name, carry: null, total: null });
+  saveBag(bag);
+  nameInput.value = '';
+  renderBag();
+});
+
+// Empfehlung nach Carry (entscheidend für Hindernisse wie Wasser/Bunker), Total wird zur
+// Einordnung mit angezeigt.
+// Kernlogik der Schlägerempfehlung – wiederverwendet von "Mein Bag" UND der Lochvorschau (Phase 5),
+// statt ein zweites Mal gebaut zu werden.
+function bagClosestMatches(target, count) {
+  const known = loadBag().map(bagMigrateEntry).filter(c => c.carry !== null && c.carry !== undefined);
+  if (known.length === 0) return [];
+  return known.map(c => ({ ...c, diff: c.carry - target })).sort((a, b) => Math.abs(a.diff) - Math.abs(b.diff)).slice(0, count || 2);
+}
+function bagMatchesHtml(matches) {
+  return matches.map((c, i) => {
+    const deltaStr = c.diff === 0 ? 'genau passend' : (c.diff > 0 ? `+${c.diff.toFixed(0)}m mehr als nötig` : `${Math.abs(c.diff).toFixed(0)}m weniger als nötig`);
+    const totalStr = (c.total !== null && c.total !== undefined) ? ` · Total ${c.total.toFixed(0)}m` : '';
+    return `<div class="bag-rec-club"><span class="name">${i === 0 ? '⭐ ' : ''}${c.name}</span><span class="delta">Carry ${c.carry.toFixed(0)}m${totalStr} · ${deltaStr}</span></div>`;
+  }).join('');
+}
+
+function bagRecommend() {
+  const target = parseFloat(document.getElementById('bag-rec-distance').value);
+  const resultEl = document.getElementById('bag-rec-result');
+  if (competitionMode()) {
+    resultEl.innerHTML = '<div class="bag-rec-result">⚖️ Wettspiel-Modus ist an – Schlägerempfehlungen sind im Wettspiel nicht erlaubt (Regel 4.3).</div>';
+    return;
+  }
+  if (isNaN(target) || target <= 0) {
+    resultEl.innerHTML = '<div class="bag-rec-result">Bitte eine Entfernung eingeben.</div>';
+    return;
+  }
+  const matches = bagClosestMatches(target, 2);
+  if (matches.length === 0) {
+    resultEl.innerHTML = '<div class="bag-rec-result">Noch keine Carry-Weiten hinterlegt – trag oben bei mindestens einem Schläger eine Carry-Weite ein.</div>';
+    return;
+  }
+  resultEl.innerHTML = `<div class="bag-rec-result">` + bagMatchesHtml(matches) + `</div>`;
+}
+document.getElementById('bag-rec-btn').addEventListener('click', bagRecommend);
+
+document.getElementById('bag-section-toggle').addEventListener('click', () => {
+  const panel = document.getElementById('bag-panel');
+  const show = panel.style.display === 'none';
+  panel.style.display = show ? 'block' : 'none';
+  document.getElementById('bag-section-toggle').textContent = '🎒 Mein Bag ' + (show ? '▴' : '▾');
+  if (show) renderBag();
+});
+
+// ---------- TrackMan: Anzeige ----------
+function fmtSide(val, dir) {
+  if (val === null || val === undefined) return '–';
+  return val.toFixed(1) + dir;
+}
+function fmtNum(val, digits) {
+  if (val === null || val === undefined) return '–';
+  return val.toFixed(digits === undefined ? 1 : digits);
+}
+
+function renderTmSessions() {
+  const sessions = loadTmSessions().slice().sort((a, b) => b.date.localeCompare(a.date)); // neueste zuerst
+  const shots = loadTmShots();
+  const listEl = document.getElementById('tm-session-list');
+  if (sessions.length === 0) {
+    listEl.innerHTML = '<div class="empty-state">Noch keine TrackMan-Daten hinterlegt.</div>';
+    return;
+  }
+  listEl.innerHTML = sessions.map(session => {
+    const statusLabel = session.status === 'aktuell' ? 'Aktuell' : 'Historisch';
+    const statusClass = session.status === 'aktuell' ? 'aktuell' : 'historisch';
+    const targetRows = session.targets.map(t => {
+      const rowId = `tm-row-${session.id}-${t.target}`;
+      return `
+      <div class="tm-target-row" onclick="document.getElementById('${rowId}').classList.toggle('open')">
+        <div class="tm-t">${t.label}</div>
+        <div>${fmtNum(t.avgScore, 1)}</div>
+        <div>${fmtNum(t.avgCarry, 1)} m</div>
+        <div>${fmtNum(t.avgTotal, 1)} m</div>
+        <div>${fmtSide(t.avgSide, t.avgSideDir)}</div>
+      </div>
+      <div class="tm-shots-detail" id="${rowId}">
+        <div class="tm-shot-labels"><div>#</div><div>Score</div><div>Club</div><div>Ball</div><div>Carry</div><div>Total</div></div>
+        ${shots.filter(s => s.sessionId === session.id && s.target === t.target).map(s => `
+          <div class="tm-shot-line">
+            <div>${s.shotIndex}</div><div>${fmtNum(s.score, 0)}</div><div>${fmtNum(s.clubSpeed, 1)}</div>
+            <div>${fmtNum(s.ballSpeed, 1)}</div><div>${fmtNum(s.carry, 1)}</div><div>${fmtNum(s.total, 1)}</div>
+          </div>`).join('')}
+      </div>`;
+    }).join('');
+
+    return `
+    <div class="tm-session-card">
+      <div class="tm-session-head">
+        <span class="tm-date">${session.date} · ${session.source}</span>
+        <span class="tm-status-badge ${statusClass}">${statusLabel}</span>
+      </div>
+      ${(() => {
+        const metaParts = [];
+        if (session.player) metaParts.push(session.player);
+        if (session.ageAtTest !== null && session.ageAtTest !== undefined) metaParts.push('Alter zum Testzeitpunkt: ' + session.ageAtTest);
+        if (session.hcpAtTest !== null && session.hcpAtTest !== undefined) metaParts.push('HCP zum Testzeitpunkt: ' + session.hcpAtTest);
+        if (session.mode || session.ball || session.tempC) metaParts.push(`${session.mode || ''}${session.ball ? ', ' + session.ball + '-Ball' : ''}${session.tempC ? ', ' + session.tempC + '°C' : ''}`.replace(/^, /, ''));
+        return metaParts.length ? `<div class="tm-meta-line">${metaParts.join(' · ')}</div>` : '';
+      })()}
+      ${(session.combineScore !== null && session.combineScore !== undefined) || (session.estimatedHandicap !== null && session.estimatedHandicap !== undefined) ? `
+      <div class="tm-score-box">
+        ${session.combineScore !== null && session.combineScore !== undefined ? `<div class="tm-score-item"><div class="tm-score-value">${fmtNum(session.combineScore, 1)}</div><div class="tm-score-label">Combine Score</div></div>` : ''}
+        ${session.estimatedHandicap !== null && session.estimatedHandicap !== undefined ? `<div class="tm-score-item"><div class="tm-score-value">${session.estimatedHandicap}</div><div class="tm-score-label">Geschätztes HCP</div></div>` : ''}
+      </div>` : ''}
+      ${session.status === 'historisch' ? `<div class="tm-warning">⚠️ Historische Messung vom ${session.date} – das ist eine Momentaufnahme aus der Vergangenheit, keine aktuelle Schlagdistanz. Schlägerzuordnung ist bei diesen Daten nicht bekannt.</div>` : ''}
+      <div class="tm-target-labels"><div>Ziel</div><div>Score</div><div>Ø Carry</div><div>Ø Total</div><div>Ø Seite</div></div>
+      ${targetRows}
+    </div>`;
+  }).join('');
+}
+
+document.getElementById('tm-section-toggle').addEventListener('click', () => {
+  const panel = document.getElementById('tm-panel');
+  const show = panel.style.display === 'none';
+  panel.style.display = show ? 'block' : 'none';
+  document.getElementById('tm-section-toggle').textContent = '🏌️‍♂️ TrackMan ' + (show ? '▴' : '▾');
+  if (show) renderTmSessions();
+});
+
+// ---------- TrackMan: neue Messung (Phase 4) ----------
+const TM_TARGET_LIST = [55, 65, 75, 85, 95, 105, 125, 145, 165, 'Drive'];
+
+function tmBuildNewForm() {
+  const rowsEl = document.getElementById('tm-new-rows');
+  rowsEl.innerHTML = TM_TARGET_LIST.map(t => {
+    const label = t === 'Drive' ? 'Drive' : `${t} m`;
+    return `
+    <div class="tm-new-row">
+      <div class="tm-new-label">${label}</div>
+      <input type="number" id="tm-new-carry-${t}" placeholder="Carry">
+      <input type="number" id="tm-new-total-${t}" placeholder="Total">
+    </div>`;
+  }).join('');
+  document.getElementById('tm-new-date').valueAsDate = new Date();
+}
+
+document.getElementById('tm-new-toggle').addEventListener('click', () => {
+  const wrap = document.getElementById('tm-new-wrap');
+  const show = wrap.style.display === 'none';
+  wrap.style.display = show ? 'block' : 'none';
+  if (show) tmBuildNewForm();
+});
+document.getElementById('tm-new-cancel-btn').addEventListener('click', () => {
+  document.getElementById('tm-new-wrap').style.display = 'none';
+});
+
+document.getElementById('tm-new-save-btn').addEventListener('click', () => {
+  const date = document.getElementById('tm-new-date').value;
+  const source = document.getElementById('tm-new-source').value.trim() || 'TrackMan';
+  if (!date) { alert('Bitte ein Datum angeben.'); return; }
+
+  const targets = [];
+  TM_TARGET_LIST.forEach(t => {
+    const carryVal = document.getElementById(`tm-new-carry-${t}`).value;
+    const totalVal = document.getElementById(`tm-new-total-${t}`).value;
+    if (carryVal === '' && totalVal === '') return; // Ziel nicht getestet, überspringen
+    targets.push({
+      target: t, label: t === 'Drive' ? 'Drive' : `${t} m`,
+      avgCarry: carryVal === '' ? null : parseFloat(carryVal),
+      avgTotal: totalVal === '' ? null : parseFloat(totalVal),
+      avgScore: null, avgClubSpeed: null, avgBallSpeed: null, avgSpinRate: null, avgAttackAngle: null,
+      avgSide: null, avgSideDir: null, consistency: null,
+    });
+  });
+  if (targets.length === 0) { alert('Bitte mindestens bei einem Ziel Carry oder Total eintragen.'); return; }
+
+  // Bisherige "aktuell"-Session(en) werden zu "historisch" – nichts wird gelöscht, nur der Status ändert sich.
+  const sessions = loadTmSessions();
+  sessions.forEach(s => { if (s.status === 'aktuell') s.status = 'historisch'; });
+
+  const newSession = {
+    id: 'tm_' + Date.now().toString(36),
+    date, source, status: 'aktuell',
+    player: null, ageAtTest: null, hcpAtTest: null, mode: null, ball: null, tempC: null,
+    combineScore: null, estimatedHandicap: null,
+    targets,
+  };
+  sessions.push(newSession);
+  saveTmSessions(sessions);
+
+  document.getElementById('tm-new-wrap').style.display = 'none';
+  renderTmSessions();
+  const msg = document.getElementById('save-msg');
+  msg.textContent = 'Neue TrackMan-Messung gespeichert.';
+  setTimeout(() => { msg.textContent = ''; }, 3000);
+});
+
+// ---------- Hünxerwald Caddy-Daten (Birdie Book GC Hünxerwald + TrackMan-Donuts, Stand 27.09.2026) ----------
+// Distanzen vom Abschlag Gelb/Rot; "rest" = Luftlinie zum Grün (bei Doglegs Summe ≠ Bahnlänge – kein Fehler).
+// "~"-Angaben aus der Karte sind nur im Infotext enthalten, nicht als Zahl. "tipp" ist Lesetext, keine Rechengrundlage.
+// "teeCarryNoetig": laut Birdie-Book-Text explizit genannter Mindest-Carry vom Abschlag (nur Gelb angegeben);
+// "ab" = Distanz, ab der das Hindernis beginnt (kürzer bleiben = Vorlage, dann greift die Carry-Grenze nicht).
+const HUENX_BAHNEN = [
+  { bahn: 1, par: 4, hcp: 13, gelb: 333, rot: 293, form: 'Dogleg rechts', gruen: [26, 19],
+    hindernisse: [
+      { typ: 'bunker', seite: 'L', gelb: 131, rot: 90, rest: 195, info: 'Fairway-Bunker 1' },
+      { typ: 'bunker', seite: 'L', gelb: null, rot: null, rest: null, info: 'Fairway-Bunker 2, direkt hinter Bunker 1' },
+      { typ: 'baeume', seite: 'R', gelb: 178, rot: 135, rest: 132, info: 'Bäume rechts, Innenseite Dogleg' },
+      { typ: 'baeume', seite: 'L', gelb: 201, rot: 160, rest: 132, info: 'Baumgruppe links' },
+      { typ: 'bunker', seite: 'L', gelb: 238, rot: 198, rest: 88, info: 'Fairway-Bunker 3 (Longhitter-Falle)' },
+      { typ: 'wasser', seite: 'L', gelb: null, rot: null, rest: null, info: 'Penalty Area links ab ca. Höhe Bunker 3 bis hinter das Grün, dicht am Grün' },
+      { typ: 'gruenbunker', seite: 'R', info: 'Grünbunker rechts' },
+    ],
+    tipp: 'Ideal in den Knick. Bäume rechts, Bunker und Baumgruppe links. Grün gerade anspielen: Wasser links dicht am Grün, Bunker rechts.' },
+  { bahn: 2, par: 4, hcp: 9, gelb: 343, rot: 296, form: 'gerade, blinder Abschlag', gruen: [24, 21],
+    hindernisse: [
+      { typ: 'bunker', seite: 'L', gelb: 202, rot: 156, rest: 129, info: 'Fairway-Bunker links, Beginn (vom Abschlag nicht sichtbar)' },
+      { typ: 'bunker', seite: 'L', gelb: 224, rot: 178, rest: 107, info: 'Fairway-Bunker links, Ende' },
+      { typ: 'wasser', seite: 'L', gelb: null, rot: null, rest: null, info: 'Penalty Area links hinter dem Bunker, ~230–270 m' },
+      { typ: 'gruenbunker', seite: 'VL', info: '' },
+      { typ: 'gruenbunker', seite: 'VR', info: '' },
+      { typ: 'aus', seite: 'H', info: 'Aus hinter dem Grün' },
+    ],
+    sonstiges: 'Blitzschutzhütte rechts am Abschlag',
+    tipp: 'Erste ca. 100 m bergauf, Landezone nicht einsehbar – Hauptsache gerade. Vom Fairway: angreifen oder vorlegen, zwei Grünbunker.' },
+  { bahn: 3, par: 4, hcp: 17, gelb: 265, rot: 237, form: 'gerade, fällt nach ca. 170 m ab', gruen: [19, 19],
+    hindernisse: [
+      { typ: 'aus', seite: 'R', info: 'Aus rechts über die ganze Bahn' },
+      { typ: 'marker', seite: 'M', gelb: 171, rot: 142, rest: 87, info: 'Fairwayende, empfohlener Vorlegepunkt (zwei Bäume in Linie)' },
+      { typ: 'bunker', seite: 'L', gelb: 204, rot: 176, rest: 50, info: 'Bunker vor dem Grün' },
+      { typ: 'bunker', seite: 'M', gelb: 229, rot: 201, rest: 27, info: 'Bunker direkt vor dem Grün' },
+      { typ: 'gruenbunker', seite: 'L', info: '' },
+      { typ: 'gruenbunker', seite: 'R', info: '' },
+      { typ: 'aus', seite: 'H', info: 'Gelände fällt hinter dem Grün stark ab ins Aus' },
+    ],
+    sonstiges: 'Blitzschutzhütte links am Abschlag. Grün liegt tiefer → ca. ein Schläger weniger.',
+    annaeherungSchlaeger: -1, // aus Birdie Book: Grün tiefer → ca. ein Schläger weniger (nur Annäherung, nicht vom Abschlag)
+    tipp: 'Abschlag bis 171 m, dann ca. 90 m bergab mit einem Schläger weniger. Vor dem Grün praktisch keine Landezone.' },
+  { bahn: 4, par: 4, hcp: 5, gelb: 313, rot: 273, form: 'gerade, Fairway fällt nach rechts ab', gruen: [25, 18],
+    hindernisse: [
+      { typ: 'aus', seite: 'R', info: 'Aus rechts entlang des Fairways bis zum Teich' },
+      { typ: 'baeume', seite: 'L', gelb: 188, rot: 149, rest: 119, info: 'Bäume links' },
+      { typ: 'marker', seite: 'R', gelb: 208, rot: 169, rest: 83, info: 'Fairwayende rechts' },
+      { typ: 'wasser', seite: 'VR', gelb: null, rot: null, rest: null, info: 'Teich vorne rechts vor dem Grün, ab ca. 220 m' },
+      { typ: 'wasser', seite: 'L', gelb: 261, rot: 222, rest: 49, info: 'Penalty Area links am Grün' },
+      { typ: 'wasser', seite: 'H', info: 'Penalty Area rund ums Grün' },
+    ],
+    sonstiges: 'Blitzschutzhütten links am Grün und rechts am Abschlag',
+    tipp: 'Abschlag links aufs Fairway – nur von dort freie Sicht auf die Fahne. Schmale, baumgesäumte Schneise zum Grün: Präzision.' },
+  { bahn: 5, par: 3, hcp: 15, gelb: 170, rot: 154, form: 'hintere Hälfte fällt ab', gruen: [22, 18],
+    hindernisse: [
+      { typ: 'aus', seite: 'R', info: 'Aus rechts über die ganze Bahn' },
+      { typ: 'wasser', seite: 'R', info: 'Penalty Area rechts am Abschlag' },
+      { typ: 'gruenbunker', seite: 'VL', info: '' },
+      { typ: 'gruenbunker', seite: 'HL', info: '' },
+      { typ: 'gruenbunker', seite: 'R', info: '' },
+    ],
+    tipp: 'Fahne sichtbar, die drei Grünbunker nicht. Kleine Landezone – angreifen oder sicher spielen nach Tagesform.' },
+  { bahn: 6, par: 4, hcp: 1, gelb: 382, rot: 335, form: 'gerade, enge Abschlagsgasse', gruen: [25, 21], teeCarryNoetig: { gelb: { carry: 110, ab: 100 }, rot: null },
+    hindernisse: [
+      { typ: 'graben', seite: 'M', gelb: 100, rot: null, rest: null, info: '„Tal der Tränen“ quer, ca. 110 m Carry nötig (Gelb), sonst vorlegen' },
+      { typ: 'wasser', seite: 'L', info: 'Penalty Area links bis ca. 180 m' },
+      { typ: 'aus', seite: 'R', info: 'Aus rechts über die ganze Bahn und hinter dem Grün' },
+      { typ: 'marker', seite: 'R', gelb: 180, rot: 135, rest: 189, info: '' },
+      { typ: 'marker', seite: 'L', gelb: 220, rot: 174, rest: 150, info: '150-m-Punkt' },
+      { typ: 'gruenbunker', seite: 'VL', info: '' },
+      { typ: 'gruenbunker', seite: 'VR', info: '' },
+      { typ: 'gruenbunker', seite: 'HL', info: '' },
+    ],
+    tipp: 'Schwerste Bahn. 110 m Carry übers Tal, dann enge Gasse mit Bäumen beidseitig. Grün durch drei Bunker geschützt – angreifen oder vorlegen.' },
+  { bahn: 7, par: 5, hcp: 11, gelb: 441, rot: 385, form: 'Dogleg rechts', gruen: [25, 17],
+    hindernisse: [
+      { typ: 'aus', seite: 'M', info: 'Aus rund um den Abschlagsbereich' },
+      { typ: 'bunker', seite: 'R', gelb: 181, rot: 126, rest: 206, info: 'Fairway-Bunker rechts 1' },
+      { typ: 'marker', seite: 'L', gelb: 209, rot: 152, rest: 200, info: '' },
+      { typ: 'bunker', seite: 'R', gelb: 244, rot: 189, rest: 153, info: 'Fairway-Bunker rechts 2' },
+      { typ: 'wasser', seite: 'L', info: 'Penalty Area links etwa auf Höhe Bunker 2' },
+      { typ: 'bunker', seite: 'L', gelb: 318, rot: 263, rest: 100, info: 'Bunker im Knick' },
+      { typ: 'graben', seite: 'M', info: 'Graben quer nach dem Knick vor dem Grünbereich, Weg dorthin durch hohe Bäume eingeengt' },
+      { typ: 'gruenbunker', seite: 'VR', info: '' },
+      { typ: 'wasser', seite: 'H', info: 'Penalty Area hinter dem Grün' },
+    ],
+    sonstiges: 'Blitzschutzhütte rechts am Abschlag',
+    tipp: 'Der zweite Schlag entscheidet: platziert Mitte Fairway vor den Graben. Longhitter bis in die Kurve, dann ca. 120 m.' },
+  { bahn: 8, par: 3, hcp: 7, gelb: 195, rot: 162, form: 'gerade', gruen: [21, 15],
+    hindernisse: [
+      { typ: 'wasser', seite: 'M', info: 'Penalty Area direkt vor dem gelben Abschlag' },
+      { typ: 'bia', seite: 'R', info: 'Blau markierte Fläche rechts vor Rot (vermutlich Boden in Ausbesserung)' },
+      { typ: 'baeume', seite: 'L', info: 'Baumreihe links entlang der Direktlinie' },
+      { typ: 'gruenbunker', seite: 'L', info: '' },
+      { typ: 'gruenbunker', seite: 'R', info: '' },
+      { typ: 'baeume', seite: 'HR', info: 'Baumreihe hinten rechts' },
+      { typ: 'aus', seite: 'H', info: 'Aus hinter dem Grün' },
+    ],
+    tipp: 'Kampflinie knapp an der linken Baumreihe vorbei. Wer ausweicht, landet oft im rechten Bunker oder in den Bäumen hinten rechts.' },
+  { bahn: 9, par: 5, hcp: 3, gelb: 498, rot: 446, form: 'gerade, längste Bahn', gruen: [24, 19],
+    hindernisse: [
+      { typ: 'aus', seite: 'R', info: 'Aus rechts fast über die ganze Bahn' },
+      { typ: 'marker', seite: 'R', gelb: 216, rot: 165, rest: 281, info: '' },
+      { typ: 'graben', seite: 'M', gelb: 268, rot: 216, rest: 215, info: 'Graben quer, großer Baum fast Mitte Fairway' },
+      { typ: 'gruenbunker', seite: 'VL', info: '' },
+      { typ: 'gruenbunker', seite: 'R', info: '' },
+      { typ: 'graben', seite: 'H', info: 'Graben knapp hinter dem Grün' },
+    ],
+    sonstiges: 'Blitzschutzhütte links am Graben. Am Abschlag rechts aufhalten (Abstand zu Bahn 8).',
+    tipp: 'Abschlag leicht rechts halten – der Baum im Graben ist trotzdem oft im Weg. Danach noch weit bis zum Grün.' },
+  { bahn: 10, par: 4, hcp: 10, gelb: 326, rot: 284, form: 'Dogleg rechts', gruen: [27, 19],
+    hindernisse: [
+      { typ: 'spielverbot', seite: 'R', info: 'Bäume rechts durchgehend Spielverbotszone (Biotop) – nur mit Strafschlag weiter, Betreten verboten' },
+      { typ: 'baeume', seite: 'R', gelb: 155, rot: 115, rest: 142, info: 'Innenseite Dogleg' },
+      { typ: 'marker', seite: 'L', gelb: 211, rot: 170, rest: 109, info: '' },
+      { typ: 'wasser', seite: 'L', info: 'Wasser links dicht am Grün' },
+      { typ: 'spielverbot', seite: 'R', info: 'Spielverbotszone rechts am Grün' },
+      { typ: 'spielverbot', seite: 'H', info: 'Spielverbotszone hinter dem Grün' },
+    ],
+    sonstiges: 'Blitzschutzhütte am gelben Abschlag',
+    tipp: 'Schwester von Bahn 1: in den Knick. Rechts Spielverbotszone, am Grün links Wasser, rechts und hinten Spielverbot.' },
+  { bahn: 11, par: 4, hcp: 16, gelb: 291, rot: 255, form: 'leichtes Dogleg links', gruen: [26, 18],
+    hindernisse: [
+      { typ: 'aus', seite: 'L', info: 'Aus hinter/links vom gelben Abschlag' },
+      { typ: 'wasser', seite: 'L', info: 'Kleiner Teich links früh im Spiel' },
+      { typ: 'marker', seite: 'M', gelb: 163, rot: 127, rest: 100, info: '100-m-Punkt' },
+      { typ: 'bunker', seite: 'R', gelb: 186, rot: 151, rest: 101, info: 'Fairway-Bunker rechts 1' },
+      { typ: 'bunker', seite: 'R', gelb: 230, rot: 195, rest: 74, info: 'Fairway-Bunker rechts 2' },
+      { typ: 'wasser', seite: 'L', info: 'Teich mit Bäumen links vor dem Grün' },
+      { typ: 'gruenbunker', seite: 'VL', info: '' },
+    ],
+    tipp: 'Gerade, gern leicht rechts – Vorsicht Bunker. Von links müsste man aus dem Rough über den Teich. Mitte Fairway, dann diagonal aufs Grün.' },
+  { bahn: 12, par: 3, hcp: 12, gelb: 208, rot: 184, form: 'fällt zum Grün leicht ab', gruen: [23, 23],
+    hindernisse: [
+      { typ: 'aus', seite: 'R', info: 'Aus rechts im ersten Teil' },
+      { typ: 'wasser', seite: 'L', info: 'Penalty Area links über die ganze Bahn' },
+      { typ: 'wasser', seite: 'VR', info: 'Teich rechts vor dem Grün, Fairway fällt zum Wasser ab' },
+      { typ: 'bunker', seite: 'VL', info: 'Großer Fairway-Grün-Bunker' },
+      { typ: 'aus', seite: 'H', info: 'Aus hinter dem Grün' },
+    ],
+    sonstiges: 'Blitzschutzhütte rechts am Abschlag. Grün zweistufig.',
+    tipp: 'Rechts aufkommende Bälle rollen oft ins Wasser, links viel Rough und der Bunker. Auf der Stufe der Fahne landen.' },
+  { bahn: 13, par: 5, hcp: 6, gelb: 493, rot: 430, form: 'Zick-Zack (erst links, dann rechts)', gruen: [51, 25],
+    hindernisse: [
+      { typ: 'aus', seite: 'R', info: 'Aus rechts fast über die ganze Bahn und am Abschlag' },
+      { typ: 'wasser', seite: 'L', info: 'Teich links am ersten Knick, Penalty Area entlang links' },
+      { typ: 'marker', seite: 'R', gelb: 207, rot: 143, rest: 252, info: 'Erster Knick' },
+      { typ: 'wasser', seite: 'R', info: 'Kleiner Teich rechts im Mittelteil' },
+      { typ: 'marker', seite: 'M', gelb: 303, rot: 258, rest: 100, info: 'Zweiter Knick, 100-m-Punkt' },
+      { typ: 'wasser', seite: 'L', info: 'Teich links oben vor dem Grün' },
+      { typ: 'wasser', seite: 'R', info: 'Teich rechts neben dem Grün' },
+    ],
+    sonstiges: 'Blitzschutzhütten am Abschlag und rechts am Grün. Grün 51 m, drei Höhenstufen.',
+    tipp: 'Abschlag in die erste Kurve, Zwischenschlag in die zweite, dann aufs Grün. Abkürzung über Hügel und Baumreihen am Wasser ist riskant.' },
+  { bahn: 14, par: 4, hcp: 4, gelb: 404, rot: 360, form: 'gerade, längstes Par 4, erhöhter Abschlag', gruen: [29, 30], teeCarryNoetig: { gelb: { carry: 180, ab: 167 }, rot: null },
+    hindernisse: [
+      { typ: 'wasser', seite: 'L', info: 'Teich direkt vor dem Abschlag links' },
+      { typ: 'wasser', seite: 'L', info: 'Penalty Area links entlang des Fairways' },
+      { typ: 'wasser', seite: 'R', info: 'Penalty Area rechts entlang des Fairways' },
+      { typ: 'bunker', seite: 'L', gelb: 167, rot: 126, rest: 227, info: 'Engstelle zwischen zwei Bunkern' },
+      { typ: 'bunker', seite: 'R', gelb: 213, rot: 166, rest: 173, info: 'Engstelle zwischen zwei Bunkern' },
+      { typ: 'wasser', seite: 'L', info: 'Teich links im Mittelteil' },
+      { typ: 'wasser', seite: 'L', info: 'Kleiner Teich links vor dem Grün' },
+      { typ: 'wasser', seite: 'R', info: 'Kleiner Teich rechts vor dem Grün' },
+    ],
+    sonstiges: 'Ca. 180 m Carry nötig, um hinter den Bunkern zu landen. Hügel kurz vor dem Grün. Grün fällt nach links ab.',
+    tipp: 'Wer die 180 m Carry nicht sicher hat, legt vor. Danach keine Bunker mehr, aber Teiche links und rechts.' },
+  { bahn: 15, par: 5, hcp: 2, gelb: 476, rot: 425, form: 'Dogleg links', gruen: [27, 19],
+    hindernisse: [
+      { typ: 'wasser', seite: 'L', info: 'Kleiner Teich links vor dem Abschlag' },
+      { typ: 'wasser', seite: 'L', gelb: 170, rot: 121, rest: 211, info: 'Wasser innen im Knick' },
+      { typ: 'marker', seite: 'M', gelb: 214, rot: 172, rest: 150, info: '150-m-Punkt' },
+      { typ: 'marker', seite: 'M', gelb: 220, rot: 187, rest: 100, info: '100-m-Punkt' },
+      { typ: 'bunker', seite: 'R', info: 'Fairway-Bunker rechts (Richtung Bunker schwer zu halten, sonst Baumgruppe)' },
+      { typ: 'wasser', seite: 'R', info: 'Penalty Area rechts entlang des zweiten Fairwayteils' },
+      { typ: 'wasser', seite: 'V', gelb: 229, rot: 201, rest: 69, info: 'Wasserkante des großen Teichs vor dem Grün' },
+      { typ: 'aus', seite: 'R', info: 'Aus rechts oben' },
+    ],
+    sonstiges: 'Marker = Luftlinie vom Abschlag über den Knick (daher Summe ≠ 476).',
+    tipp: 'Standard: vorlegen, diagonal aufs Fairway vor dem Wasser, dann übers Wasser. Longhitter-Option: Abschlag direkt vor das Wasser (Sekt oder Selters).' },
+  { bahn: 16, par: 4, hcp: 14, gelb: 280, rot: 234, form: 'Dogleg rechts', gruen: [27, 16],
+    hindernisse: [
+      { typ: 'aus', seite: 'R', info: 'Aus rechts über die ganze Bahn' },
+      { typ: 'wasser', seite: 'L', info: 'Penalty Area links im ersten Drittel' },
+      { typ: 'wasser', seite: 'R', gelb: 152, rot: 105, rest: 83, info: 'Teich rechts vom Fairway' },
+      { typ: 'marker', seite: 'M', gelb: 225, rot: 178, rest: 0, info: 'Vermutlich Grünanfang' },
+      { typ: 'gruenbunker', seite: 'L', info: 'Topfbunker links am Grün' },
+      { typ: 'baeume', seite: 'V', info: 'Baumreihe schützt das Grün (gegen direkten Angriff)' },
+    ],
+    sonstiges: 'Blitzschutzhütte links am Abschlag. Tabletop-Grün, Ball rollt gern weit weg.',
+    tipp: 'Abschlag in die Kurve, dann kurzer Schlag aufs Grün. Teich rechts hat große Anziehungskraft.' },
+  { bahn: 17, par: 3, hcp: 18, gelb: 133, rot: 120, form: 'kürzeste Bahn', gruen: [23, 24],
+    hindernisse: [
+      { typ: 'wasser', seite: 'L', info: 'Teich links auf halber Strecke' },
+      { typ: 'wasser', seite: 'R', info: 'Teich rechts auf halber Strecke' },
+      { typ: 'gruenbunker', seite: 'L', info: 'Großer Grünbunker links' },
+      { typ: 'wasser', seite: 'H', info: 'Penalty Area links und hinter dem Grün, Gelände fällt hinten ab' },
+    ],
+    tipp: 'Locker bleiben. Fahne links oben: über den Bunker und direkt dahinter landen, sonst rollt der Ball weg.' },
+  { bahn: 18, par: 4, hcp: 8, gelb: 352, rot: 309, form: 'Dogleg links', gruen: [33, 25],
+    hindernisse: [
+      { typ: 'wasser', seite: 'L', info: 'Teich links am Abschlag' },
+      { typ: 'wasser', seite: 'R', info: 'Kleiner Teich rechts am Abschlag' },
+      { typ: 'aus', seite: 'L', info: 'Innen links: Fläche von Bahn 10 ist Aus (Platzregel)' },
+      { typ: 'bunker', seite: 'M', gelb: 180, rot: 139, rest: 132, info: 'Fairway-Bunker in der Ecke, Beginn' },
+      { typ: 'bunker', seite: 'M', gelb: 198, rot: 157, rest: 119, info: 'Fairway-Bunker in der Ecke, Ende' },
+      { typ: 'marker', seite: 'R', gelb: 243, rot: 201, rest: 104, info: '' },
+      { typ: 'aus', seite: 'R', info: 'Aus rechts entlang der zweiten Hälfte' },
+      { typ: 'wasser', seite: 'L', info: 'Kleiner Teich links im Mittelteil' },
+      { typ: 'bunker', seite: 'L', info: 'Bunker links ca. 60 m vor dem Grün' },
+      { typ: 'gruenbunker', seite: 'VR', info: '' },
+      { typ: 'aus', seite: 'H', info: 'Aus rund ums Grün (Weg zum Clubhaus)' },
+    ],
+    sonstiges: 'Blitzschutzhütte links am Abschlag. Grün fällt nach vorne und rechts ab, Drei-Putts häufig.',
+    tipp: 'Abschlag driftet oft zu weit rechts – dann weiter Weg mit Bäumen dazwischen. Longhitter direkt in die Kurve.' },
+];
+
+// Fahnenpositionen je Grün (Tagesposition A–D), Lage aus Spielersicht: H hinten, V vorne, L links, R rechts.
+const HUENX_PINS = {
+  1:  { A: 'HL', B: 'VL', C: 'HR', D: 'VR' },
+  2:  { A: 'VR', B: 'HR', C: 'VL', D: 'HL' },
+  3:  { A: 'HR', B: 'VR', C: 'HL', D: 'VL' },
+  4:  { A: 'VL', B: 'HL', C: 'VR', D: 'HR' },
+  5:  { A: 'HL', B: 'VL', C: 'HR', D: 'VR' },
+  6:  { A: 'VR', B: 'HR', C: 'VL', D: 'HL' },
+  7:  { A: 'HR', B: 'VR', C: 'HL', D: 'VL' },
+  8:  { A: 'VL', B: 'HL', C: 'VR', D: 'HR' },
+  9:  { A: 'HL', B: 'VL', C: 'HR', D: 'VR' },
+  10: { A: 'VR', B: 'HR', C: 'VL', D: 'HL' },
+  11: { A: 'VL', B: 'HL', C: 'VR', D: 'HR' },
+  12: { A: 'HR', B: 'VR', C: 'HL', D: 'VL' },
+  13: { A: 'Mitte L', B: 'H', C: 'Mitte R', D: 'V' },
+  14: { A: 'VR', B: 'HL', C: 'VL', D: 'HR' },
+  15: { A: 'HL', B: 'VR', C: 'HR', D: 'VL' },
+  16: { A: 'VR', B: 'HL', C: 'VL', D: 'HR' },
+  17: { A: 'L', B: 'R', C: 'V', D: 'HL', _unsicher: true },
+  18: { A: 'H', B: 'VR', C: 'L', D: 'V', _unsicher: true },
+};
+const HUENX_GRUEN_HINWEISE = {
+  12: 'Zweistufig: vorne unten (B/D), hinten oben (A/C). Fahne unten + Ball oben = Runterputten kaum zu halten.',
+  13: '51 m lang, drei Höhenstufen: D vorne, A/C Mitte, B hinten. Bis zu 2–3 Schläger Unterschied.',
+  17: 'Linkes Drittel hoch, Mitte fällt stark ab, rechts Fairwayhöhe. Fahne links oben: über den Bunker, direkt dahinter landen.',
+  18: 'Fällt nach vorne und rechts ab. Aus dem Knick angespielt rollt der Ball oft nach rechts.',
+};
+
+// TrackMan-Donuts (je 6 Schläge) – nur für die einmalige Erstbefüllung von "Mein Bag".
+const STREUUNG_SEED = [
+  { bagName: '5 Eisen', datum: '2026-03-25', carry: 142.5, carryKonstanz: 9.5, total: 153.5, pct: { lang: 17, kurz: 0, links: 0, rechts: 67, mitte: 17 } },
+  { bagName: 'Driver',  datum: '2024-03-24', carry: 191.5, carryKonstanz: 9.7, total: 218.0, pct: { lang: 17, kurz: 0, links: 50, rechts: 17, mitte: 17 } },
+  { bagName: '5 Holz',  datum: '2024-03-21', carry: 166.7, carryKonstanz: 5.6, total: 185.0, pct: { lang: 33, kurz: 0, links: 33, rechts: 17, mitte: 17 } },
+  { bagName: '6 Eisen', datum: '2024-04-19', carry: 137.9, carryKonstanz: 2.3, total: 143.3, pct: null },
+  { bagName: '7 Eisen', datum: '2026-03-25', carry: 126.6, carryKonstanz: 6.3, total: 134.3, pct: { lang: 17, kurz: 17, links: 17, rechts: 50, mitte: 0 } },
+  { bagName: '8 Eisen', datum: '2024-03-24', carry: 107.3, carryKonstanz: 5.6, total: 113.5, pct: { lang: 0, kurz: 17, links: 67, rechts: 17, mitte: 0 } },
+  { bagName: '9 Eisen', datum: '2026-03-25', carry: 117.8, carryKonstanz: 3.1, total: 120.6, pct: { lang: 0, kurz: 0, links: 83, rechts: 17, mitte: 0 } },
+  { bagName: 'PW',      datum: '2024-03-24', carry: 89.3,  carryKonstanz: 4.4, total: 92.7,  pct: { lang: 0, kurz: 17, links: 50, rechts: 17, mitte: 17 } },
+];
+
+// ---------- Hünxerwald-Caddy: Rundenkontext (Fahne, Abschlag, Spielvorgabe) ----------
+const HX_SETTINGS_KEY = 'golfHuenxRoundSettings';
+let caddyDetailsOpen = false;   // "Wie spielen?" bleibt beim Tippen auf die Stepper offen
+let caddyApproach = {};         // Loch-Index -> Entfernung zur Grünmitte
+let caddyApproachSrc = {};      // Loch-Index -> 'gps' | 'manual'
+let caddyManual = {};           // Loch-Index -> true, wenn per Antippen überschrieben (Live pausiert für dieses Loch)
+
+function hxLoadSettings() {
+  try { const raw = localStorage.getItem(HX_SETTINGS_KEY); return raw ? JSON.parse(raw) : {}; }
+  catch (e) { return {}; }
+}
+function hxSaveSettings(s) {
+  try { localStorage.setItem(HX_SETTINGS_KEY, JSON.stringify(s)); } catch (e) {}
+}
+// ================= Caddy-Plätze (Registry) =================
+// Neuer Platz = ein Eintrag hier + Datenpaket im selben Format wie Hünxerwald:
+//   bahnen:  [{ bahn, par, hcp, gelb, rot, form, gruen:[tiefe, breite], hindernisse:[{typ, seite, gelb, rot, rest, info}],
+//              sonstiges?, tipp, teeCarryNoetig?:{gelb:{carry, ab}}, annaeherungSchlaeger? }]
+//   pins:    { bahnNr: { A:'HL', B:'VL', C:'HR', D:'VR', _unsicher? } }   (optional)
+//   gruenHinweise: { bahnNr: 'Text' }                                      (optional)
+//   ratings: { gelb:{cr, slope, par}, rot:{…}|null }
+//   latlon:  { lat, lon }  (ungefähre Lage, fürs Wetter)
+//   courseKeys: Platz-Schlüssel aus COURSES → Offset der Bahnnummer (z. B. 2. Neun = 9)
+// Zusätzlich braucht der Platz wie bisher COURSES, DEFAULT_PARS, HOLE_LENGTHS, HOLE_HCP_INDEX, CLUB_COURSE_GROUPS.
+const CADDY_COURSES = {
+  huenxerwald: {
+    name: 'GC Hünxerwald',
+    courseKeys: { HuenxerwaldOut: 0, HuenxerwaldHome: 9, Huenxerwald: 0 },
+    bahnen: HUENX_BAHNEN,
+    pins: HUENX_PINS,
+    gruenHinweise: HUENX_GRUEN_HINWEISE,
+    // Herren; Quelle: Golfführer-Eintrag, Stand 09/2026 – gegen Scorekarte prüfen. Rot: Slope unbekannt.
+    ratings: { gelb: { cr: 72.7, slope: 133, par: 72 }, rot: null },
+    latlon: { lat: 51.66, lon: 6.77 },
+  },
+};
+Object.keys(CADDY_COURSES).forEach(id => CADDY_COURSES[id].bahnen.forEach(b => { b._course = id; }));
+
+function caddyCourseFor(courseKey) {
+  for (const id in CADDY_COURSES) {
+    if (courseKey in CADDY_COURSES[id].courseKeys) return { id, def: CADDY_COURSES[id] };
+  }
+  return null;
+}
+function hasCaddyCourse(courseKey) { return !!caddyCourseFor(courseKey); }
+// Eindeutiger Schlüssel je Bahn und Platz, z. B. "huenxerwald:14" (auch für GPS-Grünmitten)
+function caddyHoleKey(subCourse, subHole) {
+  const c = caddyCourseFor(subCourse);
+  return c ? `${c.id}:${c.def.courseKeys[subCourse] + subHole}` : null;
+}
+function caddyBahnByKey(hk) {
+  if (!hk) return null;
+  const [id, n] = hk.split(':');
+  const def = CADDY_COURSES[id];
+  return def ? def.bahnen.find(x => x.bahn === parseInt(n)) || null : null;
+}
+function caddyDef(b) { return CADDY_COURSES[b._course]; }
+function caddyCurrentDef() {
+  const el = document.getElementById('course');
+  const c = el ? caddyCourseFor(el.value) : null;
+  return c ? c.def : null;
+}
+function hxUpdateRoundFieldsVisibility() {
+  const wrap = document.getElementById('hx-round-fields');
+  if (wrap) wrap.style.display = hasCaddyCourse(document.getElementById('course').value) ? 'block' : 'none';
+}
+function hxInitRoundFields() {
+  const s = hxLoadSettings();
+  document.getElementById('hx-tee').value = s.tee || 'gelb';
+  document.getElementById('hx-sv').value = (s.sv !== undefined && s.sv !== null) ? s.sv : '';
+  // Fahnenposition gilt nur für den Tag, an dem sie eingegeben wurde
+  document.getElementById('hx-pin').value = (s.pin && s.pinDate === todayStr()) ? s.pin : '';
+  ['hx-pin', 'hx-tee', 'hx-sv'].forEach(id => {
+    document.getElementById(id).addEventListener('change', () => {
+      if (!editingId) {
+        const cur = hxLoadSettings();
+        cur.tee = document.getElementById('hx-tee').value;
+        const sv = document.getElementById('hx-sv').value;
+        cur.sv = sv === '' ? null : parseInt(sv);
+        cur.pin = document.getElementById('hx-pin').value;
+        cur.pinDate = todayStr();
+        hxSaveSettings(cur);
+      }
+      if (mode === 'scorecard') renderHolesUI();
+    });
+  });
+  document.getElementById('hx-tee').addEventListener('change', hxUpdateSvPlaceholder);
+  hxUpdateSvPlaceholder();
+  document.getElementById('hx-live').checked = s.live !== false;
+  document.getElementById('hx-wind').checked = s.wind !== false;
+  document.getElementById('hx-wind').addEventListener('change', function() {
+    const cur = hxLoadSettings(); cur.wind = this.checked; hxSaveSettings(cur);
+    if (mode === 'scorecard') renderHolesUI();
+  });
+  document.getElementById('hx-live').addEventListener('change', function() {
+    const cur = hxLoadSettings(); cur.live = this.checked; hxSaveSettings(cur);
+    caddyManual = {};
+    if (!this.checked) Object.keys(caddyApproachSrc).forEach(k => { if (caddyApproachSrc[k] === 'gps') { delete caddyApproach[k]; delete caddyApproachSrc[k]; } });
+    gpsLiveSync();
+    if (mode === 'scorecard') renderHolesUI();
+  });
+  document.getElementById('club').addEventListener('change', () => setTimeout(gpsLiveSync, 0));
+  document.getElementById('course').addEventListener('change', () => setTimeout(gpsLiveSync, 0));
+  document.getElementById('club').addEventListener('change', hxUpdateRoundFieldsVisibility);
+  document.getElementById('course').addEventListener('change', hxUpdateRoundFieldsVisibility);
+  hxUpdateRoundFieldsVisibility();
+}
+// Course Handicap nach WHS: HCPI × Slope/113 + (CR − Par), gerundet. 100 % – für 95 % o. Ä. das Feld manuell überschreiben.
+function hxCourseHandicap(tee) {
+  const def = caddyCurrentDef();
+  const r = def && def.ratings ? def.ratings[tee] : null;
+  const log = loadHcpLog();
+  if (!r || !log.length) return null;
+  const hcpi = log[log.length - 1].hcp;
+  return { value: Math.round(hcpi * r.slope / 113 + (r.cr - r.par)), hcpi, r };
+}
+function hxUpdateSvPlaceholder() {
+  const el = document.getElementById('hx-sv');
+  if (!el) return;
+  const ch = hxCourseHandicap(document.getElementById('hx-tee').value === 'rot' ? 'rot' : 'gelb');
+  el.placeholder = ch ? `auto: ${ch.value}` : 'z. B. 21';
+}
+function hxContext() {
+  const pinEl = document.getElementById('hx-pin');
+  const pin = pinEl ? pinEl.value : '';
+  const tee = document.getElementById('hx-tee') ? document.getElementById('hx-tee').value : 'gelb';
+  const svRaw = document.getElementById('hx-sv') ? document.getElementById('hx-sv').value : '';
+  let sv = parseInt(svRaw), svSource = 'eingetragen', svCalc = null;
+  if (isNaN(sv)) svCalc = hxCourseHandicap(tee === 'rot' ? 'rot' : 'gelb');
+  if (isNaN(sv) && svCalc) { sv = svCalc.value; svSource = 'berechnet'; }
+  if (isNaN(sv)) {
+    const log = loadHcpLog();
+    if (log.length) { sv = Math.round(log[log.length - 1].hcp); svSource = 'geschätzt'; }
+    else { sv = null; svSource = null; }
+  }
+  return { pin, tee: tee === 'rot' ? 'rot' : 'gelb', sv, svSource, svCalc };
+}
+function hxStrokesOnHole(sv, idx) {
+  if (sv === null || sv === undefined || !idx || sv < 0) return null;
+  return Math.floor(sv / 18) + (idx <= sv % 18 ? 1 : 0);
+}
+
+// ---------- Streuung je Schläger ----------
+function streuVeraltet(datum) {
+  if (!datum) return false;
+  const d = new Date(datum + 'T00:00:00');
+  if (isNaN(d)) return false;
+  d.setMonth(d.getMonth() + 6);
+  return d < new Date(todayStr() + 'T00:00:00');
+}
+// Nur 6 Schläge je Schläger → als Tendenz behandeln, Korrektur erst ab ≥ 50 % auf einer Seite.
+function streuTendenz(st) {
+  if (!st) return { lr: null, lk: null };
+  const t = { lr: null, lrPct: null, lk: null, lkPct: null };
+  if ((st.links || 0) >= 50 && (st.links || 0) >= (st.rechts || 0)) { t.lr = 'links'; t.lrPct = st.links; }
+  else if ((st.rechts || 0) >= 50) { t.lr = 'rechts'; t.lrPct = st.rechts; }
+  if ((st.kurz || 0) >= 50 && (st.kurz || 0) >= (st.lang || 0)) { t.lk = 'kurz'; t.lkPct = st.kurz; }
+  else if ((st.lang || 0) >= 50) { t.lk = 'lang'; t.lkPct = st.lang; }
+  return t;
+}
+function hxClubs(minCarry) {
+  return loadBag().map(bagMigrateEntry)
+    .filter(c => typeof c.carry === 'number' && c.carry >= (minCarry || 0))
+    .map(c => ({
+      name: c.name, carry: c.carry, total: typeof c.total === 'number' ? c.total : null,
+      k: typeof c.consistency === 'number' ? c.consistency : 0,
+      st: c.streuung || null, tend: streuTendenz(c.streuung || null),
+    }))
+    .sort((a, b) => b.carry - a.carry);
+}
+let hxZoneWind = 1; // >1 = spielt länger (Gegenwind) → Ball kommt kürzer
+function hxZoneOf(c) {
+  const f = hxZoneWind || 1;
+  return { lo: Math.round((c.carry - c.k) / f), hi: Math.round(((c.total !== null ? c.total : c.carry) + c.k) / f) };
+}
+
+// ---------- Hindernisse einordnen ----------
+const HX_TYP_LABEL = { bunker: 'Bunker', gruenbunker: 'Grünbunker', wasser: 'Wasser', aus: 'Aus', spielverbot: 'Spielverbot',
+  graben: 'Graben', baeume: 'Bäume', marker: 'Marker', bia: 'Boden i. A.' };
+const HX_SEITE_LABEL = { L: 'links', R: 'rechts', M: 'quer', V: 'vorne', H: 'hinten', VL: 'vorne links', VR: 'vorne rechts', HL: 'hinten links', HR: 'hinten rechts' };
+function hxIsStrafe(h) { return ['wasser', 'aus', 'spielverbot', 'graben'].includes(h.typ); }
+function hxSideOf(h) {
+  if (['L', 'VL', 'HL'].includes(h.seite)) return 'links';
+  if (['R', 'VR', 'HR'].includes(h.seite)) return 'rechts';
+  return null;
+}
+// Wo auf der Bahn liegt ein Hindernis ohne Distanzangabe? (aus dem Infotext abgeleitet)
+function hxZoneClass(h, tee) {
+  if (typeof h[tee] === 'number') return 'dist';
+  const info = h.info || '';
+  if (/ganze Bahn/.test(info)) return 'entlang';
+  if (/direkt hinter Bunker/.test(info)) return 'vorig'; // liegt beim vorherigen Hindernis, ohne eigene Distanz
+  if (h.typ === 'gruenbunker' || ['V', 'H', 'VL', 'VR', 'HL', 'HR'].includes(h.seite) || /Grün/.test(info)) return 'gruen';
+  if (/Abschlag|früh|ersten Teil|ersten Drittel/.test(info)) return 'abschlag';
+  return 'entlang';
+}
+function hxHzName(h) {
+  const base = h.info ? h.info : `${HX_TYP_LABEL[h.typ] || h.typ} ${HX_SEITE_LABEL[h.seite] || ''}`.trim();
+  return base;
+}
+function hxHzShort(h, d) {
+  const lbl = `${HX_TYP_LABEL[h.typ] || h.typ} ${HX_SEITE_LABEL[h.seite] || ''}`.trim();
+  return d !== undefined && d !== null ? `${lbl} (${d} m)` : lbl;
+}
+
+// Zielpunkt aus Streuungstendenz + Hindernissen links/rechts (keine Schlägeränderung – das macht Lang/Kurz)
+let hxLast = {};  // Kurzfassung der letzten Caddy-Berechnung (für die Kopfzeile)
+function hxAimShort(text) {
+  const m = (text || '').match(/^Ziel [^–.(;]+/);
+  return m ? m[0].trim().replace(/,$/, '') : '';
+}
+// Abschläge vom Platz je Schläger (aus gespeicherten Runden: Abschlagschläger + Fairway-Ergebnis)
+function platzTeeStats(rounds) {
+  const s = {};
+  (rounds || loadRounds()).forEach(r => (r.holesData || []).forEach(hd => {
+    if (!hd.teeClub) return;
+    const c = s[hd.teeClub] || (s[hd.teeClub] = { n: 0, fw: 0, hit: 0, left: 0, right: 0 });
+    c.n++;
+    if (hd.par !== 3 && hd.fairway) { c.fw++; if (hd.fairway === 'hit') c.hit++; else if (hd.fairway === 'left') c.left++; else if (hd.fairway === 'right') c.right++; }
+  }));
+  return s;
+}
+function platzLineFor(clubName) {
+  const c = platzTeeStats()[clubName];
+  if (!c || c.fw === 0) return '';
+  return `Auf dem Platz mit ${clubName}: ${c.fw} Abschl${c.fw === 1 ? 'ag' : 'äge'} mit Fairway-Angabe – getroffen ${c.hit}, links ${c.left}, rechts ${c.right}.`;
+}
+function hxAimText(tend, hazardsIn, zielWort) {
+  const hazards = hazardsIn.filter(x => x.h.typ !== 'bia' && x.h.typ !== 'marker');
+  const left = hazards.filter(x => hxSideOf(x.h) === 'links');
+  const right = hazards.filter(x => hxSideOf(x.h) === 'rechts');
+  const names = arr => [...new Set(arr.map(x => hxHzShort(x.h, x.d)))].join(', ');
+  const hasStrafe = arr => arr.some(x => hxIsStrafe(x.h));
+  const z = zielWort || 'Fairway';
+  if (!tend || !tend.lr) {
+    if (left.length === 0 && right.length === 0) return `Ziel Mitte. Keine seitlichen Hindernisse erfasst.`;
+    if (hasStrafe(left) && !hasStrafe(right)) return `Ziel Mitte bis halbrechts – links Strafe: ${names(left)}.`;
+    if (hasStrafe(right) && !hasStrafe(left)) return `Ziel Mitte bis halblinks – rechts Strafe: ${names(right)}.`;
+    return `Ziel Mitte. Links: ${names(left) || '–'} · Rechts: ${names(right) || '–'}.`;
+  }
+  const T = tend.lr, O = T === 'links' ? 'rechts' : 'links';
+  const sT = T === 'links' ? left : right, sO = T === 'links' ? right : left;
+  const tTxt = `Tendenz ${T} (${tend.lrPct} %)`;
+  if (sT.length && !sO.length) return `Ziel ${O === 'rechts' ? 'rechte' : 'linke'} ${z}hälfte – ${tTxt} zielt auf ${names(sT)}.`;
+  if (!sT.length && sO.length) return `Ziel Mitte – ${tTxt} geht weg von ${names(sO)}, nicht dorthin korrigieren.`;
+  if (!sT.length && !sO.length) return `Ziel Mitte, leicht nach ${O} vorhalten (${tTxt}). Keine seitlichen Hindernisse erfasst.`;
+  if (hasStrafe(sT) && !hasStrafe(sO)) return `Ziel halb${O} – ${tTxt} Richtung ${names(sT)}; ${names(sO)} ist das kleinere Übel.`;
+  if (!hasStrafe(sT) && hasStrafe(sO)) return `Ziel Mitte – nicht gegen die ${tTxt} korrigieren, ${O}: ${names(sO)}.`;
+  if (!hasStrafe(sT) && !hasStrafe(sO)) return `Ziel Mitte, leicht nach ${O} vorhalten (${tTxt}). ${T}: ${names(sT)} · ${O}: ${names(sO)}.`;
+  return `Ziel Mitte – beide Seiten gefährlich (${T}: ${names(sT)} · ${O}: ${names(sO)}). ${tTxt} im Hinterkopf.`;
+}
+
+// Landezonen-Prüfung eines Schlägers gegen Hindernisse mit Distanz (d = Entfernung vom Ball).
+// hard = gilt immer, soft = nur wenn sicher gespielt wird (Vorgabeschlag an der Bahn).
+function hxCheckClub(c, distHz, opt) {
+  const { lo, hi } = hxZoneOf(c);
+  const hard = [], soft = [], side = [];
+  if (opt.need && lo < opt.need.carry && hi >= opt.need.ab) hard.push(`Carry nicht sicher über ${opt.need.carry} m`);
+  if (opt.need && lo >= opt.need.carry && lo - opt.need.carry < 5 && hi >= opt.need.ab) soft.push(`nur ${lo - opt.need.carry} m Reserve über die nötigen ${opt.need.carry} m Carry`);
+  if (opt.fwEnd && hi > opt.fwEnd.d) hard.push(`rollt über ${opt.fwEnd.label} (${opt.fwEnd.d} m)`);
+  distHz.forEach(x => {
+    const quer = ['M', 'V'].includes(x.h.seite);
+    const inZone = x.d >= lo - 5 && x.d <= hi;
+    const near = !inZone && x.d > hi && x.d <= hi + 10;
+    if (quer) {
+      if (inZone) hard.push(`${hxHzShort(x.h, x.d)} in der Landezone`);
+      else if (near && hxIsStrafe(x.h)) soft.push(`knapp vor ${hxHzShort(x.h, x.d)}`);
+    } else if (inZone) {
+      side.push(x);
+      const tendSide = c.tend && c.tend.lr && hxSideOf(x.h) === c.tend.lr;
+      if (hxIsStrafe(x.h)) soft.push(`${hxHzShort(x.h, x.d)} in Reichweite`);
+      else if (x.h.typ === 'bunker' && tendSide) soft.push(`${hxHzShort(x.h, x.d)} auf deiner Tendenzseite`);
+    }
+  });
+  return { c, lo, hi, hard, soft, side };
+}
+function hxPick(checks, sicher) {
+  const safe = checks.find(x => x.hard.length === 0 && x.soft.length === 0) || null;
+  const bold = checks.find(x => x.hard.length === 0) || null;
+  const primary = sicher ? (safe || bold) : (bold || safe);
+  let alt = sicher ? bold : safe;
+  if (alt && primary && alt.c.name === primary.c.name) alt = null;
+  return { primary, alt };
+}
+function hxStaleNote(c) {
+  if (!c.st) return `<div class="cx-dim">Keine Streuung für ${c.name} hinterlegt.</div>`;
+  const parts = [];
+  if (c.st.datum && streuVeraltet(c.st.datum)) parts.push(`Streuung ${c.name} vom ${c.st.datum} – veraltet`);
+  if (c.st.basis === 'total') parts.push('Streuung auf Total-Basis erfasst');
+  return parts.length ? `<div class="cx-dim">${parts.join(' · ')}</div>` : '';
+}
+
+// ---------- Abschlag Par 4/5 ----------
+function hxTeeHtml(b, ctx, sicher) {
+  const tee = ctx.tee;
+  const len = b[tee];
+  const clubs = hxClubs(100).filter(c => c.carry < len - 20);
+  if (clubs.length === 0) return `<div class="cx-dim">Noch keine Carry-Weiten im Bag – Abschlagsempfehlung braucht mindestens einen Schläger.</div>`;
+  const distHz = b.hindernisse.filter(h => h.typ !== 'marker' && h.typ !== 'gruenbunker' && typeof h[tee] === 'number').map(h => ({ h, d: h[tee] }));
+  const fwMarker = b.hindernisse.find(h => h.typ === 'marker' && /Fairwayende|Vorlegepunkt/.test(h.info) && typeof h[tee] === 'number');
+  const fwEnd = fwMarker ? { d: fwMarker[tee], label: 'das Fairwayende' + (fwMarker.seite === 'R' ? ' rechts' : fwMarker.seite === 'L' ? ' links' : '') } : null;
+  const wTee = hxWindForShot(`${b._course}:${b.bahn}`);
+  const straight = !/Dogleg|Zick/.test(b.form);
+  hxZoneWind = (wTee && wTee.factor && straight) ? wTee.factor : 1;
+  const needRaw = b.teeCarryNoetig && b.teeCarryNoetig[tee];
+  const need = needRaw ? needRaw : null;
+  const checks = clubs.map(c => hxCheckClub(c, distHz, { need, fwEnd }));
+  hxZoneWind = 1;
+  const { primary, alt } = hxPick(checks, sicher);
+  if (!primary) return `<div class="cx-text-sm">Kein Schläger im Bag landet ohne quer liegendes Hindernis – siehe Birdie Book Tipp.</div>`;
+
+  const entlang = b.hindernisse.filter(h => hxZoneClass(h, tee) === 'entlang' && hxSideOf(h)).map(h => ({ h, d: null }));
+  const aimHz = primary.side.concat(entlang);
+  const dogleg = /Dogleg|Zick/.test(b.form);
+  const rest = Math.round(len - (primary.lo + primary.hi) / 2);
+
+  let html = `<div class="cx-rec">✅ ${primary.c.name} <span class="cx-dim-inline">Carry ${primary.c.carry.toFixed(0)} m · landet ca. ${primary.lo}–${primary.hi} m</span></div>`;
+  if (primary.hard.length || primary.soft.length) html += `<div class="cx-risk">Risiko: ${primary.hard.concat(primary.soft).join(' · ')}</div>`;
+  const teeAim = hxAimText(primary.c.tend, aimHz, 'Fairway');
+  hxLast.tee = { club: primary.c.name, aim: hxAimShort(teeAim) };
+  hxLast.restEst = dogleg ? null : rest;
+  html += `<div class="cx-text-sm">${teeAim}</div>`;
+  const pl = platzLineFor(primary.c.name);
+  if (pl) html += `<div class="cx-dim">${pl} (TrackMan zum Vergleich: ${primary.c.tend.lr ? 'Tendenz ' + primary.c.tend.lr : 'keine klare Seite'})</div>`;
+  if (wTee && wTee.factor && straight && Math.abs(wTee.head) >= 5) html += `<div class="cx-dim">${hxWindShortTxt(wTee)} – Landezone eingerechnet.</div>`;
+  else if (wTee && wTee.factor && !straight) html += `<div class="cx-dim">${hxWindShortTxt(wTee)} (Richtung Grün – im ${b.form} für den Abschlag nur grob).</div>`;
+  if (wTee && wTee.cross !== null && Math.abs(wTee.cross) >= 10 && straight) html += `<div class="cx-text-sm">${hxWindCrossTxt(wTee)}</div>`;
+  if (!dogleg) html += `<div class="cx-dim">Danach ca. ${rest} m zur Grünmitte (grob).</div>`;
+  else html += `<div class="cx-dim">${b.form} – Rest nur vor Ort bestimmbar, Distanzen sind Luftlinie.</div>`;
+  html += hxStaleNote(primary.c);
+  if (alt) {
+    const why = alt.hard.concat(alt.soft);
+    html += `<div class="cx-alt">${sicher ? '🎲 Offensiv' : '🛡️ Sicher'}: ${alt.c.name} <span class="cx-dim-inline">landet ca. ${alt.lo}–${alt.hi} m${why.length ? ' · ' + why.join(' · ') : ''}</span></div>`;
+  }
+  return html;
+}
+
+// ---------- Annäherung / Par 3 / Vorlage ----------
+function hxPinText(p) {
+  const map = { HL: 'hinten links', HR: 'hinten rechts', VL: 'vorne links', VR: 'vorne rechts', H: 'hinten', V: 'vorne', L: 'links', R: 'rechts', 'Mitte L': 'Mitte links', 'Mitte R': 'Mitte rechts' };
+  return map[p] || p;
+}
+function hxPinDepthAdj(p, depth) {
+  if (!p) return 0;
+  if (p.startsWith('V')) return -Math.round(depth / 4);
+  if (p.startsWith('H')) return Math.round(depth / 4);
+  return 0;
+}
+function hxPinSide(p) {
+  if (!p) return null;
+  if (p.endsWith('L')) return 'links';
+  if (p.endsWith('R')) return 'rechts';
+  return null;
+}
+function hxApproachHtml(b, D, ctx, sicher, opts) {
+  const w = hxWindForShot(`${b._course}:${b.bahn}`);
+  hxZoneWind = (w && w.factor) ? w.factor : 1;
+  try { return hxApproachInner(b, D, ctx, sicher, opts, w); } finally { hxZoneWind = 1; }
+}
+function hxApproachInner(b, D, ctx, sicher, opts, w) {
+  const o = opts || {};
+  const tee = ctx.tee;
+  // Vom Fairway ohne Driver; beim Par-3-Abschlag darf er mitspielen
+  const clubs = hxClubs(0).filter(c => o.fromTee || !/^(driver|dr)$/i.test(c.name.trim()));
+  if (clubs.length === 0) return `<div class="cx-dim">Noch keine Carry-Weiten im Bag.</div>`;
+  const longest = clubs[0];
+  let html = '';
+
+  // Grün nicht erreichbar → Vorlage (Rest-Distanzen der Hindernisse relativ zur eigenen Position)
+  if (D > longest.carry + longest.k + 10) {
+    const relHz = b.hindernisse
+      .filter(h => h.typ !== 'marker' && typeof h.rest === 'number' && h.rest > 0 && h.rest < D)
+      .map(h => ({ h, d: Math.round(D - h.rest) }));
+    const checks = clubs.filter(c => c.carry >= 80).map(c => hxCheckClub(c, relHz, {}));
+    const { primary, alt } = hxPick(checks, sicher);
+    html += `<div class="cx-text-sm">Grün nicht erreichbar (längster Carry ${longest.carry.toFixed(0)} m) – vorlegen.</div>`;
+    if (primary) {
+      const entlang = b.hindernisse.filter(h => hxZoneClass(h, tee) === 'entlang' && hxSideOf(h)).map(h => ({ h, d: null }));
+      html += `<div class="cx-rec">✅ ${primary.c.name} <span class="cx-dim-inline">landet ca. ${primary.lo}–${primary.hi} m · danach ca. ${Math.round(D - (primary.lo + primary.hi) / 2)} m</span></div>`;
+      if (primary.hard.length || primary.soft.length) html += `<div class="cx-risk">Risiko: ${primary.hard.concat(primary.soft).join(' · ')}</div>`;
+      const layAim = hxAimText(primary.c.tend, primary.side.concat(entlang), 'Fairway');
+      hxLast.appr = { club: primary.c.name, aim: 'vorlegen, ' + hxAimShort(layAim) };
+      html += `<div class="cx-text-sm">${layAim}</div>`;
+      html += hxStaleNote(primary.c);
+      if (alt) html += `<div class="cx-alt">${sicher ? '🎲 Offensiv' : '🛡️ Sicher'}: ${alt.c.name} <span class="cx-dim-inline">landet ca. ${alt.lo}–${alt.hi} m${alt.hard.concat(alt.soft).length ? ' · ' + alt.hard.concat(alt.soft).join(' · ') : ''}</span></div>`;
+    }
+    html += `<div class="cx-dim">Hindernis-Abstände aus der Rest-Distanz zum Grün abgeleitet (Luftlinie) – grob.</div>`;
+    return html;
+  }
+
+  // Grün erreichbar
+  const pins = caddyDef(b).pins || {};
+  const pinCode = ctx.pin && pins[b.bahn] ? pins[b.bahn][ctx.pin] : null;
+  const depth = b.gruen[0];
+  const adj = hxPinDepthAdj(pinCode, depth);
+  const targetRaw = sicher ? D : D + adj;
+  const target = (w && w.factor) ? targetRaw * w.factor : targetRaw;
+  if (sicher) {
+    html += `<div class="cx-text-sm">Ziel Grünmitte: ${Math.round(D)} m${pinCode && adj !== 0 ? ` (Fahne ${hxPinText(pinCode)} ≈ ${Math.round(D + adj)} m – bleib bei Grünmitte)` : ''}.</div>`;
+  } else {
+    html += `<div class="cx-text-sm">Ziel ${pinCode ? 'Fahne ' + hxPinText(pinCode) : 'Grünmitte'}: ca. ${Math.round(target)} m${adj !== 0 ? ` (Grünmitte ${Math.round(D)} m, Grün ${depth} m tief)` : ''}.</div>`;
+  }
+  if (w && w.factor && Math.abs(target - targetRaw) >= 2) html += `<div class="cx-text-sm">${hxWindShortTxt(w)} → spielt wie ca. ${Math.round(target)} m.</div>`;
+  let idx = 0, best = Infinity;
+  clubs.forEach((c, i) => { const diff = Math.abs(c.carry - target); if (diff < best) { best = diff; idx = i; } });
+  const base = clubs[idx];
+  let chosen = base, lkNote = '';
+  if (base.tend.lk === 'kurz' && idx > 0) { chosen = clubs[idx - 1]; lkNote = `${base.name} Tendenz kurz (${base.tend.lkPct} %) → einen Schläger mehr.`; }
+  else if (base.tend.lk === 'lang' && idx < clubs.length - 1) { chosen = clubs[idx + 1]; lkNote = `${base.name} Tendenz lang (${base.tend.lkPct} %) → einen Schläger weniger.`; }
+  // Höhe laut Birdie Book (nur Annäherung, nicht vom Abschlag)
+  if (b.annaeherungSchlaeger && !o.fromTee) {
+    const ci = clubs.findIndex(c => c.name === chosen.name);
+    const ni = ci - b.annaeherungSchlaeger; // -1 → ein Schläger weniger = nächstkürzerer
+    if (ni >= 0 && ni < clubs.length) {
+      lkNote += (lkNote ? ' ' : '') + `Grün liegt tiefer (Birdie Book) → ein Schläger weniger: ${clubs[ni].name} statt ${chosen.name}.`;
+      chosen = clubs[ni];
+    }
+  }
+  const diff = chosen.carry - target;
+  const diffTxt = Math.abs(diff) < 1 ? 'passt genau' : (diff > 0 ? `${diff.toFixed(0)} m mehr` : `${Math.abs(diff).toFixed(0)} m weniger`);
+  html += `<div class="cx-rec">✅ ${chosen.name} <span class="cx-dim-inline">Carry ${chosen.carry.toFixed(0)} m · ${diffTxt}</span></div>`;
+  if (lkNote) html += `<div class="cx-text-sm">${lkNote}</div>`;
+
+  // Quer liegende Hindernisse vor dem Grün
+  const davor = b.hindernisse.filter(h => ['M', 'V'].includes(h.seite) && h.typ !== 'marker' && typeof h.rest === 'number' && h.rest > 0 && h.rest < D);
+  davor.forEach(h => {
+    const needCarry = Math.round(D - h.rest);
+    const lo = Math.round(chosen.carry - chosen.k);
+    html += `<div class="${lo < needCarry + 5 ? 'cx-risk' : 'cx-dim'}">Davor: ${hxHzShort(h)} – ${h.rest} m vor dem Grün, Carry mind. ${needCarry} m${lo < needCarry + 5 ? ' (knapp)' : ''}.</div>`;
+  });
+
+  // Seitliches Zielen: Grünbereich + Hindernisse entlang der Bahn
+  const aimHz = b.hindernisse
+    .filter(h => h.typ !== 'marker' && hxSideOf(h) &&
+      (['gruen', 'entlang'].includes(hxZoneClass(h, tee)) || (typeof h.rest === 'number' && h.rest > 0 && h.rest <= 60)))
+    .map(h => ({ h, d: null }));
+  const apprAim = hxAimText(chosen.tend, aimHz, 'Grün');
+  hxLast.appr = { club: chosen.name, aim: sicher ? 'Ziel Grünmitte' : (pinCode ? 'Ziel Fahne ' + hxPinText(pinCode) : 'Ziel Grünmitte'), side: hxAimShort(apprAim) };
+  html += `<div class="cx-text-sm">${apprAim}</div>`;
+  if (w && w.cross !== null && Math.abs(w.cross) >= 10) html += `<div class="cx-text-sm">${hxWindCrossTxt(w)}</div>`;
+  const pinSide = hxPinSide(pinCode);
+  if (!sicher && pinSide && chosen.tend.lr === pinSide && aimHz.some(x => hxSideOf(x.h) === pinSide)) {
+    html += `<div class="cx-risk">Fahne ${pinSide} liegt auf deiner Tendenzseite und dort liegen Hindernisse – nicht direkt anspielen.</div>`;
+  }
+  html += hxStaleNote(chosen);
+  return html;
+}
+
+// ---------- Gesamtblock je Bahn ----------
+function huenxCaddyHtml(hk, opts) {
+  const b = caddyBahnByKey(hk);
+  if (!b) return '';
+  const def = caddyDef(b);
+  const PINS = def.pins || {}, HINWEISE = def.gruenHinweise || {};
+  const o = opts || {};
+  const ctx = hxContext();
+  const tee = ctx.tee;
+  const len = b[tee];
+  const teeName = tee === 'rot' ? 'Rot' : 'Gelb';
+  hxLast = { bahn: hk };
+
+  // Fakten
+  let html = `<div class="cx-facts">Par ${b.par} · ${len} m (${teeName}) · HCP ${b.hcp} · ${b.form} · Grün ${b.gruen[0]}×${b.gruen[1]} m</div>`;
+  if (b.sonstiges) html += `<div class="cx-dim">${escapeHtml(b.sonstiges)}</div>`;
+
+  // Fahne
+  if (ctx.pin && PINS[b.bahn]) {
+    const pc = PINS[b.bahn][ctx.pin];
+    hxLast.pin = `Fahne ${ctx.pin} ${hxPinText(pc)}${PINS[b.bahn]._unsicher ? ' (prüfen)' : ''}`;
+    html += `<div class="cx-facts" style="margin-top:6px;">Fahne ${ctx.pin}: ${hxPinText(pc)}${PINS[b.bahn]._unsicher ? ' <span class="cx-dim-inline">(Skizze gedreht – vor Ort prüfen)</span>' : ''}</div>`;
+  } else if (PINS[b.bahn]) {
+    const p = PINS[b.bahn];
+    html += `<div class="cx-dim" style="margin-top:6px;">Fahne: ${['A', 'B', 'C', 'D'].map(k => `${k} ${hxPinText(p[k])}`).join(' · ')}${o.inRound ? ' – Tagesposition oben bei der Runde eintragen' : ''}</div>`;
+  }
+  if (HINWEISE[b.bahn]) html += `<div class="cx-dim">Grün: ${HINWEISE[b.bahn]}</div>`;
+
+  // Vorgabe → Risikobereitschaft
+  const strokes = hxStrokesOnHole(ctx.sv, b.hcp);
+  const sicher = strokes === null ? true : strokes >= 1;
+  hxLast.strokes = strokes;
+  let vg;
+  if (strokes === null) vg = 'Spielvorgabe fehlt – Caddy spielt vorsichtshalber sicher.';
+  else {
+    let svTxt = `Spielvorgabe ${ctx.sv}`;
+    if (ctx.svSource === 'berechnet') svTxt += ` (berechnet: HCPI ${ctx.svCalc.hcpi.toFixed(1)}, Slope ${ctx.svCalc.r.slope}, CR ${ctx.svCalc.r.cr})`;
+    else if (ctx.svSource === 'geschätzt') svTxt += ` (kein Slope für ${ctx.tee === 'rot' ? 'Rot' : 'diesen Abschlag'} – aus HCPI geschätzt, bitte eintragen)`;
+    vg = strokes === 0
+      ? `${svTxt}: kein Vorgabeschlag – offensivere Variante vertretbar.`
+      : `${svTxt}: ${strokes} Vorgabeschl${strokes === 1 ? 'ag' : 'äge'}, Netto-Par ${b.par + strokes} – eher sicher spielen (Layup, Grünmitte).`;
+  }
+  html += `<div class="caddy-label">Caddy-Einschätzung</div><div class="cx-text-sm">${vg}</div>`;
+
+  // Abschlag
+  if (b.par === 3) {
+    html += `<div class="cx-sub">Abschlag Par 3</div>` + hxApproachHtml(b, len, ctx, sicher, { fromTee: true });
+    if (hxLast.appr) hxLast.tee = { club: hxLast.appr.club, aim: hxLast.appr.side || hxLast.appr.aim };
+    hxLast.appr = null;
+  } else {
+    html += `<div class="cx-sub">Abschlag</div>` + hxTeeHtml(b, ctx, sicher);
+  }
+
+  // Nächster Schlag (nur in der Runde): Entfernung per GPS oder Antippen – keine Tastatur
+  if (o.calc) {
+    const val = caddyApproach[o.holeIndex];
+    const liveOnTee = caddyApproachSrc[o.holeIndex] === 'gps' && val > len - 30;
+    if (val !== undefined && val > 0 && !liveOnTee) {
+      html += `<div class="cx-sub">Nächster Schlag: ${Math.round(val)} m zur Grünmitte</div>` + hxApproachHtml(b, val, ctx, sicher);
+    }
+  }
+  html += `<div class="cx-dim" style="margin-top:6px;">Streuung aus je 6 TrackMan-Schlägen – Tendenz, keine Gewissheit.</div>`;
+
+  // GPS: Grünmitte einmalig speichern
+  if (o.calc) {
+    const g = loadGreens()[hk];
+    html += `<div class="cx-sub">GPS Grünmitte</div>
+      <div class="cx-dim">${g ? `Gespeichert am ${g.date} (±${Math.round(g.acc)} m).` : 'Noch nicht gespeichert. Einmal mitten auf dem Grün stehen und tippen – danach misst die App die Entfernung per Knopfdruck.'}</div>
+      <button type="button" class="btn-gold" style="margin-top:6px;" onclick="caddySaveGreen('${hk}')">📍 ${g ? 'Grünmitte neu setzen' : 'Grünmitte hier speichern'}</button>`;
+  }
+
+  // Birdie Book: Lesetext + Hindernisliste
+  html += `<div class="caddy-label">Birdie Book Tipp</div><div class="cx-tipp">${escapeHtml(b.tipp)}</div>`;
+  const hzList = b.hindernisse.map(h => {
+    const d = typeof h[tee] === 'number' ? `${h[tee]} m` : '';
+    const r = typeof h.rest === 'number' ? ` · Rest ${h.rest} m` : '';
+    return `<div class="cx-hz"><span>${HX_TYP_LABEL[h.typ] || h.typ} ${HX_SEITE_LABEL[h.seite] || ''}${h.info ? ' – ' + escapeHtml(h.info) : ''}</span><span class="cx-hz-d">${d}${r}</span></div>`;
+  }).join('');
+  html += `<details class="cx-details"><summary>Hindernisse (${b.hindernisse.length})</summary>${hzList}</details>`;
+  return html;
+}
+// Empfohlener Abschlagschläger einer Hünxerwald-Bahn (für "Empfehlung befolgt?")
+function hxRecForHole(hk) {
+  huenxCaddyHtml(hk, {});
+  return hxLast.tee ? hxLast.tee.club : null;
+}
+
+// ---------- GPS ----------
+const GREENS_KEY = 'golfHuenxGreens';
+let caddyGpsMsg = null;
+// Alte Schlüssel ("14") stammen aus der Zeit, als nur Hünxerwald existierte → "huenxerwald:14"
+function migrateGreenKeys(g) {
+  const out = {};
+  Object.keys(g || {}).forEach(k => { out[/^\d+$/.test(k) ? `huenxerwald:${k}` : k] = g[k]; });
+  return out;
+}
+function loadGreens() {
+  try {
+    const raw = localStorage.getItem(GREENS_KEY);
+    const g = raw ? JSON.parse(raw) : {};
+    if (Object.keys(g).some(k => /^\d+$/.test(k))) { const m = migrateGreenKeys(g); localStorage.setItem(GREENS_KEY, JSON.stringify(m)); return m; }
+    return g;
+  } catch (e) { return {}; }
+}
+function saveGreens(g) { try { localStorage.setItem(GREENS_KEY, JSON.stringify(g)); } catch (e) {} }
+function gpsDistance(a, b) {
+  const R = 6371000, toRad = x => x * Math.PI / 180;
+  const dLat = toRad(b.lat - a.lat), dLon = toRad(b.lon - a.lon);
+  const s = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(s));
+}
+function gpsErrorText(err) {
+  if (!navigator.geolocation) return 'GPS wird von diesem Browser nicht unterstützt.';
+  if (err && err.code === 1) return 'Standortzugriff verweigert – in den Browser-Einstellungen erlauben.';
+  if (err && err.code === 3) return 'GPS hat zu lange gebraucht – bitte nochmal tippen.';
+  return 'Kein GPS-Signal – bitte nochmal tippen.';
+}
+function gpsGet(ok) {
+  if (!navigator.geolocation) { caddyGpsMsg = gpsErrorText(null); renderHolesUI(); return; }
+  caddyGpsMsg = 'GPS sucht …'; renderHolesUI();
+  navigator.geolocation.getCurrentPosition(pos => { caddyGpsMsg = null; ok(pos.coords); },
+    err => { caddyGpsMsg = gpsErrorText(err); renderHolesUI(); },
+    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
+}
+// ---------- Wetter / Wind (Open-Meteo, ohne Schlüssel, braucht Mobilfunk) ----------
+let wxLast = null, wxLoading = false, wxError = null;
+function wxEnabled() { const el = document.getElementById('hx-wind'); return !!(el && el.checked); }
+function wxDirText(deg) {
+  const n = ['N', 'NO', 'O', 'SO', 'S', 'SW', 'W', 'NW'];
+  return n[Math.round(((deg % 360) + 360) % 360 / 45) % 8];
+}
+function wxMaybeFetch() {
+  if (!wxEnabled() || wxLoading || typeof fetch !== 'function') return;
+  if (wxLast && Date.now() - wxLast.t < 15 * 60000) return;
+  if (wxError && Date.now() - wxError.t < 2 * 60000) return;
+  const def = caddyCurrentDef();
+  const pos = gpsLast || (def && def.latlon) || { lat: 51.66, lon: 6.77 };
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${pos.lat.toFixed(3)}&longitude=${pos.lon.toFixed(3)}`
+    + `&current=wind_speed_10m,wind_direction_10m,wind_gusts_10m,temperature_2m&wind_speed_unit=kmh&timezone=auto`;
+  wxLoading = true;
+  fetch(url).then(r => r.json()).then(j => {
+    const c = j.current || {};
+    if (typeof c.wind_speed_10m !== 'number') throw new Error('keine Daten');
+    wxLast = { speed: c.wind_speed_10m, dir: c.wind_direction_10m, gust: c.wind_gusts_10m, temp: c.temperature_2m, t: Date.now() };
+    wxError = null;
+  }).catch(() => { wxError = { t: Date.now() }; })
+    .finally(() => { wxLoading = false; if (typeof caddyRefreshCard === 'function') caddyRefreshCard(); });
+}
+function gpsBearing(a, b) {
+  const toRad = x => x * Math.PI / 180, toDeg = x => x * 180 / Math.PI;
+  const y = Math.sin(toRad(b.lon - a.lon)) * Math.cos(toRad(b.lat));
+  const x = Math.cos(toRad(a.lat)) * Math.sin(toRad(b.lat)) - Math.sin(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.cos(toRad(b.lon - a.lon));
+  return (toDeg(Math.atan2(y, x)) + 360) % 360;
+}
+// Wind relativ zur Schlagrichtung (Ball → Grünmitte). Ohne Position/Grün nur Richtung + Stärke.
+// Faustregel: je km/h Gegenwind ca. 0,6 % länger, je km/h Rückenwind ca. 0,3 % kürzer.
+function hxWindForShot(hk) {
+  if (!wxEnabled() || !wxLast) return null;
+  const res = { speed: wxLast.speed, gust: wxLast.gust, dir: wxLast.dir, head: null, cross: null, factor: null };
+  const g = loadGreens()[hk];
+  if (g && gpsLast && Date.now() - gpsLast.t < 60000 && gpsDistance(gpsLast, g) > 20) {
+    const brg = gpsBearing(gpsLast, g);
+    const rel = (wxLast.dir - brg) * Math.PI / 180;
+    res.head = wxLast.speed * Math.cos(rel);
+    res.cross = wxLast.speed * Math.sin(rel); // > 0: Wind von rechts
+    res.factor = res.head >= 0 ? 1 + 0.006 * res.head : 1 + 0.003 * res.head;
+  }
+  return res;
+}
+function hxWindShortTxt(w) {
+  if (w.head === null) return `Wind ${Math.round(w.speed)} km/h aus ${wxDirText(w.dir)}`;
+  const hd = Math.round(Math.abs(w.head));
+  return hd < 3 ? `Kaum Längs-Wind` : `${hd} km/h ${w.head > 0 ? 'Gegenwind' : 'Rückenwind'}`;
+}
+function hxWindCrossTxt(w) {
+  const s = w.cross > 0 ? 'rechts' : 'links';
+  return `Seitenwind ${Math.round(Math.abs(w.cross))} km/h von ${s} → ${s} vorhalten.`;
+}
+
+// ---------- Bildschirm wach halten (nur mit Live-Distanz) ----------
+let wakeLock = null, wakeLockPending = false;
+async function wakeLockSync() {
+  const want = gpsWatchId !== null && document.visibilityState === 'visible';
+  try {
+    if (want && !wakeLock && !wakeLockPending && navigator.wakeLock) {
+      wakeLockPending = true;
+      try { wakeLock = await navigator.wakeLock.request('screen'); } finally { wakeLockPending = false; }
+      wakeLock.addEventListener('release', () => { wakeLock = null; });
+    } else if (!want && wakeLock) { await wakeLock.release(); wakeLock = null; }
+  } catch (e) { wakeLock = null; }
+}
+document.addEventListener('visibilitychange', () => { wakeLockSync(); });
+
+// ---------- Hindernisse ab dem Ball (aus Rest-Distanz zum Grün) ----------
+function hxHazardsAheadTxt(b, D) {
+  const ahead = b.hindernisse
+    .filter(h => h.typ !== 'marker' && typeof h.rest === 'number' && h.rest > 0 && h.rest < D - 15)
+    .map(h => ({ h, d: Math.round(D - h.rest) }))
+    .sort((a, c) => a.d - c.d).slice(0, 3);
+  if (!ahead.length) return '';
+  const lbl = x => `${HX_TYP_LABEL[x.h.typ] || x.h.typ} ${['M', 'V'].includes(x.h.seite) ? 'quer' : (HX_SEITE_LABEL[x.h.seite] || '')}`.trim();
+  const dog = /Dogleg|Zick/.test(b.form);
+  return `⚠️ ${ahead.map(x => `${lbl(x)} in ~${x.d} m`).join(' · ')}${dog ? ' (Dogleg – grob)' : ''}`;
+}
+
+// ---------- Wettspiel-Modus (Regel 4.3) ----------
+// Erlaubt: Distanz (GPS), Fahnenlage, Hindernis-Infos aus dem Birdie Book, Wetter aus der Vorhersage,
+// Regelbuch, Aufzeichnen von Daten, Historie aus früheren Runden.
+// Nicht erlaubt: Schläger-/Zielempfehlung aus der Ballposition, Wind/Höhe in eine Empfehlung umgerechnet.
+function competitionMode() { const el = document.getElementById('competition-mode'); return !!(el && el.checked); }
+function caddyCompetitionCardHtml(h, hk, histLine) {
+  const b = caddyBahnByKey(hk);
+  const def = caddyDef(b);
+  const ctx = hxContext();
+  const i = currentHoleIndex;
+  const len = b[ctx.tee];
+  const PINS = def.pins || {}, HINWEISE = def.gruenHinweise || {};
+  let head = `<div class="comp-banner">⚖️ Wettspiel – nur Informationen, keine Empfehlungen</div>`;
+  head += `<div class="cx-dim" style="margin:0 0 4px;">${histLine}</div>`;
+  head += `<div class="cx-facts">Par ${b.par} · ${len} m (${ctx.tee === 'rot' ? 'Rot' : 'Gelb'}) · HCP ${b.hcp} · ${escapeHtml(b.form)}</div>`;
+  const meta = [];
+  if (ctx.pin && PINS[b.bahn]) meta.push(`Fahne ${ctx.pin} ${hxPinText(PINS[b.bahn][ctx.pin])}${PINS[b.bahn]._unsicher ? ' (prüfen)' : ''}`);
+  const strokes = hxStrokesOnHole(ctx.sv, b.hcp);
+  if (strokes !== null) meta.push(strokes === 0 ? 'kein Vorgabeschlag' : `${strokes} Vorgabeschl${strokes === 1 ? 'ag' : 'äge'}`);
+  if (wxEnabled()) {
+    wxMaybeFetch();
+    meta.push(wxLast ? `🌬️ ${Math.round(wxLast.speed)} km/h aus ${wxDirText(wxLast.dir)}${wxLast.gust ? `, Böen ${Math.round(wxLast.gust)}` : ''} (Vorhersage)` : '🌬️ kein Wetter');
+  }
+  if (meta.length) head += `<div class="cx-dim" style="margin-top:2px;">${meta.join(' · ')}</div>`;
+
+  const dist = caddyApproach[i];
+  const onTee = caddyApproachSrc[i] === 'gps' && dist > len - 30;
+  if (dist && !onTee) {
+    const hz = hxHazardsAheadTxt(b, dist);
+    if (hz) head += `<div class="cx-text-sm" style="color:var(--gold);">${hz}</div>`;
+  }
+  const hasGreen = !!loadGreens()[hk];
+  const live = gpsLiveEnabled() && hasGreen && !gpsLiveError && gpsWatchId !== null;
+  const distRow = `<div class="cx-dist-row">
+      ${live
+        ? `<div class="cx-live">📍 ${caddyApproachSrc[i] === 'gps' && dist ? `<strong>${Math.round(dist)} m</strong>` : '…'}<span>${gpsLast ? `±${Math.round(gpsLast.acc)} m` : 'sucht'}</span></div>`
+        : `<button type="button" class="btn-primary cx-gps-btn" onclick="caddyMeasure(${i}, '${hk}')" ${hasGreen ? '' : 'style="opacity:.55;"'}>📍 Entfernung</button>
+           ${dist && caddyApproachSrc[i] === 'gps' ? `<div class="cx-live"><strong>${Math.round(dist)} m</strong><span>zur Grünmitte</span></div>` : ''}`}
+    </div>
+    ${caddyGpsMsg ? `<div class="cx-dim">${caddyGpsMsg}</div>` : ''}`;
+
+  // Details: nur Platzinformationen (wie ein Yardage Book)
+  let det = `<div class="cx-facts">Grün ${b.gruen[0]}×${b.gruen[1]} m</div>`;
+  if (b.sonstiges) det += `<div class="cx-dim">${escapeHtml(b.sonstiges)}</div>`;
+  if (HINWEISE[b.bahn]) det += `<div class="cx-dim">Grün: ${HINWEISE[b.bahn]}</div>`;
+  det += `<div class="caddy-label">Birdie Book</div><div class="cx-tipp">${escapeHtml(b.tipp)}</div>`;
+  det += `<details class="cx-details"><summary>Hindernisse (${b.hindernisse.length})</summary>${b.hindernisse.map(hz => {
+    const d = typeof hz[ctx.tee] === 'number' ? `${hz[ctx.tee]} m` : '';
+    const r = typeof hz.rest === 'number' ? ` · Rest ${hz.rest} m` : '';
+    return `<div class="cx-hz"><span>${HX_TYP_LABEL[hz.typ] || hz.typ} ${HX_SEITE_LABEL[hz.seite] || ''}${hz.info ? ' – ' + escapeHtml(hz.info) : ''}</span><span class="cx-hz-d">${d}${r}</span></div>`;
+  }).join('')}</details>`;
+  const g = loadGreens()[hk];
+  det += `<div class="cx-sub">GPS Grünmitte</div><div class="cx-dim">${g ? `Gespeichert am ${g.date} (±${Math.round(g.acc)} m).` : 'Noch nicht gespeichert.'}</div>
+    <button type="button" class="btn-gold" style="margin-top:6px;" onclick="caddySaveGreen('${hk}')">📍 ${g ? 'Grünmitte neu setzen' : 'Grünmitte hier speichern'}</button>`;
+
+  return `<div class="caddy-card" style="border-color:var(--card-border);">
+    ${head}
+    ${distRow}
+    <div class="rb-toggle-hint" style="text-align:left; margin-top:8px; cursor:pointer; color:var(--gold);" onclick="caddyToggleDetails(this)">${caddyDetailsOpen ? 'Details ▴' : 'Details ▾'}</div>
+    <div style="display:${caddyDetailsOpen ? 'block' : 'none'}; margin-top:8px; padding-top:8px; border-top:1px solid var(--card-border);">${det}</div>
+  </div>`;
+}
+
+function caddyInfoOnlyHtml(hk) {
+  const b = caddyBahnByKey(hk);
+  if (!b) return '';
+  const def = caddyDef(b), ctx = hxContext();
+  const PINS = def.pins || {}, HINWEISE = def.gruenHinweise || {};
+  let html = `<div class="comp-banner">⚖️ Wettspiel – nur Informationen, keine Empfehlungen</div>`;
+  html += `<div class="cx-facts">Par ${b.par} · ${b[ctx.tee]} m (${ctx.tee === 'rot' ? 'Rot' : 'Gelb'}) · HCP ${b.hcp} · ${escapeHtml(b.form)} · Grün ${b.gruen[0]}×${b.gruen[1]} m</div>`;
+  if (b.sonstiges) html += `<div class="cx-dim">${escapeHtml(b.sonstiges)}</div>`;
+  if (PINS[b.bahn]) html += `<div class="cx-dim">Fahne: ${['A', 'B', 'C', 'D'].map(k => `${k} ${hxPinText(PINS[b.bahn][k])}`).join(' · ')}</div>`;
+  if (HINWEISE[b.bahn]) html += `<div class="cx-dim">Grün: ${HINWEISE[b.bahn]}</div>`;
+  html += `<div class="caddy-label">Birdie Book</div><div class="cx-tipp">${escapeHtml(b.tipp)}</div>`;
+  html += `<details class="cx-details"><summary>Hindernisse (${b.hindernisse.length})</summary>${b.hindernisse.map(hz => {
+    const d = typeof hz[ctx.tee] === 'number' ? `${hz[ctx.tee]} m` : '';
+    const r = typeof hz.rest === 'number' ? ` · Rest ${hz.rest} m` : '';
+    return `<div class="cx-hz"><span>${HX_TYP_LABEL[hz.typ] || hz.typ} ${HX_SEITE_LABEL[hz.seite] || ''}${hz.info ? ' – ' + escapeHtml(hz.info) : ''}</span><span class="cx-hz-d">${d}${r}</span></div>`;
+  }).join('')}</details>`;
+  return html;
+}
+
+// ---------- Backup-Erinnerung ----------
+const BACKUP_KEY = 'golfLastBackupDate';
+function backupDaysSince() {
+  const d = localStorage.getItem(BACKUP_KEY);
+  if (!d) return null;
+  return Math.floor((new Date(todayStr()) - new Date(d)) / 86400000);
+}
+function backupReminderRender(force) {
+  const el = document.getElementById('backup-reminder');
+  if (!el) return;
+  const n = loadRounds().length;
+  const days = backupDaysSince();
+  const due = n > 0 && (force || days === null || days >= 7);
+  if (!due) { el.style.display = 'none'; return; }
+  el.style.display = 'flex';
+  el.innerHTML = `<span>💾 ${days === null ? 'Noch kein Backup.' : `Letztes Backup vor ${days} Tag${days === 1 ? '' : 'en'}.`} Der Browser kann gespeicherte Daten löschen.</span>
+    <button type="button" class="btn-gold" onclick="document.getElementById('export-btn').click()">Backup jetzt</button>`;
+}
+
+// ---------- Rückblick nach der Runde ----------
+function roundReviewHtml(r) {
+  if (!r || !r.holesData) return '';
+  const lines = [];
+  const pen = r.holesData.map((hd, i) => ({ hd, i })).filter(x => x.hd.penalties > 0);
+  if (pen.length) lines.push(`Strafschläge: ${pen.map(x => `Loch ${x.i + 1} (${x.hd.penalties})`).join(', ')}.`);
+  else if (r.holesData.some(hd => hd.penalties !== undefined)) lines.push('Keine Strafschläge.');
+  const rec = r.holesData.map((hd, i) => ({ hd, i })).filter(x => x.hd.teeClub && x.hd.caddyRec);
+  if (rec.length) {
+    const off = rec.filter(x => x.hd.teeClub !== x.hd.caddyRec);
+    const offBad = off.filter(x => x.hd.strokes - x.hd.par >= 2);
+    lines.push(`Caddy-Abschlag: ${rec.length - off.length} von ${rec.length} befolgt.`
+      + (offBad.length ? ` Abweichung mit Doppelbogey+: ${offBad.map(x => `Loch ${x.i + 1} (${x.hd.teeClub} statt ${x.hd.caddyRec})`).join(', ')}.` : ''));
+  }
+  const three = r.holesData.filter(hd => hd.putts >= 3).length;
+  const dbl = r.holesData.filter(hd => hd.strokes - hd.par >= 2).length;
+  const worst = three >= dbl ? `${three} × 3-Putt` : `${dbl} × Doppelbogey+`;
+  lines.push(`Für den Trainer: ${three || dbl ? worst + ' war heute das größte Leck.' : 'keine 3-Putts und keine Doppelbogeys.'}`);
+  return `<div class="review-card"><div class="caddy-label" style="margin-top:0;">Rückblick</div>${lines.map(l => `<div class="cx-text-sm">${l}</div>`).join('')}
+    <button type="button" class="settings-toggle" style="margin:8px 0 0;" onclick="this.parentElement.remove()">schließen</button></div>`;
+}
+
+// ---------- Live-Distanz (watchPosition) ----------
+let gpsWatchId = null, gpsLast = null, gpsLastRefresh = 0, gpsLiveError = null;
+function gpsLiveEnabled() { const el = document.getElementById('hx-live'); return !!(el && el.checked); }
+function gpsLiveShouldRun() {
+  return gpsLiveEnabled() && !gpsLiveError && !!navigator.geolocation && typeof navigator.geolocation.watchPosition === 'function' && mode === 'scorecard' && holeViewMode === 'single'
+    && hasCaddyCourse(document.getElementById('course').value);
+}
+function gpsLiveSync() {
+  const run = gpsLiveShouldRun();
+  if (run && gpsWatchId === null) {
+    gpsWatchId = navigator.geolocation.watchPosition(gpsOnFix, gpsOnError, { enableHighAccuracy: true, maximumAge: 2000, timeout: 20000 });
+  } else if (!run && gpsWatchId !== null) {
+    navigator.geolocation.clearWatch(gpsWatchId); gpsWatchId = null;
+  }
+  wakeLockSync();
+}
+// Letzte Live-Position auf das aktuelle Loch anwenden (true = Wert geändert)
+function gpsApplyLast(i) {
+  if (!gpsLiveEnabled() || !gpsLast || caddyManual[i] || Date.now() - gpsLast.t > 30000 || gpsLast.acc > 25) return false;
+  const h = currentHoleValues[i];
+  if (!h || !hasCaddyCourse(h.subCourse)) return false;
+  const g = loadGreens()[caddyHoleKey(h.subCourse, h.subHole)];
+  if (!g) return false;
+  const d = Math.round(gpsDistance(gpsLast, g));
+  const old = caddyApproach[i];
+  if (old !== undefined && caddyApproachSrc[i] === 'gps' && Math.abs(old - d) < 2) return false;
+  caddyApproach[i] = d; caddyApproachSrc[i] = 'gps';
+  return true;
+}
+function caddyRefreshCard() {
+  const wrap = document.getElementById('caddy-card-wrap');
+  const h = currentHoleValues[currentHoleIndex];
+  if (wrap && h && holeViewMode === 'single') wrap.innerHTML = caddyQuickCardHtml(h);
+}
+function gpsOnFix(pos) {
+  gpsLast = { lat: pos.coords.latitude, lon: pos.coords.longitude, acc: pos.coords.accuracy, t: Date.now() };
+  if (caddyGpsMsg && /GPS|Signal/.test(caddyGpsMsg)) caddyGpsMsg = null;
+  const changed = gpsApplyLast(currentHoleIndex);
+  if (changed || Date.now() - gpsLastRefresh > 5000) { gpsLastRefresh = Date.now(); caddyRefreshCard(); }
+}
+function gpsOnError(err) {
+  if (err && err.code === 1) { gpsLiveError = err; gpsLiveSync(); }
+  caddyGpsMsg = gpsErrorText(err);
+  caddyRefreshCard();
+}
+function caddyMeasure(i, hk) {
+  const g = loadGreens()[hk];
+  if (!g) { caddyGpsMsg = 'Grünmitte dieser Bahn noch nicht gespeichert (Details → GPS Grünmitte).'; renderHolesUI(); return; }
+  gpsGet(c => {
+    caddyApproach[i] = Math.round(gpsDistance({ lat: c.latitude, lon: c.longitude }, g));
+    caddyApproachSrc[i] = 'gps';
+    if (c.accuracy > 15) caddyGpsMsg = `GPS ungenau (±${Math.round(c.accuracy)} m).`;
+    renderHolesUI();
+  });
+}
+function caddySaveGreen(hk) {
+  const greens = loadGreens();
+  const bahnNr = hk.split(':')[1];
+  if (greens[hk] && !confirm(`Grünmitte Bahn ${bahnNr} überschreiben?`)) return;
+  gpsGet(c => {
+    greens[hk] = { lat: c.latitude, lon: c.longitude, acc: c.accuracy, date: todayStr() };
+    saveGreens(greens);
+    caddyGpsMsg = c.accuracy > 10
+      ? `Gespeichert, aber nur ±${Math.round(c.accuracy)} m genau – bei besserem Empfang neu setzen.`
+      : `Grünmitte Bahn ${bahnNr} gespeichert (±${Math.round(c.accuracy)} m).`;
+    renderHolesUI();
+  });
+}
+
+function caddySetApproach(i, val) {
+  const n = parseFloat(val);
+  if (isNaN(n) || n <= 0 || (caddyApproach[i] === n && caddyApproachSrc[i] === 'manual')) {
+    delete caddyApproach[i]; delete caddyApproachSrc[i];
+  } else { caddyApproach[i] = n; caddyApproachSrc[i] = 'manual'; }
+  caddyManual[i] = true;  // Live-Werte überschreiben den angetippten Wert nicht mehr
+  renderHolesUI();
+}
+function caddyResumeLive(i) {
+  delete caddyManual[i]; delete caddyApproach[i]; delete caddyApproachSrc[i];
+  renderHolesUI();
+}
+function caddyToggleDetails(el) {
+  caddyDetailsOpen = !caddyDetailsOpen;
+  const box = el.nextElementSibling;
+  box.style.display = caddyDetailsOpen ? 'block' : 'none';
+  el.textContent = caddyDetailsOpen ? 'Details ▴' : 'Details ▾';
+}
+
+// ---------- Streuung im Bag: Erstbefüllung + Editor ----------
+function applyStreuungSeedOnce() {
+  const FLAG = 'golfPerformanceBagStreuungV1';
+  if (localStorage.getItem(FLAG)) return;
+  const bag = loadBag().map(bagMigrateEntry);
+  STREUUNG_SEED.forEach(s => {
+    const club = bag.find(c => c.name.trim().toLowerCase() === s.bagName.toLowerCase());
+    if (!club) return;
+    // Eigene manuelle Carry-Werte nicht überschreiben – nur leere Felder füllen.
+    if (club.carry === null || club.carry === undefined) {
+      club.carry = s.carry; club.total = s.total; club.consistency = s.carryKonstanz; club.measuredDate = s.datum;
+    }
+    if (s.pct && !club.streuung) {
+      club.streuung = { ...s.pct, basis: 'carry', datum: s.datum, refCarry: s.carry };
+    }
+  });
+  saveBag(bag);
+  localStorage.setItem(FLAG, '1');
+}
+const bagStreuOpen = new Set();
+function bagStreuSummaryHtml(club) {
+  const st = club.streuung;
+  if (!st) return `<span class="cx-dim-inline">Streuung: –</span>`;
+  const t = streuTendenz(st);
+  const v = (k, lbl) => {
+    const val = st[k] === null || st[k] === undefined ? '–' : st[k];
+    const hit = (t.lr === k || t.lk === k);
+    return hit ? `<strong style="color:var(--gold);">${lbl} ${val}</strong>` : `${lbl} ${val}`;
+  };
+  const stale = streuVeraltet(st.datum);
+  let abgleich = '';
+  if (typeof st.refCarry === 'number' && typeof club.carry === 'number' && Math.abs(st.refCarry - club.carry) > 5) {
+    abgleich = ` · <span style="color:var(--red);">gemessen bei Carry ${st.refCarry} m, Bag ${club.carry} m</span>`;
+  }
+  return `<span class="cx-dim-inline">Streuung: ${v('links', 'L')} · ${v('rechts', 'R')} · ${v('mitte', 'M')} · ${v('lang', 'Lang')} · ${v('kurz', 'Kurz')} % · ${st.basis === 'total' ? 'Total' : 'Carry'}${st.datum ? ' · ' + st.datum : ''}${stale ? ' · veraltet' : ''}${abgleich}</span>`;
+}
+function bagStreuEditorHtml(club) {
+  const st = club.streuung || {};
+  const f = (k, lbl) => `<div><label>${lbl} %</label><input type="number" min="0" max="100" id="st-${club.id}-${k}" value="${st[k] !== undefined && st[k] !== null ? st[k] : ''}"></div>`;
+  return `<div class="bag-streu-editor">
+    <div class="bag-streu-grid">${f('lang', 'Lang')}${f('kurz', 'Kurz')}${f('links', 'Links')}${f('rechts', 'Rechts')}${f('mitte', 'Mitte')}</div>
+    <div class="bag-streu-grid2">
+      <div><label>Basis</label><select id="st-${club.id}-basis"><option value="carry"${st.basis !== 'total' ? ' selected' : ''}>Carry</option><option value="total"${st.basis === 'total' ? ' selected' : ''}>Total</option></select></div>
+      <div><label>Messdatum</label><input type="date" id="st-${club.id}-datum" value="${st.datum || ''}"></div>
+    </div>
+    <div class="form-actions" style="margin-top:10px;">
+      <button type="button" class="btn-gold" onclick="bagStreuSave('${club.id}')">Streuung speichern</button>
+      <button type="button" class="btn-danger" onclick="bagStreuClear('${club.id}')">Leeren</button>
+    </div>
+  </div>`;
+}
+function bagStreuToggle(id) {
+  if (bagStreuOpen.has(id)) bagStreuOpen.delete(id); else bagStreuOpen.add(id);
+  renderBag();
+}
+function bagStreuSave(id) {
+  const bag = loadBag().map(bagMigrateEntry);
+  const club = bag.find(c => c.id === id);
+  if (!club) return;
+  const num = k => { const v = document.getElementById(`st-${id}-${k}`).value; return v === '' ? null : Math.max(0, Math.min(100, parseFloat(v))); };
+  const st = { lang: num('lang'), kurz: num('kurz'), links: num('links'), rechts: num('rechts'), mitte: num('mitte'),
+    basis: document.getElementById(`st-${id}-basis`).value, datum: document.getElementById(`st-${id}-datum`).value || null };
+  // Neue Messung → Referenz-Carry auf aktuellen Bag-Wert setzen (kein Abgleich-Hinweis mehr)
+  st.refCarry = typeof club.carry === 'number' ? club.carry : null;
+  club.streuung = st;
+  saveBag(bag);
+  bagStreuOpen.delete(id);
+  renderBag();
+}
+function bagStreuClear(id) {
+  const bag = loadBag().map(bagMigrateEntry);
+  const club = bag.find(c => c.id === id);
+  if (!club) return;
+  delete club.streuung;
+  saveBag(bag);
+  bagStreuOpen.delete(id);
+  renderBag();
+}
+
+function hxRoundValues(courseKey) {
+  if (!hasCaddyCourse(courseKey)) return {};
+  const sv = document.getElementById('hx-sv').value;
+  return {
+    pinPos: document.getElementById('hx-pin').value || null,
+    tee: document.getElementById('hx-tee').value || 'gelb',
+    spielvorgabe: sv === '' ? null : parseInt(sv),
+  };
+}
+function hxRestoreFromSettings() {
+  const s = hxLoadSettings();
+  document.getElementById('hx-tee').value = s.tee || 'gelb';
+  document.getElementById('hx-sv').value = (s.sv !== undefined && s.sv !== null) ? s.sv : '';
+  document.getElementById('hx-pin').value = (s.pin && s.pinDate === todayStr()) ? s.pin : '';
+  hxUpdateSvPlaceholder();
+  hxUpdateRoundFieldsVisibility();
+}
+
 // ---------- Init ----------
 initCourseSelect();
+hxInitRoundFields();
+document.getElementById('team-match').addEventListener('change', function() {
+  if (this.checked) document.getElementById('competition-mode').checked = true;
+  if (mode === 'scorecard') renderHolesUI();
+});
+document.getElementById('competition-mode').addEventListener('change', () => {
+  caddyDetailsOpen = false;
+  document.getElementById('hv-result').innerHTML = '';
+  document.getElementById('bag-rec-result').innerHTML = '';
+  if (mode === 'scorecard') renderHolesUI();
+});
 document.getElementById('date').valueAsDate = new Date();
 setEntryMode('single');
 renderHcpStatus();
 renderAll();
+seedTrackmanIfEmpty();
+seedBagIfEmpty();
+migrateBagDefaultsV2();
+applyRealBagDataOnce();
+applyStreuungSeedOnce();
+if (mode === 'scorecard') renderHolesUI();
+backupReminderRender(false);
 </script>
 </body>
 </html>
