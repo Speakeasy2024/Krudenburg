@@ -117,7 +117,19 @@
   .single-hole-big .hole-extra-row { justify-content: center; padding-left: 0; }
 
   .problem-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--card-border); }
-  #problem-list { max-height: 480px; overflow-y: auto; }
+  .rank-club { border-top: 1px solid var(--card-border); padding: 12px 0 4px; }
+  .rank-club:first-child { border-top: none; padding-top: 0; }
+  .rank-club > summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .rank-club > summary::-webkit-details-marker { display: none; }
+  .rank-club > summary h3 { font-size: 16px; color: var(--fairway-bright); margin: 0; }
+  .rank-row { display: grid; grid-template-columns: 1fr 90px auto; gap: 12px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--card-border); }
+  .rank-name { font-size: 14px; color: var(--text); }
+  .rank-name small { display: block; font-size: 11px; color: var(--text-dim); }
+  .rank-bar { height: 8px; border-radius: 4px; background: var(--bg-alt); overflow: hidden; }
+  .rank-bar span { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--gold), #c97a5a); }
+  .rank-val { text-align: right; font-size: 15px; font-weight: 600; color: var(--text); white-space: nowrap; }
+  .rank-val small { display: block; font-size: 11px; font-weight: 400; color: var(--text-dim); }
+  .rank-more summary { cursor: pointer; color: var(--gold); font-size: 13px; padding: 10px 0 4px; }
   .problem-row:last-child { border-bottom: none; }
   .problem-bar-bg { flex: 1; height: 8px; background: var(--bg-alt); border-radius: 4px; overflow: hidden; }
   .problem-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--red)); }
@@ -249,6 +261,13 @@
   .cx-hz-d { white-space: nowrap; color: var(--text); }
   .cx-head { font-size: 16px; font-weight: 600; color: var(--fairway-bright); margin-top: 2px; line-height: 1.35; }
   .cx-dist-row { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
+  .tab-bar { position: sticky; top: 0; z-index: 20; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px 0;
+    padding-top: calc(8px + env(safe-area-inset-top, 0px)); margin-bottom: 14px; background: var(--bg); }
+  .tab-bar button { padding: 11px 8px; border-radius: 10px; border: 1px solid var(--card-border); background: var(--card);
+    color: var(--text-dim); font-size: 15px; font-weight: 600; }
+  .tab-bar button.active { border-color: var(--fairway-bright); color: var(--fairway-bright); background: var(--bg-alt); }
+  body.tab-runde section[data-tab="training"], body.tab-training section[data-tab="runde"] { display: none !important; }
+  .hx-more summary { cursor: pointer; color: var(--gold); font-size: 13px; padding: 6px 0; }
   .comp-toggle { display: flex; align-items: flex-start; gap: 8px; font-weight: 400; margin: 0; font-size: 12.5px; color: var(--text);
     background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 8px; padding: 9px 12px; }
   .comp-toggle:has(input:checked) { border-color: var(--gold); background: rgba(201,162,75,0.12); }
@@ -286,192 +305,14 @@
     <span style="font-family:'Fraunces',serif; font-weight:600; font-size:15px; color: var(--bg);">Golf Fortschritt-Tracker</span>
   </div>
   <h1>Fortschritt-Tracker</h1>
-  <p>Nach jeder Runde eintragen – Schnell-Eingabe für die Gesamtzahlen, oder Scorecard-Modus für Loch-für-Loch-Daten inkl. Problemlöcher-Analyse.</p>
-  <p style="font-size:12px; color:var(--text-dim); margin-top:6px;">Golf & More Huckingen · Golfclub Hünxerwald · Golfclub Weselerwald</p>
 </header>
 
 <main>
-  <section style="margin-bottom: 20px;">
-    <div class="card" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;">
-      <div>
-        <div style="font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.06em;">Aktuelles HCP</div>
-        <div id="hcp-current-value" style="font-family:'Fraunces',serif; font-size:32px; font-weight:600; color:var(--fairway-bright);">–</div>
-        <div id="hcp-current-date" style="font-size:12px; color:var(--text-dim);"></div>
-      </div>
-      <button type="button" class="btn-secondary" id="hcp-update-toggle">HCP aktualisieren</button>
-    </div>
-    <div id="hcp-update-panel" class="card" style="display:none; margin-top:10px;">
-      <div class="form-grid">
-        <div>
-          <label for="hcp-new-date">Datum der Änderung</label>
-          <input type="date" id="hcp-new-date">
-        </div>
-        <div>
-          <label for="hcp-new-value">Neues HCP</label>
-          <input type="number" id="hcp-new-value" step="0.1" min="0" placeholder="z. B. 19.1">
-        </div>
-      </div>
-      <div class="form-actions">
-        <button type="button" class="btn-primary" id="hcp-save-btn">Speichern</button>
-        <button type="button" class="btn-secondary" id="hcp-cancel-btn">Abbrechen</button>
-      </div>
-    </div>
-    <button type="button" class="settings-toggle" id="hcp-history-toggle" style="margin-top:10px;">HCP-Verlauf anzeigen</button>
-    <div id="hcp-history-wrap" style="display:none; margin-top:8px;">
-      <div class="card" id="hcp-history-list"></div>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="cz-toggle" id="cz-section-toggle">🔢 Schlagzähler für Mitspieler ▾</h2>
-    <div class="card" id="cz-panel" style="display:none;">
-      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Zum Zählen, wenn du auf dem Turnier für einen Mitspieler markierst – unabhängig von deiner eigenen Runde weiter unten.</p>
-
-      <div class="cz-player-row">
-        <button type="button" class="cz-player-btn active" id="cz-player-a-btn">Spieler A</button>
-        <button type="button" class="cz-player-btn" id="cz-player-b-btn">Spieler B</button>
-      </div>
-
-      <div class="cz-player-row">
-        <button type="button" class="cz-player-btn active" id="cz-holes18-btn">18 Loch</button>
-        <button type="button" class="cz-player-btn" id="cz-holes9-btn">9 Loch</button>
-      </div>
-
-      <div class="cz-hole-indicator">Loch <strong id="cz-hole-num">1</strong> von <span id="cz-hole-total">18</span></div>
-
-      <div class="cz-tap-zone" id="cz-tap-zone">
-        <div class="cz-tap-flash" id="cz-tap-flash"></div>
-        <div class="cz-count" id="cz-count-display">0</div>
-        <div class="cz-tap-hint">antippen für +1 Schlag</div>
-      </div>
-
-      <div class="cz-correction-row">
-        <button type="button" id="cz-undo-btn">− 1 korrigieren</button>
-      </div>
-
-      <div class="cz-nav-row">
-        <button type="button" class="cz-btn-prev" id="cz-prev-hole-btn">‹</button>
-        <button type="button" class="cz-btn-next" id="cz-next-hole-btn">Loch gespeichert → nächstes</button>
-      </div>
-
-      <button type="button" class="settings-toggle" id="cz-log-toggle-btn">Übersicht zum Abgleich mit der Scorekarte anzeigen</button>
-      <div id="cz-log-wrap" style="display:none;">
-        <div class="cz-log-grid" id="cz-log-grid"></div>
-        <div class="cz-log-total">Gesamt <strong id="cz-log-total-val">0</strong></div>
-        <button type="button" class="cz-reset-btn" id="cz-reset-btn">Alles zurücksetzen (neue Runde)</button>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="cz-toggle" id="rb-section-toggle">📖 Regelbuch ▾</h2>
-    <div class="card" id="rb-panel" style="display:none;">
-      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Golfregeln 2023–2026 (R&amp;A/USGA), Kurzfassung der häufigsten Situationen – ersetzt nicht das offizielle Regelbuch, hilft aber für die schnelle Einschätzung auf dem Platz.</p>
-
-      <input type="text" class="rb-search-input" id="rb-search" placeholder="Situation oder Bahn suchen, z. B. &quot;Divot&quot; oder &quot;Bahn 10&quot;...">
-      <div class="rb-filter-row" id="rb-category-filters">
-        <button type="button" class="rb-filter-chip active" data-cat="alle" onclick="rbSetCategory('alle')">Alle</button>
-        <button type="button" class="rb-filter-chip" data-cat="regel" onclick="rbSetCategory('regel')">⚖️ Regeln</button>
-        <button type="button" class="rb-filter-chip" data-cat="etikette" onclick="rbSetCategory('etikette')">🤝 Etikette</button>
-        <button type="button" class="rb-filter-chip" data-cat="kleidung" onclick="rbSetCategory('kleidung')">👕 Kleidung</button>
-      </div>
-      <div class="rb-filter-row" id="rb-hole-filters"></div>
-
-      <div id="rb-hole-status" class="rb-hole-status" style="display:none;"></div>
-
-      <div id="rb-list"></div>
-      <div id="rb-empty" class="rb-empty" style="display:none;">Keine Treffer – anders formulieren oder Bahn-Filter zurücksetzen.</div>
-
-      <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--card-border);">
-        <div style="font-size:12px; color:var(--text-dim); margin-bottom:10px;">Für alles, was hier nicht abgedeckt ist – die vollständigen Original-Dokumente:</div>
-        <div style="display:flex; flex-direction:column; gap:6px;">
-          <a href="https://golfclub-huenxerwald.de/wp-content/uploads/2026/05/Platzregeln-Version-2026.pdf" target="_blank" rel="noopener" class="video-link" style="text-align:left;">📄 Platzregeln (PDF)</a>
-          <a href="https://golfclub-huenxerwald.de/wp-content/uploads/2026/05/Verhaltensvorschriften-fuer-den-Spielbetrieb-und-Clubturniere-2026.pdf" target="_blank" rel="noopener" class="video-link" style="text-align:left;">📄 Verhaltensvorschriften (PDF)</a>
-          <a href="https://golfclub-huenxerwald.de/wp-content/uploads/2026/05/Kleiderordnung-2026.pdf" target="_blank" rel="noopener" class="video-link" style="text-align:left;">📄 Kleiderordnung (PDF)</a>
-          <a href="https://golfclub-huenxerwald.de/wp-content/uploads/2026/05/Rahmenausschreibung_Wettspielordnung_Version-2026.pdf" target="_blank" rel="noopener" class="video-link" style="text-align:left;">📄 Rahmenausschreibung / Wettspielordnung (PDF)</a>
-          <a href="https://www.randa.org/en/rog/the-rules-of-golf" target="_blank" rel="noopener" class="video-link" style="text-align:left;">📖 Offizielle Golfregeln komplett (R&amp;A)</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="cz-toggle" id="tm-section-toggle">🏌️‍♂️ TrackMan ▾</h2>
-    <div class="card" id="tm-panel" style="display:none;">
-      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Deine gemessenen Schlagdaten – getrennt von der Rundenerfassung. Historische Messungen bleiben erhalten, auch wenn neue dazukommen.</p>
-      <div id="tm-session-list"></div>
-
-      <button type="button" class="settings-toggle" id="tm-new-toggle">+ Neue Messung hinzufügen</button>
-      <div id="tm-new-wrap" style="display:none; margin-top:10px;">
-        <p style="font-size:12px; color:var(--text-dim); margin:0 0 10px;">Carry und Total, so weit du sie kennst – leer lassen, was du nicht getestet hast. Die neue Messung wird "Aktuell", die bisherige rutscht automatisch zu "Historisch".</p>
-        <div class="form-grid" style="margin-bottom:10px;">
-          <div>
-            <label for="tm-new-date">Datum der Messung</label>
-            <input type="date" id="tm-new-date">
-          </div>
-          <div>
-            <label for="tm-new-source">Quelle</label>
-            <input type="text" id="tm-new-source" value="TrackMan Combine">
-          </div>
-        </div>
-        <div class="tm-new-row" style="border-bottom:2px solid var(--card-border); padding-bottom:8px;">
-          <div></div><div style="font-size:10px; color:var(--text-dim); text-transform:uppercase;">Carry (m)</div><div style="font-size:10px; color:var(--text-dim); text-transform:uppercase;">Total (m)</div>
-        </div>
-        <div id="tm-new-rows"></div>
-        <div class="form-actions" style="margin-top:14px;">
-          <button type="button" class="btn-primary" id="tm-new-save-btn">Als neue Messung speichern</button>
-          <button type="button" class="btn-secondary" id="tm-new-cancel-btn">Abbrechen</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="cz-toggle" id="hv-section-toggle">🎯 Lochvorschau ▾</h2>
-    <div class="card" id="hv-panel" style="display:none;">
-      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Deine persönliche Historie an einem Loch, verbunden mit deinem Bag – für die Vorbereitung, nicht während des Spiels gedacht.</p>
-      <div class="form-grid" style="margin-bottom:12px;">
-        <div>
-          <label for="hv-club">Verein</label>
-          <select id="hv-club"></select>
-        </div>
-        <div>
-          <label for="hv-bahn">Bahn</label>
-          <select id="hv-bahn"></select>
-        </div>
-        <div>
-          <label for="hv-hole">Loch</label>
-          <select id="hv-hole"></select>
-        </div>
-      </div>
-      <button type="button" class="btn-primary" id="hv-show-btn" style="width:100%; margin-bottom:14px;">Anzeigen</button>
-      <div id="hv-result"></div>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="cz-toggle" id="bag-section-toggle">🎒 Mein Bag ▾</h2>
-    <div class="card" id="bag-panel" style="display:none;">
-      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Deine Schläger mit typischer Weite (Carry, in Metern) – manuell eingetragen, da die TrackMan-Combine-Daten keiner Schlägerzuordnung entsprechen. Leer lassen, was du noch nicht kennst. Streuung je Schläger (TrackMan-Donut) über „bearbeiten“ – nutzt der Hünxerwald-Caddy.</p>
-      <div class="bag-labels"><span>Schläger</span><span>Carry</span><span>Total</span><span></span></div>
-      <div id="bag-list"></div>
-      <div class="bag-add-row">
-        <input type="text" id="bag-new-name" placeholder="Neuer Schläger, z. B. 4 Eisen">
-        <button type="button" class="btn-secondary" id="bag-add-btn">+ Hinzufügen</button>
-      </div>
-
-      <div class="bag-rec-box">
-        <label for="bag-rec-distance" style="font-weight:600;">Schlägerempfehlung</label>
-        <div class="bag-rec-input-row" style="margin-top:8px;">
-          <input type="number" id="bag-rec-distance" placeholder="Entfernung zum Ziel in Metern">
-          <button type="button" class="btn-primary" id="bag-rec-btn">Empfehlen</button>
-        </div>
-        <div id="bag-rec-result"></div>
-      </div>
-    </div>
-  </section>
-
-  <section>
+  <nav class="tab-bar" id="tab-bar">
+    <button type="button" data-tab-btn="runde">⛳ Runde</button>
+    <button type="button" data-tab-btn="training">📊 Training</button>
+  </nav>
+  <section data-tab="runde">
     <h2 id="form-heading">Neue Runde eintragen</h2>
     <div class="card">
       <div id="edit-banner" style="display:none; background: var(--bg-alt); border: 1px solid var(--gold); color: var(--gold); font-size: 13px; padding: 10px 14px; border-radius: 8px; margin-bottom: 14px;">
@@ -525,6 +366,9 @@
                 <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
               </select>
             </div>
+            <details class="hx-more full-row">
+              <summary id="hx-more-summary">Einstellungen</summary>
+              <div class="hx-round-grid" style="margin-top:10px;">
             <div>
               <label for="hx-tee">Abschlag</label>
               <select id="hx-tee">
@@ -546,6 +390,8 @@
               <label for="hx-sv">Spielvorgabe</label>
               <input type="number" id="hx-sv" min="-10" max="54" placeholder="z. B. 21" title="Leer lassen = automatisch aus HCPI, Slope und CR (Gelb). Eintrag überschreibt.">
             </div>
+              </div>
+            </details>
           </div>
         </div>
       </div>
@@ -625,10 +471,6 @@
 
       <div class="form-actions">
         <button type="button" class="btn-primary" id="save-round-btn">Runde speichern</button>
-        <button type="button" class="btn-secondary" id="export-btn">Backup exportieren</button>
-        <button type="button" class="btn-secondary" id="import-btn">Backup importieren</button>
-        <button type="button" class="btn-danger" id="clear-all-btn" style="padding: 11px 22px;">Alle Daten löschen</button>
-        <input type="file" id="import-file" accept="application/json" style="display:none">
       </div>
       <div class="save-msg" id="save-msg"></div>
       <div id="round-review"></div>
@@ -636,14 +478,118 @@
     </div>
   </section>
 
-  <section>
+  <section data-tab="runde">
+    <h2 class="cz-toggle" id="cz-section-toggle">🔢 Schlagzähler für Mitspieler ▾</h2>
+    <div class="card" id="cz-panel" style="display:none;">
+      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Zum Zählen, wenn du auf dem Turnier für einen Mitspieler markierst – unabhängig von deiner eigenen Runde weiter unten.</p>
+
+      <div class="cz-player-row">
+        <button type="button" class="cz-player-btn active" id="cz-player-a-btn">Spieler A</button>
+        <button type="button" class="cz-player-btn" id="cz-player-b-btn">Spieler B</button>
+      </div>
+
+      <div class="cz-player-row">
+        <button type="button" class="cz-player-btn active" id="cz-holes18-btn">18 Loch</button>
+        <button type="button" class="cz-player-btn" id="cz-holes9-btn">9 Loch</button>
+      </div>
+
+      <div class="cz-hole-indicator">Loch <strong id="cz-hole-num">1</strong> von <span id="cz-hole-total">18</span></div>
+
+      <div class="cz-tap-zone" id="cz-tap-zone">
+        <div class="cz-tap-flash" id="cz-tap-flash"></div>
+        <div class="cz-count" id="cz-count-display">0</div>
+        <div class="cz-tap-hint">antippen für +1 Schlag</div>
+      </div>
+
+      <div class="cz-correction-row">
+        <button type="button" id="cz-undo-btn">− 1 korrigieren</button>
+      </div>
+
+      <div class="cz-nav-row">
+        <button type="button" class="cz-btn-prev" id="cz-prev-hole-btn">‹</button>
+        <button type="button" class="cz-btn-next" id="cz-next-hole-btn">Loch gespeichert → nächstes</button>
+      </div>
+
+      <button type="button" class="settings-toggle" id="cz-log-toggle-btn">Übersicht zum Abgleich mit der Scorekarte anzeigen</button>
+      <div id="cz-log-wrap" style="display:none;">
+        <div class="cz-log-grid" id="cz-log-grid"></div>
+        <div class="cz-log-total">Gesamt <strong id="cz-log-total-val">0</strong></div>
+        <button type="button" class="cz-reset-btn" id="cz-reset-btn">Alles zurücksetzen (neue Runde)</button>
+      </div>
+    </div>
+  </section>
+
+  <section data-tab="both">
+    <h2 class="cz-toggle" id="rb-section-toggle">📖 Regelbuch ▾</h2>
+    <div class="card" id="rb-panel" style="display:none;">
+      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Golfregeln 2023–2026 (R&amp;A/USGA), Kurzfassung der häufigsten Situationen – ersetzt nicht das offizielle Regelbuch, hilft aber für die schnelle Einschätzung auf dem Platz.</p>
+
+      <input type="text" class="rb-search-input" id="rb-search" placeholder="Situation oder Bahn suchen, z. B. &quot;Divot&quot; oder &quot;Bahn 10&quot;...">
+      <div class="rb-filter-row" id="rb-category-filters">
+        <button type="button" class="rb-filter-chip active" data-cat="alle" onclick="rbSetCategory('alle')">Alle</button>
+        <button type="button" class="rb-filter-chip" data-cat="regel" onclick="rbSetCategory('regel')">⚖️ Regeln</button>
+        <button type="button" class="rb-filter-chip" data-cat="etikette" onclick="rbSetCategory('etikette')">🤝 Etikette</button>
+        <button type="button" class="rb-filter-chip" data-cat="kleidung" onclick="rbSetCategory('kleidung')">👕 Kleidung</button>
+      </div>
+      <div class="rb-filter-row" id="rb-hole-filters"></div>
+
+      <div id="rb-hole-status" class="rb-hole-status" style="display:none;"></div>
+
+      <div id="rb-list"></div>
+      <div id="rb-empty" class="rb-empty" style="display:none;">Keine Treffer – anders formulieren oder Bahn-Filter zurücksetzen.</div>
+
+      <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--card-border);">
+        <div style="font-size:12px; color:var(--text-dim); margin-bottom:10px;">Für alles, was hier nicht abgedeckt ist – die vollständigen Original-Dokumente:</div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <a href="https://golfclub-huenxerwald.de/wp-content/uploads/2026/05/Platzregeln-Version-2026.pdf" target="_blank" rel="noopener" class="video-link" style="text-align:left;">📄 Platzregeln (PDF)</a>
+          <a href="https://golfclub-huenxerwald.de/wp-content/uploads/2026/05/Verhaltensvorschriften-fuer-den-Spielbetrieb-und-Clubturniere-2026.pdf" target="_blank" rel="noopener" class="video-link" style="text-align:left;">📄 Verhaltensvorschriften (PDF)</a>
+          <a href="https://golfclub-huenxerwald.de/wp-content/uploads/2026/05/Kleiderordnung-2026.pdf" target="_blank" rel="noopener" class="video-link" style="text-align:left;">📄 Kleiderordnung (PDF)</a>
+          <a href="https://golfclub-huenxerwald.de/wp-content/uploads/2026/05/Rahmenausschreibung_Wettspielordnung_Version-2026.pdf" target="_blank" rel="noopener" class="video-link" style="text-align:left;">📄 Rahmenausschreibung / Wettspielordnung (PDF)</a>
+          <a href="https://www.randa.org/en/rog/the-rules-of-golf" target="_blank" rel="noopener" class="video-link" style="text-align:left;">📖 Offizielle Golfregeln komplett (R&amp;A)</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-tab="training" style="margin-bottom: 20px;">
+    <div class="card" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;">
+      <div>
+        <div style="font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.06em;">Aktuelles HCP</div>
+        <div id="hcp-current-value" style="font-family:'Fraunces',serif; font-size:32px; font-weight:600; color:var(--fairway-bright);">–</div>
+        <div id="hcp-current-date" style="font-size:12px; color:var(--text-dim);"></div>
+      </div>
+      <button type="button" class="btn-secondary" id="hcp-update-toggle">HCP aktualisieren</button>
+    </div>
+    <div id="hcp-update-panel" class="card" style="display:none; margin-top:10px;">
+      <div class="form-grid">
+        <div>
+          <label for="hcp-new-date">Datum der Änderung</label>
+          <input type="date" id="hcp-new-date">
+        </div>
+        <div>
+          <label for="hcp-new-value">Neues HCP</label>
+          <input type="number" id="hcp-new-value" step="0.1" min="0" placeholder="z. B. 19.1">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-primary" id="hcp-save-btn">Speichern</button>
+        <button type="button" class="btn-secondary" id="hcp-cancel-btn">Abbrechen</button>
+      </div>
+    </div>
+    <button type="button" class="settings-toggle" id="hcp-history-toggle" style="margin-top:10px;">HCP-Verlauf anzeigen</button>
+    <div id="hcp-history-wrap" style="display:none; margin-top:8px;">
+      <div class="card" id="hcp-history-list"></div>
+    </div>
+  </section>
+
+  <section data-tab="training">
     <h2>Überblick</h2>
     <div class="summary-grid" id="summary-grid">
       <div class="empty-state" style="grid-column: 1 / -1;">Noch keine Runden erfasst.</div>
     </div>
   </section>
 
-  <section>
+  <section data-tab="training">
     <h2>Trend über Zeit</h2>
     <div class="card">
       <div class="metric-toggles">
@@ -659,15 +605,15 @@
     </div>
   </section>
 
-  <section id="problem-section" style="display:none;">
-    <h2>Loch-Ranking – Lochmanagement überprüfen</h2>
+  <section data-tab="training" id="problem-section" style="display:none;">
+    <h2>Problembahnen</h2>
     <div class="card">
-      <p style="font-size:13px; color:var(--text-dim); margin:0 0 14px;">Alle Löcher, für die Scorecard-Daten vorliegen – schlechtestes zuerst, bestes zuletzt. Gleiche Löcher aus 9- und 18-Loch-Runden werden zusammengeführt. Löcher weit oben lohnen gezielte Kursmanagement-Überlegungen (Schlägerwahl, Ziellinie, Layup statt Risiko).</p>
+      <p style="font-size:13px; color:var(--text-dim); margin:0 0 14px;">Je Platz die Bahnen, die dich am meisten kosten – gemessen an ihrer Schwierigkeit. Zuletzt gespielter Platz oben.</p>
       <div id="problem-list"></div>
     </div>
   </section>
 
-  <section id="advanced-section" style="display:none;">
+  <section data-tab="training" id="advanced-section" style="display:none;">
     <h2>Erweiterte Kennzahlen</h2>
     <div class="card">
       <p style="font-size:13px; color:var(--text-dim); margin:0 0 14px;">Basierend auf Löchern mit GIR-/Fairway-/Strafschlag-Angaben. Ältere Runden ohne diese Felder fließen hier nicht ein.</p>
@@ -675,7 +621,7 @@
     </div>
   </section>
 
-  <section>
+  <section data-tab="training">
     <h2>Trainer-Report</h2>
     <div class="card">
       <p style="font-size:13px; color:var(--text-dim); margin:0 0 14px;">Erstellt einen fertigen Text zum Kopieren oder Teilen – für zwischendurch an den Trainer.</p>
@@ -719,7 +665,83 @@
     </div>
   </section>
 
-  <section>
+  <section data-tab="training">
+    <h2 class="cz-toggle" id="hv-section-toggle">🎯 Lochvorschau ▾</h2>
+    <div class="card" id="hv-panel" style="display:none;">
+      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Deine persönliche Historie an einem Loch, verbunden mit deinem Bag – für die Vorbereitung, nicht während des Spiels gedacht.</p>
+      <div class="form-grid" style="margin-bottom:12px;">
+        <div>
+          <label for="hv-club">Verein</label>
+          <select id="hv-club"></select>
+        </div>
+        <div>
+          <label for="hv-bahn">Bahn</label>
+          <select id="hv-bahn"></select>
+        </div>
+        <div>
+          <label for="hv-hole">Loch</label>
+          <select id="hv-hole"></select>
+        </div>
+      </div>
+      <button type="button" class="btn-primary" id="hv-show-btn" style="width:100%; margin-bottom:14px;">Anzeigen</button>
+      <div id="hv-result"></div>
+    </div>
+  </section>
+
+  <section data-tab="training">
+    <h2 class="cz-toggle" id="bag-section-toggle">🎒 Mein Bag ▾</h2>
+    <div class="card" id="bag-panel" style="display:none;">
+      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Deine Schläger mit typischer Weite (Carry, in Metern) – manuell eingetragen, da die TrackMan-Combine-Daten keiner Schlägerzuordnung entsprechen. Leer lassen, was du noch nicht kennst. Streuung je Schläger (TrackMan-Donut) über „bearbeiten“ – nutzt der Hünxerwald-Caddy.</p>
+      <div class="bag-labels"><span>Schläger</span><span>Carry</span><span>Total</span><span></span></div>
+      <div id="bag-list"></div>
+      <div class="bag-add-row">
+        <input type="text" id="bag-new-name" placeholder="Neuer Schläger, z. B. 4 Eisen">
+        <button type="button" class="btn-secondary" id="bag-add-btn">+ Hinzufügen</button>
+      </div>
+
+      <div class="bag-rec-box">
+        <label for="bag-rec-distance" style="font-weight:600;">Schlägerempfehlung</label>
+        <div class="bag-rec-input-row" style="margin-top:8px;">
+          <input type="number" id="bag-rec-distance" placeholder="Entfernung zum Ziel in Metern">
+          <button type="button" class="btn-primary" id="bag-rec-btn">Empfehlen</button>
+        </div>
+        <div id="bag-rec-result"></div>
+      </div>
+    </div>
+  </section>
+
+  <section data-tab="training">
+    <h2 class="cz-toggle" id="tm-section-toggle">🏌️‍♂️ TrackMan ▾</h2>
+    <div class="card" id="tm-panel" style="display:none;">
+      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Deine gemessenen Schlagdaten – getrennt von der Rundenerfassung. Historische Messungen bleiben erhalten, auch wenn neue dazukommen.</p>
+      <div id="tm-session-list"></div>
+
+      <button type="button" class="settings-toggle" id="tm-new-toggle">+ Neue Messung hinzufügen</button>
+      <div id="tm-new-wrap" style="display:none; margin-top:10px;">
+        <p style="font-size:12px; color:var(--text-dim); margin:0 0 10px;">Carry und Total, so weit du sie kennst – leer lassen, was du nicht getestet hast. Die neue Messung wird "Aktuell", die bisherige rutscht automatisch zu "Historisch".</p>
+        <div class="form-grid" style="margin-bottom:10px;">
+          <div>
+            <label for="tm-new-date">Datum der Messung</label>
+            <input type="date" id="tm-new-date">
+          </div>
+          <div>
+            <label for="tm-new-source">Quelle</label>
+            <input type="text" id="tm-new-source" value="TrackMan Combine">
+          </div>
+        </div>
+        <div class="tm-new-row" style="border-bottom:2px solid var(--card-border); padding-bottom:8px;">
+          <div></div><div style="font-size:10px; color:var(--text-dim); text-transform:uppercase;">Carry (m)</div><div style="font-size:10px; color:var(--text-dim); text-transform:uppercase;">Total (m)</div>
+        </div>
+        <div id="tm-new-rows"></div>
+        <div class="form-actions" style="margin-top:14px;">
+          <button type="button" class="btn-primary" id="tm-new-save-btn">Als neue Messung speichern</button>
+          <button type="button" class="btn-secondary" id="tm-new-cancel-btn">Abbrechen</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-tab="training">
     <h2>Alle Runden</h2>
     <div class="card table-wrap">
       <table id="rounds-table">
@@ -732,6 +754,20 @@
       </table>
     </div>
   </section>
+
+  <section data-tab="training">
+    <h2 class="cz-toggle" id="data-section-toggle">💾 Daten & Backup ▾</h2>
+    <div class="card" id="data-panel" style="display:none;">
+      <p style="font-size:12px; color:var(--text-dim); margin:0 0 12px;">Alle Daten liegen nur in diesem Browser. Regelmäßig exportieren und die Datei sicher ablegen.</p>
+      <div class="form-actions" style="margin-top:0;">
+        <button type="button" class="btn-secondary" id="export-btn">Backup exportieren</button>
+        <button type="button" class="btn-secondary" id="import-btn">Backup importieren</button>
+        <button type="button" class="btn-danger" id="clear-all-btn" style="padding: 11px 22px;">Alle Daten löschen</button>
+        <input type="file" id="import-file" accept="application/json" style="display:none">
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer>Golf Fortschritt-Tracker · Daten werden nur lokal in diesem Browser gespeichert.</footer>
@@ -1726,32 +1762,53 @@ function renderProblemHoles(rounds) {
     (byClub[club] = byClub[club] || []).push(b);
   });
 
+  // Zuletzt gespielter Verein zuerst (nach dem Wechsel automatisch Hünxerwald oben)
+  const lastPlayed = {};
+  withHoles.forEach(r => {
+    (r.holesData || []).forEach((hd, i) => {
+      const club = CLUB_OF[hd.subCourse || r.course] || (hd.subCourse || r.course);
+      if (!lastPlayed[club] || r.date > lastPlayed[club]) lastPlayed[club] = r.date;
+    });
+  });
+  const MIN_N = 3; // unter 3 Runden an einem Loch: zu wenig für eine Aussage
+  const rankLabel = b => {
+    const hk = caddyHoleKey(b.subCourse, b.subHole);
+    if (hk) return `Bahn ${hk.split(':')[1]}`;
+    if (/^Weselerwald(Out|Home)$/.test(b.subCourse)) return `Bahn ${physicalHoleNumber(b.subCourse, b.subHole)}`;
+    return `${COURSES[b.subCourse] ? (COURSES[b.subCourse].shortName || COURSES[b.subCourse].name) : b.subCourse} · Loch ${b.subHole}`;
+  };
+  const row = (b, maxVal) => {
+    const pct = Math.max(4, Math.min(100, Math.abs(b.avgOverPar) / maxVal * 100));
+    const idx = HOLE_HCP_INDEX[b.subCourse] ? HOLE_HCP_INDEX[b.subCourse][b.subHole - 1] : null;
+    const sign = b.avgOverPar > 0 ? '+' : '';
+    return `<div class="rank-row">
+      <div class="rank-name">${rankLabel(b)}<small>${idx ? `HCP ${idx} · ` : ''}${b.count} Runde${b.count === 1 ? '' : 'n'}${b.count < MIN_N ? ' · wenig Daten' : ''}</small></div>
+      <div class="rank-bar"><span style="width:${pct}%;"></span></div>
+      <div class="rank-val">${sign}${b.avgOverPar.toFixed(1)}<small>Ø ${b.avgPutts.toFixed(1)} Putts</small></div>
+    </div>`;
+  };
+
   let html = '';
-  Object.keys(byClub).sort().forEach(club => {
+  Object.keys(byClub).sort((a, b) => (lastPlayed[b] || '').localeCompare(lastPlayed[a] || '')).forEach((club, ci) => {
     const clubList = byClub[club].slice().sort((a, b) => b.avgOverPar - a.avgOverPar);
     const maxVal = Math.max(...clubList.map(b => Math.abs(b.avgOverPar)), 0.5);
-
-    // Zweite Sicht: relativ zur erwarteten Schwierigkeit gewichtet, nicht nach Schwierigkeitsklasse
-    // ausgeschlossen. Ein schweres Loch (Index 1-6), das seinen Erwartungspuffer deutlich übertrifft,
-    // taucht hier genauso auf wie ein leichtes Loch (Index 13-18), das trotz keiner Entschuldigung
-    // Schläge kostet – nur eben mit unterschiedlich hoher Hürde.
-    const focusList = clubList
-      .filter(b => HOLE_HCP_INDEX[b.subCourse]) // nur wo Index-Daten vorliegen
+    // Top 5: nur Löcher mit genug Daten, gewichtet nach erwarteter Schwierigkeit (HCP-Index)
+    const top = clubList
+      .filter(b => b.count >= MIN_N)
       .map(b => {
-        const idx = HOLE_HCP_INDEX[b.subCourse][b.subHole - 1];
-        return { ...b, idx, adjustedOverPar: b.avgOverPar - expectedOverParForIndex(idx) };
+        const idx = HOLE_HCP_INDEX[b.subCourse] ? HOLE_HCP_INDEX[b.subCourse][b.subHole - 1] : null;
+        return { ...b, adj: b.avgOverPar - (idx ? expectedOverParForIndex(idx) : 0) };
       })
-      .filter(b => b.adjustedOverPar > 0.1)
-      .sort((a, b) => b.adjustedOverPar - a.adjustedOverPar)
-      .slice(0, 3);
-
-    html += `<h3 style="font-size:15px; color:var(--fairway-bright); margin:18px 0 8px;">${club}</h3>`;
-    if (focusList.length > 0) {
-      html += `<div style="font-size:12px; color:var(--text-dim); margin-bottom:6px;">Auffällig relativ zur erwarteten Schwierigkeit:</div>`;
-      html += focusList.map(b => problemRowHtml(b, maxVal)).join('');
-      html += `<div style="font-size:11px; color:var(--text-dim); margin:10px 0 14px; border-top:1px solid var(--card-border); padding-top:10px;">Alle Löcher dieses Vereins:</div>`;
-    }
-    html += clubList.map(b => problemRowHtml(b, maxVal)).join('');
+      .filter(b => b.adj > 0.1)
+      .sort((a, b) => b.adj - a.adj)
+      .slice(0, 5);
+    const nHoles = clubList.length;
+    html += `<details class="rank-club" ${ci === 0 ? 'open' : ''}>
+      <summary><h3>${club}</h3><span class="cx-dim-inline">${nHoles} Löcher · zuletzt ${lastPlayed[club] || '–'}</span></summary>`;
+    if (top.length) html += `<div class="cx-dim" style="margin:8px 0 2px;">Top ${top.length} – hier liegen die meisten Schläge:</div>` + top.map(b => row(b, maxVal)).join('');
+    else html += `<div class="cx-dim" style="margin:8px 0;">Noch keine Bahn mit mindestens ${MIN_N} Runden, die klar über ihrer Schwierigkeit liegt.</div>`;
+    html += `<details class="rank-more"><summary>Alle ${nHoles} Löcher anzeigen</summary>${clubList.map(b => row(b, maxVal)).join('')}</details>`;
+    html += `</details>`;
   });
   document.getElementById('problem-list').innerHTML = html;
 }
@@ -2219,6 +2276,7 @@ function getClubForCourseKey(courseKey) {
 }
 
 function editRound(id) {
+  switchTab('runde');
   const rounds = loadRounds();
   const r = rounds.find(x => x.id === id);
   if (!r) return;
@@ -3817,6 +3875,7 @@ function hxUpdateSvPlaceholder() {
   if (!el) return;
   const ch = hxCourseHandicap(document.getElementById('hx-tee').value === 'rot' ? 'rot' : 'gelb');
   el.placeholder = ch ? `auto: ${ch.value}` : 'z. B. 21';
+  if (typeof hxUpdateMoreSummary === 'function') hxUpdateMoreSummary();
 }
 function hxContext() {
   const pinEl = document.getElementById('hx-pin');
@@ -4660,6 +4719,33 @@ function hxRestoreFromSettings() {
 // ---------- Init ----------
 initCourseSelect();
 hxInitRoundFields();
+function switchTab(t) {
+  document.body.classList.toggle('tab-runde', t === 'runde');
+  document.body.classList.toggle('tab-training', t === 'training');
+  document.querySelectorAll('[data-tab-btn]').forEach(b => b.classList.toggle('active', b.dataset.tabBtn === t));
+  try { localStorage.setItem('golfActiveTab', t); } catch (e) {}
+}
+document.querySelectorAll('[data-tab-btn]').forEach(b => b.addEventListener('click', () => { switchTab(b.dataset.tabBtn); window.scrollTo(0, 0); }));
+switchTab(localStorage.getItem('golfActiveTab') === 'training' ? 'training' : 'runde');
+document.getElementById('data-section-toggle').addEventListener('click', function() {
+  const p = document.getElementById('data-panel');
+  const open = p.style.display === 'none';
+  p.style.display = open ? 'block' : 'none';
+  this.textContent = open ? '💾 Daten & Backup ▴' : '💾 Daten & Backup ▾';
+});
+function hxUpdateMoreSummary() {
+  const el = document.getElementById('hx-more-summary');
+  if (!el) return;
+  const tee = document.getElementById('hx-tee').value === 'rot' ? 'Rot' : 'Gelb';
+  const svIn = document.getElementById('hx-sv').value;
+  const sv = svIn !== '' ? `SV ${svIn}` : (document.getElementById('hx-sv').placeholder.startsWith('auto') ? `SV ${document.getElementById('hx-sv').placeholder.replace('auto: ', '')} (auto)` : 'SV –');
+  const parts = [tee, sv];
+  if (document.getElementById('hx-live').checked) parts.push('📍 Live');
+  if (document.getElementById('hx-wind').checked) parts.push('🌬️ Wind');
+  el.textContent = `⚙️ ${parts.join(' · ')} – ändern`;
+}
+['hx-tee', 'hx-sv', 'hx-live', 'hx-wind'].forEach(id => document.getElementById(id).addEventListener('change', hxUpdateMoreSummary));
+hxUpdateMoreSummary();
 document.getElementById('team-match').addEventListener('change', function() {
   if (this.checked) document.getElementById('competition-mode').checked = true;
   if (mode === 'scorecard') renderHolesUI();
