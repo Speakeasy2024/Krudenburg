@@ -46,6 +46,14 @@ button { font-family: 'Inter', sans-serif; font-weight: 600; border-radius: 10px
 .stepper button { width: 44px; height: 44px; border-radius: 10px; background: var(--bg-alt); color: var(--text); border: 1px solid var(--card-border); font-size: 20px; }
 .stepper-val { font-family: 'Fraunces', serif; font-size: 28px; min-width: 46px; text-align: center; color: var(--fairway-bright); }
 .stepper-label { text-align:center; font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.03em; margin: 14px 0 6px; }
+.stepper.small button { width: 36px; height: 36px; font-size: 17px; }
+.stepper.small .stepper-val { font-size: 20px; min-width: 36px; color: var(--text); }
+.stepper.small .stepper-val.has-pen { color: var(--red); }
+.score-total { text-align: center; margin-top: 14px; padding: 10px; border-radius: 12px; border: 1px solid var(--fairway); background: var(--bg-alt); }
+.score-total .lbl { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: .03em; }
+.score-total .val { font-family: 'Fraunces', serif; font-size: 40px; line-height: 1.1; color: var(--fairway-bright); }
+.score-total .rel { font-size: 12px; color: var(--text-dim); }
+.score-hint { text-align: center; font-size: 11px; color: var(--text-dim); margin-top: 4px; }
 .hole-dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 18px; }
 .hole-dot { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--card-border); background: var(--bg-alt); color: var(--text-dim); font-size: 11px; font-weight: 600; cursor: pointer; }
 .hole-dot.current { background: var(--gold); color: #2a2205; border-color: transparent; }
@@ -145,18 +153,30 @@ footer { text-align: center; font-size: 11px; color: var(--text-dim); padding: 2
 
       <div id="hazard-wrap"></div>
 
-      <div class="stepper-label">Schläge</div>
+      <div class="stepper-label">Schläge bis aufs Grün</div>
       <div class="stepper">
-        <button type="button" id="strokes-minus">−</button>
-        <span class="stepper-val" id="strokes-val">4</span>
-        <button type="button" id="strokes-plus">+</button>
+        <button type="button" id="green-minus" aria-label="Schläge bis aufs Grün minus">−</button>
+        <span class="stepper-val" id="green-val">2</span>
+        <button type="button" id="green-plus" aria-label="Schläge bis aufs Grün plus">+</button>
+      </div>
+      <div class="stepper-label">Strafschläge</div>
+      <div class="stepper small">
+        <button type="button" id="pen-minus" aria-label="Strafschläge minus">−</button>
+        <span class="stepper-val" id="pen-val">0</span>
+        <button type="button" id="pen-plus" aria-label="Strafschläge plus">+</button>
       </div>
       <div class="stepper-label">Putts</div>
       <div class="stepper">
-        <button type="button" id="putts-minus">−</button>
+        <button type="button" id="putts-minus" aria-label="Putts minus">−</button>
         <span class="stepper-val" id="putts-val">2</span>
-        <button type="button" id="putts-plus">+</button>
+        <button type="button" id="putts-plus" aria-label="Putts plus">+</button>
       </div>
+      <div class="score-total">
+        <div class="lbl">Ergebnis für die Scorekarte</div>
+        <div class="val" id="strokes-val">4</div>
+        <div class="rel" id="strokes-rel">Par</div>
+      </div>
+      <div class="score-hint">Strafschläge separat zählen, nicht bei „bis aufs Grün". Chip-in: Putts auf 0.</div>
 
       <div class="hole-dots" id="hole-dots"></div>
 
@@ -415,6 +435,20 @@ function loadSeason() {
 }
 function saveSeason(rounds) { try { localStorage.setItem(LS_SEASON, JSON.stringify(rounds)); return true; } catch(e) { return false; } }
 
+// Ein Loch: toGreen (gespielte Schläge bis aufs Grün) + penalties + putts = strokes (Ergebnis).
+// strokes und putts bleiben gespeichert wie bisher – Saison-Historie und Auswertung unverändert.
+function newHole(par) { return { toGreen: Math.max(1, par - 2), penalties: 0, putts: 2, strokes: par }; }
+function holeTotal(h) { return h.toGreen + h.penalties + h.putts; }
+function normalizeHole(h) {
+  if (typeof h.toGreen !== 'number') {
+    h.penalties = h.penalties || 0;
+    if (h.strokes - h.putts - h.penalties < 1) h.putts = Math.max(0, h.strokes - h.penalties - 1);
+    h.toGreen = Math.max(1, h.strokes - h.putts - h.penalties);
+  }
+  if (typeof h.penalties !== 'number') h.penalties = 0;
+  h.strokes = holeTotal(h);
+  return h;
+}
 function defaultMatch() {
   const club = Object.keys(CLUBS)[0];
   const course = Object.keys(CLUBS[club].courses)[0];
@@ -422,7 +456,7 @@ function defaultMatch() {
   return {
     club, course, date: new Date().toISOString().slice(0,10), matchType: '', gastName: '',
     holeIndex: 0,
-    holes: Array.from({length:n}, (_,i) => ({ strokes: CLUBS[club].courses[course].par[i], putts: 2 })),
+    holes: Array.from({length:n}, (_,i) => newHole(CLUBS[club].courses[course].par[i])),
   };
 }
 function defaultCounter(n) {
@@ -430,6 +464,7 @@ function defaultCounter(n) {
 }
 
 let match = loadMatch() || defaultMatch();
+match.holes.forEach(normalizeHole);
 let counter = loadCounter();
 
 function courseData() { return CLUBS[match.club].courses[match.course]; }
@@ -458,7 +493,7 @@ document.getElementById('course-select').addEventListener('change', () => {
 });
 function resetHolesForCourse() {
   const n = courseData().par.length;
-  match.holes = Array.from({length:n}, (_,i) => ({ strokes: courseData().par[i], putts: 2 }));
+  match.holes = Array.from({length:n}, (_,i) => newHole(courseData().par[i]));
   match.holeIndex = 0;
   saveMatch(match);
   renderHole(); renderOverview();
@@ -494,8 +529,15 @@ function renderHole() {
   const idx = courseData().index[i];
   document.getElementById('hole-title').textContent = `Loch ${i+1} von ${n}`;
   document.getElementById('hole-meta').textContent = `Par ${par} · ${length} m · HCP-Index ${idx}`;
-  document.getElementById('strokes-val').textContent = match.holes[i].strokes;
-  document.getElementById('putts-val').textContent = match.holes[i].putts;
+  const h = match.holes[i];
+  document.getElementById('green-val').textContent = h.toGreen;
+  document.getElementById('pen-val').textContent = h.penalties;
+  document.getElementById('pen-val').classList.toggle('has-pen', h.penalties > 0);
+  document.getElementById('putts-val').textContent = h.putts;
+  document.getElementById('strokes-val').textContent = h.strokes;
+  const d = h.strokes - par;
+  const names = { '-3': 'Albatros', '-2': 'Eagle', '-1': 'Birdie', '0': 'Par', '1': 'Bogey', '2': 'Doppelbogey' };
+  document.getElementById('strokes-rel').textContent = (names[d] || (d > 0 ? `+${d}` : `${d}`)) + (h.penalties ? ` · inkl. ${h.penalties} Strafschlag${h.penalties > 1 ? 'e' : ''}` : '');
   document.getElementById('hole-prev').disabled = i === 0;
   document.getElementById('hole-next').disabled = i === n - 1;
 
@@ -508,7 +550,7 @@ function renderHole() {
   }
 
   const dots = match.holes.map((h, idx2) => {
-    const cls = idx2 === i ? 'current' : (h.strokes !== courseData().par[idx2] || h.putts !== 2) ? 'done' : '';
+    const cls = idx2 === i ? 'current' : (h.strokes !== courseData().par[idx2] || h.putts !== 2 || h.penalties > 0) ? 'done' : '';
     return `<button type="button" class="hole-dot ${cls}" onclick="jumpToHole(${idx2})">${idx2+1}</button>`;
   }).join('');
   document.getElementById('hole-dots').innerHTML = dots;
@@ -519,18 +561,27 @@ function renderHole() {
 function jumpToHole(i) { match.holeIndex = i; saveMatch(match); renderHole(); }
 document.getElementById('hole-prev').addEventListener('click', () => { if (match.holeIndex>0){match.holeIndex--; saveMatch(match); renderHole();} });
 document.getElementById('hole-next').addEventListener('click', () => { if (match.holeIndex<match.holes.length-1){match.holeIndex++; saveMatch(match); renderHole();} });
-document.getElementById('strokes-plus').addEventListener('click', () => { match.holes[match.holeIndex].strokes++; saveMatch(match); renderHole(); renderOverview(); });
-document.getElementById('strokes-minus').addEventListener('click', () => { match.holes[match.holeIndex].strokes = Math.max(1, match.holes[match.holeIndex].strokes-1); saveMatch(match); renderHole(); renderOverview(); });
-document.getElementById('putts-plus').addEventListener('click', () => { match.holes[match.holeIndex].putts++; saveMatch(match); renderHole(); renderOverview(); });
-document.getElementById('putts-minus').addEventListener('click', () => { match.holes[match.holeIndex].putts = Math.max(0, match.holes[match.holeIndex].putts-1); saveMatch(match); renderHole(); renderOverview(); });
+function changeHole(field, delta, min) {
+  const h = match.holes[match.holeIndex];
+  h[field] = Math.max(min, h[field] + delta);
+  h.strokes = holeTotal(h);
+  saveMatch(match); renderHole(); renderOverview();
+}
+document.getElementById('green-plus').addEventListener('click', () => changeHole('toGreen', 1, 1));
+document.getElementById('green-minus').addEventListener('click', () => changeHole('toGreen', -1, 1));
+document.getElementById('pen-plus').addEventListener('click', () => changeHole('penalties', 1, 0));
+document.getElementById('pen-minus').addEventListener('click', () => changeHole('penalties', -1, 0));
+document.getElementById('putts-plus').addEventListener('click', () => changeHole('putts', 1, 0));
+document.getElementById('putts-minus').addEventListener('click', () => changeHole('putts', -1, 0));
 
 function renderOverview() {
   const wrap = document.getElementById('overview-wrap');
   const pars = courseData().par;
-  let totalStrokes = 0, totalPar = 0;
-  let rows = match.holes.map((h,i) => { totalStrokes+=h.strokes; totalPar+=pars[i]; return `<tr><td>${i+1}</td><td>${pars[i]}</td><td>${h.strokes}</td><td>${h.putts}</td></tr>`; }).join('');
-  wrap.innerHTML = `<table><thead><tr><th>Loch</th><th>Par</th><th>Schläge</th><th>Putts</th></tr></thead><tbody>${rows}
-    <tr class="total-row"><td>Gesamt</td><td>${totalPar}</td><td>${totalStrokes}</td><td>${totalStrokes-totalPar>=0?'+':''}${totalStrokes-totalPar}</td></tr></tbody></table>`;
+  let totalStrokes = 0, totalPar = 0, totalPen = 0;
+  let rows = match.holes.map((h,i) => { totalStrokes+=h.strokes; totalPar+=pars[i]; totalPen+=h.penalties; return `<tr><td>${i+1}</td><td>${pars[i]}</td><td><strong>${h.strokes}</strong></td><td>${h.putts}</td><td style="color:var(--red);">${h.penalties || ''}</td></tr>`; }).join('');
+  wrap.innerHTML = `<table><thead><tr><th>Loch</th><th>Par</th><th>Ergebnis</th><th>Putts</th><th>Strafe</th></tr></thead><tbody>${rows}
+    <tr class="total-row"><td>Gesamt</td><td>${totalPar}</td><td>${totalStrokes}</td><td>${totalStrokes-totalPar>=0?'+':''}${totalStrokes-totalPar}</td><td style="color:var(--red);">${totalPen || ''}</td></tr></tbody></table>
+    <div class="score-hint" style="margin-top:6px;">Vor dem Unterschreiben mit dem Zähler abgleichen – ein zu niedriges Lochergebnis führt zur Disqualifikation (Regel 3.3b).</div>`;
 }
 document.getElementById('overview-toggle').addEventListener('click', () => {
   const wrap = document.getElementById('overview-wrap');
@@ -630,7 +681,7 @@ function finishRound() {
     date: match.date, club: match.club, course: match.course, matchType: match.matchType,
     gastName: match.gastName || '',
     totalStrokes, totalPutts, totalPar, scoreToPar: totalStrokes - totalPar,
-    holes: match.holes.map((h,i) => ({ hole: i+1, par: pars[i], strokes: h.strokes, putts: h.putts })),
+    holes: match.holes.map((h,i) => ({ hole: i+1, par: pars[i], strokes: h.strokes, putts: h.putts, penalties: h.penalties })),
     gastTotal: gastPlayed ? gastTotal : null,
     gastHoles: gastPlayed ? counter.counts.B.slice() : null,
   };
