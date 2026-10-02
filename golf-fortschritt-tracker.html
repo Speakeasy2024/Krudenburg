@@ -228,8 +228,8 @@
   .tm-new-row .tm-new-label { font-family: 'Fraunces', serif; color: var(--fairway-bright); font-size: 13px; }
   .tm-new-row input { padding: 8px 9px; border-radius: 6px; border: 1px solid var(--card-border); background: var(--bg-alt); color: var(--text); font-size: 13px; text-align: right; }
 
-  .bag-row { display: grid; grid-template-columns: 1fr 70px 70px 28px; gap: 6px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--card-border); }
-  .bag-labels { display: grid; grid-template-columns: 1fr 70px 70px 28px; gap: 6px; font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.03em; padding-bottom: 6px; border-bottom: 1px solid var(--card-border); margin-bottom: 2px; }
+  .bag-row { display: grid; grid-template-columns: 1fr 58px 58px 52px 28px; gap: 6px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--card-border); }
+  .bag-labels { display: grid; grid-template-columns: 1fr 58px 58px 52px 28px; gap: 6px; font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.03em; padding-bottom: 6px; border-bottom: 1px solid var(--card-border); margin-bottom: 2px; }
   .bag-row input[type="text"] { background: none; border: none; color: var(--text); font-size: 14px; font-family: 'Inter', sans-serif; padding: 4px 0; }
   .bag-row input[type="number"] { width: 100%; padding: 7px 8px; border-radius: 6px; border: 1px solid var(--card-border); background: var(--bg-alt); color: var(--text); font-size: 13px; text-align: right; }
   .bag-del-btn { background: none; border: none; color: var(--text-dim); font-size: 16px; cursor: pointer; padding: 0; }
@@ -252,6 +252,8 @@
   .cx-rec { font-size: 15px; font-weight: 600; color: var(--fairway-bright); margin-top: 4px; }
   .cx-alt { font-size: 13px; color: var(--text); margin-top: 8px; padding-top: 6px; border-top: 1px dashed var(--card-border); }
   .cx-risk { font-size: 12.5px; color: var(--red); margin-top: 3px; }
+  .cx-learn { font-size: 12.5px; color: var(--text); margin-top: 6px; padding: 6px 10px; border-left: 3px solid var(--gold); background: var(--bg-alt); border-radius: 0 8px 8px 0; }
+  .cx-learn div + div { margin-top: 3px; }
   .cx-tipp { font-size: 13px; color: var(--text); font-style: italic; margin-top: 2px; line-height: 1.5; }
   .cx-calc-row { display: flex; gap: 8px; margin-top: 6px; align-items: center; }
   .cx-calc-row input { flex: 1; padding: 8px 10px; font-size: 14px; }
@@ -287,6 +289,13 @@
   .bag-streu-line { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 0 0 8px; margin-top: -4px; }
   .bag-streu-line button { background: none; border: none; color: var(--gold); font-size: 12px; padding: 0; white-space: nowrap; }
   .bag-streu-editor { background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+  .bs-row { padding: 8px 0; border-bottom: 1px solid var(--card-border); }
+  .bs-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .bs-grid3, .bs-lab3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+  .bs-grid5, .bs-lab5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+  .bs-grid5 { margin-top: 4px; }
+  .bs-lab3, .bs-lab5 { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.03em; }
+  .bs-grid3 input, .bs-grid5 input { width: 100%; min-width: 0; padding: 7px 6px; border-radius: 6px; border: 1px solid var(--card-border); background: var(--bg-alt); color: var(--text); font-size: 13px; text-align: right; }
   .bag-streu-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
   .bag-streu-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
   .bag-streu-editor input, .bag-streu-editor select { padding: 7px 8px; font-size: 13px; }
@@ -692,11 +701,25 @@
     <h2 class="cz-toggle" id="bag-section-toggle">🎒 Mein Bag ▾</h2>
     <div class="card" id="bag-panel" style="display:none;">
       <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Deine Schläger mit typischer Weite (Carry, in Metern) – manuell eingetragen, da die TrackMan-Combine-Daten keiner Schlägerzuordnung entsprechen. Leer lassen, was du noch nicht kennst. Streuung je Schläger (TrackMan-Donut) über „bearbeiten“ – nutzt der Hünxerwald-Caddy.</p>
-      <div class="bag-labels"><span>Schläger</span><span>Carry</span><span>Total</span><span></span></div>
+      <div class="bag-labels"><span>Schläger</span><span>Carry</span><span>Total</span><span>± m</span><span></span></div>
       <div id="bag-list"></div>
       <div class="bag-add-row">
         <input type="text" id="bag-new-name" placeholder="Neuer Schläger, z. B. 4 Eisen">
         <button type="button" class="btn-secondary" id="bag-add-btn">+ Hinzufügen</button>
+      </div>
+
+      <div class="bag-rec-box">
+        <div id="bs-toggle" style="font-weight:600; cursor:pointer;">📥 Neue Session übernehmen ▾</div>
+        <div id="bs-panel" style="display:none; margin-top:10px;">
+          <p style="font-size:12px; color:var(--text-dim); margin:0 0 10px;">Werte aus der Range-App eintragen: Ø Carry, Total, Konstanz (± Länge) und die Prozente aus dem Donut. Leere Felder bleiben unverändert. Trägst du bei einem Schläger Prozente ein, zählen fehlende Sektoren als 0 %.</p>
+          <label for="bs-date">Datum der Session</label>
+          <input type="date" id="bs-date" style="width:100%; margin-bottom:10px;">
+          <div class="bs-lab3"><span>Carry</span><span>Total</span><span>± Länge</span></div>
+          <div class="bs-lab5"><span>Links %</span><span>Rechts %</span><span>Mitte %</span><span>Lang %</span><span>Kurz %</span></div>
+          <div id="bs-list"></div>
+          <button type="button" class="btn-primary" id="bs-apply-btn" style="width:100%; margin-top:12px;">Session übernehmen</button>
+          <div class="save-msg" id="bs-msg"></div>
+        </div>
       </div>
 
       <div class="bag-rec-box">
@@ -1356,9 +1379,13 @@ function caddyStrategyLines(h) {
     : (recentRisk ? `deine jüngste Genauigkeit an diesem Loch (letzte ${recent.n} Runde${recent.n > 1 ? 'n' : ''})` : null);
 
   if (length && sortedByCarry.length > 0) {
-    const aggressive = sortedByCarry[0];
-    // "Passiv" = längster Schläger, der trotzdem spürbar kürzer als die volle Lochlänge bleibt (Layup-Charakter)
-    const passive = sortedByCarry.find(c => c.carry < length * 0.85) || null;
+    // Schläger, dessen Carry der Lochlänge am nächsten kommt (wie Lochvorschau/Mein Bag).
+    // Bei Par 4/5 ist das automatisch der längste Schläger. Vorher war es immer der längste –
+    // auf einem Par 3 hätte der Caddy so den Driver vorgeschlagen.
+    const aggressive = bagClosestMatches(length, 1)[0];
+    const aggIdx = sortedByCarry.findIndex(c => c.id === aggressive.id);
+    // "Passiv" = nächstkürzerer Schläger im Bag
+    const passive = aggIdx >= 0 ? (sortedByCarry[aggIdx + 1] || null) : null;
 
     if (riskReason && passive && passive.name !== aggressive.name) {
       lines.push({ type: 'passiv', text: `${passive.name} (Carry ${passive.carry.toFixed(0)}m) – kontrolliert vorlegen, Risiko meiden.` });
@@ -1409,16 +1436,23 @@ function caddyQuickCardHtml(h) {
     <div style="display:${caddyDetailsOpen ? 'block' : 'none'}; margin-top:8px; padding-top:8px; border-top:1px solid var(--card-border);">${inner}</div>` : '';
 
   if (competitionMode()) {
-    if (!huenx) return `<div class="caddy-card" style="border-color:var(--card-border);"><div class="comp-banner">⚖️ Wettspiel</div><div class="cx-dim" style="margin:0;">${histLine}</div></div>`;
+    if (!huenx) {
+      const gk = gpsOnlyKey(h.subCourse, h.subHole);
+      return `<div class="caddy-card" style="border-color:var(--card-border);"><div class="comp-banner">⚖️ Wettspiel</div><div class="cx-dim" style="margin:0;">${histLine}</div>${gk ? gpsOnlyBlockHtml(h, currentHoleIndex, gk, false) : ''}</div>`;
+    }
     return caddyCompetitionCardHtml(h, hk, histLine);
   }
   if (!huenx) {
-    if (hist.n === 0) return `<div class="caddy-card"><div class="cx-dim" style="margin:0;">${histLine}</div></div>`;
+    const gk = gpsOnlyKey(h.subCourse, h.subHole);
+    const gpsBlock = gk ? gpsOnlyBlockHtml(h, currentHoleIndex, gk, true) : '';
+    const gpsReset = gk && loadGreens()[gk] ? gpsOnlyResetHtml(gk) : '';
+    if (hist.n === 0) return `<div class="caddy-card"><div class="cx-dim" style="margin:0;">${histLine}</div>${gpsBlock}${detailsBlock(gpsReset)}</div>`;
     const lines = caddyStrategyLines(h);
     return `<div class="caddy-card">
       <div class="cx-dim" style="margin:0;">${histLine}</div>
       ${caddyText ? `<div class="cx-head">${caddyText}</div>` : ''}
-      ${detailsBlock(lines.map(strategyLineHtml).join(''))}
+      ${gpsBlock}
+      ${detailsBlock(lines.map(strategyLineHtml).join('') + gpsReset)}
     </div>`;
   }
 
@@ -2493,11 +2527,25 @@ document.getElementById('import-file').addEventListener('change', function() {
       const existingTmShotIds = new Set(existingTmShots.map(s => s.id));
       saveTmShots(existingTmShots.concat(importedTmShots.filter(s => !existingTmShotIds.has(s.id))));
 
-      // Bag mergen – bestehende Schläger-IDs bleiben unangetastet.
-      const importedBag = Array.isArray(imported) ? [] : (imported.bag || []);
-      const existingBag = loadBag();
-      const existingBagIds = new Set(existingBag.map(c => c.id));
-      saveBag(existingBag.concat(importedBag.filter(c => !existingBagIds.has(c.id))));
+      // Bag mergen. Zuordnung über ID, sonst über Namen. Der Backup-Eintrag gewinnt, wenn der
+      // vorhandene leer ist oder nicht neuer gemessen wurde. Vorher wurden gleiche IDs übersprungen –
+      // auf einem neuen Gerät (Standard-Bag mit gleichen IDs) gingen so die eigenen Werte verloren.
+      const importedBag = (Array.isArray(imported) ? [] : (imported.bag || [])).map(bagMigrateEntry);
+      const mergedBag = loadBag().map(bagMigrateEntry);
+      let bagUpdated = 0;
+      importedBag.forEach(ic => {
+        const ex = mergedBag.find(c => c.id === ic.id) || mergedBag.find(c => c.name === ic.name);
+        if (!ex) { mergedBag.push(ic); bagUpdated++; return; }
+        const exEmpty = ex.carry === null && ex.total === null && !ex.streuung;
+        const icHasData = ic.carry !== null || ic.total !== null || !!ic.streuung;
+        const icNotOlder = !ex.measuredDate || (ic.measuredDate && ic.measuredDate >= ex.measuredDate);
+        if (icHasData && (exEmpty || icNotOlder)) {
+          Object.assign(ex, { name: ic.name, carry: ic.carry, total: ic.total, consistency: ic.consistency, measuredDate: ic.measuredDate });
+          if (ic.streuung) ex.streuung = ic.streuung;
+          bagUpdated++;
+        }
+      });
+      saveBag(mergedBag);
 
       // GPS-Grünmitten: vorhandene bleiben, fehlende kommen aus dem Backup
       if (!Array.isArray(imported) && imported.greens) saveGreens({ ...migrateGreenKeys(imported.greens), ...loadGreens() });
@@ -2505,7 +2553,7 @@ document.getElementById('import-file').addEventListener('change', function() {
       renderHcpStatus();
       renderAll();
       const msg = document.getElementById('save-msg');
-      msg.textContent = `${importedRounds.length} Runden importiert.`;
+      msg.textContent = `${importedRounds.length} Runden importiert` + (bagUpdated ? `, ${bagUpdated} Bag-Einträge übernommen.` : '.');
       setTimeout(() => { msg.textContent = ''; }, 3000);
     } catch (err) { alert('Backup-Datei konnte nicht gelesen werden.'); }
   };
@@ -3230,6 +3278,42 @@ function applyRealBagDataOnce() {
   localStorage.setItem(FLAG, '1');
 }
 
+// Einmalige Übernahme der Range-Session vom 01.10.2026 (TrackMan, 11 Schläger).
+// Carry/Total ohne Fehlschläge; 4 Hybrid aus den zwei sauberen Treffern, 6/8 Eisen als Mittelwert
+// der Nachbarschläger. ± Länge: Standardabweichung Carry ohne Fehlschläge; bei 4h/6i/8i die
+// TrackMan-Konstanz der ganzen Serie (vorsichtiger). Prozente aus dem TrackMan-Donut.
+// 50° bleibt unverändert (kommt im neuen Jahr).
+function applyBagSession20261001Once() {
+  const FLAG = 'golfPerformanceBagSession20261001Applied';
+  if (localStorage.getItem(FLAG)) return;
+  const bag = loadBag().map(bagMigrateEntry);
+  const D = '2026-10-01';
+  //            carry   total  ±     links rechts mitte lang kurz
+  const S = {
+    'Driver':   [192.3, 214.8, 6.1,  14, 29, 14, 29, 14],
+    '5 Holz':   [171.9, 191.7, 14.3, 25,  0, 12, 50, 12],
+    '4 Hybrid': [163.4, 182.4, 18.2, 33, 33, 17,  0, 17],
+    '5 Eisen':  [153.7, 167.2, 8.0,  50, 33,  0,  0, 17],
+    '6 Eisen':  [145.3, 155.7, 13.3,  0, 33, 17, 33, 17],
+    '7 Eisen':  [137.0, 144.2, 3.9,  33, 33,  0, 17, 17],
+    '8 Eisen':  [125.1, 129.9, 5.7,  50, 33,  0,  0, 17],
+    '9 Eisen':  [113.1, 115.5, 4.6,  17, 17, 33, 33,  0],
+    'PW':       [106.0, 116.8, 4.0,  17, 17,  0, 33, 33],
+    '45°':      [90.0,  92.1,  5.2,  17, 33, 17, 17, 17],
+    '54°':      [72.7,  74.7,  3.5,  17,  0, 33, 17, 33],
+  };
+  Object.keys(S).forEach((name, i) => {
+    const [carry, total, k, links, rechts, mitte, lang, kurz] = S[name];
+    let club = bag.find(c => c.name.trim().toLowerCase() === name.toLowerCase());
+    if (!club) { club = { id: 'bag_s1001_' + i, name }; bag.push(club); }
+    Object.assign(club, { carry, total, consistency: k, measuredDate: D,
+      streuung: { links, rechts, mitte, lang, kurz, basis: 'carry', datum: D, refCarry: carry } });
+    delete club.distance;
+  });
+  saveBag(bag);
+  localStorage.setItem(FLAG, '1');
+}
+
 function migrateBagDefaultsV2() {
   const FLAG = 'golfPerformanceBagMigratedV2';
   if (localStorage.getItem(FLAG)) return;
@@ -3263,20 +3347,14 @@ function bagMigrateEntry(club) {
 function renderBag() {
   const bag = loadBag().map(bagMigrateEntry);
   const listEl = document.getElementById('bag-list');
-  const now = new Date();
   listEl.innerHTML = bag.map(club => {
-    const isOld = club.measuredDate && (now - new Date(club.measuredDate)) > 1000 * 60 * 60 * 24 * 548; // > 18 Monate
-    const subtitleParts = [];
-    if (club.consistency !== null && club.consistency !== undefined) subtitleParts.push(`Streuung ±${club.consistency}m`);
-    if (club.measuredDate) subtitleParts.push(`Gemessen: ${club.measuredDate}${isOld ? ' (älter als 18 Monate)' : ''}`);
-    const subtitle = subtitleParts.length
-      ? `<div style="font-size:11px; color:${isOld ? 'var(--red)' : 'var(--text-dim)'}; padding: 0 0 8px 0; margin-top:-4px;">${subtitleParts.join(' · ')}</div>`
-      : '';
+    const subtitle = `<div id="bag-sub-${club.id}">${bagSubtitleHtml(club)}</div>`;
     return `
     <div class="bag-row">
       <input type="text" value="${club.name.replace(/"/g, '&quot;')}" onchange="bagUpdateName('${club.id}', this.value)">
       <input type="number" placeholder="m" value="${club.carry !== null ? club.carry : ''}" onchange="bagUpdateField('${club.id}', 'carry', this.value)">
       <input type="number" placeholder="m" value="${club.total !== null ? club.total : ''}" onchange="bagUpdateField('${club.id}', 'total', this.value)">
+      <input type="number" placeholder="±" value="${club.consistency !== null ? club.consistency : ''}" onchange="bagUpdateField('${club.id}', 'consistency', this.value)">
       <button type="button" class="bag-del-btn" onclick="bagDeleteClub('${club.id}')">✕</button>
     </div>
     ${subtitle}
@@ -3290,11 +3368,95 @@ function bagUpdateName(id, name) {
   const club = bag.find(c => c.id === id);
   if (club) { club.name = name; saveBag(bag); }
 }
+// Untertitel unter einer Bag-Zeile: Streuung + Messdatum, rot wenn älter als 18 Monate.
+function bagSubtitleHtml(club) {
+  const isOld = club.measuredDate && (new Date() - new Date(club.measuredDate)) > 1000 * 60 * 60 * 24 * 548; // > 18 Monate
+  const parts = [];
+  if (club.consistency !== null && club.consistency !== undefined) parts.push(`Streuung ±${club.consistency}m`);
+  if (club.measuredDate) parts.push(`Gemessen: ${club.measuredDate}${isOld ? ' (älter als 18 Monate)' : ''}`);
+  return parts.length
+    ? `<div style="font-size:11px; color:${isOld ? 'var(--red)' : 'var(--text-dim)'}; padding: 0 0 8px 0; margin-top:-4px;">${parts.join(' · ')}</div>`
+    : '';
+}
+// Jede Änderung an Carry, Total oder Streuung gilt als neue Messung: Messdatum = heute.
+// Nur der Untertitel wird neu gezeichnet, damit der Fokus im nächsten Eingabefeld bleibt.
 function bagUpdateField(id, field, val) {
   const bag = loadBag().map(bagMigrateEntry);
   const club = bag.find(c => c.id === id);
-  if (club) { club[field] = val === '' ? null : parseFloat(val); delete club.distance; saveBag(bag); }
+  if (!club) return;
+  const newVal = val === '' ? null : parseFloat(val);
+  if (club[field] === newVal) return;
+  club[field] = newVal;
+  delete club.distance;
+  club.measuredDate = todayStr();
+  saveBag(bag);
+  const sub = document.getElementById('bag-sub-' + id);
+  if (sub) sub.innerHTML = bagSubtitleHtml(club);
 }
+
+// ---------- Neue Session übernehmen ----------
+// Ersetzt künftige einmalige Code-Übernahmen: Werte aus der Range-App direkt eintragen.
+const BS_FIELDS = ['carry', 'total', 'consistency'];
+const BS_PCT = ['links', 'rechts', 'mitte', 'lang', 'kurz'];
+function renderBagSession() {
+  const bag = loadBag().map(bagMigrateEntry);
+  const dateEl = document.getElementById('bs-date');
+  if (!dateEl.value) dateEl.value = todayStr();
+  const ph = v => (v === null || v === undefined) ? '–' : v;
+  document.getElementById('bs-list').innerHTML = bag.map(c => {
+    const st = c.streuung || {};
+    const n = escapeHtml(c.name);
+    return `
+    <div class="bs-row">
+      <div class="bs-name">${n}</div>
+      <div class="bs-grid3">${BS_FIELDS.map(f => `<input type="number" inputmode="decimal" data-id="${c.id}" data-f="${f}" placeholder="${ph(c[f])}" aria-label="${n} ${f}">`).join('')}</div>
+      <div class="bs-grid5">${BS_PCT.map(k => `<input type="number" inputmode="numeric" min="0" max="100" data-id="${c.id}" data-p="${k}" placeholder="${ph(st[k])}" aria-label="${n} ${k} Prozent">`).join('')}</div>
+    </div>`;
+  }).join('');
+}
+function applyBagSession() {
+  const msg = document.getElementById('bs-msg');
+  const date = document.getElementById('bs-date').value;
+  if (!date) { msg.textContent = 'Bitte das Datum der Session wählen.'; return; }
+  const bag = loadBag().map(bagMigrateEntry);
+  const vals = {}, pcts = {}, errors = [];
+  document.querySelectorAll('#bs-list input').forEach(inp => {
+    const raw = inp.value.trim().replace(',', '.');
+    if (raw === '') return;
+    const club = bag.find(c => c.id === inp.dataset.id);
+    if (!club) return;
+    const v = parseFloat(raw);
+    if (isNaN(v) || v < 0 || (inp.dataset.p && v > 100)) { errors.push(`${club.name}: „${inp.value}" ist ungültig`); return; }
+    if (inp.dataset.p) (pcts[club.id] = pcts[club.id] || {})[inp.dataset.p] = v;
+    else (vals[club.id] = vals[club.id] || {})[inp.dataset.f] = v;
+  });
+  if (errors.length) { msg.textContent = errors.join(' · ') + '. Nichts übernommen.'; return; }
+  const ids = [...new Set([...Object.keys(vals), ...Object.keys(pcts)])];
+  if (ids.length === 0) { msg.textContent = 'Keine Werte eingetragen.'; return; }
+  ids.forEach(id => {
+    const c = bag.find(x => x.id === id);
+    if (vals[id]) Object.assign(c, vals[id]);
+    if (pcts[id]) {
+      const st = { basis: 'carry', datum: date, refCarry: typeof c.carry === 'number' ? c.carry : null };
+      BS_PCT.forEach(k => { st[k] = pcts[id][k] !== undefined ? pcts[id][k] : 0; });
+      c.streuung = st;
+    }
+    c.measuredDate = date;
+    delete c.distance;
+  });
+  saveBag(bag);
+  renderBag();
+  renderBagSession();
+  msg.textContent = `${ids.length} Schläger aktualisiert, Messdatum ${date}.`;
+}
+document.getElementById('bs-toggle').addEventListener('click', () => {
+  const panel = document.getElementById('bs-panel');
+  const show = panel.style.display === 'none';
+  panel.style.display = show ? 'block' : 'none';
+  document.getElementById('bs-toggle').textContent = '📥 Neue Session übernehmen ' + (show ? '▴' : '▾');
+  if (show) renderBagSession();
+});
+document.getElementById('bs-apply-btn').addEventListener('click', applyBagSession);
 function bagDeleteClub(id) {
   saveBag(loadBag().filter(c => c.id !== id));
   renderBag();
@@ -3962,6 +4124,86 @@ function hxHzShort(h, d) {
 
 // Zielpunkt aus Streuungstendenz + Hindernissen links/rechts (keine Schlägeränderung – das macht Lang/Kurz)
 let hxLast = {};  // Kurzfassung der letzten Caddy-Berechnung (für die Kopfzeile)
+// ---------- Lernender Caddy: Muster aus deiner Historie an dieser Bahn ----------
+// Ab 5 gespielten Runden an der Bahn, gezählt werden die letzten 10. Der Caddy weicht nur mit
+// Begründung von der Standardempfehlung ab. Im Wettspiel-Modus nicht aktiv (Regel 4.3).
+const HX_LEARN_MIN = 5, HX_LEARN_WINDOW = 10;
+function hxSubForBahn(def, bahn) {
+  for (const key in def.courseKeys) {
+    const c = COURSES[key];
+    if (!c || c.combo) continue;
+    const off = def.courseKeys[key];
+    if (bahn > off && bahn <= off + c.holes) return { subCourse: key, subHole: bahn - off };
+  }
+  return null;
+}
+function fmtPar(v) { return (v > 0 ? '+' : v < 0 ? '−' : '±') + Math.abs(v).toFixed(1).replace('.', ','); }
+function hxLearnHole(b) {
+  const sub = hxSubForBahn(caddyDef(b), b.bahn);
+  const res = { n: 0, active: false, notes: [], forceSafe: false, safeReasons: [], missSide: null, bestClub: null };
+  if (!sub) return res;
+  const entries = collectHoleEntries(sub.subCourse, sub.subHole).slice(-HX_LEARN_WINDOW);
+  res.n = entries.length;
+  if (res.n < HX_LEARN_MIN) return res;
+  res.active = true;
+
+  // 1) Fehlerseite (nur Par 4/5): mindestens 2 Misses und mindestens die Hälfte auf einer Seite
+  if (b.par !== 3) {
+    const fw = entries.filter(e => e.fairway);
+    const L = fw.filter(e => e.fairway === 'left').length, R = fw.filter(e => e.fairway === 'right').length;
+    const miss = L + R;
+    if (miss >= 2) {
+      if (L >= 2 && L > R && L >= miss / 2) res.missSide = { side: 'links', count: L, miss };
+      else if (R >= 2 && R > L && R >= miss / 2) res.missSide = { side: 'rechts', count: R, miss };
+    }
+    if (fw.length) res.notes.push(`Fairway hier: ${fw.length - miss}× getroffen, ${L}× links, ${R}× rechts.`);
+    // 2) Strafgefahr genau auf der Fehlerseite → sicher
+    if (res.missSide) {
+      const hz = b.hindernisse.filter(h => hxIsStrafe(h) && hxSideOf(h) === res.missSide.side);
+      if (hz.length) {
+        res.forceSafe = true;
+        res.safeReasons.push(`deine Fehlerseite ${res.missSide.side} trifft auf ${[...new Set(hz.map(h => HX_TYP_LABEL[h.typ] || h.typ))].join('/')}`);
+      }
+    }
+  }
+  // 3) Strafschläge in mindestens 2 der letzten 5 Runden → sicher
+  const last5 = entries.slice(-5);
+  const pen = last5.filter(e => (e.penalties || 0) > 0);
+  if (pen.length >= 2) {
+    const types = {};
+    pen.forEach(e => (e.penaltyTypes || []).forEach(t => { types[t] = (types[t] || 0) + 1; }));
+    const lbl = Object.keys(types).map(t => `${types[t]}× ${(PENALTY_TYPES.find(p => p.key === t) || { label: t }).label}`).join(', ');
+    res.forceSafe = true;
+    res.safeReasons.push(`Strafschläge in ${pen.length} der letzten ${last5.length} Runden${lbl ? ' (' + lbl + ')' : ''}`);
+  }
+  // 4) Abschlagschläger vergleichen: mindestens 2 Schläger mit je mindestens 2 Abschlägen,
+  //    Unterschied mindestens 0,5 Schläge – sonst ist es Zufall.
+  const byClub = {};
+  entries.filter(e => e.teeClub).forEach(e => { (byClub[e.teeClub] = byClub[e.teeClub] || []).push(e.strokes - e.par); });
+  const clubStats = Object.keys(byClub).filter(k => byClub[k].length >= 2)
+    .map(k => ({ name: k, n: byClub[k].length, avg: byClub[k].reduce((a, v) => a + v, 0) / byClub[k].length }))
+    .sort((a, b2) => a.avg - b2.avg);
+  if (clubStats.length >= 2) {
+    res.notes.push('Abschlag hier: ' + clubStats.map(c => `${c.name} Ø ${fmtPar(c.avg)} (${c.n}×)`).join(' · ') + '.');
+    if (clubStats[1].avg - clubStats[0].avg >= 0.5) res.bestClub = clubStats[0];
+  }
+  // 5) Empfehlung befolgt?
+  const withRec = entries.filter(e => e.teeClub && e.caddyRec);
+  const yes = withRec.filter(e => e.teeClub === e.caddyRec), no = withRec.filter(e => e.teeClub !== e.caddyRec);
+  const avgP = arr => arr.reduce((a, e) => a + (e.strokes - e.par), 0) / arr.length;
+  if (yes.length && no.length) res.notes.push(`Caddy befolgt: ${yes.length}× Ø ${fmtPar(avgP(yes))} · nicht befolgt: ${no.length}× Ø ${fmtPar(avgP(no))}.`);
+  else if (yes.length) res.notes.push(`Caddy befolgt: ${yes.length}× Ø ${fmtPar(avgP(yes))}.`);
+  return res;
+}
+function hxLearnHtml(learn) {
+  if (!learn.active) return `<div class="cx-dim">🧠 Lernt ab ${HX_LEARN_MIN} Runden an dieser Bahn (bisher ${learn.n}).</div>`;
+  const rows = [];
+  if (learn.forceSafe) rows.push(`<strong>Hier sicher spielen:</strong> ${learn.safeReasons.join('; ')}.`);
+  if (learn.missSide) rows.push(`Deine Fehlerseite hier: ${learn.missSide.side} (${learn.missSide.count} von ${learn.missSide.miss} verfehlten Fairways).`);
+  learn.notes.forEach(t => rows.push(t));
+  return `<div class="cx-learn"><div>🧠 <strong>Gelernt aus ${learn.n} Runden</strong></div>${rows.map(r => `<div>${r}</div>`).join('')}</div>`;
+}
+
 function hxAimShort(text) {
   const m = (text || '').match(/^Ziel [^–.(;]+/);
   return m ? m[0].trim().replace(/,$/, '') : '';
@@ -4048,7 +4290,7 @@ function hxStaleNote(c) {
 }
 
 // ---------- Abschlag Par 4/5 ----------
-function hxTeeHtml(b, ctx, sicher) {
+function hxTeeHtml(b, ctx, sicher, learn) {
   const tee = ctx.tee;
   const len = b[tee];
   const clubs = hxClubs(100).filter(c => c.carry < len - 20);
@@ -4063,7 +4305,14 @@ function hxTeeHtml(b, ctx, sicher) {
   const need = needRaw ? needRaw : null;
   const checks = clubs.map(c => hxCheckClub(c, distHz, { need, fwEnd }));
   hxZoneWind = 1;
-  const { primary, alt } = hxPick(checks, sicher);
+  let { primary, alt } = hxPick(checks, sicher);
+  // Gelernt: Schläger, mit dem du an dieser Bahn klar besser spielst – nur wenn er kein hartes Risiko hat.
+  let learnedPick = null, learnedBlocked = null;
+  if (learn && learn.bestClub && primary && learn.bestClub.name !== primary.c.name) {
+    const lc = checks.find(x => x.c.name === learn.bestClub.name);
+    if (lc && lc.hard.length === 0) { alt = primary; primary = lc; learnedPick = learn.bestClub; }
+    else if (lc) learnedBlocked = { ...learn.bestClub, why: lc.hard.join(' · ') };
+  }
   if (!primary) return `<div class="cx-text-sm">Kein Schläger im Bag landet ohne quer liegendes Hindernis – siehe Birdie Book Tipp.</div>`;
 
   const entlang = b.hindernisse.filter(h => hxZoneClass(h, tee) === 'entlang' && hxSideOf(h)).map(h => ({ h, d: null }));
@@ -4073,7 +4322,14 @@ function hxTeeHtml(b, ctx, sicher) {
 
   let html = `<div class="cx-rec">✅ ${primary.c.name} <span class="cx-dim-inline">Carry ${primary.c.carry.toFixed(0)} m · landet ca. ${primary.lo}–${primary.hi} m</span></div>`;
   if (primary.hard.length || primary.soft.length) html += `<div class="cx-risk">Risiko: ${primary.hard.concat(primary.soft).join(' · ')}</div>`;
-  const teeAim = hxAimText(primary.c.tend, aimHz, 'Fairway');
+  if (learnedPick) html += `<div class="cx-learn">🧠 Gelernt: mit ${learnedPick.name} spielst du hier Ø ${fmtPar(learnedPick.avg)} zu Par (${learnedPick.n}×) – besser als mit ${alt.c.name}.</div>`;
+  if (learnedBlocked) html += `<div class="cx-learn">🧠 Mit ${learnedBlocked.name} spielst du hier besser (Ø ${fmtPar(learnedBlocked.avg)}, ${learnedBlocked.n}×), laut Bag aber: ${learnedBlocked.why}. Empfehlung bleibt ${primary.c.name} – prüfe, ob die Bahndaten oder dein Bag-Wert stimmen.</div>`;
+  let teeAim = hxAimText(primary.c.tend, aimHz, 'Fairway');
+  // Gelernt: eigene Fehlerseite an dieser Bahn schlägt die TrackMan-Tendenz (echte Platzdaten).
+  if (learn && learn.missSide) {
+    const O = learn.missSide.side === 'links' ? 'rechts' : 'links';
+    teeAim = `Ziel halb${O} – hier ${learn.missSide.count} von ${learn.missSide.miss} verfehlten Fairways ${learn.missSide.side} (gelernt).`;
+  }
   hxLast.tee = { club: primary.c.name, aim: hxAimShort(teeAim) };
   hxLast.restEst = dogleg ? null : rest;
   html += `<div class="cx-text-sm">${teeAim}</div>`;
@@ -4087,7 +4343,7 @@ function hxTeeHtml(b, ctx, sicher) {
   html += hxStaleNote(primary.c);
   if (alt) {
     const why = alt.hard.concat(alt.soft);
-    html += `<div class="cx-alt">${sicher ? '🎲 Offensiv' : '🛡️ Sicher'}: ${alt.c.name} <span class="cx-dim-inline">landet ca. ${alt.lo}–${alt.hi} m${why.length ? ' · ' + why.join(' · ') : ''}</span></div>`;
+    html += `<div class="cx-alt">${learnedPick ? '📐 Standard' : (sicher ? '🎲 Offensiv' : '🛡️ Sicher')}: ${alt.c.name} <span class="cx-dim-inline">landet ca. ${alt.lo}–${alt.hi} m${why.length ? ' · ' + why.join(' · ') : ''}</span></div>`;
   }
   return html;
 }
@@ -4233,7 +4489,8 @@ function huenxCaddyHtml(hk, opts) {
 
   // Vorgabe → Risikobereitschaft
   const strokes = hxStrokesOnHole(ctx.sv, b.hcp);
-  const sicher = strokes === null ? true : strokes >= 1;
+  const learn = hxLearnHole(b);
+  const sicher = (strokes === null ? true : strokes >= 1) || learn.forceSafe;
   hxLast.strokes = strokes;
   let vg;
   if (strokes === null) vg = 'Spielvorgabe fehlt – Caddy spielt vorsichtshalber sicher.';
@@ -4246,6 +4503,8 @@ function huenxCaddyHtml(hk, opts) {
       : `${svTxt}: ${strokes} Vorgabeschl${strokes === 1 ? 'ag' : 'äge'}, Netto-Par ${b.par + strokes} – eher sicher spielen (Layup, Grünmitte).`;
   }
   html += `<div class="caddy-label">Caddy-Einschätzung</div><div class="cx-text-sm">${vg}</div>`;
+  if (learn.forceSafe && strokes === 0) html += `<div class="cx-text-sm">Trotzdem sicher – siehe gelernt.</div>`;
+  html += hxLearnHtml(learn);
 
   // Abschlag
   if (b.par === 3) {
@@ -4253,7 +4512,7 @@ function huenxCaddyHtml(hk, opts) {
     if (hxLast.appr) hxLast.tee = { club: hxLast.appr.club, aim: hxLast.appr.side || hxLast.appr.aim };
     hxLast.appr = null;
   } else {
-    html += `<div class="cx-sub">Abschlag</div>` + hxTeeHtml(b, ctx, sicher);
+    html += `<div class="cx-sub">Abschlag</div>` + hxTeeHtml(b, ctx, sicher, learn);
   }
 
   // Nächster Schlag (nur in der Runde): Entfernung per GPS oder Antippen – keine Tastatur
@@ -4586,9 +4845,45 @@ function caddyMeasure(i, hk) {
     renderHolesUI();
   });
 }
+// ---------- GPS ohne Birdie Book (Golf & More Huckingen) ----------
+// Nur Grünmitte + Distanz. Mit Distanz und Bag nennt der Caddy den passenden Schläger
+// (nicht im Wettspiel-Modus). Schlüssel z. B. "huckingen:Süd-3".
+const GPS_ONLY_COURSES = { Nord: 'huckingen', Sued: 'huckingen', West: 'huckingen', Kurzplatz: 'huckingen' };
+function gpsOnlyKey(subCourse, subHole) {
+  const id = GPS_ONLY_COURSES[subCourse];
+  return id && COURSES[subCourse] ? `${id}:${COURSES[subCourse].shortName}-${subHole}` : null;
+}
+function gpsOnlyBlockHtml(h, i, hk, withRec) {
+  const g = loadGreens()[hk];
+  const dist = caddyApproachSrc[i] === 'gps' ? caddyApproach[i] : undefined;
+  let html = `<div class="cx-dist-row">
+      <button type="button" class="btn-primary cx-gps-btn" onclick="caddyMeasure(${i}, '${hk}')" ${g ? '' : 'style="opacity:.55;"'}>📍 Entfernung</button>
+      ${dist ? `<div class="cx-live"><strong>${Math.round(dist)} m</strong><span>zur Grünmitte</span></div>` : ''}
+    </div>`;
+  if (caddyGpsMsg) html += `<div class="cx-dim">${caddyGpsMsg}</div>`;
+  if (withRec && dist) {
+    const len = getLengthProfile(h.subCourse)[h.subHole - 1];
+    // Am Abschlag (GPS-Distanz nahe Lochlänge) bleibt es bei der Empfehlung nach Lochlänge.
+    if (!(len && dist > len - 30)) {
+      const m = bagClosestMatches(dist, 2);
+      if (m.length) html += `<div class="bag-rec-result" style="margin-top:8px;">${bagMatchesHtml(m)}</div>`;
+    }
+  }
+  if (!g) {
+    html += `<div class="cx-dim" style="margin-top:8px;">Grünmitte noch nicht gespeichert. Einmal mitten auf dem Grün stehen und tippen.</div>
+      <button type="button" class="btn-gold" style="margin-top:6px;" onclick="caddySaveGreen('${hk}')">📍 Grünmitte hier speichern</button>`;
+  }
+  return html;
+}
+function gpsOnlyResetHtml(hk) {
+  const g = loadGreens()[hk];
+  return `<div class="cx-sub">GPS Grünmitte</div><div class="cx-dim">Gespeichert am ${g.date} (±${Math.round(g.acc)} m).</div>
+    <button type="button" class="btn-gold" style="margin-top:6px;" onclick="caddySaveGreen('${hk}')">📍 Grünmitte neu setzen</button>`;
+}
+
 function caddySaveGreen(hk) {
   const greens = loadGreens();
-  const bahnNr = hk.split(':')[1];
+  const bahnNr = hk.split(':')[1].replace('-', ' ');
   if (greens[hk] && !confirm(`Grünmitte Bahn ${bahnNr} überschreiben?`)) return;
   gpsGet(c => {
     greens[hk] = { lat: c.latitude, lon: c.longitude, acc: c.accuracy, date: todayStr() };
@@ -4765,6 +5060,7 @@ seedBagIfEmpty();
 migrateBagDefaultsV2();
 applyRealBagDataOnce();
 applyStreuungSeedOnce();
+applyBagSession20261001Once();
 if (mode === 'scorecard') renderHolesUI();
 backupReminderRender(false);
 </script>

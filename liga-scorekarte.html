@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liga-Scorekarte</title>
+<meta name="theme-color" content="#111a2c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Turnier-Palette (Nachtblau) – bewusst anders als der grüne Trainings-Tracker */
+  --bg: #111a2c; --bg-alt: #18233a; --card: #1c2943; --card-border: #2d3d5e;
+  --fairway: #6f9ae0; --fairway-bright: #a9c6f3; --gold: #e0b44b; --red: #e06c6c;
+  --text: #edf1f8; --text-dim: #a6b2c8;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.5; padding-bottom: 60px; }
+h1, h2, h3, h4 { font-family: 'Fraunces', serif; font-weight: 600; margin: 0; }
+header.hero { text-align: center; padding: 28px 20px 20px; border-bottom: 1px solid var(--card-border); }
+header.hero .badge { display: inline-flex; align-items: center; gap: 8px; background: var(--fairway-bright); color: #0c1424; border-radius: 999px; padding: 7px 18px; font-weight: 600; font-size: 14px; margin-bottom: 14px; }
+header.hero h1 { font-size: 24px; color: var(--fairway-bright); }
+header.hero p { font-size: 13px; color: var(--text-dim); margin-top: 8px; max-width: 480px; margin-left:auto; margin-right:auto;}
+main { max-width: 720px; margin: 0 auto; padding: 20px 16px; }
+section { margin-bottom: 20px; }
+.card { background: var(--card); border: 1px solid var(--card-border); border-radius: 14px; padding: 18px; }
+h2 { font-size: 17px; color: var(--fairway-bright); margin-bottom: 12px; cursor: pointer; }
+label { display: block; font-size: 12px; color: var(--text-dim); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.03em; }
+select, input[type="text"], input[type="date"], input[type="number"] {
+  width: 100%; padding: 11px 12px; border-radius: 9px; border: 1px solid var(--card-border);
+  background: var(--bg-alt); color: var(--text); font-size: 14px; font-family: 'Inter', sans-serif;
+}
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 12px; }
+button { font-family: 'Inter', sans-serif; font-weight: 600; border-radius: 10px; border: none; cursor: pointer; }
+.btn-primary { background: var(--fairway); color: #0c1424; padding: 13px 18px; font-size: 15px; }
+.btn-secondary { background: var(--bg-alt); color: var(--text); border: 1px solid var(--card-border); padding: 11px 16px; font-size: 13px; }
+.settings-toggle { background: none; border: none; color: var(--gold); text-decoration: underline; cursor: pointer; font-size: 13px; padding: 4px 0; }
+
+/* Lochnavigation */
+.hole-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
+.hole-nav button { background: var(--fairway); color: #0c1424; padding: 10px 20px; font-size: 18px; }
+.hole-nav button:disabled { opacity: 0.3; }
+.hole-title { font-size: 22px; color: var(--fairway-bright); text-align:center; }
+.hole-meta { text-align:center; font-size:12px; color: var(--text-dim); margin-top:4px; }
+.stepper { display: flex; align-items: center; gap: 10px; justify-content:center; }
+.stepper button { width: 44px; height: 44px; border-radius: 10px; background: var(--bg-alt); color: var(--text); border: 1px solid var(--card-border); font-size: 20px; }
+.stepper-val { font-family: 'Fraunces', serif; font-size: 28px; min-width: 46px; text-align: center; color: var(--fairway-bright); }
+.stepper-label { text-align:center; font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.03em; margin: 14px 0 6px; }
+.hole-dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 18px; }
+.hole-dot { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--card-border); background: var(--bg-alt); color: var(--text-dim); font-size: 11px; font-weight: 600; cursor: pointer; }
+.hole-dot.current { background: var(--gold); color: #2a2205; border-color: transparent; }
+.hole-dot.done { background: var(--fairway); color: #0c1424; border-color: transparent; }
+
+/* Birdie book / Hindernis-Hinweis */
+.hazard-box { background: rgba(224,108,108,0.12); border: 1px solid var(--red); border-radius: 10px; padding: 10px 14px; font-size: 13px; margin-bottom: 14px; }
+.hazard-box strong { color: var(--red); }
+.no-hazard { font-size: 12px; color: var(--text-dim); margin-bottom: 14px; }
+
+/* Schlagzähler */
+.cz-player-row { display: flex; gap: 8px; margin-bottom: 12px; }
+.cz-player-btn { flex: 1; padding: 9px; border-radius: 999px; border: 1px solid var(--card-border); background: var(--bg-alt); color: var(--text-dim); font-size: 13px; font-weight: 600; }
+.cz-player-btn.active { background: var(--gold); color: #2a2205; border-color: transparent; }
+.cz-tap-zone { display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg-alt); height: 180px; border-radius: 16px; border: 1px solid var(--card-border); cursor: pointer; margin-bottom: 10px; }
+.cz-tap-zone .cz-count { font-family: 'Fraunces', serif; font-weight: 700; font-size: 70px; color: var(--fairway-bright); }
+.cz-tap-zone .cz-hint { font-size: 12px; color: var(--text-dim); }
+.cz-undo { width:100%; text-align:center; margin-bottom: 14px; background:none; border:1px solid var(--card-border); color:var(--text-dim); padding:9px; }
+
+/* Regelbuch */
+.rb-search-input { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--card-border); background: var(--bg-alt); color: var(--text); font-size: 14px; margin-bottom: 10px; }
+.rb-filter-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.rb-filter-chip { font-size: 11px; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--card-border); background: var(--bg-alt); color: var(--text-dim); cursor: pointer; }
+.rb-filter-chip.active { background: var(--gold); color: #2a2205; border-color: transparent; }
+.rb-card { background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; cursor: pointer; }
+.rb-card-title { font-size: 15px; color: var(--fairway-bright); margin:0; }
+.rb-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.rb-tag { font-size: 10px; padding: 2px 8px; border-radius: 999px; background: var(--card); color: var(--text-dim); white-space: nowrap; }
+.rb-tag-hole { background: var(--fairway); color: #0c1424; }
+.rb-tag-penalty { background: var(--red); color: #fff; }
+.rb-tag-free { background: var(--fairway-bright); color: #0c1424; }
+.rb-easy { font-size: 13.5px; margin-top: 10px; background: var(--card); border-radius: 8px; padding: 10px 12px; }
+.rb-easy-label { font-size: 10px; text-transform: uppercase; color: var(--fairway-bright); font-weight: 700; display:block; margin-bottom:4px; }
+.rb-procedure { display:none; font-size: 12.5px; color: var(--text-dim); margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--card-border); }
+.rb-card.rb-open .rb-procedure { display:block; }
+.rb-hint { font-size: 11px; color: var(--text-dim); margin-top: 8px; text-align: right; }
+.empty-state { font-size: 13px; color: var(--text-dim); text-align: center; padding: 16px 0; }
+
+/* Scorecard-Übersicht */
+table { width:100%; border-collapse: collapse; font-size: 13px; }
+th, td { padding: 8px 6px; text-align: center; border-bottom: 1px solid var(--card-border); }
+th { color: var(--text-dim); font-size: 10px; text-transform: uppercase; }
+.total-row td { font-weight: 700; color: var(--fairway-bright); }
+
+footer { text-align: center; font-size: 11px; color: var(--text-dim); padding: 20px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="badge">🏆 Nur Liga &amp; Turnier</div>
+  <h1>Liga-Scorekarte</h1>
+  <p>Reine Scorekarte, Schlagzähler, Platzdaten (Birdie Book) und Regelbuch – ohne Trainingsfunktionen, ohne Schlägerempfehlung, ohne persönliche Analyse. Regelkonform nach Regel 4.3.</p>
+  <div class="form-grid" style="margin-top:14px;">
+    <button type="button" class="btn-secondary" id="mode-liga-btn">⛳ Ligaspiel</button>
+    <button type="button" class="btn-secondary" id="mode-free-btn">🔢 Freies Spiel (nur zählen)</button>
+  </div>
+</header>
+
+<main id="liga-main">
+
+  <section>
+    <h2 id="setup-toggle">⚙️ Runde einrichten ▾</h2>
+    <div class="card" id="setup-panel">
+      <div class="form-grid">
+        <div>
+          <label for="club-select">Verein</label>
+          <select id="club-select"></select>
+        </div>
+        <div>
+          <label for="course-select">Platz</label>
+          <select id="course-select"></select>
+        </div>
+        <div>
+          <label for="match-date">Datum</label>
+          <input type="date" id="match-date">
+        </div>
+        <div>
+          <label for="match-type">Wettbewerb</label>
+          <input type="text" id="match-type" placeholder="z. B. Bezirksliga AK50">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>⛳ Scorekarte</h2>
+    <div class="card">
+      <div class="hole-nav">
+        <button type="button" id="hole-prev">‹</button>
+        <div>
+          <div class="hole-title" id="hole-title">Loch 1</div>
+          <div class="hole-meta" id="hole-meta">Par 4 · 333 m · HCP-Index 13</div>
+        </div>
+        <button type="button" id="hole-next">›</button>
+      </div>
+
+      <div id="hazard-wrap"></div>
+
+      <div class="stepper-label">Schläge</div>
+      <div class="stepper">
+        <button type="button" id="strokes-minus">−</button>
+        <span class="stepper-val" id="strokes-val">4</span>
+        <button type="button" id="strokes-plus">+</button>
+      </div>
+      <div class="stepper-label">Putts</div>
+      <div class="stepper">
+        <button type="button" id="putts-minus">−</button>
+        <span class="stepper-val" id="putts-val">2</span>
+        <button type="button" id="putts-plus">+</button>
+      </div>
+
+      <div class="hole-dots" id="hole-dots"></div>
+
+      <button type="button" class="settings-toggle" id="overview-toggle" style="margin-top:18px;">Übersicht aller Löcher anzeigen</button>
+      <div id="overview-wrap" style="display:none; margin-top:12px;"></div>
+      <button type="button" class="btn-primary" id="finish-round-btn" style="width:100%; margin-top:18px;">Runde abschließen &amp; in Saison-Historie speichern</button>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="stats-toggle">📊 Gesamt-Auswertung ▾</h2>
+    <div class="card" id="stats-panel" style="display:none;">
+      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Allgemeiner Überblick über alle gespeicherten Ligarunden, saisonübergreifend.</p>
+      <div id="stats-content"></div>
+      <div class="empty-state" id="stats-empty" style="display:none;">Noch keine Runde abgeschlossen.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="season-toggle">📅 Saison-Historie ▾</h2>
+    <div class="card" id="season-panel" style="display:none;">
+      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Alle abgeschlossenen Ligarunden dieser Saison.</p>
+      <div id="season-list"></div>
+      <div class="empty-state" id="season-empty" style="display:none;">Noch keine Runde abgeschlossen.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="backup-toggle">💾 Backup ▾</h2>
+    <div class="card" id="backup-panel" style="display:none;">
+      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Alle gespeicherten Ligarunden dieser Saison exportieren oder auf einem anderen Gerät importieren.</p>
+      <div class="form-grid">
+        <button type="button" class="btn-secondary" id="export-btn">Backup exportieren</button>
+        <button type="button" class="btn-secondary" id="import-btn">Backup importieren</button>
+      </div>
+      <input type="file" id="import-file" accept=".json" style="display:none;">
+      <div class="empty-state" id="backup-msg" style="display:none;"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="cz-toggle">🔢 Schlagzähler für Mitspieler ▾</h2>
+    <div class="card" id="cz-panel" style="display:none;">
+      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Zum Zählen/Markieren, unabhängig von deiner eigenen Scorekarte oben.</p>
+      <div class="form-grid" style="margin-bottom:12px;">
+        <div>
+          <label for="gast-name">Name des Gegners/Mitspielers</label>
+          <input type="text" id="gast-name" placeholder="z. B. Nachname Gegner">
+        </div>
+      </div>
+      <div class="cz-player-row">
+        <button type="button" class="cz-player-btn active" data-player="A" id="cz-btn-sascha">Sascha</button>
+        <button type="button" class="cz-player-btn" data-player="B" id="cz-btn-gast">Gast</button>
+      </div>
+      <div class="hole-meta" style="margin-bottom:10px;">Loch <strong id="cz-hole-num">1</strong></div>
+      <div class="cz-tap-zone" id="cz-tap-zone">
+        <div class="cz-count" id="cz-count">0</div>
+        <div class="cz-hint">antippen für +1 Schlag</div>
+      </div>
+      <button type="button" class="cz-undo" id="cz-undo">− 1 korrigieren</button>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="rb-toggle">📖 Regelbuch ▾</h2>
+    <div class="card" id="rb-panel" style="display:none;">
+      <input type="text" class="rb-search-input" id="rb-search" placeholder="Situation oder Bahn suchen...">
+      <div class="rb-filter-row" id="rb-hole-filters"></div>
+      <div id="rb-list"></div>
+      <div class="empty-state" id="rb-empty" style="display:none;">Keine Treffer.</div>
+    </div>
+  </section>
+
+</main>
+<main id="free-main" style="display:none;">
+  <section>
+    <h2>🔢 Freies Spiel – nur zählen</h2>
+    <div class="card">
+      <p style="font-size:12px; color:var(--text-dim); margin:0 0 14px;">Keine Platzdaten, kein Par, keine Speicherung. Wird beim Verlassen oder Neuladen der Seite verworfen.</p>
+      <div class="form-grid" style="margin-bottom:14px;">
+        <div>
+          <label for="free-gast-name">Name des Mitspielers</label>
+          <input type="text" id="free-gast-name" placeholder="z. B. Vorname">
+        </div>
+      </div>
+      <div class="hole-nav" style="margin-bottom:14px;">
+        <button type="button" id="free-hole-prev">‹</button>
+        <div class="hole-meta">Loch <strong id="free-hole-num">1</strong></div>
+        <button type="button" id="free-hole-next">›</button>
+      </div>
+      <div class="cz-player-row">
+        <button type="button" class="cz-player-btn active" data-player="A" id="free-btn-sascha">Sascha</button>
+        <button type="button" class="cz-player-btn" data-player="B" id="free-btn-gast">Mitspieler</button>
+      </div>
+      <div class="cz-tap-zone" id="free-tap-zone">
+        <div class="cz-count" id="free-count">0</div>
+        <div class="cz-hint">antippen für +1 Schlag</div>
+      </div>
+      <button type="button" class="cz-undo" id="free-undo">− 1 korrigieren</button>
+      <button type="button" class="settings-toggle" id="free-reset-btn" style="margin-top:14px; color:var(--red);">Alles zurücksetzen</button>
+    </div>
+  </section>
+</main>
+
+
+<footer>Liga-Scorekarte · Eigenständig, getrennt von der Trainings-App · Daten nur lokal in diesem Browser</footer>
+
+<script>
+// ============================================================
+// Eigenständiger Datenbestand – komplett getrennt von der
+// Trainings-/Caddy-App. Keine gemeinsamen localStorage-Keys.
+// ============================================================
+const LS_PREFIX = 'ligaScorekarte_';
+const LS_MATCH = LS_PREFIX + 'currentMatch';
+const LS_CZ = LS_PREFIX + 'counter';
+const LS_SEASON = LS_PREFIX + 'seasonRounds';
+
+// ---------- Platzdaten: nur Birdie-Book-relevante Fakten (Par, Länge, Index, Hindernisse) ----------
+// Start: Golfclub Hünxerwald. Weitere Plätze werden ergänzt, sobald eine Ligarunde gegen den
+// jeweiligen Gegner-Verein ansteht – nicht vorab, um keine unnötigen/ungeprüften Daten zu führen.
+const CLUBS = {
+  'Golfclub Hünxerwald': {
+    courses: {
+      'Hünxerwald (18 Loch)': {
+        par:   [4,4,4,4,3,4,5,3,5, 4,4,3,5,4,5,4,3,4],
+        length:[333,343,265,313,170,382,441,195,498, 326,291,208,493,404,476,280,133,352],
+        index: [13,9,17,5,15,1,11,7,3, 10,16,12,6,4,2,14,18,8],
+      }
+    }
+  }
+};
+
+// ---------- Regelbuch: Golfregeln + Etikette + Kleiderordnung (ohne Trainings-/Caddy-Inhalte) ----------
+const RULES_DB = [
+  {
+    title: 'Ball im Aus (OB)', rule: 'Regel 18.2', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Dein Ball liegt außerhalb der Platzgrenze (weiße Pfähle/Zaun). Du musst nochmal von der Stelle spielen, wo du vorher warst – und zählst dafür einen Schlag extra dazu. Bist du unsicher: spiel einen Provisorischen Ball. Hünxerwald: keine erleichterte Alternativregel. Bahn 18: die Fläche von Bahn 10 zählt als Aus!',
+    summary: 'Erleichterung mit Schlag- und Distanzverlust: 1 Strafschlag dazu, nächster Schlag von der Stelle des vorherigen Schlags.',
+    procedure: 'Kein Droppen am Rand des Aus. Laut Hünxerwald-Platzregel (Stand 15.05.2026) keine straffreie Erleichterung, keine alternative Local Rule. Bahn 18: Fläche von Bahn 10 ist Aus, die weißen Pfosten dort sind beim Spielen von Bahn 10 unbewegliche Hemmnisse, beim Spielen von Bahn 18 Auspfähle.',
+    keywords: ['aus','out of bounds','ob','weiße pfähle'], holes: [3,18], club: 'Golfclub Hünxerwald',
+  },
+  {
+    title: 'Ball verloren', rule: 'Regel 18.2 · Suchzeit Regel 7.4', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Du findest deinen Ball nach 3 Minuten Suche nicht mehr. Dann wie im Aus: zurück zur alten Stelle, 1 Schlag dazu.',
+    summary: 'Gleiche Behandlung wie Ball im Aus. Suchzeit maximal 3 Minuten ab Beginn der Suche.',
+    procedure: 'Nach 3 Minuten ohne Fund gilt der Ball als verloren. Hinter dir spielende Flights immer durchspielen lassen.',
+    keywords: ['verloren','rough','3 minuten'], holes: [], club: null,
+  },
+  {
+    title: 'Ball im Wasser / Penalty Area', rule: 'Regel 17', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Dein Ball liegt in einem Bereich mit roten Pfählen. Du suchst dir eine von mehreren erlaubten Stellen aus und spielst von dort weiter, 1 Schlag Strafe. Hünxerwald: ALLE Penalty Areas sind rot – du darfst immer auch seitlich Erleichterung nehmen. Bahn 4: Bist du unsicher, ob der Ball im Teich vor dem Grün liegt, darfst du einen speziellen Provisorischen Ball mit allen Erleichterungsoptionen spielen.',
+    summary: 'Nur rote Pfähle hier: 1 Strafschlag, plus rückwärtige Linie beliebig weit zurück ODER seitliche Erleichterung (2 Schlägerlängen vom Kreuzungspunkt, nicht näher zum Loch).',
+    procedure: 'Ball muss nicht gefunden werden, wenn sicher in der Penalty Area. Spielen aus der Zone selbst ist straflos möglich. Bahn 4: modifizierter Provisorischer Ball erlaubt (Regel 18.3 + alle Optionen von 17.1d).',
+    keywords: ['wasser','penalty area','graben','teich'], holes: [1,4,10,11,12,13,14,15,16], club: 'Golfclub Hünxerwald',
+  },
+  {
+    title: 'Ball in der Spielverbotszone ("Biotop")', rule: 'Regel 2.4 i.V.m. Regel 17 · Platzregel Nr. 4',
+    penalty: '1 Strafschlag (Ball dort) · 2 Strafschläge/Disqualifikation (Betreten)', freeRelief: false,
+    easy: 'Rote Pfähle mit GRÜNEM Kopf, u. a. Bahn 10 und die Brücken Bahn 10/11 und 15/16. Betreten ist verboten, auch zum Ballsuchen! Ball dort: 1 Schlag Strafe, Erleichterung von außerhalb. Trotzdem betreten: 2 Strafschläge, beim zweiten Mal Disqualifikation.',
+    summary: 'Spielverbotszonen sind Penalty Areas mit zusätzlich grünem Pfahlkopf. Ball dort: Erleichterung nach 17.1 Pflicht, 1 Strafschlag.',
+    procedure: 'Stand/Schwung beeinträchtigt, Ball außerhalb: straffreie Erleichterung nach 16.1f. Betreten laut Platzregel Nr. 4: 1. Verstoß 2 Strafschläge, 2. Verstoß Disqualifikation.',
+    keywords: ['biotop','spielverbotszone','grüner kopf'], holes: [10,11,15,16], club: 'Golfclub Hünxerwald',
+  },
+  {
+    title: 'Ball unspielbar', rule: 'Regel 19', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Ball liegt ungünstig. Du darfst selbst "unspielbar" erklären – überall außer im roten Bereich. 1 Schlag Strafe, 3 Optionen weiterzuspielen.',
+    summary: 'Optionen: (a) Distanzverlust, (b) rückwärtige Linie beliebig weit zurück, (c) seitlich 2 Schlägerlängen, nicht näher zum Loch.',
+    procedure: 'Im Bunker: alle 3 Optionen bleiben im Bunker, außer 2 Strafschläge gesamt für Linie außerhalb (Regel 19.3b).',
+    keywords: ['unspielbar','bunkerkante'], holes: [], club: null,
+  },
+  {
+    title: 'Boden in Ausbesserung (blaue Pfähle)', rule: 'Regel 16.1', penalty: 'keine', freeRelief: true,
+    easy: 'Blaue Pfähle oder weiße Kreis-Linie = Boden in Ausbesserung. Ball dort: IMMER straflos raus – nächste Stelle außerhalb, nicht näher zum Loch.',
+    summary: 'Straffreie Erleichterung. Gilt auch für gepflockte Bäume samt Gießring und markierte Neuanpflanzungen.',
+    procedure: 'Nächstgelegenen Punkt vollständiger Erleichterung bestimmen, max. 1 Schlägerlänge, Ball dort droppen.',
+    keywords: ['blauer pfahl','boden in ausbesserung','gur'], holes: [], club: null,
+  },
+  {
+    title: 'Bunker: Schläger aufsetzen / Sand berühren', rule: 'Regel 12.2', penalty: '2 Strafschläge bei Verstoß', freeRelief: false,
+    easy: 'Schläger im Sand aufsetzen und Sand berühren ist erlaubt. Verboten: Sand testen (mit Hand prüfen), Schläger absichtlich vor/hinter dem Ball in den Sand drücken.',
+    summary: 'Seit 2019 gelockert: Berühren grundsätzlich erlaubt.',
+    procedure: 'Verboten bleibt: Testen des Sands, Übungsbewegung mit Sandberührung.',
+    keywords: ['bunker','sand','schläger aufsetzen'], holes: [], club: null,
+  },
+  {
+    title: 'Harke / bewegliches Hemmnis', rule: 'Regel 15.2', penalty: 'keine', freeRelief: true,
+    easy: 'Harke, Ast o. ä. im Weg? Straflos wegnehmen, auch im Bunker/Grün. Ball rollt dabei weg: straflos zurücklegen.',
+    summary: 'Bewegliche Hemmnisse dürfen straflos entfernt werden.', procedure: '',
+    keywords: ['harke','rechen'], holes: [], club: null,
+  },
+  {
+    title: 'Flaggenstock bedienen', rule: 'Regel 13.2', penalty: '0 (unbedient) · 2 Strafschläge (bedient getroffen)', freeRelief: false,
+    easy: 'Mit Fahne im Loch putten ist erlaubt, kostet nichts bei Treffer. Hält jemand die Fahne extra fest und dein Ball trifft sie: 2 Strafschläge. Am sichersten: Fahne immer drinlassen.',
+    summary: 'Unbedienter Stock: straflos. Bedient/gehalten getroffen: Generalstrafe.', procedure: '',
+    keywords: ['flagge','fahne','pin'], holes: [], club: null,
+  },
+  {
+    title: 'Ball nach Markieren falsch zurückgelegt', rule: 'Regel 14.2 · bei Fehlspiel 14.7a', penalty: '2 Strafschläge, falls von dort gespielt', freeRelief: false,
+    easy: 'Ball nicht exakt an markierter Stelle zurückgelegt? Fällt es VOR dem Schlag auf: straflos korrigieren. Von falscher Stelle gespielt: 2 Strafschläge.',
+    summary: 'Exakte Rücklegepflicht, Korrektur vor dem Schlag straflos.', procedure: '',
+    keywords: ['markiert','zurücklegen','falscher ort'], holes: [], club: null,
+  },
+  {
+    title: 'Ball von Mitspieler auf dem Grün getroffen', rule: 'Regel 11.1b', penalty: '2 Strafschläge für den Schlagenden', freeRelief: false,
+    easy: 'Dein Putt trifft den Ball des Mitspielers, der schon auf dem Grün lag: DU bekommst 2 Strafschläge. Deshalb: beim Putten gegenseitig markieren.',
+    summary: 'Ausnahme von der sonst straflosen Regel bei Treffern auf dem Grün.', procedure: '',
+    keywords: ['mitspieler ball','grün getroffen'], holes: [], club: null,
+  },
+  {
+    title: 'Angesprochener Ball fällt vom Tee', rule: 'Regel 6.2b(5)', penalty: 'keine', freeRelief: true,
+    easy: 'Ball fällt beim Ansprechen vom Tee, bevor geschlagen wurde: straflos neu auftee\'n.',
+    summary: 'Gilt nur im Abschlagbereich, vor dem Schlag.', procedure: '',
+    keywords: ['fällt vom tee','tee ansprechen'], holes: [], club: null,
+  },
+  {
+    title: 'Provisorischer Ball', rule: 'Regel 18.3', penalty: '1 Strafschlag, falls Erstball nicht gefunden/im Aus', freeRelief: false,
+    easy: 'Unsicher ob Aus/verloren: Provisorischen Ball spielen, vorher laut ankündigen.',
+    summary: 'Spart Zeit bei Unsicherheit außerhalb von Penalty Areas.', procedure: '',
+    keywords: ['provisorisch','vorläufig'], holes: [], club: null,
+  },
+  // ---- Etikette ----
+  {
+    category: 'etikette', title: 'Spieltempo & Durchspielen', rule: 'Verhaltensvorschrift Nr. 2', penalty: null,
+    easy: 'Anschluss zum Flight vor dir halten. Mehr als eine Spielbahn Abstand: schnellere Gruppe sofort durchlassen. Ready Golf außerhalb des Lochspiels erwünscht.',
+    summary: '', procedure: '', keywords: ['tempo','ready golf','durchspielen'], holes: [], club: 'Golfclub Hünxerwald',
+  },
+  {
+    category: 'etikette', title: 'Platzpflege', rule: 'Verhaltensvorschrift Nr. 4', penalty: null,
+    easy: 'Pitchmarken ausbessern, Divots zurücklegen/verfüllen, Bunker harken, Trolley/Cart nicht über Vorgrüns/Abschläge.',
+    summary: '', procedure: '', keywords: ['pitchmarke','divot','harken'], holes: [], club: 'Golfclub Hünxerwald',
+  },
+  {
+    category: 'etikette', title: 'Sanktionen bei Fehlverhalten', rule: 'Regel 1.2a i.V.m. Verhaltensvorschriften', penalty: null,
+    easy: 'Allgemeines Fehlverhalten: 1. Verstoß 1 Strafschlag, 2. Verstoß 2 Strafschläge, 3. Verstoß Disqualifikation. Schweres Fehlverhalten: sofortige Disqualifikation möglich.',
+    summary: '', procedure: '', keywords: ['sanktion','fehlverhalten'], holes: [], club: 'Golfclub Hünxerwald',
+  },
+  // ---- Kleiderordnung ----
+  {
+    category: 'kleidung', title: 'Kleiderordnung (Kurzfassung)', rule: 'Kleiderordnung 2026 + Aushang', penalty: null,
+    easy: 'GO: Kragen-/Stehkragen-Oberteil, Gürtel, lange/kurze Golf-Stoffhose (mind. Knielänge), Golfschuhe mit/ohne Softspikes, Cap mit Schild nach vorne. NO-GO: T-Shirt, Fußballshirt, Achselshirt, Hoodie, Blue Jeans, Cargohose, Jogginghose, Beachshorts, Sandalen/Flip-Flops/Turnschuhe, Metallspikes.',
+    summary: '', procedure: '', keywords: ['kleiderordnung','kragen','gürtel','jeans','schuhe'], holes: [], club: 'Golfclub Hünxerwald',
+  },
+];
+
+// ---------- Storage ----------
+function loadMatch() {
+  try { const raw = localStorage.getItem(LS_MATCH); return raw ? JSON.parse(raw) : null; } catch(e) { return null; }
+}
+function saveMatch(m) { try { localStorage.setItem(LS_MATCH, JSON.stringify(m)); } catch(e) {} }
+function loadCounter() {
+  try { const raw = localStorage.getItem(LS_CZ); return raw ? JSON.parse(raw) : null; } catch(e) { return null; }
+}
+function saveCounter(c) { try { localStorage.setItem(LS_CZ, JSON.stringify(c)); } catch(e) {} }
+function loadSeason() {
+  try { const raw = localStorage.getItem(LS_SEASON); return raw ? JSON.parse(raw) : []; } catch(e) { return []; }
+}
+function saveSeason(rounds) { try { localStorage.setItem(LS_SEASON, JSON.stringify(rounds)); return true; } catch(e) { return false; } }
+
+function defaultMatch() {
+  const club = Object.keys(CLUBS)[0];
+  const course = Object.keys(CLUBS[club].courses)[0];
+  const n = CLUBS[club].courses[course].par.length;
+  return {
+    club, course, date: new Date().toISOString().slice(0,10), matchType: '', gastName: '',
+    holeIndex: 0,
+    holes: Array.from({length:n}, (_,i) => ({ strokes: CLUBS[club].courses[course].par[i], putts: 2 })),
+  };
+}
+function defaultCounter(n) {
+  return { activePlayer: 'A', holeIndex: 0, counts: { A: Array(n).fill(null), B: Array(n).fill(null) } };
+}
+
+let match = loadMatch() || defaultMatch();
+let counter = loadCounter();
+
+function courseData() { return CLUBS[match.club].courses[match.course]; }
+
+// ---------- Setup ----------
+function populateClubs() {
+  document.getElementById('club-select').innerHTML = Object.keys(CLUBS).map(c => `<option value="${c}">${c}</option>`).join('');
+  document.getElementById('club-select').value = match.club;
+  populateCourses();
+}
+function populateCourses() {
+  const club = document.getElementById('club-select').value;
+  const sel = document.getElementById('course-select');
+  sel.innerHTML = Object.keys(CLUBS[club].courses).map(c => `<option value="${c}">${c}</option>`).join('');
+  sel.value = CLUBS[club].courses[match.course] ? match.course : Object.keys(CLUBS[club].courses)[0];
+}
+document.getElementById('club-select').addEventListener('change', () => {
+  match.club = document.getElementById('club-select').value;
+  populateCourses();
+  match.course = document.getElementById('course-select').value;
+  resetHolesForCourse();
+});
+document.getElementById('course-select').addEventListener('change', () => {
+  match.course = document.getElementById('course-select').value;
+  resetHolesForCourse();
+});
+function resetHolesForCourse() {
+  const n = courseData().par.length;
+  match.holes = Array.from({length:n}, (_,i) => ({ strokes: courseData().par[i], putts: 2 }));
+  match.holeIndex = 0;
+  saveMatch(match);
+  renderHole(); renderOverview();
+  counter = defaultCounter(n); saveCounter(counter); renderCounter();
+}
+document.getElementById('match-date').addEventListener('change', () => { match.date = document.getElementById('match-date').value; saveMatch(match); });
+document.getElementById('match-type').addEventListener('input', () => { match.matchType = document.getElementById('match-type').value; saveMatch(match); });
+document.getElementById('gast-name').addEventListener('input', () => {
+  match.gastName = document.getElementById('gast-name').value;
+  saveMatch(match);
+  renderCzButtonLabels();
+});
+function renderCzButtonLabels() {
+  const gastLabel = (match.gastName && match.gastName.trim()) ? match.gastName.trim() : 'Gast';
+  document.getElementById('cz-btn-gast').textContent = gastLabel;
+}
+
+document.getElementById('setup-toggle').addEventListener('click', () => {
+  const panel = document.getElementById('setup-panel');
+  const show = panel.style.display === 'none';
+  panel.style.display = show ? 'block' : 'none';
+  document.getElementById('setup-toggle').textContent = '⚙️ Runde einrichten ' + (show ? '▴' : '▾');
+});
+
+// ---------- Scorecard ----------
+function physicalHoleNumber(i) { return i + 1; } // Hünxerwald ist ein durchgehender 18-Loch-Platz, keine Kombi-Logik nötig
+
+function renderHole() {
+  const i = match.holeIndex;
+  const n = match.holes.length;
+  const par = courseData().par[i];
+  const length = courseData().length[i];
+  const idx = courseData().index[i];
+  document.getElementById('hole-title').textContent = `Loch ${i+1} von ${n}`;
+  document.getElementById('hole-meta').textContent = `Par ${par} · ${length} m · HCP-Index ${idx}`;
+  document.getElementById('strokes-val').textContent = match.holes[i].strokes;
+  document.getElementById('putts-val').textContent = match.holes[i].putts;
+  document.getElementById('hole-prev').disabled = i === 0;
+  document.getElementById('hole-next').disabled = i === n - 1;
+
+  const hazards = RULES_DB.filter(e => !e.category && e.club === match.club && e.holes.includes(physicalHoleNumber(i)));
+  const hazardWrap = document.getElementById('hazard-wrap');
+  if (hazards.length > 0) {
+    hazardWrap.innerHTML = `<div class="hazard-box">⚠️ <strong>Bekanntes Hindernis:</strong> ${hazards.map(h => h.title).join(', ')}</div>`;
+  } else {
+    hazardWrap.innerHTML = `<div class="no-hazard">Keine besonderen Hindernisse für dieses Loch im Birdie Book hinterlegt.</div>`;
+  }
+
+  const dots = match.holes.map((h, idx2) => {
+    const cls = idx2 === i ? 'current' : (h.strokes !== courseData().par[idx2] || h.putts !== 2) ? 'done' : '';
+    return `<button type="button" class="hole-dot ${cls}" onclick="jumpToHole(${idx2})">${idx2+1}</button>`;
+  }).join('');
+  document.getElementById('hole-dots').innerHTML = dots;
+
+  // Schlagzähler folgt automatisch demselben Loch
+  if (counter) { counter.holeIndex = i; saveCounter(counter); renderCounter(); }
+}
+function jumpToHole(i) { match.holeIndex = i; saveMatch(match); renderHole(); }
+document.getElementById('hole-prev').addEventListener('click', () => { if (match.holeIndex>0){match.holeIndex--; saveMatch(match); renderHole();} });
+document.getElementById('hole-next').addEventListener('click', () => { if (match.holeIndex<match.holes.length-1){match.holeIndex++; saveMatch(match); renderHole();} });
+document.getElementById('strokes-plus').addEventListener('click', () => { match.holes[match.holeIndex].strokes++; saveMatch(match); renderHole(); renderOverview(); });
+document.getElementById('strokes-minus').addEventListener('click', () => { match.holes[match.holeIndex].strokes = Math.max(1, match.holes[match.holeIndex].strokes-1); saveMatch(match); renderHole(); renderOverview(); });
+document.getElementById('putts-plus').addEventListener('click', () => { match.holes[match.holeIndex].putts++; saveMatch(match); renderHole(); renderOverview(); });
+document.getElementById('putts-minus').addEventListener('click', () => { match.holes[match.holeIndex].putts = Math.max(0, match.holes[match.holeIndex].putts-1); saveMatch(match); renderHole(); renderOverview(); });
+
+function renderOverview() {
+  const wrap = document.getElementById('overview-wrap');
+  const pars = courseData().par;
+  let totalStrokes = 0, totalPar = 0;
+  let rows = match.holes.map((h,i) => { totalStrokes+=h.strokes; totalPar+=pars[i]; return `<tr><td>${i+1}</td><td>${pars[i]}</td><td>${h.strokes}</td><td>${h.putts}</td></tr>`; }).join('');
+  wrap.innerHTML = `<table><thead><tr><th>Loch</th><th>Par</th><th>Schläge</th><th>Putts</th></tr></thead><tbody>${rows}
+    <tr class="total-row"><td>Gesamt</td><td>${totalPar}</td><td>${totalStrokes}</td><td>${totalStrokes-totalPar>=0?'+':''}${totalStrokes-totalPar}</td></tr></tbody></table>`;
+}
+document.getElementById('overview-toggle').addEventListener('click', () => {
+  const wrap = document.getElementById('overview-wrap');
+  const show = wrap.style.display === 'none';
+  wrap.style.display = show ? 'block' : 'none';
+  if (show) renderOverview();
+});
+
+// ---------- Schlagzähler ----------
+function renderCounter() {
+  if (!counter) return;
+  document.querySelectorAll('.cz-player-btn').forEach(b => b.classList.toggle('active', b.dataset.player === counter.activePlayer));
+  document.getElementById('cz-hole-num').textContent = counter.holeIndex + 1;
+  const val = counter.counts[counter.activePlayer][counter.holeIndex];
+  document.getElementById('cz-count').textContent = val === null ? 0 : val;
+}
+document.querySelectorAll('.cz-player-btn').forEach(btn => {
+  btn.addEventListener('click', () => { counter.activePlayer = btn.dataset.player; saveCounter(counter); renderCounter(); });
+});
+document.getElementById('cz-tap-zone').addEventListener('click', () => {
+  const cur = counter.counts[counter.activePlayer][counter.holeIndex] || 0;
+  counter.counts[counter.activePlayer][counter.holeIndex] = cur + 1;
+  saveCounter(counter); renderCounter();
+  if (navigator.vibrate) navigator.vibrate(30);
+});
+document.getElementById('cz-undo').addEventListener('click', () => {
+  const cur = counter.counts[counter.activePlayer][counter.holeIndex] || 0;
+  counter.counts[counter.activePlayer][counter.holeIndex] = Math.max(0, cur - 1);
+  saveCounter(counter); renderCounter();
+});
+document.getElementById('cz-toggle').addEventListener('click', () => {
+  const panel = document.getElementById('cz-panel');
+  const show = panel.style.display === 'none';
+  panel.style.display = show ? 'block' : 'none';
+  document.getElementById('cz-toggle').textContent = '🔢 Schlagzähler für Mitspieler ' + (show ? '▴' : '▾');
+  if (show) renderCounter();
+});
+
+// ---------- Regelbuch ----------
+let rbActiveHole = null;
+function rbRenderHoleFilters() {
+  const n = courseData().par.length;
+  let html = '';
+  for (let i=1;i<=n;i++) html += `<button type="button" class="rb-filter-chip" data-hole="${i}" onclick="rbToggleHole(${i})">Bahn ${i}</button>`;
+  document.getElementById('rb-hole-filters').innerHTML = html;
+}
+function rbToggleHole(h) {
+  rbActiveHole = (rbActiveHole === h) ? null : h;
+  document.querySelectorAll('.rb-filter-chip').forEach(b => b.classList.toggle('active', parseInt(b.dataset.hole) === rbActiveHole));
+  rbRender();
+}
+function rbCardHtml(e) {
+  const holeTags = e.holes.map(h => `<span class="rb-tag rb-tag-hole">Bahn ${h}</span>`).join('');
+  const penTag = e.category ? '' : (e.freeRelief ? `<span class="rb-tag rb-tag-free">straflos</span>` : `<span class="rb-tag rb-tag-penalty">${e.penalty}</span>`);
+  return `<div class="rb-card" onclick="this.classList.toggle('rb-open')">
+    <h4 class="rb-card-title">${e.title}</h4>
+    <div class="rb-tags"><span class="rb-tag">${e.rule}</span>${penTag}${holeTags}</div>
+    <div class="rb-easy"><span class="rb-easy-label">Einfach erklärt</span>${e.easy}</div>
+    ${e.summary ? `<div class="rb-procedure"><div>${e.summary}</div>${e.procedure ? `<div style="margin-top:8px;">${e.procedure}</div>`:''}</div><div class="rb-hint">antippen für Details ▾</div>` : ''}
+  </div>`;
+}
+function rbRender() {
+  const query = document.getElementById('rb-search').value.trim().toLowerCase();
+  const pool = RULES_DB.filter(e => !e.club || e.club === match.club);
+  let filtered;
+  if (rbActiveHole) {
+    filtered = pool.filter(e => e.holes.length === 0 || e.holes.includes(rbActiveHole));
+  } else {
+    filtered = pool.filter(e => !query || (e.title+' '+e.keywords.join(' ')+' '+e.easy).toLowerCase().includes(query));
+  }
+  const listEl = document.getElementById('rb-list');
+  const emptyEl = document.getElementById('rb-empty');
+  if (filtered.length === 0) { listEl.innerHTML=''; emptyEl.style.display='block'; return; }
+  emptyEl.style.display = 'none';
+  listEl.innerHTML = filtered.map(rbCardHtml).join('');
+}
+document.getElementById('rb-search').addEventListener('input', rbRender);
+document.getElementById('rb-toggle').addEventListener('click', () => {
+  const panel = document.getElementById('rb-panel');
+  const show = panel.style.display === 'none';
+  panel.style.display = show ? 'block' : 'none';
+  document.getElementById('rb-toggle').textContent = '📖 Regelbuch ' + (show ? '▴' : '▾');
+  if (show) { rbRenderHoleFilters(); rbRender(); }
+});
+
+// ---------- Saison-Historie: Runde abschließen ----------
+function finishRound() {
+  const pars = courseData().par;
+  const totalStrokes = match.holes.reduce((a,h) => a + h.strokes, 0);
+  const totalPutts = match.holes.reduce((a,h) => a + h.putts, 0);
+  const totalPar = pars.reduce((a,b) => a + b, 0);
+  const gastTotal = counter ? counter.counts.B.reduce((a,v) => a + (v||0), 0) : null;
+  const gastPlayed = counter ? counter.counts.B.some(v => v !== null) : false;
+
+  const entry = {
+    id: 'round_' + Date.now().toString(36),
+    date: match.date, club: match.club, course: match.course, matchType: match.matchType,
+    gastName: match.gastName || '',
+    totalStrokes, totalPutts, totalPar, scoreToPar: totalStrokes - totalPar,
+    holes: match.holes.map((h,i) => ({ hole: i+1, par: pars[i], strokes: h.strokes, putts: h.putts })),
+    gastTotal: gastPlayed ? gastTotal : null,
+    gastHoles: gastPlayed ? counter.counts.B.slice() : null,
+  };
+
+  const season = loadSeason();
+  season.push(entry);
+  saveSeason(season);
+
+  const msg = document.getElementById('backup-msg');
+  renderSeason();
+  if (document.getElementById('stats-panel').style.display !== 'none') renderStats();
+
+  const confirmed = confirm('Runde gespeichert. Neue, leere Runde für die nächste Partie anlegen?');
+  if (confirmed) {
+    localStorage.removeItem(LS_MATCH);
+    localStorage.removeItem(LS_CZ);
+    match = defaultMatch();
+    counter = defaultCounter(match.holes.length);
+    saveMatch(match); saveCounter(counter);
+    document.getElementById('match-date').value = match.date;
+    document.getElementById('match-type').value = '';
+    document.getElementById('gast-name').value = '';
+    renderCzButtonLabels();
+    renderHole(); renderOverview();
+  }
+}
+document.getElementById('finish-round-btn').addEventListener('click', finishRound);
+
+function renderSeason() {
+  const season = loadSeason().slice().sort((a,b) => b.date.localeCompare(a.date));
+  const listEl = document.getElementById('season-list');
+  const emptyEl = document.getElementById('season-empty');
+  if (season.length === 0) { listEl.innerHTML=''; emptyEl.style.display='block'; return; }
+  emptyEl.style.display = 'none';
+  listEl.innerHTML = season.map(r => {
+    const diffStr = r.scoreToPar >= 0 ? '+'+r.scoreToPar : r.scoreToPar;
+    const gastStr = r.gastTotal !== null ? ` · ${r.gastName || 'Gast'}: ${r.gastTotal}` : '';
+    return `<div class="rb-card" style="cursor:default;">
+      <h4 class="rb-card-title">${r.date} · ${r.course}</h4>
+      <div class="rb-tags"><span class="rb-tag">${r.matchType || 'Liga/Turnier'}</span></div>
+      <div class="rb-easy"><span class="rb-easy-label">Ergebnis</span>Sascha: ${r.totalStrokes} Schläge (${diffStr}), ${r.totalPutts} Putts${gastStr}</div>
+      <button type="button" class="settings-toggle" onclick="deleteSeasonRound('${r.id}')" style="color:var(--red); margin-top:8px;">Löschen</button>
+    </div>`;
+  }).join('');
+}
+function deleteSeasonRound(id) {
+  if (!confirm('Diese Runde endgültig aus der Saison-Historie löschen?')) return;
+  saveSeason(loadSeason().filter(r => r.id !== id));
+  renderSeason();
+  if (document.getElementById('stats-panel').style.display !== 'none') renderStats();
+}
+document.getElementById('season-toggle').addEventListener('click', () => {
+  const panel = document.getElementById('season-panel');
+  const show = panel.style.display === 'none';
+  panel.style.display = show ? 'block' : 'none';
+  document.getElementById('season-toggle').textContent = '📅 Saison-Historie ' + (show ? '▴' : '▾');
+  if (show) renderSeason();
+});
+
+// ---------- Saison-Auswertung (allgemein, keine Lochstatistik) ----------
+function computeStatsBlock(rounds) {
+  const n = rounds.length;
+  const avgToPar = rounds.reduce((a,r) => a + r.scoreToPar, 0) / n;
+  const avgStrokes = rounds.reduce((a,r) => a + r.totalStrokes, 0) / n;
+  const avgPutts = rounds.reduce((a,r) => a + r.totalPutts, 0) / n;
+  let best = rounds[0], worst = rounds[0];
+  rounds.forEach(r => { if (r.scoreToPar < best.scoreToPar) best = r; if (r.scoreToPar > worst.scoreToPar) worst = r; });
+  return { n, avgToPar, avgStrokes, avgPutts, best, worst };
+}
+function trendHtmlFor(rounds) {
+  const fmt = v => (v >= 0 ? '+' : '') + v.toFixed(1);
+  const n = rounds.length;
+  if (n < 4) return `<div class="rb-easy"><span class="rb-easy-label">Trend</span>Noch zu wenig Runden für eine Tendenz (ab 4 Runden).</div>`;
+  const half = Math.floor(n / 2);
+  const firstHalf = rounds.slice(0, half);
+  const secondHalf = rounds.slice(n - half);
+  const avgFirst = firstHalf.reduce((a,r) => a + r.scoreToPar, 0) / firstHalf.length;
+  const avgSecond = secondHalf.reduce((a,r) => a + r.scoreToPar, 0) / secondHalf.length;
+  const delta = avgSecond - avgFirst;
+  let trendLabel;
+  if (delta <= -1) trendLabel = 'Tendenz: aktuell besser als in früheren Runden (' + fmt(avgFirst) + ' → ' + fmt(avgSecond) + ')';
+  else if (delta >= 1) trendLabel = 'Tendenz: aktuell schwächer als in früheren Runden (' + fmt(avgFirst) + ' → ' + fmt(avgSecond) + ')';
+  else trendLabel = 'Tendenz: recht konstant über alle Runden (' + fmt(avgFirst) + ' → ' + fmt(avgSecond) + ')';
+  return `<div class="rb-easy"><span class="rb-easy-label">Trend</span>${trendLabel}</div>`;
+}
+function statsCardHtml(titleHtml, rounds) {
+  const s = computeStatsBlock(rounds);
+  const fmt = v => (v >= 0 ? '+' : '') + v.toFixed(1);
+  const fmtWhole = v => (v >= 0 ? '+' : '') + v;
+  return `<div class="rb-card" style="cursor:default;">
+      <h4 class="rb-card-title">${titleHtml}</h4>
+      <div class="rb-easy"><span class="rb-easy-label">Schnitt</span>${fmt(s.avgToPar)} zu Par (Ø ${s.avgStrokes.toFixed(1)} Schläge, Ø ${s.avgPutts.toFixed(1)} Putts)</div>
+      <div class="rb-easy"><span class="rb-easy-label">Beste Runde</span>${fmtWhole(s.best.scoreToPar)} am ${s.best.date} (${s.best.course})</div>
+      <div class="rb-easy"><span class="rb-easy-label">Schlechteste Runde</span>${fmtWhole(s.worst.scoreToPar)} am ${s.worst.date} (${s.worst.course})</div>
+      ${trendHtmlFor(rounds)}
+    </div>`;
+}
+function renderStats() {
+  const allRounds = loadSeason().slice().sort((a,b) => a.date.localeCompare(b.date));
+  const contentEl = document.getElementById('stats-content');
+  const emptyEl = document.getElementById('stats-empty');
+  if (allRounds.length === 0) { contentEl.innerHTML = ''; emptyEl.style.display = 'block'; return; }
+  emptyEl.style.display = 'none';
+
+  const n = allRounds.length;
+  let html = statsCardHtml(`Gesamt — ${n} Runde${n === 1 ? '' : 'n'} (alle Saisons)`, allRounds);
+
+  // Aufschlüsselung nach Kalenderjahr (Saison)
+  const byYear = {};
+  allRounds.forEach(r => {
+    const year = r.date.slice(0, 4);
+    if (!byYear[year]) byYear[year] = [];
+    byYear[year].push(r);
+  });
+  const years = Object.keys(byYear).sort((a,b) => b.localeCompare(a)); // neueste zuerst
+  if (years.length > 1) {
+    html += `<h3 style="font-size:14px; margin:18px 0 10px; color:var(--text-dim);">Pro Saison</h3>`;
+    years.forEach(year => {
+      const rounds = byYear[year];
+      html += statsCardHtml(`Saison ${year} — ${rounds.length} Runde${rounds.length === 1 ? '' : 'n'}`, rounds);
+    });
+  }
+
+  contentEl.innerHTML = html;
+}
+document.getElementById('stats-toggle').addEventListener('click', () => {
+  const panel = document.getElementById('stats-panel');
+  const show = panel.style.display === 'none';
+  panel.style.display = show ? 'block' : 'none';
+  document.getElementById('stats-toggle').textContent = '📊 Gesamt-Auswertung ' + (show ? '▴' : '▾');
+  if (show) renderStats();
+});
+
+// ---------- Backup / Export / Import ----------
+document.getElementById('backup-toggle').addEventListener('click', () => {
+  const panel = document.getElementById('backup-panel');
+  const show = panel.style.display === 'none';
+  panel.style.display = show ? 'block' : 'none';
+  document.getElementById('backup-toggle').textContent = '💾 Backup ' + (show ? '▴' : '▾');
+});
+document.getElementById('export-btn').addEventListener('click', () => {
+  const backup = { seasonRounds: loadSeason(), currentMatch: match, exportedAt: new Date().toISOString() };
+  const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'liga-scorekarte-backup.json'; a.click();
+  URL.revokeObjectURL(url);
+});
+document.getElementById('import-btn').addEventListener('click', () => document.getElementById('import-file').click());
+document.getElementById('import-file').addEventListener('change', function() {
+  const file = this.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const imported = JSON.parse(e.target.result);
+      const importedRounds = imported.seasonRounds || [];
+      const existing = loadSeason();
+      const existingIds = new Set(existing.map(r => r.id));
+      const merged = existing.concat(importedRounds.filter(r => !existingIds.has(r.id)));
+      saveSeason(merged);
+      renderSeason();
+      const msg = document.getElementById('backup-msg');
+      msg.style.display = 'block';
+      msg.textContent = `${importedRounds.length} Runde(n) importiert.`;
+      setTimeout(() => { msg.style.display = 'none'; }, 3000);
+    } catch (err) { alert('Backup-Datei konnte nicht gelesen werden.'); }
+  };
+  reader.readAsText(file);
+});
+
+// ---------- Init ----------
+populateClubs();
+document.getElementById('match-date').value = match.date;
+document.getElementById('match-type').value = match.matchType;
+document.getElementById('gast-name').value = match.gastName || '';
+document.getElementById('setup-panel').style.display = 'block';
+if (!counter) counter = defaultCounter(match.holes.length);
+renderHole();
+renderOverview();
+renderCzButtonLabels();
+saveMatch(match);
+
+// ---------- Modus-Umschaltung: Ligaspiel vs. Freies Spiel (nicht gespeichert) ----------
+document.getElementById('mode-liga-btn').addEventListener('click', () => {
+  document.getElementById('free-main').style.display = 'none';
+  document.getElementById('liga-main').style.display = '';
+});
+document.getElementById('mode-free-btn').addEventListener('click', () => {
+  document.getElementById('liga-main').style.display = 'none';
+  document.getElementById('free-main').style.display = '';
+});
+
+// Freies Spiel: rein im Speicher (nicht localStorage), geht beim Neuladen verloren
+let freeState = { holeIndex: 0, player: 'A', counts: { A: Array(18).fill(0), B: Array(18).fill(0) } };
+
+function renderFree() {
+  document.getElementById('free-hole-num').textContent = freeState.holeIndex + 1;
+  document.getElementById('free-count').textContent = freeState.counts[freeState.player][freeState.holeIndex];
+}
+document.getElementById('free-hole-prev').addEventListener('click', () => {
+  if (freeState.holeIndex > 0) { freeState.holeIndex--; renderFree(); }
+});
+document.getElementById('free-hole-next').addEventListener('click', () => {
+  if (freeState.holeIndex < 17) { freeState.holeIndex++; renderFree(); }
+});
+document.querySelectorAll('#free-main .cz-player-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    freeState.player = btn.dataset.player;
+    document.querySelectorAll('#free-main .cz-player-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderFree();
+  });
+});
+document.getElementById('free-tap-zone').addEventListener('click', () => {
+  freeState.counts[freeState.player][freeState.holeIndex]++;
+  renderFree();
+});
+document.getElementById('free-undo').addEventListener('click', () => {
+  if (freeState.counts[freeState.player][freeState.holeIndex] > 0) {
+    freeState.counts[freeState.player][freeState.holeIndex]--;
+    renderFree();
+  }
+});
+document.getElementById('free-gast-name').addEventListener('input', () => {
+  const name = document.getElementById('free-gast-name').value.trim();
+  document.getElementById('free-btn-gast').textContent = name || 'Mitspieler';
+});
+document.getElementById('free-reset-btn').addEventListener('click', () => {
+  if (!confirm('Freie Zählung wirklich zurücksetzen?')) return;
+  freeState = { holeIndex: 0, player: 'A', counts: { A: Array(18).fill(0), B: Array(18).fill(0) } };
+  document.getElementById('free-gast-name').value = '';
+  document.getElementById('free-btn-gast').textContent = 'Mitspieler';
+  document.querySelectorAll('#free-main .cz-player-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('free-btn-sascha').classList.add('active');
+  renderFree();
+});
+renderFree();
+</script>
+</body>
+</html>
