@@ -314,6 +314,15 @@
     <span style="font-family:'Fraunces',serif; font-weight:600; font-size:15px; color: var(--bg);">Golf Fortschritt-Tracker</span>
   </div>
   <h1>Fortschritt-Tracker</h1>
+  <div id="app-version" style="margin-top:6px; font-size:12px; color:var(--text-dim); cursor:pointer;" title="Versionshinweise anzeigen">Version 2026.10.02-c ▾</div>
+  <div id="app-changelog" style="display:none; text-align:left; max-width:560px; margin:10px auto 0; font-size:12.5px; color:var(--text-dim); background:var(--bg-alt); border:1px solid var(--card-border); border-radius:12px; padding:10px 14px;">
+    <div style="font-weight:600; color:var(--text); margin-bottom:6px;">Versionshinweise Fortschritt-Tracker</div>
+    <div style="margin-top:6px;"><strong style="color:var(--text);">02.10.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Mein Bag: Werte der Range-Session vom 01.10.2026 inkl. Donut-Streuung; ± Länge als Spalte, Messdatum automatisch</li><li>Mein Bag: „Neue Session übernehmen“ für künftige Range-Sessions</li><li>Backup-Import: Bag-Werte gehen auf neuem Gerät nicht mehr verloren</li><li>Lernender Caddy (Hünxerwald): ab 5 Runden je Bahn – Fehlerseite, Strafschlag-Muster, besserer Abschlagschläger, „Caddy befolgt?“</li><li>Caddy Weselerwald/Huckingen: Empfehlung nach passender Lochlänge statt immer längster Schläger</li><li>Huckingen: GPS-Distanz zur Grünmitte mit Schlägervorschlag; Grünmitten Süd 1–9, Nord 1–9, West 1 und 9 aus Google Maps</li><li>Grünmitte speichern: Mittel aus bis zu 8 GPS-Messungen</li><li>Versionsnummer und Versionshinweise</li></ul></div><div style="margin-top:6px;"><strong style="color:var(--text);">28.09.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Hünxerwald-Caddy mit Birdie-Book-Daten, Fahnen, Wind, GPS-Grünmitte, Wettspiel-Modus, Tabs Runde/Training</li></ul></div>
+  </div>
+  <script>document.getElementById('app-version').addEventListener('click', function () {
+    var c = document.getElementById('app-changelog'); var show = c.style.display === 'none';
+    c.style.display = show ? 'block' : 'none'; this.textContent = 'Version 2026.10.02-c ' + (show ? '▴' : '▾');
+  });</script>
 </header>
 
 <main>
@@ -4586,6 +4595,41 @@ function gpsGet(ok) {
     err => { caddyGpsMsg = gpsErrorText(err); renderHolesUI(); },
     { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
 }
+// Grünmitte speichern: mehrere GPS-Messungen über bis zu 8 Sekunden sammeln und gewichtet mitteln
+// (genaue Messungen zählen stärker). Messungen schlechter als ±20 m werden verworfen.
+function gpsGetAveraged(ok) {
+  if (!navigator.geolocation) { caddyGpsMsg = gpsErrorText(null); renderHolesUI(); return; }
+  const MAX = 8, DUR = 8000, samples = [];
+  let done = false, id = null, timer = null;
+  caddyGpsMsg = 'Messe Grünmitte … bitte ruhig stehen'; renderHolesUI();
+  const stop = () => { done = true; if (id !== null) navigator.geolocation.clearWatch(id); clearTimeout(timer); };
+  const finish = () => {
+    if (done) return;
+    stop();
+    const good = samples.filter(c => c.accuracy <= 20);
+    if (!good.length) {
+      caddyGpsMsg = samples.length
+        ? `GPS zu ungenau (beste Messung ±${Math.round(Math.min(...samples.map(c => c.accuracy)))} m) – kurz warten und erneut versuchen.`
+        : 'Kein GPS-Signal – bitte erneut versuchen.';
+      renderHolesUI(); return;
+    }
+    let sw = 0, la = 0, lo = 0;
+    good.forEach(c => { const w = 1 / (c.accuracy * c.accuracy); sw += w; la += c.latitude * w; lo += c.longitude * w; });
+    caddyGpsMsg = null;
+    ok({ latitude: la / sw, longitude: lo / sw, accuracy: Math.min(...good.map(c => c.accuracy)), samples: good.length });
+  };
+  id = navigator.geolocation.watchPosition(pos => {
+    if (done) return;
+    samples.push(pos.coords);
+    caddyGpsMsg = `Messe Grünmitte … ${samples.length}/${MAX} – bitte ruhig stehen`; renderHolesUI();
+    if (samples.length >= MAX) finish();
+  }, err => {
+    if (done || samples.length) return;
+    stop(); caddyGpsMsg = gpsErrorText(err); renderHolesUI();
+  }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
+  timer = setTimeout(finish, DUR);
+}
+
 // ---------- Wetter / Wind (Open-Meteo, ohne Schlüssel, braucht Mobilfunk) ----------
 let wxLast = null, wxLoading = false, wxError = null;
 function wxEnabled() { const el = document.getElementById('hx-wind'); return !!(el && el.checked); }
@@ -4870,14 +4914,37 @@ function gpsOnlyBlockHtml(h, i, hk, withRec) {
     }
   }
   if (!g) {
-    html += `<div class="cx-dim" style="margin-top:8px;">Grünmitte noch nicht gespeichert. Einmal mitten auf dem Grün stehen und tippen.</div>
+    html += `<div class="cx-dim" style="margin-top:8px;">Grünmitte noch nicht gespeichert. Mitten auf dem Grün stehen, ein paar Sekunden ruhig warten, dann tippen.</div>
       <button type="button" class="btn-gold" style="margin-top:6px;" onclick="caddySaveGreen('${hk}')">📍 Grünmitte hier speichern</button>`;
   }
   return html;
 }
+// Grünmitten Huckingen aus Google Maps (Satellit), 02.10.2026: Süd 1–9, Nord 1–9, West 1 und 9.
+// Einmalig gesetzt, nur wo noch keine Grünmitte gespeichert ist – auf dem Platz gemessene Werte haben Vorrang.
+// Weitere Grüns: Liste ergänzen und den Flag-Namen hochzählen.
+const HUCK_MAP_GREENS = {
+  Sued: { 1: [51.365964, 6.767006], 2: [51.363992, 6.766372], 3: [51.358906, 6.761806], 4: [51.355992, 6.757964], 5: [51.356603, 6.755422],
+          6: [51.358278, 6.761161], 7: [51.3607, 6.762689], 8: [51.363036, 6.766178], 9: [51.367306, 6.766425] },
+  Nord: { 1: [51.370486, 6.760633], 2: [51.3694, 6.759225], 3: [51.369742, 6.76065], 4: [51.369303, 6.764431], 5: [51.368556, 6.759797],
+          6: [51.366686, 6.76215], 7: [51.366236, 6.763947], 8: [51.367978, 6.760028], 9: [51.368133, 6.763317] },
+  West: { 1: [51.364428, 6.765656], 9: [51.369164, 6.766289] },
+};
+function applyHuckingenMapGreensOnce() {
+  const FLAG = 'golfPerformanceGreensHuck20261002b';
+  if (localStorage.getItem(FLAG)) return;
+  const greens = loadGreens();
+  Object.keys(HUCK_MAP_GREENS).forEach(course => Object.keys(HUCK_MAP_GREENS[course]).forEach(hole => {
+    const key = gpsOnlyKey(course, parseInt(hole));
+    const [lat, lon] = HUCK_MAP_GREENS[course][hole];
+    if (key && !greens[key]) greens[key] = { lat, lon, acc: 5, date: '2026-10-02', src: 'karte' };
+  }));
+  saveGreens(greens);
+  localStorage.setItem(FLAG, '1');
+}
+
 function gpsOnlyResetHtml(hk) {
   const g = loadGreens()[hk];
-  return `<div class="cx-sub">GPS Grünmitte</div><div class="cx-dim">Gespeichert am ${g.date} (±${Math.round(g.acc)} m).</div>
+  return `<div class="cx-sub">GPS Grünmitte</div><div class="cx-dim">${g.src === 'karte' ? `Aus Google Maps übernommen (${g.date}). Nur neu setzen, wenn die Distanz auffällig abweicht.` : `Gespeichert am ${g.date} (±${Math.round(g.acc)} m).`}</div>
     <button type="button" class="btn-gold" style="margin-top:6px;" onclick="caddySaveGreen('${hk}')">📍 Grünmitte neu setzen</button>`;
 }
 
@@ -4885,12 +4952,13 @@ function caddySaveGreen(hk) {
   const greens = loadGreens();
   const bahnNr = hk.split(':')[1].replace('-', ' ');
   if (greens[hk] && !confirm(`Grünmitte Bahn ${bahnNr} überschreiben?`)) return;
-  gpsGet(c => {
-    greens[hk] = { lat: c.latitude, lon: c.longitude, acc: c.accuracy, date: todayStr() };
+  gpsGetAveraged(c => {
+    greens[hk] = { lat: c.latitude, lon: c.longitude, acc: c.accuracy, date: todayStr(), samples: c.samples };
     saveGreens(greens);
+    const avg = c.samples > 1 ? `Mittel aus ${c.samples} Messungen, ` : '';
     caddyGpsMsg = c.accuracy > 10
-      ? `Gespeichert, aber nur ±${Math.round(c.accuracy)} m genau – bei besserem Empfang neu setzen.`
-      : `Grünmitte Bahn ${bahnNr} gespeichert (±${Math.round(c.accuracy)} m).`;
+      ? `Gespeichert (${avg}±${Math.round(c.accuracy)} m) – eher ungenau, bei besserem Empfang neu setzen.`
+      : `Grünmitte Bahn ${bahnNr} gespeichert (${avg}±${Math.round(c.accuracy)} m).`;
     renderHolesUI();
   });
 }
@@ -5061,6 +5129,7 @@ migrateBagDefaultsV2();
 applyRealBagDataOnce();
 applyStreuungSeedOnce();
 applyBagSession20261001Once();
+applyHuckingenMapGreensOnce();
 if (mode === 'scorecard') renderHolesUI();
 backupReminderRender(false);
 </script>
