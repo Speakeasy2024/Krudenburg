@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mein Golfstart – Hünxerwald</title>
+<meta name="theme-color" content="#f6f7f2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Palette aus Wald und Heide: helles Papier für Sonne auf dem Platz, Heide-Lila als Leitfarbe,
+   Moos für "gut", Sand für Flächen, Rost für Regelwarnungen. Bewusst hell – anders als Tracker
+   (dunkelgrün) und Liga-Scorekarte (nachtblau). */
+:root {
+  --paper: #f6f7f2; --ink: #1d2a23; --ink-soft: #55635a;
+  --heide: #6d3f84; --heide-soft: #efe6f3; --moss: #3f6b2f; --moss-soft: #e5eedd;
+  --sand: #ebe2cc; --line: #d9dccf; --warn: #a3302a; --warn-soft: #f8e3e0;
+  --radius-l: 18px; --radius-s: 10px;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+}
+*, *::before, *::after { box-sizing: inherit; }
+html, body { margin: 0; background: var(--paper); color: var(--ink); }
+body { font-family: 'Atkinson Hyperlegible', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 17px; line-height: 1.5;
+  padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); -webkit-text-size-adjust: 100%; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--heide); outline-offset: 2px; }
+.wrap { max-width: 560px; margin: 0 auto; padding: 0 16px; }
+
+header.top { padding: 18px 0 6px; }
+header.top h1 { font-size: 26px; line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+header.top .club { color: var(--ink-soft); font-size: 15px; }
+#app-version { font-size: 12px; color: var(--ink-soft); cursor: pointer; margin-top: 2px; display: inline-block; }
+#app-changelog { display: none; font-size: 14px; color: var(--ink-soft); background: #fff; border: 1px solid var(--line); border-radius: var(--radius-s); padding: 10px 14px; margin-top: 8px; }
+
+section.view { display: none; padding-top: 10px; }
+section.view.active { display: block; }
+h2 { font-size: 21px; margin: 22px 0 10px; }
+h3 { font-size: 18px; margin: 18px 0 6px; }
+p { margin: 0 0 10px; }
+.muted { color: var(--ink-soft); font-size: 15px; }
+
+/* Start einer Runde */
+.start { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-l); padding: 6px 16px 16px; margin-top: 8px; }
+.start h2 { margin-top: 12px; }
+.field { margin-top: 14px; }
+.field label { display: block; font-weight: 700; font-size: 16px; margin-bottom: 6px; }
+.field .hint, .svbox .hint { font-size: 14px; color: var(--ink-soft); margin-top: 4px; }
+.field input { width: 100%; padding: 12px; border: 1.5px solid var(--line); border-radius: var(--radius-s); background: var(--paper); font-size: 20px; }
+.seg { display: flex; gap: 8px; }
+.seg button { flex: 1 1 0; padding: 10px 6px; border-radius: var(--radius-s); border: 1.5px solid var(--line); background: var(--paper); font-size: 15px; }
+.seg.big button { padding: 14px 6px; font-size: 18px; font-weight: 700; line-height: 1.2; }
+.seg.big button small { font-weight: 400; font-size: 14px; }
+.seg button[aria-pressed="true"] { background: var(--heide); border-color: var(--heide); color: #fff; }
+.profile-line { font-size: 16px; margin: 4px 0 0; }
+.resume { background: var(--sand); border-radius: var(--radius-s); padding: 10px 12px; margin-top: 12px; font-size: 15.5px; }
+.resume .row { display: flex; gap: 14px; margin-top: 4px; }
+.newbtn { border: 1.5px solid var(--heide); color: var(--heide); background: #fff; border-radius: 999px; padding: 6px 14px; font-size: 15px; font-weight: 700; }
+.svbox { margin-top: 16px; background: var(--heide-soft); border-radius: var(--radius-s); padding: 12px 14px; text-align: center; }
+.sv-big { font-size: 52px; font-weight: 700; line-height: 1.05; color: var(--heide); font-variant-numeric: tabular-nums; }
+.svedit { margin-top: 8px; font-size: 14px; text-align: left; }
+.svedit summary { color: var(--heide); cursor: pointer; }
+.sv-line { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+.sv-line input { width: 90px; padding: 10px; text-align: center; font-size: 20px; font-weight: 700; border: 1.5px solid var(--line); border-radius: var(--radius-s); }
+.linkbtn { background: none; border: none; color: var(--heide); text-decoration: underline; padding: 6px 0; font-size: 15px; }
+
+/* Während der Runde: ein Loch, eine Zahl */
+.topline { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 14.5px; color: var(--ink-soft); padding-top: 4px; white-space: pre; }
+.hole { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-l); padding: 16px; margin-top: 8px; }
+.hole-no { font-size: 30px; font-weight: 700; line-height: 1; }
+.hole-main { display: flex; align-items: center; gap: 16px; margin-top: 12px; }
+.par { flex-shrink: 0; width: 92px; height: 92px; border-radius: 50%; background: var(--heide); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.par .n { font-size: 46px; font-weight: 700; line-height: 1; }
+.par .l { font-size: 15px; }
+.hole-side { font-size: 17px; line-height: 1.4; }
+.rulewarn { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; margin-top: 14px; padding: 10px 12px; border: none; border-left: 4px solid var(--warn); border-radius: 0 var(--radius-s) var(--radius-s) 0; background: var(--warn-soft); color: var(--warn); font-weight: 700; font-size: 16px; text-align: left; white-space: pre-wrap; }
+.rulewarn span { font-weight: 400; text-decoration: underline; white-space: nowrap; }
+.counter { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; margin-top: 18px; }
+.cbtn { width: 76px; height: 76px; border-radius: 50%; border: 2px solid var(--line); background: var(--paper); font-size: 36px; line-height: 1; }
+.cbtn#plus { background: var(--moss); border-color: var(--moss); color: #fff; }
+.cbtn:disabled { opacity: .35; }
+.cval { text-align: center; }
+.cval .n { display: block; font-size: 64px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.cval .l { font-size: 15px; color: var(--ink-soft); }
+.points { text-align: center; margin-top: 12px; font-size: 17px; font-weight: 700; color: var(--moss); display: flex; justify-content: center; align-items: center; gap: 10px; }
+.dots { display: inline-flex; gap: 5px; }
+.dots i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--moss); display: inline-block; }
+.dots i.on { background: var(--moss); }
+.pickup { text-align: center; margin-top: 8px; font-size: 14.5px; color: var(--ink-soft); }
+.pickup.now { background: var(--sand); color: var(--ink); font-weight: 700; font-size: 16px; border-radius: var(--radius-s); padding: 10px; }
+.nav { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-top: 18px; }
+.nav button { padding: 16px; border-radius: var(--radius-s); border: none; font-size: 18px; font-weight: 700; }
+.nav .prev { background: var(--sand); }
+.nav .next { background: var(--heide); color: #fff; }
+.nav button:disabled { opacity: .4; }
+.done { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-l); padding: 6px 16px 16px; margin-top: 8px; text-align: center; }
+.btn-main { width: 100%; padding: 16px; margin-top: 16px; border: none; border-radius: var(--radius-s); background: var(--moss); color: #fff; font-size: 18px; font-weight: 700; }
+.btn-soft { width: 100%; padding: 13px; margin-top: 10px; border: 1.5px solid var(--line); border-radius: var(--radius-s); background: #fff; font-size: 16px; }
+.msg { margin-top: 8px; font-size: 15px; color: var(--moss); min-height: 1.4em; }
+
+/* Meine Runden */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.stat { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-s); padding: 10px; text-align: center; }
+.stat .big { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.stat .cap { font-size: 13px; color: var(--ink-soft); line-height: 1.25; }
+.round { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.round .pts { font-weight: 700; font-size: 19px; }
+.round .del { border: none; background: none; color: var(--ink-soft); font-size: 20px; padding: 6px; }
+table.sc { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 8px; font-variant-numeric: tabular-nums; }
+table.sc th, table.sc td { padding: 6px 4px; text-align: center; border-bottom: 1px solid var(--line); }
+table.sc th { font-weight: 700; color: var(--ink-soft); font-size: 13px; }
+.scwrap { overflow-x: auto; }
+
+/* Fortschritt */
+.progress { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-l); padding: 4px 16px 14px; margin-top: 8px; }
+.progress h2 { margin-top: 12px; }
+.trend { font-size: 17px; margin: 4px 0 8px; }
+.trend strong { color: var(--moss); }
+.chart { width: 100%; height: auto; display: block; margin: 4px 0 6px; }
+.hcpline { background: var(--heide-soft); border-radius: var(--radius-s); padding: 10px 12px; margin-top: 10px; font-size: 16px; }
+.miles { list-style: none; padding: 0; margin: 10px 0 0; }
+.miles li { display: flex; gap: 10px; align-items: baseline; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+.miles li:last-child { border-bottom: none; }
+.miles .when { margin-left: auto; color: var(--ink-soft); font-size: 14px; white-space: nowrap; }
+.newmile { background: var(--moss-soft); border-radius: var(--radius-s); padding: 10px 12px; margin: 10px 0; font-weight: 700; color: var(--moss); }
+
+/* Erklärt */
+.explain { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-l); padding: 6px 16px 14px; margin-top: 12px; }
+.explain table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; }
+.explain td { padding: 7px 6px; border-bottom: 1px solid var(--line); }
+.explain td:last-child { text-align: right; font-weight: 700; white-space: nowrap; }
+.example { background: var(--heide-soft); border-radius: var(--radius-s); padding: 10px 12px; margin: 8px 0 12px; }
+.explain ol, .explain ul { padding-left: 22px; margin: 6px 0 10px; }
+.explain li { margin-bottom: 6px; }
+
+/* Regeln */
+.search { width: 100%; padding: 12px; border: 1.5px solid var(--line); border-radius: var(--radius-s); background: #fff; font-size: 17px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+.chips button { padding: 5px 11px; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; font-size: 14px; }
+.chips button[aria-pressed="true"] { background: var(--heide); color: #fff; border-color: var(--heide); }
+.rule { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-s); padding: 12px 14px; margin-bottom: 10px; }
+.rule h4 { margin: 0; font-size: 17px; }
+.rule .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.rule .tag { font-size: 12.5px; padding: 1px 8px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); }
+.rule .tag.pen { background: var(--warn-soft); border-color: var(--warn); color: var(--warn); }
+.rule .tag.free { background: var(--moss-soft); border-color: var(--moss); color: var(--moss); }
+.rule .easy { margin-top: 8px; font-size: 15.5px; }
+.rule details { margin-top: 6px; font-size: 14.5px; color: var(--ink-soft); }
+.rule details summary { cursor: pointer; color: var(--heide); }
+
+/* Untere Navigation – mit dem Daumen erreichbar */
+nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom, 0px); z-index: 10; }
+nav.tabs .in { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); }
+nav.tabs button { border: none; background: none; padding: 8px 2px 10px; font-size: 13px; color: var(--ink-soft); display: flex; flex-direction: column; align-items: center; gap: 2px; }
+nav.tabs button .ic { font-size: 22px; line-height: 1.1; }
+nav.tabs button[aria-current="page"] { color: var(--heide); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Mein Golfstart</h1>
+    <div class="club">Golfclub Hünxerwald</div>
+    <div id="app-version" title="Versionshinweise anzeigen">Version 2026.10.03-f ▾</div>
+    <div id="app-changelog">
+      <strong>Versionshinweise</strong>
+      <ul style="margin:6px 0 0 18px; padding:0;">
+        <li>03.10.2026: Schläge-Kurve je 9 Löcher.</li>
+        <li>03.10.2026: Mein Fortschritt – Punkte-Kurve, Handicap-Verlauf, Erste Male.</li>
+        <li>03.10.2026: Begrüßungstext entfernt (kommt per WhatsApp).</li>
+        <li>03.10.2026: Name im Profil; Startbildschirm erscheint zuverlässig, alte oder unterbrochene Runden blockieren nicht mehr.</li>
+        <li>03.10.2026: Profil für Handicap und Abschlag (Herren Gelb / Damen Rot).</li>
+        <li>03.10.2026: vereinfacht – eine Zahl pro Loch, Par groß, Vorgabe-Zielzahl daneben, Start-Bildschirm mit Herren/Damen.</li>
+        <li>02.10.2026: erste Version.</li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ================= Runde ================= -->
+  <section class="view active" id="view-runde">
+    <!-- Start: nur beim ersten Mal und bei "Neue Runde" -->
+    <div class="start" id="start">
+      <h2 id="start-title">Neue Runde</h2>
+      <p class="profile-line" id="profile-line"></p>
+      <div class="resume" id="resume" hidden></div>
+      <div class="field">
+        <label>Welche Löcher?</label>
+        <div class="seg big" id="loop-seg">
+          <button type="button" data-loop="F9">1 bis 9</button>
+          <button type="button" data-loop="B9">10 bis 18</button>
+          <button type="button" data-loop="18">alle 18</button>
+        </div>
+      </div>
+      <div class="svbox">
+        <div>Deine Vorgabe für diese Runde</div>
+        <div class="sv-big" id="sv-show">64</div>
+        <div class="hint">So viele Extra-Schläge bekommst du, nach der Tabelle des Clubs.</div>
+        <details class="svedit"><summary>Steht im Clubhaus eine andere Zahl?</summary>
+          <div class="sv-line"><input id="sv" type="number" inputmode="numeric" step="1" aria-label="Vorgabe selbst eintragen"><button type="button" class="linkbtn" id="sv-reset">wieder ausrechnen</button></div>
+        </details>
+      </div>
+      <button type="button" class="btn-main" id="start-btn">Los geht's</button>
+    </div>
+
+    <!-- Während der Runde: ein Loch, eine Zahl -->
+    <div id="play" hidden>
+      <div class="topline">
+        <span id="tl-left">Punkte 0</span>
+        <button type="button" class="newbtn" id="change-btn">Neue Runde</button>
+      </div>
+      <article class="hole" id="hole" aria-live="polite">
+        <div class="hole-no" id="h-no">Loch 1</div>
+        <div class="hole-main">
+          <div class="par" id="h-par"><span class="n">4</span><span class="l">Par</span></div>
+          <div class="hole-side">
+            <div>Mit deiner Vorgabe: <strong id="h-target">7</strong> Schläge</div>
+            <div class="muted" id="h-len">333 m</div>
+          </div>
+        </div>
+        <div id="h-rules"></div>
+        <div class="counter">
+          <button type="button" class="cbtn" id="minus" aria-label="Ein Schlag weniger">−</button>
+          <div class="cval"><span class="n" id="v-strokes">7</span><span class="l">Schläge</span></div>
+          <button type="button" class="cbtn" id="plus" aria-label="Ein Schlag mehr">+</button>
+        </div>
+        <div class="points" id="h-points"></div>
+        <div class="pickup" id="h-pickup"></div>
+        <div class="nav">
+          <button type="button" class="prev" id="prev">Zurück</button>
+          <button type="button" class="next" id="next">Nächstes Loch</button>
+        </div>
+      </article>
+      <div class="done" id="done" hidden></div>
+    </div>
+  </section>
+
+  <!-- ================= Profil ================= -->
+  <section class="view" id="view-profil">
+    <h2>Mein Profil</h2>
+    <p class="muted" id="profil-intro">Einmal eintragen, dann rechnet die App bei jeder Runde mit diesen Werten.</p>
+    <div class="start">
+      <div class="field">
+        <label for="pname">Mein Vorname</label>
+        <input id="pname" type="text" autocomplete="given-name" placeholder="für die Begrüßung">
+      </div>
+      <div class="field">
+        <label>Ich spiele von</label>
+        <div class="seg big" id="tee-seg">
+          <button type="button" data-tee="HG">Herren<br><small>Gelb</small></button>
+          <button type="button" data-tee="DR">Damen<br><small>Rot</small></button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="hi">Mein Handicap</label>
+        <input id="hi" type="number" inputmode="decimal" step="0.1" min="-5" max="54">
+        <div class="hint">Steht in der DGV-App. Noch keins? Dann 54. Ändert es sich, hier einfach überschreiben.</div>
+      </div>
+      <button type="button" class="btn-main" id="profil-done">Fertig</button>
+      <div class="msg" id="profil-msg" role="status"></div>
+    </div>
+  </section>
+
+  <!-- ================= Meine Runden ================= -->
+  <section class="view" id="view-runden">
+    <div class="progress" id="progress"></div>
+    <h2 id="years-title">Runden im Jahr</h2>
+    <div class="seg" id="year-seg"></div>
+    <div class="stats" id="stats" style="margin-top:12px;"></div>
+    <div id="round-list" style="margin-top:8px;"></div>
+    <h3>Sichern</h3>
+    <p class="muted">Deine Runden liegen nur auf diesem Handy. Lade ab und zu eine Sicherung herunter.</p>
+    <button type="button" class="btn-soft" id="export-btn">Sicherung herunterladen</button>
+    <label class="btn-soft" style="display:block; text-align:center;">Sicherung einlesen<input type="file" id="import-file" accept="application/json" style="display:none;"></label>
+    <div class="msg" id="backup-msg" role="status"></div>
+  </section>
+
+  <!-- ================= Erklärt ================= -->
+  <section class="view" id="view-erklaert">
+    <div class="explain">
+      <h2>⭐ Stableford-Punkte – ganz einfach</h2>
+      <p>Jedes Loch hat eine <strong>Zielzahl</strong>. Das ist die Anzahl Schläge, die für dich „normal“ ist.</p>
+      <p><strong>Zielzahl = Par + deine Extra-Schläge für dieses Loch</strong></p>
+      <p>Dann vergleichst du:</p>
+      <table>
+        <tr><td>2 Schläge weniger als die Zielzahl</td><td>4 Punkte</td></tr>
+        <tr><td>1 Schlag weniger</td><td>3 Punkte</td></tr>
+        <tr><td>genau die Zielzahl</td><td>2 Punkte</td></tr>
+        <tr><td>1 Schlag mehr</td><td>1 Punkt</td></tr>
+        <tr><td>2 oder mehr Schläge mehr</td><td>0 Punkte</td></tr>
+      </table>
+      <p>Bei 0 Punkten hebst du den Ball auf und gehst zum nächsten Loch.</p>
+      <div class="example"><strong>Beispiel:</strong> Par 4, du bekommst 2 Extra-Schläge. Deine Zielzahl ist 6.<br>Du brauchst 7 Schläge: 1 Punkt. Du brauchst 5: 3 Punkte.</div>
+      <p>Am Ende zählst du alle Punkte zusammen. <strong>36 Punkte</strong> auf 18 Löchern (18 auf 9 Löchern) heißt: Du hast genau so gespielt, wie dein Handicap es erwartet. Mehr ist besser.</p>
+      <p>Die App rechnet die Punkte automatisch aus. Du gibst nur deine Schläge ein.</p>
+      <h3>Woher kommen die Extra-Schläge?</h3>
+      <p>Deine <strong>Spielvorgabe</strong> steht in der Tabelle im Clubhaus. Sie sagt, wie viele Extra-Schläge du für die ganze Runde bekommst. Die werden auf die Löcher verteilt, die schwersten Löcher zuerst. Wie schwer ein Loch ist, steht auf der Scorekarte als <strong>HCP-Index</strong>: 1 ist das schwerste Loch, 18 das leichteste.</p>
+      <ul>
+        <li>Spielvorgabe 18: auf jedem Loch 1 Extra-Schlag</li>
+        <li>Spielvorgabe 36: auf jedem Loch 2 Extra-Schläge</li>
+        <li>Spielvorgabe 20: auf jedem Loch 1, auf den zwei schwersten Löchern (Index 1 und 2) je 2</li>
+      </ul>
+    </div>
+
+    <div class="explain">
+      <h2>📊 Wie dein Handicap entsteht</h2>
+      <p>Dein Handicap sagt: <strong>Wie viele Schläge brauchst du an einem guten Tag mehr als ein sehr guter Golfer?</strong> Je kleiner die Zahl, desto besser spielst du. Zum Start haben alle <strong>54</strong>, das ist die Höchstzahl.</p>
+      <p>So wird es berechnet:</p>
+      <ol>
+        <li><strong>Jede gewertete Runde bekommt eine Zahl.</strong> Sie zeigt, wie gut die Runde war, und berücksichtigt, wie schwer der Platz ist.</li>
+        <li><strong>Pro Loch zählt höchstens die Zielzahl plus 2.</strong> Ein verkorkstes Loch zieht dein Handicap also nicht ins Bodenlose. Genau dort hebst du beim Stableford auch den Ball auf (0 Punkte).</li>
+        <li><strong>Dein Handicap ist der Durchschnitt deiner 8 besten Runden aus den letzten 20.</strong> Schlechte Tage zählen also nicht. Am Anfang, mit weniger als 20 Runden, werden entsprechend weniger gute Runden genommen.</li>
+      </ol>
+      <p><strong>Damit eine Runde zählt</strong>, muss sie vorher angemeldet werden und jemand muss für dich zählen (dein „Zähler“). Wie das im Hünxerwald läuft, sagt dir das Sekretariat.</p>
+      <p><strong>Faustregel:</strong> Mehr als 36 Stableford-Punkte in einer gewerteten Runde bedeuten meist, dass dein Handicap sinkt.</p>
+    </div>
+  </section>
+
+  <!-- ================= Regeln ================= -->
+  <section class="view" id="view-regeln">
+    <h2>Regeln, Etikette, Kleidung</h2>
+    <input type="search" class="search" id="rb-search" placeholder="Was ist passiert? z. B. Wasser, Bunker, Aus">
+    <div class="chips" id="rb-chips"></div>
+    <div id="rb-list"></div>
+    <p class="muted" id="rb-empty" style="display:none;">Nichts gefunden. Probier ein anderes Wort oder frag deinen Flight.</p>
+  </section>
+</div>
+
+<nav class="tabs" aria-label="Bereiche">
+  <div class="in">
+    <button type="button" data-view="runde" aria-current="page"><span class="ic">⛳</span>Runde</button>
+    <button type="button" data-view="runden"><span class="ic">📅</span>Runden</button>
+    <button type="button" data-view="erklaert"><span class="ic">⭐</span>Erklärt</button>
+    <button type="button" data-view="regeln"><span class="ic">📖</span>Regeln</button>
+    <button type="button" data-view="profil"><span class="ic">👤</span>Profil</button>
+  </div>
+</nav>
+
+<script>
+// ===================== Daten Golfclub Hünxerwald =====================
+// Par, Längen und HCP-Index laut Clubseite (golfclub-huenxerwald.de, Stand 2026).
+// Course Rating / Slope laut Course-Handicap-Tabellen des Clubs (Platz AB 1–18, AA 1–9, BB 10–18).
+const COURSE = {
+  par:   [4,4,4,4,3,4,5,3,5, 4,4,3,5,4,5,4,3,4],
+  index: [13,9,17,5,15,1,11,7,3, 10,16,12,6,4,2,14,18,8],
+  len: {
+    HG: [333,343,265,313,170,382,441,195,498, 326,291,208,493,404,476,280,133,352],
+    DR: [293,296,237,273,154,335,385,162,446, 284,255,184,430,360,425,234,120,309],
+  },
+};
+// 18 Löcher: Werte direkt. 9 Löcher: halbes Course Rating des doppelt gespielten Teilplatzes (AA bzw. BB), gleicher Slope.
+const RATING = {
+  HG: { '18': { cr: 72.7, sr: 133, par: 72 }, F9: { cr: 36.1, sr: 137, par: 36 }, B9: { cr: 36.6, sr: 130, par: 36 } },
+  DR: { '18': { cr: 74.7, sr: 131, par: 72 }, F9: { cr: 37.1, sr: 132, par: 36 }, B9: { cr: 37.6, sr: 130, par: 36 } },
+};
+const TEE_NAME = { HG: 'Herren Gelb', DR: 'Damen Rot' };
+const LOOP_NAME = { '18': '18 Löcher', F9: 'Loch 1–9', B9: 'Loch 10–18' };
+const LOOP_HOLES = { '18': [...Array(18).keys()], F9: [0,1,2,3,4,5,6,7,8], B9: [9,10,11,12,13,14,15,16,17] };
+
+const RULES_DB = [
+  {
+    title: 'Ball im Aus (OB)', rule: 'Regel 18.2', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Dein Ball liegt außerhalb der Platzgrenze (weiße Pfähle/Zaun). Du musst nochmal von der Stelle spielen, wo du vorher warst – und zählst dafür einen Schlag extra dazu. Bist du unsicher: spiel einen Provisorischen Ball. Hünxerwald: keine erleichterte Alternativregel. Bahn 18: die Fläche von Bahn 10 zählt als Aus!',
+    summary: 'Erleichterung mit Schlag- und Distanzverlust: 1 Strafschlag dazu, nächster Schlag von der Stelle des vorherigen Schlags.',
+    procedure: 'Kein Droppen am Rand des Aus. Laut Hünxerwald-Platzregel (Stand 15.05.2026) keine straffreie Erleichterung, keine alternative Local Rule. Bahn 18: Fläche von Bahn 10 ist Aus, die weißen Pfosten dort sind beim Spielen von Bahn 10 unbewegliche Hemmnisse, beim Spielen von Bahn 18 Auspfähle.',
+    keywords: ['aus','out of bounds','ob','weiße pfähle'], holes: [3,18], club: 'Golfclub Hünxerwald',
+  },
+  {
+    title: 'Ball verloren', rule: 'Regel 18.2 · Suchzeit Regel 7.4', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Du findest deinen Ball nach 3 Minuten Suche nicht mehr. Dann wie im Aus: zurück zur alten Stelle, 1 Schlag dazu.',
+    summary: 'Gleiche Behandlung wie Ball im Aus. Suchzeit maximal 3 Minuten ab Beginn der Suche.',
+    procedure: 'Nach 3 Minuten ohne Fund gilt der Ball als verloren. Hinter dir spielende Flights immer durchspielen lassen.',
+    keywords: ['verloren','rough','3 minuten'], holes: [], club: null,
+  },
+  {
+    title: 'Ball im Wasser / Penalty Area', rule: 'Regel 17', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Dein Ball liegt in einem Bereich mit roten Pfählen. Du suchst dir eine von mehreren erlaubten Stellen aus und spielst von dort weiter, 1 Schlag Strafe. Hünxerwald: ALLE Penalty Areas sind rot – du darfst immer auch seitlich Erleichterung nehmen. Bahn 4: Bist du unsicher, ob der Ball im Teich vor dem Grün liegt, darfst du einen speziellen Provisorischen Ball mit allen Erleichterungsoptionen spielen.',
+    summary: 'Nur rote Pfähle hier: 1 Strafschlag, plus rückwärtige Linie beliebig weit zurück ODER seitliche Erleichterung (2 Schlägerlängen vom Kreuzungspunkt, nicht näher zum Loch).',
+    procedure: 'Ball muss nicht gefunden werden, wenn sicher in der Penalty Area. Spielen aus der Zone selbst ist straflos möglich. Bahn 4: modifizierter Provisorischer Ball erlaubt (Regel 18.3 + alle Optionen von 17.1d).',
+    keywords: ['wasser','penalty area','graben','teich'], holes: [1,4,10,11,12,13,14,15,16], club: 'Golfclub Hünxerwald',
+  },
+  {
+    title: 'Ball in der Spielverbotszone ("Biotop")', rule: 'Regel 2.4 i.V.m. Regel 17 · Platzregel Nr. 4',
+    penalty: '1 Strafschlag (Ball dort) · 2 Strafschläge/Disqualifikation (Betreten)', freeRelief: false,
+    easy: 'Rote Pfähle mit GRÜNEM Kopf, u. a. Bahn 10 und die Brücken Bahn 10/11 und 15/16. Betreten ist verboten, auch zum Ballsuchen! Ball dort: 1 Schlag Strafe, Erleichterung von außerhalb. Trotzdem betreten: 2 Strafschläge, beim zweiten Mal Disqualifikation.',
+    summary: 'Spielverbotszonen sind Penalty Areas mit zusätzlich grünem Pfahlkopf. Ball dort: Erleichterung nach 17.1 Pflicht, 1 Strafschlag.',
+    procedure: 'Stand/Schwung beeinträchtigt, Ball außerhalb: straffreie Erleichterung nach 16.1f. Betreten laut Platzregel Nr. 4: 1. Verstoß 2 Strafschläge, 2. Verstoß Disqualifikation.',
+    keywords: ['biotop','spielverbotszone','grüner kopf'], holes: [10,11,15,16], club: 'Golfclub Hünxerwald',
+  },
+  {
+    title: 'Ball unspielbar', rule: 'Regel 19', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Ball liegt ungünstig. Du darfst selbst "unspielbar" erklären – überall außer im roten Bereich. 1 Schlag Strafe, 3 Optionen weiterzuspielen.',
+    summary: 'Optionen: (a) Distanzverlust, (b) rückwärtige Linie beliebig weit zurück, (c) seitlich 2 Schlägerlängen, nicht näher zum Loch.',
+    procedure: 'Im Bunker: alle 3 Optionen bleiben im Bunker, außer 2 Strafschläge gesamt für Linie außerhalb (Regel 19.3b).',
+    keywords: ['unspielbar','bunkerkante'], holes: [], club: null,
+  },
+  {
+    title: 'Boden in Ausbesserung (blaue Pfähle)', rule: 'Regel 16.1', penalty: 'keine', freeRelief: true,
+    easy: 'Blaue Pfähle oder weiße Kreis-Linie = Boden in Ausbesserung. Ball dort: IMMER straflos raus – nächste Stelle außerhalb, nicht näher zum Loch.',
+    summary: 'Straffreie Erleichterung. Gilt auch für gepflockte Bäume samt Gießring und markierte Neuanpflanzungen.',
+    procedure: 'Nächstgelegenen Punkt vollständiger Erleichterung bestimmen, max. 1 Schlägerlänge, Ball dort droppen.',
+    keywords: ['blauer pfahl','boden in ausbesserung','gur'], holes: [], club: null,
+  },
+  {
+    title: 'Bunker: Schläger aufsetzen / Sand berühren', rule: 'Regel 12.2', penalty: '2 Strafschläge bei Verstoß', freeRelief: false,
+    easy: 'Schläger im Sand aufsetzen und Sand berühren ist erlaubt. Verboten: Sand testen (mit Hand prüfen), Schläger absichtlich vor/hinter dem Ball in den Sand drücken.',
+    summary: 'Seit 2019 gelockert: Berühren grundsätzlich erlaubt.',
+    procedure: 'Verboten bleibt: Testen des Sands, Übungsbewegung mit Sandberührung.',
+    keywords: ['bunker','sand','schläger aufsetzen'], holes: [], club: null,
+  },
+  {
+    title: 'Harke / bewegliches Hemmnis', rule: 'Regel 15.2', penalty: 'keine', freeRelief: true,
+    easy: 'Harke, Ast o. ä. im Weg? Straflos wegnehmen, auch im Bunker/Grün. Ball rollt dabei weg: straflos zurücklegen.',
+    summary: 'Bewegliche Hemmnisse dürfen straflos entfernt werden.', procedure: '',
+    keywords: ['harke','rechen'], holes: [], club: null,
+  },
+  {
+    title: 'Flaggenstock bedienen', rule: 'Regel 13.2', penalty: '0 (unbedient) · 2 Strafschläge (bedient getroffen)', freeRelief: false,
+    easy: 'Mit Fahne im Loch putten ist erlaubt, kostet nichts bei Treffer. Hält jemand die Fahne extra fest und dein Ball trifft sie: 2 Strafschläge. Am sichersten: Fahne immer drinlassen.',
+    summary: 'Unbedienter Stock: straflos. Bedient/gehalten getroffen: Generalstrafe.', procedure: '',
+    keywords: ['flagge','fahne','pin'], holes: [], club: null,
+  },
+  {
+    title: 'Ball nach Markieren falsch zurückgelegt', rule: 'Regel 14.2 · bei Fehlspiel 14.7a', penalty: '2 Strafschläge, falls von dort gespielt', freeRelief: false,
+    easy: 'Ball nicht exakt an markierter Stelle zurückgelegt? Fällt es VOR dem Schlag auf: straflos korrigieren. Von falscher Stelle gespielt: 2 Strafschläge.',
+    summary: 'Exakte Rücklegepflicht, Korrektur vor dem Schlag straflos.', procedure: '',
+    keywords: ['markiert','zurücklegen','falscher ort'], holes: [], club: null,
+  },
+  {
+    title: 'Ball von Mitspieler auf dem Grün getroffen', rule: 'Regel 11.1b', penalty: '2 Strafschläge für den Schlagenden', freeRelief: false,
+    easy: 'Dein Putt trifft den Ball des Mitspielers, der schon auf dem Grün lag: DU bekommst 2 Strafschläge. Deshalb: beim Putten gegenseitig markieren.',
+    summary: 'Ausnahme von der sonst straflosen Regel bei Treffern auf dem Grün.', procedure: '',
+    keywords: ['mitspieler ball','grün getroffen'], holes: [], club: null,
+  },
+  {
+    title: 'Angesprochener Ball fällt vom Tee', rule: 'Regel 6.2b(5)', penalty: 'keine', freeRelief: true,
+    easy: 'Ball fällt beim Ansprechen vom Tee, bevor geschlagen wurde: straflos neu auftee\'n.',
+    summary: 'Gilt nur im Abschlagbereich, vor dem Schlag.', procedure: '',
+    keywords: ['fällt vom tee','tee ansprechen'], holes: [], club: null,
+  },
+  {
+    title: 'Provisorischer Ball', rule: 'Regel 18.3', penalty: '1 Strafschlag, falls Erstball nicht gefunden/im Aus', freeRelief: false,
+    easy: 'Unsicher ob Aus/verloren: Provisorischen Ball spielen, vorher laut ankündigen.',
+    summary: 'Spart Zeit bei Unsicherheit außerhalb von Penalty Areas.', procedure: '',
+    keywords: ['provisorisch','vorläufig'], holes: [], club: null,
+  },
+  // ---- Etikette ----
+  {
+    category: 'etikette', title: 'Spieltempo & Durchspielen', rule: 'Verhaltensvorschrift Nr. 2', penalty: null,
+    easy: 'Anschluss zum Flight vor dir halten. Mehr als eine Spielbahn Abstand: schnellere Gruppe sofort durchlassen. Ready Golf außerhalb des Lochspiels erwünscht.',
+    summary: '', procedure: '', keywords: ['tempo','ready golf','durchspielen'], holes: [], club: 'Golfclub Hünxerwald',
+  },
+  {
+    category: 'etikette', title: 'Platzpflege', rule: 'Verhaltensvorschrift Nr. 4', penalty: null,
+    easy: 'Pitchmarken ausbessern, Divots zurücklegen/verfüllen, Bunker harken, Trolley/Cart nicht über Vorgrüns/Abschläge.',
+    summary: '', procedure: '', keywords: ['pitchmarke','divot','harken'], holes: [], club: 'Golfclub Hünxerwald',
+  },
+  {
+    category: 'etikette', title: 'Sanktionen bei Fehlverhalten', rule: 'Regel 1.2a i.V.m. Verhaltensvorschriften', penalty: null,
+    easy: 'Allgemeines Fehlverhalten: 1. Verstoß 1 Strafschlag, 2. Verstoß 2 Strafschläge, 3. Verstoß Disqualifikation. Schweres Fehlverhalten: sofortige Disqualifikation möglich.',
+    summary: '', procedure: '', keywords: ['sanktion','fehlverhalten'], holes: [], club: 'Golfclub Hünxerwald',
+  },
+  // ---- Kleiderordnung ----
+  {
+    category: 'kleidung', title: 'Kleiderordnung (Kurzfassung)', rule: 'Kleiderordnung 2026 + Aushang', penalty: null,
+    easy: 'GO: Kragen-/Stehkragen-Oberteil, Gürtel, lange/kurze Golf-Stoffhose (mind. Knielänge), Golfschuhe mit/ohne Softspikes, Cap mit Schild nach vorne. NO-GO: T-Shirt, Fußballshirt, Achselshirt, Hoodie, Blue Jeans, Cargohose, Jogginghose, Beachshorts, Sandalen/Flip-Flops/Turnschuhe, Metallspikes.',
+    summary: '', procedure: '', keywords: ['kleiderordnung','kragen','gürtel','jeans','schuhe'], holes: [], club: 'Golfclub Hünxerwald',
+  },
+];
+
+
+// ===================== Speicher =====================
+const KEY = 'golfStart_';
+function load(k, def) { try { const r = localStorage.getItem(KEY + k); return r ? JSON.parse(r) : def; } catch (e) { return def; } }
+function save(k, v) { try { localStorage.setItem(KEY + k, JSON.stringify(v)); return true; } catch (e) { return false; } }
+
+let settings = load('settings', { hi: 54, tee: 'HG', loop: 'F9', svOverride: null });
+let round = load('round', null);   // laufende Runde oder null
+// Runden aus der ersten Version (anderes Format) verwerfen – sonst bleibt die App im Spielmodus hängen.
+if (round && (typeof round.sv !== 'number' || !Array.isArray(round.holes) || round.holes.some(x => typeof x.strokes !== 'number'))) { round = null; save('round', null); }
+let resumeOld = false;  // Runde von einem anderen Tag nur nach ausdrücklichem "Fortsetzen" weiterspielen
+let rounds = load('rounds', []);
+
+function todayStr() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+
+// ===================== Vorgabe =====================
+// Course Handicap nach WHS: Handicap × Slope / 113 + (Course Rating − Par), gerundet.
+// 9 Löcher: halbes Handicap. Ergebnisse stimmen mit den Tabellen des Clubs überein.
+function calcSV(hi, tee, loop) {
+  const r = RATING[tee][loop];
+  const base = loop === '18' ? hi : hi / 2;
+  return Math.round(base * r.sr / 113 + (r.cr - r.par));
+}
+function svFor(tee, loop) { return settings.svOverride !== null ? settings.svOverride : calcSV(settings.hi, tee, loop); }
+// Extra-Schläge je Loch: gleichmäßig verteilt, der Rest auf die schwersten Löcher (kleinster Index zuerst).
+function extraFor(r, holeIdx) {
+  const list = LOOP_HOLES[r.loop], n = list.length, sv = r.sv;
+  if (sv <= 0) return 0;
+  const ranked = list.slice().sort((a, b) => COURSE.index[a] - COURSE.index[b]);
+  const rank = ranked.indexOf(holeIdx) + 1;
+  return Math.floor(sv / n) + (rank <= sv % n ? 1 : 0);
+}
+function targetOf(r, hh) { return COURSE.par[hh.h] + extraFor(r, hh.h); }
+function limitOf(r, hh) { return targetOf(r, hh) + 2; }          // ab hier 0 Punkte – Ball aufheben
+function pointsOf(r, hh) { return Math.max(0, targetOf(r, hh) - hh.strokes + 2); }
+
+function newRound() {
+  const r = { id: Date.now().toString(36), date: todayStr(), loop: settings.loop, tee: settings.tee, hi: settings.hi, pos: 0, holes: [] };
+  r.sv = svFor(r.tee, r.loop);
+  // Startwert je Loch = Zielzahl. Meist reichen dann ein, zwei Taps pro Loch.
+  r.holes = LOOP_HOLES[r.loop].map(h => ({ h, strokes: null, done: false }));
+  r.holes.forEach(hh => { hh.strokes = targetOf(r, hh); });
+  return r;
+}
+
+// ===================== Anzeige =====================
+const $ = id => document.getElementById(id);
+function ruleHitsFor(physHole) { return RULES_DB.filter(e => !e.category && e.holes.includes(physHole)); }
+const SHORT = t => /Spielverbot/.test(t) ? 'Spielverbotszone' : /Wasser/.test(t) ? 'Wasser' : /Aus/.test(t) ? 'Aus' : t;
+
+function hiText(v) { return String(v).replace('.', ','); }
+// Handicap-Verlauf: jede Änderung mit Datum; mehrere Änderungen am selben Tag zählen als eine.
+function logHi() {
+  settings.hiLog = settings.hiLog || [];
+  const last = settings.hiLog[settings.hiLog.length - 1], today = todayStr();
+  if (last && last.date === today) last.hi = settings.hi;
+  else if (!last || last.hi !== settings.hi) settings.hiLog.push({ date: today, hi: settings.hi });
+}
+function renderProfile() {
+  $('pname').value = settings.name || '';
+  $('hi').value = settings.hi;
+  document.querySelectorAll('#tee-seg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.tee === settings.tee));
+  $('profil-intro').textContent = round
+    ? 'Änderungen gelten ab der nächsten Runde. Die laufende Runde rechnet mit den Werten vom Start.'
+    : 'Einmal eintragen, dann rechnet die App bei jeder Runde mit diesen Werten.';
+}
+function renderStart() {
+  $('start-title').textContent = settings.name ? `Hallo ${settings.name}!` : 'Neue Runde';
+  const old = round && round.date !== todayStr();
+  $('resume').hidden = !old;
+  if (old) {
+    const nDone = round.holes.filter(x => x.done).length;
+    $('resume').innerHTML = `Deine Runde vom ${round.date.split('-').reverse().join('.')} ist nicht beendet (${nDone} ${nDone === 1 ? 'Loch' : 'Löcher'} eingetragen).
+      <div class="row"><button type="button" class="linkbtn" onclick="resumeOld = true; render();">Weiterspielen</button>
+      <button type="button" class="linkbtn" onclick="if (confirm('Diese Runde verwerfen?')) { round = null; save('round', null); render(); }">Verwerfen</button></div>`;
+  }
+  $('profile-line').innerHTML = `Du spielst von <strong>${TEE_NAME[settings.tee]}</strong> mit Handicap <strong>${hiText(settings.hi)}</strong>. <button type="button" class="linkbtn" onclick="showView('profil')">Ändern</button>`;
+  document.querySelectorAll('#loop-seg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.loop === settings.loop));
+  const sv = svFor(settings.tee, settings.loop);
+  $('sv-show').textContent = sv;
+  $('sv').value = sv;
+  $('sv-reset').style.display = settings.svOverride !== null ? 'inline' : 'none';
+}
+
+function renderPlay() {
+  const r = round, hh = r.holes[r.pos], h = hh.h;
+  const par = COURSE.par[h], target = targetOf(r, hh), limit = limitOf(r, hh), pts = pointsOf(r, hh);
+  const doneHoles = r.holes.filter(x => x.done);
+  $('tl-left').textContent = `Punkte ${doneHoles.reduce((a, x) => a + pointsOf(r, x), 0)}     Vorgabe ${r.sv}, ${TEE_NAME[r.tee]}`;
+  $('h-no').textContent = `Loch ${h + 1}`;
+  $('h-par').querySelector('.n').textContent = par;
+  $('h-target').textContent = target;
+  $('h-len').textContent = `${COURSE.len[r.tee][h]} m`;
+  const hits = ruleHitsFor(h + 1);
+  $('h-rules').innerHTML = hits.length
+    ? `<button type="button" class="rulewarn" onclick="openRulesFor(${h + 1})">${hits.map(e => (/Spielverbot/.test(e.title) ? '⛔ ' : '⚠️ ') + SHORT(e.title)).join('  ')}<span>Was tun?</span></button>`
+    : '';
+  $('v-strokes').textContent = hh.strokes;
+  $('plus').disabled = hh.strokes >= limit;
+  $('minus').disabled = hh.strokes <= 1;
+  $('h-points').innerHTML = `<span class="dots">${Array.from({ length: Math.max(4, pts) }, (_, k) => `<i class="${k < pts ? 'on' : ''}"></i>`).join('')}</span> ${pts} ${pts === 1 ? 'Punkt' : 'Punkte'}`;
+  $('h-pickup').className = 'pickup' + (hh.strokes >= limit ? ' now' : '');
+  $('h-pickup').textContent = hh.strokes >= limit
+    ? 'Ball aufheben und weiter zum nächsten Loch.'
+    : `Noch nicht im Loch nach ${limit - 1} Schlägen? Ball aufheben.`;
+  $('prev').disabled = r.pos === 0;
+  $('next').textContent = r.pos === r.holes.length - 1 ? 'Runde beenden' : 'Nächstes Loch';
+}
+
+function showPlay(on) { $('start').hidden = on; $('play').hidden = !on; }
+function render() {
+  if (round && (round.date === todayStr() || resumeOld)) { showPlay(true); $('done').hidden = true; $('hole').hidden = false; renderPlay(); }
+  else { showPlay(false); renderStart(); }
+}
+
+function step(d) {
+  const hh = round.holes[round.pos];
+  hh.strokes = Math.min(limitOf(round, hh), Math.max(1, hh.strokes + d));
+  save('round', round); renderPlay();
+}
+$('plus').addEventListener('click', () => step(1));
+$('minus').addEventListener('click', () => step(-1));
+$('prev').addEventListener('click', () => { if (round.pos > 0) { round.pos--; save('round', round); renderPlay(); } });
+$('next').addEventListener('click', () => {
+  round.holes[round.pos].done = true;
+  if (round.pos < round.holes.length - 1) { round.pos++; save('round', round); renderPlay(); window.scrollTo({ top: 0 }); }
+  else finishRound();
+});
+
+function finishRound() {
+  const r = round;
+  const entry = { id: r.id, date: r.date, loop: r.loop, tee: r.tee, hi: r.hi, sv: r.sv,
+    holes: r.holes.filter(x => x.done).map(x => ({ hole: x.h + 1, par: COURSE.par[x.h], extra: extraFor(r, x.h), strokes: x.strokes, picked: x.strokes >= limitOf(r, x), points: pointsOf(r, x) })) };
+  entry.points = entry.holes.reduce((a, x) => a + x.points, 0);
+  entry.strokes = entry.holes.reduce((a, x) => a + x.strokes, 0);
+  rounds = rounds.filter(x => x.id !== entry.id).concat(entry);
+  save('rounds', rounds);
+  round = null; save('round', null);
+  const ziel = entry.holes.length === 18 ? 36 : 18;
+  $('hole').hidden = true; $('done').hidden = false;
+  const neu = milestones().filter(m => m.id === entry.id);
+  $('done').innerHTML = `<h2>Geschafft!</h2>
+    ${neu.map(m => `<div class="newmile">🏅 Neu: ${m.text}</div>`).join('')}
+    <div class="sv-big">${entry.points}</div><p>Punkte, ${entry.strokes} Schläge</p>
+    <p class="muted">${entry.points > ziel ? `Mehr als ${ziel} Punkte – besser als deine Vorgabe.` : entry.points === ziel ? `Genau ${ziel} Punkte – genau nach deiner Vorgabe gespielt.` : `${ziel} Punkte hieße: genau nach deiner Vorgabe gespielt.`}</p>
+    <p class="muted">Die Runde ist unter „Meine Runden“ gespeichert.</p>
+    <button type="button" class="btn-main" onclick="render()">Neue Runde</button>`;
+}
+
+// Start-Bildschirm
+document.querySelectorAll('#tee-seg button').forEach(b => b.addEventListener('click', () => {
+  settings.tee = b.dataset.tee; settings.svOverride = null; save('settings', settings); renderProfile();
+  $('profil-msg').textContent = `Gespeichert: ${TEE_NAME[settings.tee]}.`;
+}));
+document.querySelectorAll('#loop-seg button').forEach(b => b.addEventListener('click', () => { settings.loop = b.dataset.loop; settings.svOverride = null; save('settings', settings); renderStart(); }));
+$('hi').addEventListener('change', () => {
+  const v = parseFloat(String($('hi').value).replace(',', '.'));
+  if (isNaN(v) || v > 54 || v < -5) { $('hi').value = settings.hi; return; }
+  settings.hi = Math.round(v * 10) / 10; settings.svOverride = null; logHi(); save('settings', settings); renderProfile();
+  $('profil-msg').textContent = `Gespeichert: Handicap ${hiText(settings.hi)}.`;
+});
+$('pname').addEventListener('change', () => { settings.name = $('pname').value.trim().slice(0, 30); save('settings', settings); $('profil-msg').textContent = settings.name ? `Gespeichert: ${settings.name}.` : ''; });
+$('profil-done').addEventListener('click', () => { if (!settings.hiLog || !settings.hiLog.length) logHi(); $('hi').dispatchEvent(new Event('change')); settings.profileSet = true; save('settings', settings); showView('runde'); });
+$('sv').addEventListener('change', () => { const v = parseInt($('sv').value); settings.svOverride = isNaN(v) ? null : v; save('settings', settings); renderStart(); });
+$('sv-reset').addEventListener('click', () => { settings.svOverride = null; save('settings', settings); renderStart(); });
+$('start-btn').addEventListener('click', () => {
+  if (round && round.holes.some(x => x.done) && !confirm('Die nicht beendete Runde wird verworfen. Neue Runde starten?')) return;
+  round = newRound(); resumeOld = false; save('round', round); render();
+});
+$('change-btn').addEventListener('click', () => {
+  const any = round.holes.some(x => x.done);
+  if (any && !confirm('Neue Runde beginnen? Die bisher eingetragenen Löcher dieser Runde gehen verloren.')) return;
+  round = null; save('round', null); render();
+});
+
+
+// ===================== Meine Runden =====================
+let activeYear = null;
+// ===================== Fortschritt =====================
+const MONTHS = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+const dmy = d => d.split('-').reverse().join('.');
+function fullRounds() { return rounds.filter(r => r.holes.length === LOOP_HOLES[r.loop].length).sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id)); }
+function per18(r) { return r.points * 18 / r.holes.length; }
+// Erste Male – von der App selbst erkannt, jeweils das erste Vorkommen über alle Runden.
+function milestones() {
+  const all = rounds.slice().sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+  const found = {};
+  const hit = (key, text, r) => { if (!found[key]) found[key] = { text, date: r.date, id: r.id }; };
+  all.forEach(r => {
+    r.holes.forEach(x => {
+      if (x.picked) return;
+      if (x.strokes === x.par) hit('par', `Erstes Par (Loch ${x.hole})`, r);
+      if (x.strokes === x.par - 1) hit('birdie', `Erstes Birdie (Loch ${x.hole})`, r);
+      if (x.points >= 3) hit('p3', `Erstes Loch mit 3 Punkten (Loch ${x.hole})`, r);
+      if (x.points >= 4) hit('p4', `Erstes Loch mit 4 Punkten (Loch ${x.hole})`, r);
+    });
+    const full = r.holes.length === LOOP_HOLES[r.loop].length;
+    if (full && r.holes.length === 9 && r.points >= 18) hit('r9', 'Erste 9-Loch-Runde mit 18 Punkten', r);
+    if (full && r.holes.length === 18 && r.points >= 36) hit('r18', 'Erste 18-Loch-Runde mit 36 Punkten', r);
+    if (full && r.holes.every(x => x.points > 0)) hit('nozero', 'Erste Runde ohne aufgehobenen Ball', r);
+  });
+  return Object.values(found).sort((a, b) => b.date.localeCompare(a.date));
+}
+// Einfache Kurve: Werte je Runde, eine Referenzlinie (gestrichelt), Datum links und rechts.
+function chartSvg(list, vals, o) {
+  const W = 320, H = 150, L = 26, R = 8, T = 8, B = 20;
+  const lo = o.min(vals), hi = o.max(vals);
+  const x = i => list.length === 1 ? L + (W - L - R) / 2 : L + i * (W - L - R) / (list.length - 1);
+  const y = v => T + (H - T - B) * (1 - (v - lo) / (hi - lo));
+  const pts = vals.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+  const ticks = o.ticks.map(t => `<text x="${L - 5}" y="${y(t) + 4}" font-size="11" text-anchor="end" fill="#55635a">${t}</text><line x1="${L}" x2="${W - R}" y1="${y(t)}" y2="${y(t)}" stroke="${t === o.ref ? '#6d3f84' : '#d9dccf'}" stroke-width="${t === o.ref ? 1.5 : 1}" ${t === o.ref ? 'stroke-dasharray="5 4"' : ''}/>`).join('');
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.aria} Letzte Runde ${Math.round(vals[vals.length - 1])}.">
+    ${ticks}
+    <text x="${o.labelBelow ? L + 4 : W - R}" y="${o.labelBelow ? y(o.ref) + 14 : y(o.ref) - 5}" font-size="11" text-anchor="${o.labelBelow ? 'start' : 'end'}" fill="#6d3f84">${o.refLabel}</text>
+    ${list.length > 1 ? `<polyline points="${pts}" fill="none" stroke="${o.color}" stroke-width="2.5" stroke-linejoin="round"/>` : ''}
+    ${vals.map((v, i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="4" fill="${o.color}"/>`).join('')}
+    <text x="${L}" y="${H - 4}" font-size="11" fill="#55635a">${dmy(list[0].date)}</text>
+    ${list.length > 1 ? `<text x="${W - R}" y="${H - 4}" font-size="11" text-anchor="end" fill="#55635a">${dmy(list[list.length - 1].date)}</text>` : ''}
+  </svg>`;
+}
+// Schläge je 9 Löcher (18-Loch-Runden halbiert). Aufgehobene Löcher zählen mit der Grenze (Zielzahl + 2),
+// genau wie fürs Handicap.
+function per9Strokes(r) { return r.strokes * 9 / r.holes.length; }
+function trendSentence(list, f, better, worse, same, unit) {
+  if (list.length < 6) return `${list.length} ${list.length === 1 ? 'Runde' : 'Runden'} gespielt. Ab 6 Runden zeigt dir die App, ob du besser wirst.`;
+  const last5 = list.slice(-5), before = list.slice(0, -5);
+  const a = last5.reduce((s, r) => s + f(r), 0) / 5, b = before.reduce((s, r) => s + f(r), 0) / before.length;
+  const d = better(a, b);
+  return `Deine letzten 5 Runden: Ø <strong>${Math.round(a)}</strong> ${unit}, vorher Ø ${Math.round(b)}. ${d >= 1 ? '<strong>Du wirst besser!</strong>' : d <= -1 ? worse : same}`;
+}
+function renderProgress() {
+  const list = fullRounds();
+  let html = '<h2>Mein Fortschritt</h2>';
+  if (list.length === 0) {
+    html += '<p class="muted">Nach deiner ersten vollständigen Runde siehst du hier, wie du dich entwickelst.</p>';
+  } else {
+    const recent = list.slice(-20);
+    // Schläge: greifbar, unabhängig vom Handicap
+    const sv = recent.map(per9Strokes);
+    html += '<h3>Schläge je 9 Löcher</h3>';
+    html += `<p class="trend">${trendSentence(list, per9Strokes, (a, b) => b - a, 'Gerade ein paar Schläge mehr – das gehört dazu.', 'Du spielst konstant.', 'Schläge')}</p>`;
+    html += chartSvg(recent, sv, { min: () => 34, max: v => Math.max(48, ...v) + 3, ticks: [36, 45, 54, 63, 72, 81, 90, 99, 108].filter(t => t <= Math.max(48, ...sv) + 3), ref: 36, refLabel: '36 = Par', color: '#6d3f84', aria: 'Schläge je 9 Löcher pro Runde.' });
+    html += '<p class="muted" style="margin:0 0 6px;">Nach unten heißt besser. 18-Loch-Runden zählen halb.</p>';
+    // Punkte: im Verhältnis zum Handicap
+    html += '<h3>Stableford-Punkte</h3>';
+    html += `<p class="trend">${trendSentence(list, per18, (a, b) => a - b, 'Gerade etwas schwächer – das gehört dazu.', 'Du spielst konstant.', 'Punkte')}</p>`;
+    const pv = recent.map(per18);
+    html += chartSvg(recent, pv, { min: () => 0, max: v => Math.max(40, ...v) + 2, ticks: [0, 18, 36], ref: 36, labelBelow: true, refLabel: '36 = genau nach Vorgabe', color: '#3f6b2f', aria: 'Punkte je Runde, auf 18 Löcher gerechnet.' });
+    html += '<p class="muted" style="margin:0;">Nach oben heißt besser. 9-Loch-Runden zählen doppelt. Sinkt dein Handicap, werden Punkte schwerer – darum gehört der Handicap-Verlauf dazu.</p>';
+  }
+  const log = settings.hiLog || [];
+  if (log.length >= 2) {
+    const f = log[0], l = log[log.length - 1], m = f.date.split('-');
+    html += `<div class="hcpline">Handicap: <strong>${hiText(f.hi)} → ${hiText(l.hi)}</strong> seit ${MONTHS[parseInt(m[1]) - 1]} ${m[0]}</div>`;
+  } else {
+    html += `<div class="hcpline">Handicap: <strong>${hiText(settings.hi)}</strong>. Trag im Profil dein neues Handicap ein, sobald es sich ändert – dann siehst du hier den Verlauf.</div>`;
+  }
+  const ms = milestones();
+  if (ms.length) html += `<h3>Erste Male</h3><ul class="miles">${ms.map(m => `<li>🏅 ${m.text}<span class="when">${dmy(m.date)}</span></li>`).join('')}</ul>`;
+  $('progress').innerHTML = html;
+}
+
+function renderRounds() {
+  renderProgress();
+  const years = [...new Set(rounds.map(r => r.date.slice(0, 4)))].sort().reverse();
+  if (!activeYear || !years.includes(activeYear)) activeYear = years[0] || String(new Date().getFullYear());
+  $('years-title').textContent = `Runden im Jahr ${activeYear}`;
+  $('year-seg').innerHTML = years.length > 1 ? years.map(y => `<button type="button" aria-pressed="${y === activeYear}" onclick="activeYear='${y}'; renderRounds();">${y}</button>`).join('') : '';
+  const list = rounds.filter(r => r.date.startsWith(activeYear)).sort((a, b) => b.date.localeCompare(a.date));
+  if (list.length === 0) {
+    $('stats').innerHTML = '';
+    $('round-list').innerHTML = `<p class="muted">Noch keine Runde in ${activeYear}. Nach der Runde unter „Runde" auf „Runde speichern" tippen.</p>`;
+    return;
+  }
+  // Nur vollständige Runden zählen für Schnitt und Bestwert. 9-Loch-Runden werden auf 18 Löcher
+  // hochgerechnet (×2), damit sie mit 18-Loch-Runden vergleichbar sind.
+  const full = list.filter(r => r.holes.length === LOOP_HOLES[r.loop].length);
+  const per18 = r => r.points * 18 / r.holes.length;
+  const avg = full.length ? full.reduce((a, r) => a + per18(r), 0) / full.length : null;
+  const best = full.length ? full.reduce((a, r) => per18(r) > per18(a) ? r : a, full[0]) : null;
+  $('stats').innerHTML = `
+    <div class="stat"><div class="big">${list.length}</div><div class="cap">Runden</div></div>
+    <div class="stat"><div class="big">${avg === null ? '–' : avg.toFixed(1).replace('.', ',')}</div><div class="cap">Ø Punkte, auf 18 Löcher gerechnet</div></div>
+    <div class="stat"><div class="big">${best ? best.points : '–'}</div><div class="cap">${best ? `beste Runde (${LOOP_NAME[best.loop]})` : 'beste Runde'}</div></div>`;
+  $('round-list').innerHTML = list.map(r => {
+    const d = r.date.split('-').reverse().join('.');
+    return `<details class="round-d"><summary class="round">
+        <span><strong>${d}</strong><br><span class="muted">${LOOP_NAME[r.loop]}, ${r.strokes} Schläge, Vorgabe ${r.sv}</span></span>
+        <span class="pts">${r.points} P.</span>
+        <button type="button" class="del" aria-label="Runde löschen" onclick="event.preventDefault(); deleteRound('${r.id}')">✕</button>
+      </summary>
+      <div class="scwrap"><table class="sc"><tr><th>Loch</th><th>Par</th><th>Extra</th><th>Schläge</th><th>Punkte</th></tr>
+      ${r.holes.map(x => `<tr><td>${x.hole}</td><td>${x.par}</td><td>${x.extra}</td><td>${x.picked ? 'aufgeh.' : x.strokes}</td><td>${x.points}</td></tr>`).join('')}
+      </table></div></details>`;
+  }).join('');
+}
+function deleteRound(id) {
+  if (!confirm('Diese Runde löschen?')) return;
+  rounds = rounds.filter(r => r.id !== id); save('rounds', rounds); renderRounds();
+}
+$('export-btn').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify({ app: 'golfstart', version: 1, settings, rounds }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `golfstart-sicherung-${todayStr()}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  $('backup-msg').textContent = 'Sicherung heruntergeladen.';
+});
+$('import-file').addEventListener('change', e => {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      if (data.app !== 'golfstart' || !Array.isArray(data.rounds)) throw new Error('falsches Format');
+      const ids = new Set(rounds.map(r => r.id));
+      const neu = data.rounds.filter(r => !ids.has(r.id));
+      rounds = rounds.concat(neu); save('rounds', rounds);
+      if (data.settings && Array.isArray(data.settings.hiLog)) {
+        const have = new Set((settings.hiLog || []).map(e => e.date));
+        settings.hiLog = (settings.hiLog || []).concat(data.settings.hiLog.filter(e => !have.has(e.date))).sort((a, b) => a.date.localeCompare(b.date));
+        save('settings', settings);
+      }
+      $('backup-msg').textContent = `${neu.length} Runden eingelesen.`;
+      renderRounds();
+    } catch (err) { $('backup-msg').textContent = 'Diese Datei ist keine Golfstart-Sicherung.'; }
+    e.target.value = '';
+  };
+  reader.readAsText(file);
+});
+
+// ===================== Regeln =====================
+let rbHole = null;
+function renderRules() {
+  $('rb-chips').innerHTML = Array.from({ length: 18 }, (_, i) => `<button type="button" aria-pressed="${rbHole === i + 1}" onclick="rbHole = rbHole === ${i + 1} ? null : ${i + 1}; renderRules();">Bahn ${i + 1}</button>`).join('');
+  const q = $('rb-search').value.trim().toLowerCase();
+  const list = rbHole
+    ? RULES_DB.filter(e => !e.category && e.holes.includes(rbHole))
+    : RULES_DB.filter(e => !q || (e.title + ' ' + e.keywords.join(' ') + ' ' + e.easy).toLowerCase().includes(q));
+  $('rb-empty').style.display = list.length ? 'none' : 'block';
+  $('rb-list').innerHTML = list.map(e => {
+    const tag = e.category ? '' : (e.freeRelief ? '<span class="tag free">ohne Strafschlag</span>' : `<span class="tag pen">${e.penalty}</span>`);
+    const holes = e.holes.map(h => `<span class="tag">Bahn ${h}</span>`).join('');
+    return `<div class="rule"><h4>${e.title}</h4><div class="tags">${e.rule ? `<span class="tag">${e.rule}</span>` : ''}${tag}${holes}</div>
+      <div class="easy">${e.easy}</div>
+      ${e.summary ? `<details><summary>Genauer</summary><p>${e.summary}</p>${e.procedure ? `<p>${e.procedure}</p>` : ''}</details>` : ''}</div>`;
+  }).join('');
+}
+$('rb-search').addEventListener('input', () => { rbHole = null; renderRules(); });
+function openRulesFor(h) { rbHole = h; $('rb-search').value = ''; showView('regeln'); renderRules(); }
+
+// ===================== Navigation =====================
+function showView(v) {
+  document.querySelectorAll('section.view').forEach(s => s.classList.toggle('active', s.id === 'view-' + v));
+  document.querySelectorAll('nav.tabs button').forEach(b => { if (b.dataset.view === v) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+  if (v === 'runden') renderRounds();
+  if (v === 'profil') { renderProfile(); $('profil-msg').textContent = ''; }
+  if (v === 'runde') render();
+  if (v === 'regeln') renderRules();
+  window.scrollTo({ top: 0 });
+}
+document.querySelectorAll('nav.tabs button').forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
+$('app-version').addEventListener('click', () => {
+  const c = $('app-changelog'), show = c.style.display !== 'block';
+  c.style.display = show ? 'block' : 'none';
+  $('app-version').textContent = 'Version 2026.10.03-f ' + (show ? '▴' : '▾');
+});
+
+render();
+if (!settings.profileSet) showView('profil');
+</script>
+</body>
+</html>
