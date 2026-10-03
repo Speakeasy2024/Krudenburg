@@ -314,14 +314,15 @@
     <span style="font-family:'Fraunces',serif; font-weight:600; font-size:15px; color: var(--bg);">Golf Fortschritt-Tracker</span>
   </div>
   <h1>Fortschritt-Tracker</h1>
-  <div id="app-version" style="margin-top:6px; font-size:12px; color:var(--text-dim); cursor:pointer;" title="Versionshinweise anzeigen">Version 2026.10.02-c ▾</div>
+  <div id="app-version" style="margin-top:6px; font-size:12px; color:var(--text-dim); cursor:pointer;" title="Versionshinweise anzeigen">Version 2026.10.03 ▾</div>
   <div id="app-changelog" style="display:none; text-align:left; max-width:560px; margin:10px auto 0; font-size:12.5px; color:var(--text-dim); background:var(--bg-alt); border:1px solid var(--card-border); border-radius:12px; padding:10px 14px;">
     <div style="font-weight:600; color:var(--text); margin-bottom:6px;">Versionshinweise Fortschritt-Tracker</div>
+    <div style="margin-top:6px;"><strong style="color:var(--text);">03.10.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Entfernung per Knopf: nimmt nur noch frische Positionen (keine „eingefrorene“ Distanz mehr), zeigt Messzeit und Genauigkeit</li><li>Live-Distanz entfernt</li><li>Huckingen: Wind relativ zur Schlagrichtung, „spielt sich wie“ und Schläger danach</li><li>Temperatur fließt in „spielt sich wie“ ein (Bezug 20 °C, pro 10 °C kälter ca. 1,8 % kürzer)</li></ul></div>
     <div style="margin-top:6px;"><strong style="color:var(--text);">02.10.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Mein Bag: Werte der Range-Session vom 01.10.2026 inkl. Donut-Streuung; ± Länge als Spalte, Messdatum automatisch</li><li>Mein Bag: „Neue Session übernehmen“ für künftige Range-Sessions</li><li>Backup-Import: Bag-Werte gehen auf neuem Gerät nicht mehr verloren</li><li>Lernender Caddy (Hünxerwald): ab 5 Runden je Bahn – Fehlerseite, Strafschlag-Muster, besserer Abschlagschläger, „Caddy befolgt?“</li><li>Caddy Weselerwald/Huckingen: Empfehlung nach passender Lochlänge statt immer längster Schläger</li><li>Huckingen: GPS-Distanz zur Grünmitte mit Schlägervorschlag; Grünmitten Süd 1–9, Nord 1–9, West 1 und 9 aus Google Maps</li><li>Grünmitte speichern: Mittel aus bis zu 8 GPS-Messungen</li><li>Versionsnummer und Versionshinweise</li></ul></div><div style="margin-top:6px;"><strong style="color:var(--text);">28.09.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Hünxerwald-Caddy mit Birdie-Book-Daten, Fahnen, Wind, GPS-Grünmitte, Wettspiel-Modus, Tabs Runde/Training</li></ul></div>
   </div>
   <script>document.getElementById('app-version').addEventListener('click', function () {
     var c = document.getElementById('app-changelog'); var show = c.style.display === 'none';
-    c.style.display = show ? 'block' : 'none'; this.textContent = 'Version 2026.10.02-c ' + (show ? '▴' : '▾');
+    c.style.display = show ? 'block' : 'none'; this.textContent = 'Version 2026.10.03 ' + (show ? '▴' : '▾');
   });</script>
 </header>
 
@@ -394,10 +395,9 @@
                 <option value="rot">Rot</option>
               </select>
             </div>
-            <div class="full-row">
-              <label style="display:flex; align-items:center; gap:6px; font-weight:400; margin:0;">
-                <input type="checkbox" id="hx-live" style="width:auto;"> 📍 Live-Distanz zur Grünmitte, Bildschirm bleibt an (braucht mehr Akku)
-              </label>
+            <div class="full-row" hidden>
+              <!-- Live-Distanz entfernt (03.10.2026): Entfernung nur noch per Knopf. Feld bleibt für alte Einstellungen. -->
+              <input type="checkbox" id="hx-live" style="width:auto;">
             </div>
             <div class="full-row">
               <label style="display:flex; align-items:center; gap:6px; font-weight:400; margin:0;">
@@ -1482,6 +1482,7 @@ function caddyQuickCardHtml(h) {
     if (w) {
       let wt = `🌬️ ${Math.round(w.speed)} km/h aus ${wxDirText(w.dir)}${w.gust ? `, Böen ${Math.round(w.gust)}` : ''}`;
       if (w.head !== null) wt += ` → ${hxWindShortTxt(w)}${Math.abs(w.cross) >= 5 ? `, ${Math.round(Math.abs(w.cross))} km/h von ${w.cross > 0 ? 'rechts' : 'links'}` : ''}`;
+      if (w.temp !== null) wt += `, 🌡️ ${Math.round(w.temp)} °C`;
       meta.push(wt);
     } else meta.push(wxLoading ? '🌬️ Wetter lädt …' : '🌬️ kein Wetter (Netz?)');
   }
@@ -4344,8 +4345,8 @@ function hxTeeHtml(b, ctx, sicher, learn) {
   html += `<div class="cx-text-sm">${teeAim}</div>`;
   const pl = platzLineFor(primary.c.name);
   if (pl) html += `<div class="cx-dim">${pl} (TrackMan zum Vergleich: ${primary.c.tend.lr ? 'Tendenz ' + primary.c.tend.lr : 'keine klare Seite'})</div>`;
-  if (wTee && wTee.factor && straight && Math.abs(wTee.head) >= 5) html += `<div class="cx-dim">${hxWindShortTxt(wTee)} – Landezone eingerechnet.</div>`;
-  else if (wTee && wTee.factor && !straight) html += `<div class="cx-dim">${hxWindShortTxt(wTee)} (Richtung Grün – im ${b.form} für den Abschlag nur grob).</div>`;
+  if (wTee && wTee.factor && straight && (Math.abs(wTee.head || 0) >= 5 || Math.abs((wTee.temp ?? TEMP_REF) - TEMP_REF) >= 3)) html += `<div class="cx-dim">${hxCondTxt(wTee)} – Landezone eingerechnet.</div>`;
+  else if (wTee && wTee.factor && !straight) html += `<div class="cx-dim">${hxCondTxt(wTee)} (Richtung Grün – im ${b.form} für den Abschlag nur grob).</div>`;
   if (wTee && wTee.cross !== null && Math.abs(wTee.cross) >= 10 && straight) html += `<div class="cx-text-sm">${hxWindCrossTxt(wTee)}</div>`;
   if (!dogleg) html += `<div class="cx-dim">Danach ca. ${rest} m zur Grünmitte (grob).</div>`;
   else html += `<div class="cx-dim">${b.form} – Rest nur vor Ort bestimmbar, Distanzen sind Luftlinie.</div>`;
@@ -4422,7 +4423,7 @@ function hxApproachInner(b, D, ctx, sicher, opts, w) {
   } else {
     html += `<div class="cx-text-sm">Ziel ${pinCode ? 'Fahne ' + hxPinText(pinCode) : 'Grünmitte'}: ca. ${Math.round(target)} m${adj !== 0 ? ` (Grünmitte ${Math.round(D)} m, Grün ${depth} m tief)` : ''}.</div>`;
   }
-  if (w && w.factor && Math.abs(target - targetRaw) >= 2) html += `<div class="cx-text-sm">${hxWindShortTxt(w)} → spielt wie ca. ${Math.round(target)} m.</div>`;
+  if (w && w.factor && Math.abs(target - targetRaw) >= 2) html += `<div class="cx-text-sm">${hxCondTxt(w)} → spielt wie ca. ${Math.round(target)} m.</div>`;
   let idx = 0, best = Infinity;
   clubs.forEach((c, i) => { const diff = Math.abs(c.carry - target); if (diff < best) { best = diff; idx = i; } });
   const base = clubs[idx];
@@ -4588,12 +4589,44 @@ function gpsErrorText(err) {
   if (err && err.code === 3) return 'GPS hat zu lange gebraucht – bitte nochmal tippen.';
   return 'Kein GPS-Signal – bitte nochmal tippen.';
 }
+// Entfernung per Knopf. iPhones liefern bei getCurrentPosition oft die zwischengespeicherte alte
+// Position – die Distanz wirkt dann "eingefroren". Darum: kurz zuhören (watchPosition) und nur eine
+// Position nehmen, die NACH dem Tippen entstanden ist. Erste mit ±25 m oder besser sofort, sonst
+// nach spätestens 12 s die beste frische. Läuft schon eine Messung, zählt der neue Tipp nicht doppelt.
+let gpsBusy = false;
 function gpsGet(ok) {
   if (!navigator.geolocation) { caddyGpsMsg = gpsErrorText(null); renderHolesUI(); return; }
+  if (gpsBusy) return;
+  gpsBusy = true;
+  const tap = Date.now();
+  let best = null, id = null, timer = null, done = false;
   caddyGpsMsg = 'GPS sucht …'; renderHolesUI();
-  navigator.geolocation.getCurrentPosition(pos => { caddyGpsMsg = null; ok(pos.coords); },
-    err => { caddyGpsMsg = gpsErrorText(err); renderHolesUI(); },
-    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
+  const finish = (c, err) => {
+    if (done) return;
+    done = true; gpsBusy = false;
+    if (id !== null) navigator.geolocation.clearWatch(id);
+    clearTimeout(timer);
+    if (c) {
+      gpsLast = { lat: c.latitude, lon: c.longitude, acc: c.accuracy, t: Date.now() };
+      caddyGpsMsg = null; ok(c);
+    } else {
+      caddyGpsMsg = err ? gpsErrorText(err) : 'Keine neue Position bekommen. Unter Bäumen kurz ins Freie gehen, dann nochmal tippen. Am iPhone „Genauer Standort“ für den Browser prüfen.';
+      renderHolesUI();
+    }
+  };
+  id = navigator.geolocation.watchPosition(pos => {
+    if (done) return;
+    if (pos.timestamp && pos.timestamp < tap - 1000) return;   // alte, zwischengespeicherte Position
+    if (!best || pos.coords.accuracy < best.accuracy) best = pos.coords;
+    if (pos.coords.accuracy <= 25) finish(pos.coords);
+  }, err => { if (err.code === 1 || !best) finish(null, err.code === 3 ? null : err); },
+  { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 });
+  timer = setTimeout(() => finish(best), 12000);
+}
+function gpsTimeTxt() {
+  if (!gpsLast) return '';
+  const d = new Date(gpsLast.t);
+  return `gemessen ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}, ±${Math.round(gpsLast.acc)} m`;
 }
 // Grünmitte speichern: mehrere GPS-Messungen über bis zu 8 Sekunden sammeln und gewichtet mitteln
 // (genaue Messungen zählen stärker). Messungen schlechter als ±20 m werden verworfen.
@@ -4633,12 +4666,13 @@ function gpsGetAveraged(ok) {
 // ---------- Wetter / Wind (Open-Meteo, ohne Schlüssel, braucht Mobilfunk) ----------
 let wxLast = null, wxLoading = false, wxError = null;
 function wxEnabled() { const el = document.getElementById('hx-wind'); return !!(el && el.checked); }
+function gpsOnlyCourseHk(hk) { return typeof hk === 'string' && hk.startsWith('huckingen:'); }
 function wxDirText(deg) {
   const n = ['N', 'NO', 'O', 'SO', 'S', 'SW', 'W', 'NW'];
   return n[Math.round(((deg % 360) + 360) % 360 / 45) % 8];
 }
-function wxMaybeFetch() {
-  if (!wxEnabled() || wxLoading || typeof fetch !== 'function') return;
+function wxMaybeFetch(force) {
+  if (!(wxEnabled() || force) || wxLoading || typeof fetch !== 'function') return;
   if (wxLast && Date.now() - wxLast.t < 15 * 60000) return;
   if (wxError && Date.now() - wxError.t < 2 * 60000) return;
   const def = caddyCurrentDef();
@@ -4663,7 +4697,7 @@ function gpsBearing(a, b) {
 // Wind relativ zur Schlagrichtung (Ball → Grünmitte). Ohne Position/Grün nur Richtung + Stärke.
 // Faustregel: je km/h Gegenwind ca. 0,6 % länger, je km/h Rückenwind ca. 0,3 % kürzer.
 function hxWindForShot(hk) {
-  if (!wxEnabled() || !wxLast) return null;
+  if (!(wxEnabled() || gpsOnlyCourseHk(hk)) || !wxLast) return null;
   const res = { speed: wxLast.speed, gust: wxLast.gust, dir: wxLast.dir, head: null, cross: null, factor: null };
   const g = loadGreens()[hk];
   if (g && gpsLast && Date.now() - gpsLast.t < 60000 && gpsDistance(gpsLast, g) > 20) {
@@ -4673,7 +4707,19 @@ function hxWindForShot(hk) {
     res.cross = wxLast.speed * Math.sin(rel); // > 0: Wind von rechts
     res.factor = res.head >= 0 ? 1 + 0.006 * res.head : 1 + 0.003 * res.head;
   }
+  // Temperatur: Bezug 20 °C (TrackMan-Normalisierung der Bag-Werte). Pro 10 °C kälter ca. 1,8 % kürzer.
+  res.temp = typeof wxLast.temp === 'number' ? wxLast.temp : null;
+  const tf = res.temp === null ? 1 : 1 + 0.0018 * (TEMP_REF - res.temp);
+  if (res.factor) res.factor *= tf;
+  else if (Math.abs(tf - 1) >= 0.005) res.factor = tf;
   return res;
+}
+const TEMP_REF = 20;
+// Wind + Temperatur in einem Satz (für "spielt sich wie"-Zeilen)
+function hxCondTxt(w) {
+  let t = hxWindShortTxt(w);
+  if (w.temp !== null && w.temp !== undefined && Math.abs(w.temp - TEMP_REF) >= 3) t += `, 🌡️ ${Math.round(w.temp)} °C`;
+  return t;
 }
 function hxWindShortTxt(w) {
   if (w.head === null) return `Wind ${Math.round(w.speed)} km/h aus ${wxDirText(w.dir)}`;
@@ -4836,7 +4882,7 @@ function roundReviewHtml(r) {
 
 // ---------- Live-Distanz (watchPosition) ----------
 let gpsWatchId = null, gpsLast = null, gpsLastRefresh = 0, gpsLiveError = null;
-function gpsLiveEnabled() { const el = document.getElementById('hx-live'); return !!(el && el.checked); }
+function gpsLiveEnabled() { return false; } // Live-Distanz entfernt – Entfernung nur per Knopf
 function gpsLiveShouldRun() {
   return gpsLiveEnabled() && !gpsLiveError && !!navigator.geolocation && typeof navigator.geolocation.watchPosition === 'function' && mode === 'scorecard' && holeViewMode === 'single'
     && hasCaddyCourse(document.getElementById('course').value);
@@ -4886,6 +4932,7 @@ function caddyMeasure(i, hk) {
     caddyApproach[i] = Math.round(gpsDistance({ lat: c.latitude, lon: c.longitude }, g));
     caddyApproachSrc[i] = 'gps';
     if (c.accuracy > 15) caddyGpsMsg = `GPS ungenau (±${Math.round(c.accuracy)} m).`;
+    wxMaybeFetch(gpsOnlyCourseHk(hk));
     renderHolesUI();
   });
 }
@@ -4905,11 +4952,21 @@ function gpsOnlyBlockHtml(h, i, hk, withRec) {
       ${dist ? `<div class="cx-live"><strong>${Math.round(dist)} m</strong><span>zur Grünmitte</span></div>` : ''}
     </div>`;
   if (caddyGpsMsg) html += `<div class="cx-dim">${caddyGpsMsg}</div>`;
+  else if (dist && gpsLast) html += `<div class="cx-dim">${gpsTimeTxt()}</div>`;
+  // Wind relativ zur Schlagrichtung (deine Position → Grünmitte)
+  const w = dist ? hxWindForShot(hk) : null;
+  let playsLike = dist;
+  if (w) {
+    let wt = `💨 ${hxCondTxt(w)}`;
+    if (w.factor) { playsLike = Math.round(dist * w.factor); if (Math.abs(playsLike - dist) >= 3) wt += ` → spielt sich wie <strong>${playsLike} m</strong>`; }
+    html += `<div class="cx-text-sm" style="margin-top:6px;">${wt}</div>`;
+    if (w.cross !== null && Math.abs(w.cross) >= 10) html += `<div class="cx-dim">${hxWindCrossTxt(w)}</div>`;
+  }
   if (withRec && dist) {
     const len = getLengthProfile(h.subCourse)[h.subHole - 1];
     // Am Abschlag (GPS-Distanz nahe Lochlänge) bleibt es bei der Empfehlung nach Lochlänge.
     if (!(len && dist > len - 30)) {
-      const m = bagClosestMatches(dist, 2);
+      const m = bagClosestMatches(playsLike, 2);
       if (m.length) html += `<div class="bag-rec-result" style="margin-top:8px;">${bagMatchesHtml(m)}</div>`;
     }
   }
@@ -5103,7 +5160,6 @@ function hxUpdateMoreSummary() {
   const svIn = document.getElementById('hx-sv').value;
   const sv = svIn !== '' ? `SV ${svIn}` : (document.getElementById('hx-sv').placeholder.startsWith('auto') ? `SV ${document.getElementById('hx-sv').placeholder.replace('auto: ', '')} (auto)` : 'SV –');
   const parts = [tee, sv];
-  if (document.getElementById('hx-live').checked) parts.push('📍 Live');
   if (document.getElementById('hx-wind').checked) parts.push('🌬️ Wind');
   el.textContent = `⚙️ ${parts.join(' · ')} – ändern`;
 }
