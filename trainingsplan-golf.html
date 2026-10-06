@@ -97,6 +97,115 @@
     background: var(--bg-alt);
     border-radius: 0 8px 8px 0;
   }
+  /* ---------- Morgenroutine-Timer ---------- */
+  .timer-launch-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--fairway);
+    background: var(--card);
+    color: var(--fairway-bright);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .timer-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 100;
+    overflow-y: auto;
+    padding: 20px 16px 60px;
+  }
+  .timer-overlay .mode-row { display: flex; gap: 10px; margin-bottom: 18px; }
+  .timer-overlay .mode-btn {
+    flex: 1;
+    padding: 14px 8px;
+    border-radius: var(--radius);
+    border: 1px solid var(--card-border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .timer-overlay .mode-btn.active { background: var(--fairway); border-color: var(--fairway-bright); font-weight: 600; color: #0f1a14; }
+  .timer-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  .timer-big-btn {
+    width: 100%;
+    padding: 16px;
+    border-radius: var(--radius);
+    border: none;
+    background: var(--fairway);
+    color: #0f1a14;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .timer-secondary-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: var(--radius);
+    border: 1px solid var(--card-border);
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 14px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  .timer-phase-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .timer-phase-label.active-phase { color: var(--fairway-bright); }
+  .timer-ex-name { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .timer-ex-desc { font-size: 14px; color: var(--text-dim); line-height: 1.5; margin-bottom: 14px; }
+  .timer-display {
+    font-size: 54px;
+    font-weight: 700;
+    text-align: center;
+    margin: 10px 0 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  .timer-display.pause-phase { color: var(--gold); }
+  .timer-display.run-phase { color: var(--fairway-bright); }
+  .timer-progress-wrap {
+    height: 6px;
+    background: var(--card-border);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .timer-progress-bar {
+    height: 100%;
+    background: var(--fairway-bright);
+    transition: width 0.3s linear;
+  }
+  .timer-step-counter { text-align: center; color: var(--text-dim); font-size: 13px; margin-bottom: 14px; }
+  .timer-up-next { font-size: 12px; color: var(--text-dim); text-align: center; margin-top: 10px; }
+  .timer-finished { text-align: center; padding: 30px 10px; }
+  .timer-finished .emoji { font-size: 48px; margin-bottom: 10px; }
+  .timer-preview-list .ex-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--card-border);
+    font-size: 13px;
+  }
+  .timer-preview-list .ex-row:last-child { border-bottom: none; }
+  .timer-preview-list .ex-row .dur { color: var(--text-dim); }
   nav.subtabs {
     display: flex;
     flex-wrap: wrap;
@@ -541,6 +650,7 @@
 
   <section id="view-daily" class="view">
     <div class="view-intro">Täglich, ca. 15–18 Min. ☀️ = morgens dynamisch, 🌙 = abends statisch (bei den markierten Übungen als Alternative).</div>
+    <button type="button" class="timer-launch-btn" id="timer-launch-btn">⏱ Timer-Modus starten (geführt durch die Morgenroutine)</button>
     <div class="grid">
       
     <article class="card">
@@ -913,6 +1023,59 @@
         </dl>
         <a href="https://www.youtube.com/results?search_query=Short%20Course%20Practice%20Games%20Golf" target="_blank" rel="noopener" class="video-link">▶ Video ansehen</a>
       </div>
+    </article>
+    <article class="card">
+      <div class="card-media"><div class="media-icon">⛳</div></div>
+      <div class="card-body">
+        <div class="card-head">
+          <span class="num">05</span>
+          <h3>Kurzputt-Routine (1 Putterlänge)</h3>
+        </div>
+        <div class="meta">
+          <span class="sets">10 Min</span>
+        </div>
+        <dl>
+          <dt>Ausführung</dt><dd>6 Bälle im Kreis von 1 Putterlänge (≈ 90 cm) ums Loch auslegen. Alle 6 versenken, bevor du weitergehst – ein Fehlversuch, die ganze Runde von vorne. Immer dieselbe Routine: ansprechen, ein Blick zum Loch, Schlag.</dd>
+          <dt>Warum wichtig</dt><dd>Kurze Putts gelten als &quot;sicher&quot;, kosten aber bei Nachlässigkeit unnötig Schläge – gerade unter Wettkampfdruck (Mannschaftsspiel) zählt hier Routine mehr als Technik.</dd>
+          <dt>Wirkung</dt><dd>Baut eine feste, druckresistente Routine für Putts auf, die eigentlich immer sitzen sollten.</dd>
+        </dl>
+        <a href="https://www.youtube.com/results?search_query=Golf%203%20Foot%20Putt%20Circle%20Drill" target="_blank" rel="noopener" class="video-link">▶ Video ansehen</a>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-media"><div class="media-icon">📏</div></div>
+      <div class="card-body">
+        <div class="card-head">
+          <span class="num">06</span>
+          <h3>Lag Putting – Distanzkontrolle</h3>
+        </div>
+        <div class="meta">
+          <span class="sets">15 Min</span>
+        </div>
+        <dl>
+          <dt>Ausführung</dt><dd>5 Putts aus je 8, 12 und 16 Schritten (≈ 6 m / 9 m / 12 m) – auf ein Zielareal spielen, nicht aufs Loch zielen. Ziel: alle Putts bleiben innerhalb von 2 Putterlängen (≈ 1,8 m) ums Loch liegen.</dd>
+          <dt>Warum wichtig</dt><dd>3-Putts entstehen fast immer durch falsche Entfernungseinschätzung beim ersten Putt, nicht durch schlechtes kurzes Putten.</dd>
+          <dt>Wirkung</dt><dd>Verbessert das Gefühl für Schlaglänge über verschiedene Distanzen, senkt die 3-Putt-Quote direkt.</dd>
+        </dl>
+        <a href="https://www.youtube.com/results?search_query=Golf%20Lag%20Putting%20Distance%20Control%20Drill" target="_blank" rel="noopener" class="video-link">▶ Video ansehen</a>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-media"><div class="media-icon">🛡️</div></div>
+      <div class="card-body">
+        <div class="card-head">
+          <span class="num">07</span>
+          <h3>Kursmanagement – sichere Seite anzielen</h3>
+        </div>
+        <div class="meta">
+          <span class="sets">bei jeder Annäherung</span>
+        </div>
+        <dl>
+          <dt>Ausführung</dt><dd>Vor jedem Annäherungsschlag bewusst die sichere Seite des Grüns bestimmen (weg von Wasser/Bunker/Aus) und dorthin zielen – auch wenn die Fahne woanders steht. Ziel ist das Grün, nicht die Fahne.</dd>
+          <dt>Warum wichtig</dt><dd>Im Trainer-Report sind Doppelbogey+ und Strafschläge aktuell der größte Hebel – die entstehen meist durch Zielwahl, nicht durch schlechte Schwünge.</dd>
+          <dt>Wirkung</dt><dd>Reduziert Strafschläge und &quot;Katastrophenlöcher&quot;, ohne dass sich am Schwung selbst etwas ändern muss – sofort umsetzbar, auch auf dem Platz.</dd>
+        </dl>
+      </div>
     </article></div>
     </div>
     <div id="golfsub-hcp15" class="golfsub">
@@ -1188,6 +1351,287 @@ function showGolfSub(name) {
   document.getElementById('golfsub-' + name).classList.add('active');
   document.getElementById('subtab-' + name).classList.add('active');
 }
+
+// ========== Morgenroutine-Timer ==========
+const TIMER_EXERCISES = [
+  { name: 'Tai Chi Walking', seconds: 150, desc: 'Langsames, bewusstes Gehen auf der Stelle, Gewicht fließend verlagern, Arme entspannt mitschwingen.', quick: true },
+  { name: 'Knee Clap', seconds: 60, desc: 'Im Gehen abwechselnd ein Knie hochziehen, mit der gegenüberliegenden Hand darunter klatschen.', quick: false },
+  { name: 'Dead Man Arms', seconds: 60, desc: 'Arme locker hängen lassen, Oberkörper aus der Hüfte drehen, Arme schwingen passiv mit.', quick: false },
+  { name: 'Armschwünge', seconds: 60, desc: 'Arme locker vor/zurück schwingen, dann seitlich kreuzend vor der Brust.', quick: false },
+  { name: 'Nackenmobilisation', seconds: 40, desc: 'Kopf langsam links/rechts drehen, dann zur Seite neigen – keine ruckartigen Bewegungen.', quick: false },
+  { name: 'Handgelenk-/Unterarmmobilisation', seconds: 40, desc: 'Handgelenke kreisen, Unterarme strecken und Handflächen abwechselnd drehen.', quick: false },
+  { name: 'Schulterrotation', seconds: 60, desc: 'Große, langsame Kreise mit den Schultern, vorwärts dann rückwärts.', quick: true },
+  { name: 'Hüftrotation', seconds: 60, desc: 'Hände in die Hüfte, große Kreise mit dem Becken, beide Richtungen.', quick: true },
+  { name: 'Beinschwünge vor/zurück', seconds: 30, desc: 'Abgestützt ein Bein locker vor und zurück schwingen, Oberkörper stabil.', quick: false, perSide: true },
+  { name: 'Beinschwünge seitlich', seconds: 30, desc: 'Abgestützt ein Bein seitlich nach außen und wieder nach innen schwingen.', quick: false, perSide: true },
+  { name: 'Hüft-Innen-/Außenrotation', seconds: 30, desc: 'Auf einem Bein stehen, Knie 90° anheben, Unterschenkel kontrolliert nach innen/außen schwenken.', quick: true, perSide: true },
+  { name: 'Seitbeuge im Stehen', seconds: 60, desc: 'Hände hinter dem Kopf, Oberkörper kontrolliert zur Seite neigen, Hüfte bleibt stabil.', quick: false },
+  { name: 'Brustwirbelsäulen-Rotation (Katze-Kamel mit Drehung)', seconds: 30, desc: 'Vierfüßlerstand, Wirbelsäule erst rund, dann hohl machen, dann eine Hand hinter den Kopf führen und den Oberkörper zur Decke drehen, Blick folgt der Hand.', quick: false, perSide: true },
+  { name: 'Tai Chi Golfschwung', seconds: 120, desc: 'Setup einnehmen, Schwung in Zeitlupe und fließend ausführen – wie Tai Chi, mehrfach wiederholen.', quick: true },
+];
+const TIMER_TRANSITION_SECONDS = 10;
+
+let timerMode = 'full';
+let timerActiveList = [];
+let timerIndex = 0;
+let timerPhase = 'transition';
+let timerRemaining = 0;
+let timerTotalForBar = 0;
+let timerInterval = null;
+let timerPaused = false;
+let timerSideSwitched = false;
+let timerCurrentSide = 1;
+let timerOverlayBuilt = false;
+
+function timerFmt(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return m + ':' + (s < 10 ? '0' : '') + s;
+}
+function timerBuildList() {
+  timerActiveList = timerMode === 'quick' ? TIMER_EXERCISES.filter(e => e.quick) : TIMER_EXERCISES.slice();
+}
+function timerRenderPreview() {
+  const wrap = document.getElementById('timer-preview-list');
+  if (!wrap) return;
+  wrap.innerHTML = timerActiveList.map(e => {
+    const dur = e.perSide ? (e.seconds * 2) : e.seconds;
+    return `<div class="ex-row"><span>${e.name}${e.perSide ? ' (pro Seite)' : ''}</span><span class="dur">${timerFmt(dur)}</span></div>`;
+  }).join('');
+}
+let timerAudioCtx = null;
+function timerBeep(freq, durationMs) {
+  try {
+    if (!timerAudioCtx) timerAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = timerAudioCtx.createOscillator();
+    const gain = timerAudioCtx.createGain();
+    osc.connect(gain); gain.connect(timerAudioCtx.destination);
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.15, timerAudioCtx.currentTime);
+    osc.start();
+    osc.stop(timerAudioCtx.currentTime + durationMs / 1000);
+  } catch (e) {}
+}
+function timerSignalExerciseStart() { timerBeep(880, 180); setTimeout(() => timerBeep(880, 180), 220); }
+function timerSignalExerciseEnd() { timerBeep(520, 280); }
+function timerSignalSideSwitch() { timerBeep(740, 220); }
+function timerSignalDone() { timerBeep(660, 150); setTimeout(() => timerBeep(880, 150), 180); setTimeout(() => timerBeep(1046, 250), 360); }
+
+function timerCurrentExercise() { return timerActiveList[timerIndex]; }
+function timerNextExerciseName() {
+  const nxt = timerActiveList[timerIndex + 1];
+  return nxt ? nxt.name : null;
+}
+function timerEnterTransition() {
+  timerPhase = 'transition';
+  timerRemaining = TIMER_TRANSITION_SECONDS;
+  timerTotalForBar = TIMER_TRANSITION_SECONDS;
+  timerRender();
+  timerStartTick();
+}
+function timerEnterExercise() {
+  timerPhase = 'exercise';
+  const ex = timerCurrentExercise();
+  const dur = ex.perSide ? ex.seconds * 2 : ex.seconds;
+  timerRemaining = dur;
+  timerTotalForBar = dur;
+  timerSideSwitched = false;
+  timerCurrentSide = 1;
+  timerSignalExerciseStart();
+  timerRender();
+  timerStartTick();
+}
+function timerStartTick() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    if (timerPaused) return;
+    timerRemaining--;
+    const ex = timerCurrentExercise();
+    if (timerPhase === 'exercise' && ex.perSide && !timerSideSwitched && timerRemaining === ex.seconds) {
+      timerSideSwitched = true;
+      timerCurrentSide = 2;
+      timerSignalSideSwitch();
+    }
+    if (timerRemaining < 0) { timerAdvance(); return; }
+    timerRender();
+  }, 1000);
+}
+function timerAdvance() {
+  clearInterval(timerInterval);
+  if (timerPhase === 'transition') {
+    timerEnterExercise();
+  } else {
+    if (timerIndex >= timerActiveList.length - 1) {
+      timerFinish();
+    } else {
+      timerSignalExerciseEnd();
+      timerIndex++;
+      timerEnterTransition();
+    }
+  }
+}
+
+function timerGoBack() {
+  clearInterval(timerInterval);
+  if (timerIndex > 0) {
+    timerIndex--;
+  }
+  timerEnterTransition();
+}
+function timerFinish() {
+  clearInterval(timerInterval);
+  timerSignalDone();
+  document.getElementById('timer-run-view').style.display = 'none';
+  document.getElementById('timer-done-view').style.display = 'block';
+}
+function timerRender() {
+  const ex = timerCurrentExercise();
+  const label = document.getElementById('timer-phase-label');
+  const disp = document.getElementById('timer-display');
+  const bar = document.getElementById('timer-progress-bar');
+  const upNext = document.getElementById('timer-up-next');
+  const nameEl = document.getElementById('timer-ex-name');
+  const descEl = document.getElementById('timer-ex-desc');
+  const counter = document.getElementById('timer-step-counter');
+
+  counter.textContent = `Übung ${timerIndex + 1} von ${timerActiveList.length}`;
+
+  if (timerPhase === 'transition') {
+    label.textContent = "Gleich geht's weiter – bereit machen";
+    label.classList.remove('active-phase');
+    nameEl.textContent = ex.name + (ex.perSide ? ' (pro Seite)' : '');
+    descEl.textContent = ex.desc;
+    disp.className = 'timer-display pause-phase';
+    upNext.textContent = '';
+  } else {
+    if (ex.perSide) {
+      label.textContent = timerCurrentSide === 1 ? 'Seite 1 – rechts/links beginnen' : '🔄 Jetzt Seite wechseln!';
+    } else {
+      label.textContent = 'Übung läuft';
+    }
+    label.classList.add('active-phase');
+    disp.className = 'timer-display run-phase';
+    const nxt = timerNextExerciseName();
+    upNext.textContent = nxt ? ('Danach: ' + nxt) : 'Letzte Übung – gleich geschafft!';
+  }
+  disp.textContent = timerFmt(Math.max(timerRemaining, 0));
+  const pct = timerTotalForBar > 0 ? (100 - (timerRemaining / timerTotalForBar) * 100) : 0;
+  bar.style.width = pct + '%';
+}
+
+function buildTimerOverlay() {
+  if (timerOverlayBuilt) return;
+  const overlay = document.createElement('div');
+  overlay.className = 'timer-overlay';
+  overlay.id = 'timer-overlay';
+  overlay.innerHTML = `
+    <div id="timer-setup-view">
+      <div class="timer-card">
+        <div class="mode-row">
+          <button type="button" class="mode-btn active" id="timer-mode-full-btn">Volle Routine<br><span style="font-size:11px; opacity:.8;">14 Übungen · ca. 17 Min</span></button>
+          <button type="button" class="mode-btn" id="timer-mode-quick-btn">Kurz vor der Runde<br><span style="font-size:11px; opacity:.8;">5 Übungen · ca. 8 Min</span></button>
+        </div>
+        <div class="timer-preview-list" id="timer-preview-list"></div>
+      </div>
+      <button type="button" class="timer-big-btn" id="timer-start-btn">Routine starten</button>
+      <button type="button" class="timer-secondary-btn" id="timer-close-setup-btn">Schließen</button>
+    </div>
+    <div id="timer-run-view" style="display:none;">
+      <div class="timer-card">
+        <div class="timer-phase-label" id="timer-phase-label">Übung läuft</div>
+        <div class="timer-step-counter" id="timer-step-counter">Übung 1 von 13</div>
+        <div class="timer-ex-name" id="timer-ex-name"></div>
+        <div class="timer-ex-desc" id="timer-ex-desc"></div>
+        <div class="timer-display run-phase" id="timer-display">0:30</div>
+        <div class="timer-progress-wrap"><div class="timer-progress-bar" id="timer-progress-bar" style="width:0%;"></div></div>
+        <div class="timer-up-next" id="timer-up-next"></div>
+      </div>
+      <button type="button" class="timer-secondary-btn" id="timer-back-btn">◂ Vorherige Übung</button>
+      <button type="button" class="timer-secondary-btn" id="timer-skip-btn">Weiter zur nächsten Phase ▸</button>
+      <button type="button" class="timer-secondary-btn" id="timer-pause-btn">Pausieren</button>
+      <button type="button" class="timer-secondary-btn" id="timer-stop-btn" style="color:#c0564a;">Routine abbrechen</button>
+    </div>
+    <div id="timer-done-view" style="display:none;">
+      <div class="timer-card timer-finished">
+        <div class="emoji">⛳</div>
+        <div style="font-size:18px; font-weight:700; margin-bottom:6px;">Fertig!</div>
+        <div style="color:var(--text-dim); font-size:14px;">Gut aufgewärmt für die Runde.</div>
+      </div>
+      <button type="button" class="timer-big-btn" id="timer-restart-btn">Zurück zur Übersicht</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  timerOverlayBuilt = true;
+
+  document.getElementById('timer-mode-full-btn').addEventListener('click', () => {
+    timerMode = 'full';
+    document.getElementById('timer-mode-full-btn').classList.add('active');
+    document.getElementById('timer-mode-quick-btn').classList.remove('active');
+    timerBuildList(); timerRenderPreview();
+  });
+  document.getElementById('timer-mode-quick-btn').addEventListener('click', () => {
+    timerMode = 'quick';
+    document.getElementById('timer-mode-quick-btn').classList.add('active');
+    document.getElementById('timer-mode-full-btn').classList.remove('active');
+    timerBuildList(); timerRenderPreview();
+  });
+  document.getElementById('timer-start-btn').addEventListener('click', () => {
+    timerBuildList();
+    timerIndex = 0;
+    document.getElementById('timer-setup-view').style.display = 'none';
+    document.getElementById('timer-run-view').style.display = 'block';
+    document.getElementById('timer-done-view').style.display = 'none';
+    timerEnterTransition();
+  });
+  document.getElementById('timer-close-setup-btn').addEventListener('click', closeTimerOverlay);
+  document.getElementById('timer-back-btn').addEventListener('click', () => timerGoBack());
+  document.getElementById('timer-skip-btn').addEventListener('click', () => timerAdvance());
+  document.getElementById('timer-pause-btn').addEventListener('click', function() {
+    timerPaused = !timerPaused;
+    this.textContent = timerPaused ? 'Weiter' : 'Pausieren';
+  });
+  // Kein confirm()-Popup: funktioniert nicht zuverlässig, wenn die App vom iOS-Homescreen
+  // aus als eigenständige Web-App läuft (dort blockiert iOS native JS-Dialoge). Stattdessen
+  // Doppel-Tap-Bestätigung direkt im Button.
+  let stopArmed = false;
+  let stopArmTimeout = null;
+  document.getElementById('timer-stop-btn').addEventListener('click', function() {
+    if (!stopArmed) {
+      stopArmed = true;
+      this.textContent = 'Wirklich abbrechen? Nochmal tippen';
+      this.style.background = 'rgba(192,86,74,0.15)';
+      stopArmTimeout = setTimeout(() => {
+        stopArmed = false;
+        this.textContent = 'Routine abbrechen';
+        this.style.background = 'transparent';
+      }, 3000);
+      return;
+    }
+    clearTimeout(stopArmTimeout);
+    stopArmed = false;
+    this.textContent = 'Routine abbrechen';
+    this.style.background = 'transparent';
+    clearInterval(timerInterval);
+    timerPaused = false;
+    document.getElementById('timer-pause-btn').textContent = 'Pausieren';
+    document.getElementById('timer-run-view').style.display = 'none';
+    document.getElementById('timer-setup-view').style.display = 'block';
+  });
+  document.getElementById('timer-restart-btn').addEventListener('click', () => {
+    document.getElementById('timer-done-view').style.display = 'none';
+    document.getElementById('timer-setup-view').style.display = 'block';
+  });
+
+  timerBuildList();
+  timerRenderPreview();
+}
+function closeTimerOverlay() {
+  clearInterval(timerInterval);
+  const overlay = document.getElementById('timer-overlay');
+  if (overlay) overlay.remove();
+  timerOverlayBuilt = false;
+}
+document.getElementById('timer-launch-btn').addEventListener('click', buildTimerOverlay);
 </script>
 </body>
 </html>
