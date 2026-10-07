@@ -1400,9 +1400,25 @@ function timerRenderPreview() {
   }).join('');
 }
 let timerAudioCtx = null;
+function timerUnlockAudio() {
+  // Muss direkt innerhalb eines echten Tastendrucks aufgerufen werden, sonst bleibt der
+  // AudioContext auf iOS stumm (Safari erlaubt Audiostart nur innerhalb einer Nutzer-Geste).
+  try {
+    if (!timerAudioCtx) timerAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (timerAudioCtx.state === 'suspended') timerAudioCtx.resume();
+    // Lautloser Mini-Ton, um den Kontext auf iOS endgültig "aufzuwecken"
+    const osc = timerAudioCtx.createOscillator();
+    const gain = timerAudioCtx.createGain();
+    osc.connect(gain); gain.connect(timerAudioCtx.destination);
+    gain.gain.setValueAtTime(0.0001, timerAudioCtx.currentTime);
+    osc.start();
+    osc.stop(timerAudioCtx.currentTime + 0.01);
+  } catch (e) {}
+}
 function timerBeep(freq, durationMs) {
   try {
     if (!timerAudioCtx) timerAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (timerAudioCtx.state === 'suspended') timerAudioCtx.resume();
     const osc = timerAudioCtx.createOscillator();
     const gain = timerAudioCtx.createGain();
     osc.connect(gain); gain.connect(timerAudioCtx.destination);
@@ -1576,6 +1592,7 @@ function buildTimerOverlay() {
     timerBuildList(); timerRenderPreview();
   });
   document.getElementById('timer-start-btn').addEventListener('click', () => {
+    timerUnlockAudio();
     timerBuildList();
     timerIndex = 0;
     document.getElementById('timer-setup-view').style.display = 'none';
