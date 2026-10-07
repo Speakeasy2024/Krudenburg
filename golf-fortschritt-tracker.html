@@ -314,15 +314,16 @@
     <span style="font-family:'Fraunces',serif; font-weight:600; font-size:15px; color: var(--bg);">Golf Fortschritt-Tracker</span>
   </div>
   <h1>Fortschritt-Tracker</h1>
-  <div id="app-version" style="margin-top:6px; font-size:12px; color:var(--text-dim); cursor:pointer;" title="Versionshinweise anzeigen">Version 2026.10.03 ▾</div>
+  <div id="app-version" style="margin-top:6px; font-size:12px; color:var(--text-dim); cursor:pointer;" title="Versionshinweise anzeigen">Version 2026.10.07-b ▾</div>
   <div id="app-changelog" style="display:none; text-align:left; max-width:560px; margin:10px auto 0; font-size:12.5px; color:var(--text-dim); background:var(--bg-alt); border:1px solid var(--card-border); border-radius:12px; padding:10px 14px;">
     <div style="font-weight:600; color:var(--text); margin-bottom:6px;">Versionshinweise Fortschritt-Tracker</div>
+    <div style="margin-top:6px;"><strong style="color:var(--text);">07.10.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Hünxerwald Bahn 1–9: Abschläge, Grünmitten und Hindernisse aus Google Maps – fehlende Entfernungen ergänzt, Hindernisse mit Beginn und Ende</li><li>Grünmitten 1–9 fest hinterlegt: GPS-Entfernung ohne vorheriges Setzen</li><li>Wind am Abschlag auch ohne GPS (Richtung Abschlag → Grün)</li><li>Bahn 1: Fairwayende vor dem Wald im Dogleg; Bahn 9: Fairway-Bunker rechts</li><li>Manuelle Korrektur: Entfernungen je Hindernis anpassen (✏️), Grünmitte vor Ort neu setzen oder zurück auf Kartenwert; Korrekturen im Backup</li></ul></div>
     <div style="margin-top:6px;"><strong style="color:var(--text);">03.10.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Entfernung per Knopf: nimmt nur noch frische Positionen (keine „eingefrorene“ Distanz mehr), zeigt Messzeit und Genauigkeit</li><li>Live-Distanz entfernt</li><li>Huckingen: Wind relativ zur Schlagrichtung, „spielt sich wie“ und Schläger danach</li><li>Temperatur fließt in „spielt sich wie“ ein (Bezug 20 °C, pro 10 °C kälter ca. 1,8 % kürzer)</li></ul></div>
     <div style="margin-top:6px;"><strong style="color:var(--text);">02.10.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Mein Bag: Werte der Range-Session vom 01.10.2026 inkl. Donut-Streuung; ± Länge als Spalte, Messdatum automatisch</li><li>Mein Bag: „Neue Session übernehmen“ für künftige Range-Sessions</li><li>Backup-Import: Bag-Werte gehen auf neuem Gerät nicht mehr verloren</li><li>Lernender Caddy (Hünxerwald): ab 5 Runden je Bahn – Fehlerseite, Strafschlag-Muster, besserer Abschlagschläger, „Caddy befolgt?“</li><li>Caddy Weselerwald/Huckingen: Empfehlung nach passender Lochlänge statt immer längster Schläger</li><li>Huckingen: GPS-Distanz zur Grünmitte mit Schlägervorschlag; Grünmitten Süd 1–9, Nord 1–9, West 1 und 9 aus Google Maps</li><li>Grünmitte speichern: Mittel aus bis zu 8 GPS-Messungen</li><li>Versionsnummer und Versionshinweise</li></ul></div><div style="margin-top:6px;"><strong style="color:var(--text);">28.09.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Hünxerwald-Caddy mit Birdie-Book-Daten, Fahnen, Wind, GPS-Grünmitte, Wettspiel-Modus, Tabs Runde/Training</li></ul></div>
   </div>
   <script>document.getElementById('app-version').addEventListener('click', function () {
     var c = document.getElementById('app-changelog'); var show = c.style.display === 'none';
-    c.style.display = show ? 'block' : 'none'; this.textContent = 'Version 2026.10.03 ' + (show ? '▴' : '▾');
+    c.style.display = show ? 'block' : 'none'; this.textContent = 'Version 2026.10.07-b ' + (show ? '▴' : '▾');
   });</script>
 </header>
 
@@ -2493,7 +2494,7 @@ document.getElementById('export-btn').addEventListener('click', () => {
   const backup = {
     rounds: loadRounds(), hcpLog: loadHcpLog(), parProfiles: loadParProfiles(),
     trackmanSessions: loadTmSessions(), trackmanShots: loadTmShots(), bag: loadBag(),
-    greens: loadGreens(),
+    greens: loadGreens(), hazardFix: loadHzFix(),
   };
   const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -2559,6 +2560,7 @@ document.getElementById('import-file').addEventListener('change', function() {
 
       // GPS-Grünmitten: vorhandene bleiben, fehlende kommen aus dem Backup
       if (!Array.isArray(imported) && imported.greens) saveGreens({ ...migrateGreenKeys(imported.greens), ...loadGreens() });
+      if (!Array.isArray(imported) && imported.hazardFix) { saveHzFix({ ...imported.hazardFix, ...loadHzFix() }); hxApplyFixes(); }
 
       renderHcpStatus();
       renderAll();
@@ -3678,12 +3680,13 @@ document.getElementById('tm-new-save-btn').addEventListener('click', () => {
 const HUENX_BAHNEN = [
   { bahn: 1, par: 4, hcp: 13, gelb: 333, rot: 293, form: 'Dogleg rechts', gruen: [26, 19],
     hindernisse: [
-      { typ: 'bunker', seite: 'L', gelb: 131, rot: 90, rest: 195, info: 'Fairway-Bunker 1' },
-      { typ: 'bunker', seite: 'L', gelb: null, rot: null, rest: null, info: 'Fairway-Bunker 2, direkt hinter Bunker 1' },
+      { typ: 'bunker', seite: 'L', gelb: 131, gelbBis: 157, rot: 90, rest: 195, restBis: 194, info: 'Fairway-Bunker 1' },
+      { typ: 'bunker', seite: 'L', gelb: 167, gelbBis: 188, rot: null, rest: 181, restBis: 165, info: 'Fairway-Bunker 2, direkt hinter Bunker 1' },
+      { typ: 'marker', seite: 'M', gelb: 206, rot: null, rest: 146, info: 'Fairwayende – dahinter Wald im Dogleg' },
       { typ: 'baeume', seite: 'R', gelb: 178, rot: 135, rest: 132, info: 'Bäume rechts, Innenseite Dogleg' },
       { typ: 'baeume', seite: 'L', gelb: 201, rot: 160, rest: 132, info: 'Baumgruppe links' },
       { typ: 'bunker', seite: 'L', gelb: 238, rot: 198, rest: 88, info: 'Fairway-Bunker 3 (Longhitter-Falle)' },
-      { typ: 'wasser', seite: 'L', gelb: null, rot: null, rest: null, info: 'Penalty Area links ab ca. Höhe Bunker 3 bis hinter das Grün, dicht am Grün' },
+      { typ: 'wasser', seite: 'L', gelb: 246, gelbBis: 345, rot: null, rest: 132, restBis: 21, info: 'Penalty Area links (Wald, rote Pfähle) ab ca. Höhe Bunker 3 bis hinter das Grün, dicht am Grün' },
       { typ: 'gruenbunker', seite: 'R', info: 'Grünbunker rechts' },
     ],
     tipp: 'Ideal in den Knick. Bäume rechts, Bunker und Baumgruppe links. Grün gerade anspielen: Wasser links dicht am Grün, Bunker rechts.' },
@@ -3691,7 +3694,7 @@ const HUENX_BAHNEN = [
     hindernisse: [
       { typ: 'bunker', seite: 'L', gelb: 202, rot: 156, rest: 129, info: 'Fairway-Bunker links, Beginn (vom Abschlag nicht sichtbar)' },
       { typ: 'bunker', seite: 'L', gelb: 224, rot: 178, rest: 107, info: 'Fairway-Bunker links, Ende' },
-      { typ: 'wasser', seite: 'L', gelb: null, rot: null, rest: null, info: 'Penalty Area links hinter dem Bunker, ~230–270 m' },
+      { typ: 'wasser', seite: 'L', gelb: 232, gelbBis: 245, rot: null, rest: 113, restBis: 103, info: 'Penalty Area links hinter dem Bunker' },
       { typ: 'gruenbunker', seite: 'VL', info: '' },
       { typ: 'gruenbunker', seite: 'VR', info: '' },
       { typ: 'aus', seite: 'H', info: 'Aus hinter dem Grün' },
@@ -3716,7 +3719,7 @@ const HUENX_BAHNEN = [
       { typ: 'aus', seite: 'R', info: 'Aus rechts entlang des Fairways bis zum Teich' },
       { typ: 'baeume', seite: 'L', gelb: 188, rot: 149, rest: 119, info: 'Bäume links' },
       { typ: 'marker', seite: 'R', gelb: 208, rot: 169, rest: 83, info: 'Fairwayende rechts' },
-      { typ: 'wasser', seite: 'VR', gelb: null, rot: null, rest: null, info: 'Teich vorne rechts vor dem Grün, ab ca. 220 m' },
+      { typ: 'wasser', seite: 'VR', gelb: 234, gelbBis: 273, rot: null, rest: 69, restBis: 30, info: 'Teich vorne rechts vor dem Grün' },
       { typ: 'wasser', seite: 'L', gelb: 261, rot: 222, rest: 49, info: 'Penalty Area links am Grün' },
       { typ: 'wasser', seite: 'H', info: 'Penalty Area rund ums Grün' },
     ],
@@ -3734,7 +3737,7 @@ const HUENX_BAHNEN = [
   { bahn: 6, par: 4, hcp: 1, gelb: 382, rot: 335, form: 'gerade, enge Abschlagsgasse', gruen: [25, 21], teeCarryNoetig: { gelb: { carry: 110, ab: 100 }, rot: null },
     hindernisse: [
       { typ: 'graben', seite: 'M', gelb: 100, rot: null, rest: null, info: '„Tal der Tränen“ quer, ca. 110 m Carry nötig (Gelb), sonst vorlegen' },
-      { typ: 'wasser', seite: 'L', info: 'Penalty Area links bis ca. 180 m' },
+      { typ: 'wasser', seite: 'L', gelb: 108, gelbBis: 192, rot: null, rest: 275, restBis: 206, info: 'Penalty Area links' },
       { typ: 'aus', seite: 'R', info: 'Aus rechts über die ganze Bahn und hinter dem Grün' },
       { typ: 'marker', seite: 'R', gelb: 180, rot: 135, rest: 189, info: '' },
       { typ: 'marker', seite: 'L', gelb: 220, rot: 174, rest: 150, info: '150-m-Punkt' },
@@ -3749,9 +3752,9 @@ const HUENX_BAHNEN = [
       { typ: 'bunker', seite: 'R', gelb: 181, rot: 126, rest: 206, info: 'Fairway-Bunker rechts 1' },
       { typ: 'marker', seite: 'L', gelb: 209, rot: 152, rest: 200, info: '' },
       { typ: 'bunker', seite: 'R', gelb: 244, rot: 189, rest: 153, info: 'Fairway-Bunker rechts 2' },
-      { typ: 'wasser', seite: 'L', info: 'Penalty Area links etwa auf Höhe Bunker 2' },
+      { typ: 'wasser', seite: 'L', gelb: 227, gelbBis: 341, rot: null, rest: 211, restBis: 135, info: 'Penalty Area links ab etwa Höhe Bunker 2' },
       { typ: 'bunker', seite: 'L', gelb: 318, rot: 263, rest: 100, info: 'Bunker im Knick' },
-      { typ: 'graben', seite: 'M', info: 'Graben quer nach dem Knick vor dem Grünbereich, Weg dorthin durch hohe Bäume eingeengt' },
+      { typ: 'graben', seite: 'M', gelb: 331, gelbBis: 345, rot: null, rest: 81, restBis: 61, info: 'Graben quer nach dem Knick vor dem Grünbereich, Weg dorthin durch hohe Bäume eingeengt' },
       { typ: 'gruenbunker', seite: 'VR', info: '' },
       { typ: 'wasser', seite: 'H', info: 'Penalty Area hinter dem Grün' },
     ],
@@ -3772,7 +3775,8 @@ const HUENX_BAHNEN = [
     hindernisse: [
       { typ: 'aus', seite: 'R', info: 'Aus rechts fast über die ganze Bahn' },
       { typ: 'marker', seite: 'R', gelb: 216, rot: 165, rest: 281, info: '' },
-      { typ: 'graben', seite: 'M', gelb: 268, rot: 216, rest: 215, info: 'Graben quer, großer Baum fast Mitte Fairway' },
+      { typ: 'graben', seite: 'M', gelb: 268, gelbBis: 284, rot: 216, rest: 215, restBis: 199, info: 'Graben quer, großer Baum fast Mitte Fairway' },
+      { typ: 'bunker', seite: 'R', gelb: 374, gelbBis: 396, rot: null, rest: 130, restBis: 107, info: 'Fairway-Bunker rechts (aus Bahnplan)' },
       { typ: 'gruenbunker', seite: 'VL', info: '' },
       { typ: 'gruenbunker', seite: 'R', info: '' },
       { typ: 'graben', seite: 'H', info: 'Graben knapp hinter dem Grün' },
@@ -4269,16 +4273,19 @@ function hxCheckClub(c, distHz, opt) {
   if (opt.fwEnd && hi > opt.fwEnd.d) hard.push(`rollt über ${opt.fwEnd.label} (${opt.fwEnd.d} m)`);
   distHz.forEach(x => {
     const quer = ['M', 'V'].includes(x.h.seite);
-    const inZone = x.d >= lo - 5 && x.d <= hi;
+    // Hindernisse mit Beginn und Ende (aus Koordinaten): Landezone überschneidet den Bereich.
+    const end = x.bis !== null && x.bis !== undefined ? x.bis : x.d;
+    const inZone = end >= lo - 5 && x.d <= hi;
+    const dl = x.bis ? `${x.d}–${x.bis}` : x.d;
     const near = !inZone && x.d > hi && x.d <= hi + 10;
     if (quer) {
-      if (inZone) hard.push(`${hxHzShort(x.h, x.d)} in der Landezone`);
-      else if (near && hxIsStrafe(x.h)) soft.push(`knapp vor ${hxHzShort(x.h, x.d)}`);
+      if (inZone) hard.push(`${hxHzShort(x.h, dl)} in der Landezone`);
+      else if (near && hxIsStrafe(x.h)) soft.push(`knapp vor ${hxHzShort(x.h, dl)}`);
     } else if (inZone) {
       side.push(x);
       const tendSide = c.tend && c.tend.lr && hxSideOf(x.h) === c.tend.lr;
-      if (hxIsStrafe(x.h)) soft.push(`${hxHzShort(x.h, x.d)} in Reichweite`);
-      else if (x.h.typ === 'bunker' && tendSide) soft.push(`${hxHzShort(x.h, x.d)} auf deiner Tendenzseite`);
+      if (hxIsStrafe(x.h)) soft.push(`${hxHzShort(x.h, dl)} in Reichweite`);
+      else if (x.h.typ === 'bunker' && tendSide) soft.push(`${hxHzShort(x.h, dl)} auf deiner Tendenzseite`);
     }
   });
   return { c, lo, hi, hard, soft, side };
@@ -4305,7 +4312,7 @@ function hxTeeHtml(b, ctx, sicher, learn) {
   const len = b[tee];
   const clubs = hxClubs(100).filter(c => c.carry < len - 20);
   if (clubs.length === 0) return `<div class="cx-dim">Noch keine Carry-Weiten im Bag – Abschlagsempfehlung braucht mindestens einen Schläger.</div>`;
-  const distHz = b.hindernisse.filter(h => h.typ !== 'marker' && h.typ !== 'gruenbunker' && typeof h[tee] === 'number').map(h => ({ h, d: h[tee] }));
+  const distHz = b.hindernisse.filter(h => h.typ !== 'marker' && h.typ !== 'gruenbunker' && typeof h[tee] === 'number').map(h => ({ h, d: h[tee], bis: typeof h[tee + 'Bis'] === 'number' ? h[tee + 'Bis'] : null }));
   const fwMarker = b.hindernisse.find(h => h.typ === 'marker' && /Fairwayende|Vorlegepunkt/.test(h.info) && typeof h[tee] === 'number');
   const fwEnd = fwMarker ? { d: fwMarker[tee], label: 'das Fairwayende' + (fwMarker.seite === 'R' ? ' rechts' : fwMarker.seite === 'L' ? ' links' : '') } : null;
   const wTee = hxWindForShot(`${b._course}:${b.bahn}`);
@@ -4447,7 +4454,7 @@ function hxApproachInner(b, D, ctx, sicher, opts, w) {
   // Quer liegende Hindernisse vor dem Grün
   const davor = b.hindernisse.filter(h => ['M', 'V'].includes(h.seite) && h.typ !== 'marker' && typeof h.rest === 'number' && h.rest > 0 && h.rest < D);
   davor.forEach(h => {
-    const needCarry = Math.round(D - h.rest);
+    const needCarry = Math.round(D - (typeof h.restBis === 'number' ? h.restBis : h.rest));
     const lo = Math.round(chosen.carry - chosen.k);
     html += `<div class="${lo < needCarry + 5 ? 'cx-risk' : 'cx-dim'}">Davor: ${hxHzShort(h)} – ${h.rest} m vor dem Grün, Carry mind. ${needCarry} m${lo < needCarry + 5 ? ' (knapp)' : ''}.</div>`;
   });
@@ -4455,7 +4462,8 @@ function hxApproachInner(b, D, ctx, sicher, opts, w) {
   // Seitliches Zielen: Grünbereich + Hindernisse entlang der Bahn
   const aimHz = b.hindernisse
     .filter(h => h.typ !== 'marker' && hxSideOf(h) &&
-      (['gruen', 'entlang'].includes(hxZoneClass(h, tee)) || (typeof h.rest === 'number' && h.rest > 0 && h.rest <= 60)))
+      (['gruen', 'entlang'].includes(hxZoneClass(h, tee)) || (typeof h.rest === 'number' && h.rest > 0 && h.rest <= 60)
+        || (typeof h.restBis === 'number' && h.restBis <= 60)))
     .map(h => ({ h, d: null }));
   const apprAim = hxAimText(chosen.tend, aimHz, 'Grün');
   hxLast.appr = { club: chosen.name, aim: sicher ? 'Ziel Grünmitte' : (pinCode ? 'Ziel Fahne ' + hxPinText(pinCode) : 'Ziel Grünmitte'), side: hxAimShort(apprAim) };
@@ -4537,20 +4545,18 @@ function huenxCaddyHtml(hk, opts) {
 
   // GPS: Grünmitte einmalig speichern
   if (o.calc) {
-    const g = loadGreens()[hk];
-    html += `<div class="cx-sub">GPS Grünmitte</div>
-      <div class="cx-dim">${g ? `Gespeichert am ${g.date} (±${Math.round(g.acc)} m).` : 'Noch nicht gespeichert. Einmal mitten auf dem Grün stehen und tippen – danach misst die App die Entfernung per Knopfdruck.'}</div>
-      <button type="button" class="btn-gold" style="margin-top:6px;" onclick="caddySaveGreen('${hk}')">📍 ${g ? 'Grünmitte neu setzen' : 'Grünmitte hier speichern'}</button>`;
+    html += hxGreenHtml(hk);
   }
 
   // Birdie Book: Lesetext + Hindernisliste
   html += `<div class="caddy-label">Birdie Book Tipp</div><div class="cx-tipp">${escapeHtml(b.tipp)}</div>`;
   const hzList = b.hindernisse.map(h => {
-    const d = typeof h[tee] === 'number' ? `${h[tee]} m` : '';
+    const d = hxHzDistTxt(h, tee);
     const r = typeof h.rest === 'number' ? ` · Rest ${h.rest} m` : '';
     return `<div class="cx-hz"><span>${HX_TYP_LABEL[h.typ] || h.typ} ${HX_SEITE_LABEL[h.seite] || ''}${h.info ? ' – ' + escapeHtml(h.info) : ''}</span><span class="cx-hz-d">${d}${r}</span></div>`;
   }).join('');
   html += `<details class="cx-details"><summary>Hindernisse (${b.hindernisse.length})</summary>${hzList}</details>`;
+  if (o.calc && tee === 'gelb') html += hxFixHtml(b);
   return html;
 }
 // Empfohlener Abschlagschläger einer Hünxerwald-Bahn (für "Empfehlung befolgt?")
@@ -4676,7 +4682,7 @@ function wxMaybeFetch(force) {
   if (wxLast && Date.now() - wxLast.t < 15 * 60000) return;
   if (wxError && Date.now() - wxError.t < 2 * 60000) return;
   const def = caddyCurrentDef();
-  const pos = gpsLast || (def && def.latlon) || { lat: 51.66, lon: 6.77 };
+  const pos = gpsLast || (def && def.latlon) || { lat: 51.6305, lon: 6.8051 };
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${pos.lat.toFixed(3)}&longitude=${pos.lon.toFixed(3)}`
     + `&current=wind_speed_10m,wind_direction_10m,wind_gusts_10m,temperature_2m&wind_speed_unit=kmh&timezone=auto`;
   wxLoading = true;
@@ -4706,6 +4712,18 @@ function hxWindForShot(hk) {
     res.head = wxLast.speed * Math.cos(rel);
     res.cross = wxLast.speed * Math.sin(rel); // > 0: Wind von rechts
     res.factor = res.head >= 0 ? 1 + 0.006 * res.head : 1 + 0.003 * res.head;
+  } else {
+    // Ohne frische GPS-Position: Spielrichtung vom gelben Abschlag zur Grünmitte (Hünxerwald, aus Google Maps)
+    const m = /^huenxerwald:(\d+)$/.exec(hk || '');
+    const geo = m && typeof HUENX_GEO !== 'undefined' ? HUENX_GEO[m[1]] : null;
+    if (geo) {
+      const brg = gpsBearing({ lat: geo.tee[0], lon: geo.tee[1] }, { lat: geo.green[0], lon: geo.green[1] });
+      const rel = (wxLast.dir - brg) * Math.PI / 180;
+      res.head = wxLast.speed * Math.cos(rel);
+      res.cross = wxLast.speed * Math.sin(rel);
+      res.factor = res.head >= 0 ? 1 + 0.006 * res.head : 1 + 0.003 * res.head;
+      res.fromTee = true;
+    }
   }
   // Temperatur: Bezug 20 °C (TrackMan-Normalisierung der Bag-Werte). Pro 10 °C kälter ca. 1,8 % kürzer.
   res.temp = typeof wxLast.temp === 'number' ? wxLast.temp : null;
@@ -4804,13 +4822,11 @@ function caddyCompetitionCardHtml(h, hk, histLine) {
   if (HINWEISE[b.bahn]) det += `<div class="cx-dim">Grün: ${HINWEISE[b.bahn]}</div>`;
   det += `<div class="caddy-label">Birdie Book</div><div class="cx-tipp">${escapeHtml(b.tipp)}</div>`;
   det += `<details class="cx-details"><summary>Hindernisse (${b.hindernisse.length})</summary>${b.hindernisse.map(hz => {
-    const d = typeof hz[ctx.tee] === 'number' ? `${hz[ctx.tee]} m` : '';
+    const d = hxHzDistTxt(hz, ctx.tee);
     const r = typeof hz.rest === 'number' ? ` · Rest ${hz.rest} m` : '';
     return `<div class="cx-hz"><span>${HX_TYP_LABEL[hz.typ] || hz.typ} ${HX_SEITE_LABEL[hz.seite] || ''}${hz.info ? ' – ' + escapeHtml(hz.info) : ''}</span><span class="cx-hz-d">${d}${r}</span></div>`;
   }).join('')}</details>`;
-  const g = loadGreens()[hk];
-  det += `<div class="cx-sub">GPS Grünmitte</div><div class="cx-dim">${g ? `Gespeichert am ${g.date} (±${Math.round(g.acc)} m).` : 'Noch nicht gespeichert.'}</div>
-    <button type="button" class="btn-gold" style="margin-top:6px;" onclick="caddySaveGreen('${hk}')">📍 ${g ? 'Grünmitte neu setzen' : 'Grünmitte hier speichern'}</button>`;
+  det += hxGreenHtml(hk);
 
   return `<div class="caddy-card" style="border-color:var(--card-border);">
     ${head}
@@ -4832,7 +4848,7 @@ function caddyInfoOnlyHtml(hk) {
   if (HINWEISE[b.bahn]) html += `<div class="cx-dim">Grün: ${HINWEISE[b.bahn]}</div>`;
   html += `<div class="caddy-label">Birdie Book</div><div class="cx-tipp">${escapeHtml(b.tipp)}</div>`;
   html += `<details class="cx-details"><summary>Hindernisse (${b.hindernisse.length})</summary>${b.hindernisse.map(hz => {
-    const d = typeof hz[ctx.tee] === 'number' ? `${hz[ctx.tee]} m` : '';
+    const d = hxHzDistTxt(hz, ctx.tee);
     const r = typeof hz.rest === 'number' ? ` · Rest ${hz.rest} m` : '';
     return `<div class="cx-hz"><span>${HX_TYP_LABEL[hz.typ] || hz.typ} ${HX_SEITE_LABEL[hz.seite] || ''}${hz.info ? ' – ' + escapeHtml(hz.info) : ''}</span><span class="cx-hz-d">${d}${r}</span></div>`;
   }).join('')}</details>`;
@@ -4979,6 +4995,115 @@ function gpsOnlyBlockHtml(h, i, hk, withRec) {
 // Grünmitten Huckingen aus Google Maps (Satellit), 02.10.2026: Süd 1–9, Nord 1–9, West 1 und 9.
 // Einmalig gesetzt, nur wo noch keine Grünmitte gespeichert ist – auf dem Platz gemessene Werte haben Vorrang.
 // Weitere Grüns: Liste ergänzen und den Flag-Namen hochzählen.
+// Hünxerwald: Abschlag gelb und Grünmitte aus Google Maps (Koordinaten-Checkliste, 10/2026). Bahn 10–18 folgen.
+const HUENX_GEO = {
+  1: { tee: [51.630533, 6.805144], green: [51.631139, 6.80055] },
+  2: { tee: [51.631861, 6.7997], green: [51.630964, 6.804283] },
+  3: { tee: [51.632672, 6.803267], green: [51.633981, 6.800136] },
+  4: { tee: [51.633608, 6.799992], green: [51.631783, 6.803231] },
+  5: { tee: [51.631586, 6.802597], green: [51.632114, 6.800311] },
+  6: { tee: [51.632428, 6.799553], green: [51.629981, 6.795753] },
+  7: { tee: [51.629403, 6.795442], green: [51.629856, 6.800997] },
+  8: { tee: [51.629761, 6.800222], green: [51.629544, 6.797422] },
+  9: { tee: [51.629328, 6.798417], green: [51.630244, 6.805303] },
+};
+// ---------- Manuelle Korrektur Hünxerwald: Entfernungen und Grünmitten ----------
+// Korrekturen liegen getrennt von den Grunddaten (localStorage + Backup). "Zurücksetzen" stellt den
+// Birdie-Book-/Kartenwert wieder her. Rest zum Grün verschiebt sich um dieselbe Differenz.
+const HZFIX_KEY = 'golfHuenxHazardFix';
+function loadHzFix() { try { return JSON.parse(localStorage.getItem(HZFIX_KEY) || '{}') || {}; } catch (e) { return {}; } }
+function saveHzFix(o) { try { localStorage.setItem(HZFIX_KEY, JSON.stringify(o)); } catch (e) {} }
+let HX_ORIG = null, hxFixOpen = false;
+function hxApplyFixes() {
+  if (!HX_ORIG) HX_ORIG = HUENX_BAHNEN.map(b => b.hindernisse.map(h => ({ gelb: h.gelb, gelbBis: h.gelbBis, rest: h.rest, restBis: h.restBis })));
+  const fx = loadHzFix();
+  HUENX_BAHNEN.forEach((b, bi) => b.hindernisse.forEach((h, i) => {
+    const o = HX_ORIG[bi][i], f = fx[`${b.bahn}:${i}`];
+    ['gelb', 'gelbBis', 'rest', 'restBis'].forEach(k => { if (o[k] === undefined) delete h[k]; else h[k] = o[k]; });
+    h._fixed = false;
+    if (!f) return;
+    if (typeof f.gelb === 'number') {
+      h.rest = typeof o.rest === 'number' && typeof o.gelb === 'number' ? Math.max(0, o.rest - (f.gelb - o.gelb)) : Math.max(0, b.gelb - f.gelb);
+      h.gelb = f.gelb;
+    }
+    if (typeof f.gelbBis === 'number') {
+      h.restBis = typeof o.restBis === 'number' && typeof o.gelbBis === 'number' ? Math.max(0, o.restBis - (f.gelbBis - o.gelbBis)) : Math.max(0, b.gelb - f.gelbBis);
+      h.gelbBis = f.gelbBis;
+    }
+    h._fixed = true;
+  }));
+}
+function hxFixSet(bahn, i, field, val) {
+  const bi = HUENX_BAHNEN.findIndex(x => x.bahn === bahn);
+  const o = HX_ORIG[bi][i], fx = loadHzFix(), key = `${bahn}:${i}`;
+  const v = parseInt(val);
+  const f = fx[key] || {};
+  if (isNaN(v) || v <= 0 || v === o[field]) delete f[field]; else f[field] = v;
+  if (f.gelb === undefined && f.gelbBis === undefined) delete fx[key]; else fx[key] = { ...f, date: todayStr() };
+  saveHzFix(fx); hxApplyFixes(); renderHolesUI();
+}
+function hxFixReset(bahn) {
+  if (!confirm(`Alle Korrekturen an Bahn ${bahn} zurücksetzen?`)) return;
+  const fx = loadHzFix();
+  Object.keys(fx).forEach(k => { if (k.startsWith(bahn + ':')) delete fx[k]; });
+  saveHzFix(fx); hxApplyFixes(); renderHolesUI();
+}
+function hxFixHtml(b) {
+  const bi = HUENX_BAHNEN.findIndex(x => x.bahn === b.bahn);
+  if (bi < 0 || !HX_ORIG) return '';
+  const n = Object.keys(loadHzFix()).filter(k => k.startsWith(b.bahn + ':')).length;
+  const inp = (i, field, ph) => `<input type="number" inputmode="numeric" min="1" max="600" style="width:68px; padding:6px;" placeholder="${ph}"
+      value="${HUENX_BAHNEN[bi].hindernisse[i][field] !== HX_ORIG[bi][i][field] && typeof HUENX_BAHNEN[bi].hindernisse[i][field] === 'number' ? HUENX_BAHNEN[bi].hindernisse[i][field] : ''}"
+      onchange="hxFixSet(${b.bahn}, ${i}, '${field}', this.value)">`;
+  const rows = HUENX_BAHNEN[bi].hindernisse.map((h, i) => {
+    if (h.typ === 'gruenbunker') return '';
+    const o = HX_ORIG[bi][i];
+    return `<div class="cx-hz" style="align-items:center; gap:6px;"><span>${h._fixed ? '✏️ ' : ''}${HX_TYP_LABEL[h.typ] || h.typ} ${HX_SEITE_LABEL[h.seite] || ''}${h.info ? ' – ' + escapeHtml(h.info) : ''}</span>
+      <span style="display:flex; gap:4px; align-items:center; flex-shrink:0;">${inp(i, 'gelb', typeof o.gelb === 'number' ? o.gelb : '–')}${typeof o.gelbBis === 'number' || typeof h.gelbBis === 'number' || typeof o.gelb === 'number' ? '–' + inp(i, 'gelbBis', typeof o.gelbBis === 'number' ? o.gelbBis : '') : ''}</span></div>`;
+  }).join('');
+  return `<details class="cx-details" ${hxFixOpen ? 'open' : ''} ontoggle="hxFixOpen = this.open"><summary>✏️ Entfernungen korrigieren${n ? ` (${n} korrigiert)` : ''}</summary>
+    <div class="cx-dim" style="margin:4px 0;">Beginn–Ende in m vom gelben Abschlag. Grau = aktueller Wert aus Birdie Book/Karte. Leer lassen = nicht korrigiert.</div>
+    ${rows}
+    ${n ? `<button type="button" class="btn-gold" style="margin-top:6px;" onclick="hxFixReset(${b.bahn})">Korrekturen Bahn ${b.bahn} zurücksetzen</button>` : ''}
+  </details>`;
+}
+function hxHzDistTxt(h, tee) {
+  if (typeof h[tee] !== 'number') return '';
+  const bis = typeof h[tee + 'Bis'] === 'number' ? `–${h[tee + 'Bis']}` : '';
+  return `${h._fixed ? '✏️ ' : ''}${h[tee]}${bis} m`;
+}
+// Grünmitte: Kartenwert anzeigen, vor Ort neu setzen, zurück auf Kartenwert
+function hxGreenHtml(hk) {
+  const g = loadGreens()[hk];
+  const m = /^huenxerwald:(\d+)$/.exec(hk);
+  const map = m && HUENX_GEO[m[1]] ? HUENX_GEO[m[1]].green : null;
+  const txt = !g ? 'Noch nicht gespeichert. Einmal mitten auf dem Grün stehen und tippen – danach misst die App die Entfernung per Knopfdruck.'
+    : g.src === 'karte' ? `Aus Google Maps übernommen (${g.date}). Nur vor Ort neu setzen, wenn die Entfernung auffällig abweicht.`
+    : `Vor Ort gesetzt am ${g.date} (±${Math.round(g.acc)} m).`;
+  return `<div class="cx-sub">GPS Grünmitte</div><div class="cx-dim">${txt}</div>
+    <button type="button" class="btn-gold" style="margin-top:6px;" onclick="caddySaveGreen('${hk}')">📍 ${g ? 'Grünmitte neu setzen' : 'Grünmitte hier speichern'}</button>
+    ${g && g.src !== 'karte' && map ? `<button type="button" class="btn-gold" style="margin-top:6px; margin-left:6px;" onclick="caddyGreenToMap('${hk}')">↺ Zurück auf Kartenwert</button>` : ''}`;
+}
+function caddyGreenToMap(hk) {
+  const m = /^huenxerwald:(\d+)$/.exec(hk);
+  if (!m || !HUENX_GEO[m[1]] || !confirm(`Grünmitte Bahn ${m[1]} auf den Google-Maps-Wert zurücksetzen?`)) return;
+  const greens = loadGreens();
+  const [lat, lon] = HUENX_GEO[m[1]].green;
+  greens[hk] = { lat, lon, acc: 5, date: '2026-10-07', src: 'karte' };
+  saveGreens(greens); renderHolesUI();
+}
+function applyHuenxMapGreensOnce() {
+  const FLAG = 'golfPerformanceGreensHuenx20261007';
+  if (localStorage.getItem(FLAG)) return;
+  const greens = loadGreens();
+  Object.keys(HUENX_GEO).forEach(n => {
+    const key = `huenxerwald:${n}`;
+    const [lat, lon] = HUENX_GEO[n].green;
+    if (!greens[key]) greens[key] = { lat, lon, acc: 5, date: '2026-10-07', src: 'karte' };
+  });
+  saveGreens(greens);
+  localStorage.setItem(FLAG, '1');
+}
 const HUCK_MAP_GREENS = {
   Sued: { 1: [51.365964, 6.767006], 2: [51.363992, 6.766372], 3: [51.358906, 6.761806], 4: [51.355992, 6.757964], 5: [51.356603, 6.755422],
           6: [51.358278, 6.761161], 7: [51.3607, 6.762689], 8: [51.363036, 6.766178], 9: [51.367306, 6.766425] },
@@ -5186,6 +5311,8 @@ applyRealBagDataOnce();
 applyStreuungSeedOnce();
 applyBagSession20261001Once();
 applyHuckingenMapGreensOnce();
+applyHuenxMapGreensOnce();
+hxApplyFixes();
 if (mode === 'scorecard') renderHolesUI();
 backupReminderRender(false);
 </script>
