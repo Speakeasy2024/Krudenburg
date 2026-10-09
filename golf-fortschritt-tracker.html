@@ -300,6 +300,86 @@
   .bag-streu-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
   .bag-streu-editor input, .bag-streu-editor select { padding: 7px 8px; font-size: 13px; }
   @media (max-width: 480px) { .hx-round-grid { grid-template-columns: 1fr 1fr; } .bag-streu-grid { grid-template-columns: repeat(3, 1fr); } }
+  /* ---------- Mentalcoach ---------- */
+  .mc-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 16px; }
+  .mc-tabs button { background: var(--bg-alt); color: var(--text-dim); border: 1px solid var(--card-border); font-size: 12.5px; padding: 9px 4px; }
+  .mc-tabs button.active { background: var(--fairway); color: #0e1b13; border-color: var(--fairway); }
+  @media (max-width: 420px) { .mc-tabs { grid-template-columns: repeat(2, 1fr); } }
+  .mc-view { display: none; }
+  .mc-view.active { display: block; }
+  .mc-read h3 { font-size: 15px; color: var(--gold); margin: 18px 0 6px; }
+  .mc-read h3:first-child { margin-top: 0; }
+  .mc-read p, .mc-read li { font-size: 13.5px; color: var(--text); margin: 0 0 6px; }
+  .mc-read ul, .mc-read ol { margin: 0 0 6px; padding-left: 20px; }
+  .mc-read .mc-note { font-size: 12px; color: var(--text-dim); }
+  .mc-track { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--card-border); }
+  .mc-track:last-of-type { border-bottom: none; }
+  .mc-track-info { flex: 1; min-width: 0; }
+  .mc-track-title { font-size: 14px; font-weight: 600; }
+  .mc-track-sub { font-size: 12px; color: var(--text-dim); }
+  .mc-play { width: 44px; height: 44px; padding: 0; border-radius: 50%; background: var(--fairway); color: #0e1b13; font-size: 16px; flex-shrink: 0; }
+  .mc-track.playing .mc-play { background: var(--gold); }
+  .mc-progress { height: 4px; background: var(--bg-alt); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+  .mc-progress div { height: 100%; width: 0; background: var(--gold); transition: width .3s; }
+  .mc-now { font-size: 13px; color: var(--fairway-bright); min-height: 20px; margin: 10px 0 4px; font-style: italic; }
+  .mc-check-group { margin-bottom: 14px; }
+  .mc-check-group h3 { font-size: 14px; color: var(--gold); margin: 0 0 6px; }
+  label.mc-check, label.mc-stage { font-weight: 400; color: var(--text); margin-bottom: 0; }
+  .mc-check { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; font-size: 13.5px; cursor: pointer; }
+  .mc-check input { width: 20px; height: 20px; flex-shrink: 0; margin: 1px 0 0; accent-color: var(--fairway); }
+  .mc-check.done span { color: var(--text-dim); text-decoration: line-through; }
+  .mc-check small { display: block; color: var(--text-dim); font-size: 12px; text-decoration: none; }
+  .mc-steps { list-style: none; padding: 0; margin: 0 0 14px; counter-reset: mcstep; }
+  .mc-steps li { counter-increment: mcstep; position: relative; padding: 8px 0 8px 36px; font-size: 13.5px; border-bottom: 1px solid var(--card-border); }
+  .mc-steps li:last-child { border-bottom: none; }
+  .mc-steps li::before { content: counter(mcstep); position: absolute; left: 0; top: 8px; width: 24px; height: 24px; border-radius: 50%; background: var(--bg-alt); border: 1px solid var(--card-border); color: var(--fairway-bright); font-size: 12px; font-weight: 600; text-align: center; line-height: 22px; }
+  .mc-steps li small { display: block; color: var(--text-dim); font-size: 12px; }
+  .mc-line { text-align: center; font-size: 12px; color: var(--gold); border-top: 1px dashed var(--gold); margin: 6px 0 10px; padding-top: 4px; }
+  .mc-box { background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; }
+  .mc-box h3 { font-size: 14px; color: var(--fairway-bright); margin: 0 0 6px; }
+  .mc-box p, .mc-box li { font-size: 13px; margin: 0 0 4px; }
+  .mc-box ol, .mc-box ul { margin: 0; padding-left: 20px; }
+  .mc-stage { display: flex; gap: 10px; padding: 8px 0; font-size: 13.5px; cursor: pointer; align-items: flex-start; }
+  .mc-stage input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--fairway); flex-shrink: 0; }
+  .mc-stage.current strong { color: var(--fairway-bright); }
+  .mc-log-row { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; padding: 6px 0; border-bottom: 1px solid var(--card-border); }
+  .mc-log-row:last-child { border-bottom: none; }
+  .mc-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; }
+  .mc-kpis div { background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 10px; padding: 8px; text-align: center; font-size: 11px; color: var(--text-dim); }
+  .mc-kpis b { display: block; font-family: 'Fraunces', serif; font-size: 20px; color: var(--fairway-bright); }
+  .mc-matrix { display: grid; grid-template-columns: auto 1fr 1fr; gap: 6px; font-size: 12px; margin-top: 8px; }
+  .mc-matrix .mh { color: var(--text-dim); font-size: 11px; text-align: center; align-self: end; }
+  .mc-matrix .mr { color: var(--text-dim); font-size: 11px; writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; }
+  .mc-matrix .mc-cell { border-radius: 10px; padding: 10px 8px; text-align: center; line-height: 1.35; }
+  .mc-matrix .mc-cell b { display: block; font-size: 13px; margin-bottom: 2px; }
+  .mc-cell.win { background: rgba(127, 199, 140, .18); border: 1px solid var(--fairway); }
+  .mc-cell.work { background: rgba(201, 162, 75, .14); border: 1px solid var(--gold); }
+  /* ---------- Zufallstraining ---------- */
+  .dr-view { display: none; }
+  .dr-view.active { display: block; }
+  .dr-task { background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; text-align: center; margin: 12px 0; }
+  .dr-task .dr-count { font-size: 12px; color: var(--text-dim); }
+  .dr-task .dr-dist { font-family: 'Fraunces', serif; font-size: 40px; font-weight: 600; color: var(--fairway-bright); line-height: 1.1; margin: 4px 0; }
+  .dr-task .dr-extra { font-size: 14px; color: var(--gold); min-height: 20px; }
+  .dr-task .dr-hint { font-size: 12px; color: var(--text-dim); margin-top: 6px; }
+  .dr-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .dr-btns.two { grid-template-columns: 1fr 1fr; }
+  .dr-btns button { padding: 14px 6px; font-size: 13px; border-radius: 12px; }
+  .dr-b-good { background: var(--fairway); color: #0e1b13; }
+  .dr-b-mid { background: var(--gold); color: #0e1b13; }
+  .dr-b-bad { background: transparent; color: var(--text-dim); border: 1px solid var(--card-border) !important; }
+  .dr-dots { display: flex; gap: 4px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+  .dr-dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--card-border); }
+  .dr-dots span.p2 { background: var(--fairway-bright); } .dr-dots span.p1 { background: var(--gold); } .dr-dots span.p0 { background: var(--red); }
+  .dr-dots span.now { outline: 2px solid var(--text); outline-offset: 1px; }
+  .dr-layout { font-size: 13px; columns: 2; column-gap: 16px; margin: 6px 0 12px; padding-left: 18px; }
+  .dr-result { text-align: center; padding: 10px 0; }
+  .dr-result b { display: block; font-family: 'Fraunces', serif; font-size: 34px; }
+  .dr-result small { color: var(--text-dim); font-size: 12px; }
+  .dr-r10 { color: var(--fairway-bright); } .dr-r15 { color: var(--fairway); } .dr-r20 { color: var(--gold); } .dr-rbad { color: var(--red); }
+  .dr-hist-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 12.5px; padding: 7px 0; border-bottom: 1px solid var(--card-border); }
+  .dr-hist-row:last-child { border-bottom: none; }
+  .dr-info { font-size: 12px; color: var(--text-dim); margin: 0 0 12px; }
 </style>
 </head>
 <body>
@@ -314,16 +394,17 @@
     <span style="font-family:'Fraunces',serif; font-weight:600; font-size:15px; color: var(--bg);">Golf Fortschritt-Tracker</span>
   </div>
   <h1>Fortschritt-Tracker</h1>
-  <div id="app-version" style="margin-top:6px; font-size:12px; color:var(--text-dim); cursor:pointer;" title="Versionshinweise anzeigen">Version 2026.10.07-b ▾</div>
+  <div id="app-version" style="margin-top:6px; font-size:12px; color:var(--text-dim); cursor:pointer;" title="Versionshinweise anzeigen">Version 2026.10.09 ▾</div>
   <div id="app-changelog" style="display:none; text-align:left; max-width:560px; margin:10px auto 0; font-size:12.5px; color:var(--text-dim); background:var(--bg-alt); border:1px solid var(--card-border); border-radius:12px; padding:10px 14px;">
     <div style="font-weight:600; color:var(--text); margin-bottom:6px;">Versionshinweise Fortschritt-Tracker</div>
+    <div style="margin-top:6px;"><strong style="color:var(--text);">09.10.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Neu im Training: Mentalcoach mit Lesetext, Audio (Schlagroutine, Reset, Vor dem Ligaspiel, Nach der Runde), Ligatag-Checkliste und Schlagroutine</li><li>Routine antrainieren in 4 Stufen, Nachbereitung mit Routine-Quote und Aus-Ursachen</li><li>Backup enthält die Mentalcoach-Nachbereitung</li><li>Mentalcoach durchgehend positiv formuliert: Ziel statt Gefahr, Neustart der Routine bei Zweifel</li><li>Ligatag-Checkliste auf 10 Punkte gekürzt</li><li>Mentalcoach nach Vision54: Play-Box-Gefühl wählbar, Memory Box nach guten Schlägen, Erfolgs-Matrix (Play Box statt Ergebnis), Audio „Schlagroutine“ angepasst</li><li>Mantra als Audio und im Tab Routine: Entscheiden. Vertrauen. Leicht und locker. Speichern.</li><li>Caddy: Ansage als positiver Satz mit Schläger und Ziel (🗣️), Zieltexte durchgehend positiv formuliert</li><li>Neu im Training: Zufallstraining – Kurzspiel mit Zufallsdistanzen, Ein-Versuch-Putt, Annäherungstest in Prozent der Schlaglänge, mit Verlauf und Backup</li></ul></div>
     <div style="margin-top:6px;"><strong style="color:var(--text);">07.10.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Hünxerwald Bahn 1–9: Abschläge, Grünmitten und Hindernisse aus Google Maps – fehlende Entfernungen ergänzt, Hindernisse mit Beginn und Ende</li><li>Grünmitten 1–9 fest hinterlegt: GPS-Entfernung ohne vorheriges Setzen</li><li>Wind am Abschlag auch ohne GPS (Richtung Abschlag → Grün)</li><li>Bahn 1: Fairwayende vor dem Wald im Dogleg; Bahn 9: Fairway-Bunker rechts</li><li>Manuelle Korrektur: Entfernungen je Hindernis anpassen (✏️), Grünmitte vor Ort neu setzen oder zurück auf Kartenwert; Korrekturen im Backup</li></ul></div>
     <div style="margin-top:6px;"><strong style="color:var(--text);">03.10.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Entfernung per Knopf: nimmt nur noch frische Positionen (keine „eingefrorene“ Distanz mehr), zeigt Messzeit und Genauigkeit</li><li>Live-Distanz entfernt</li><li>Huckingen: Wind relativ zur Schlagrichtung, „spielt sich wie“ und Schläger danach</li><li>Temperatur fließt in „spielt sich wie“ ein (Bezug 20 °C, pro 10 °C kälter ca. 1,8 % kürzer)</li></ul></div>
     <div style="margin-top:6px;"><strong style="color:var(--text);">02.10.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Mein Bag: Werte der Range-Session vom 01.10.2026 inkl. Donut-Streuung; ± Länge als Spalte, Messdatum automatisch</li><li>Mein Bag: „Neue Session übernehmen“ für künftige Range-Sessions</li><li>Backup-Import: Bag-Werte gehen auf neuem Gerät nicht mehr verloren</li><li>Lernender Caddy (Hünxerwald): ab 5 Runden je Bahn – Fehlerseite, Strafschlag-Muster, besserer Abschlagschläger, „Caddy befolgt?“</li><li>Caddy Weselerwald/Huckingen: Empfehlung nach passender Lochlänge statt immer längster Schläger</li><li>Huckingen: GPS-Distanz zur Grünmitte mit Schlägervorschlag; Grünmitten Süd 1–9, Nord 1–9, West 1 und 9 aus Google Maps</li><li>Grünmitte speichern: Mittel aus bis zu 8 GPS-Messungen</li><li>Versionsnummer und Versionshinweise</li></ul></div><div style="margin-top:6px;"><strong style="color:var(--text);">28.09.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Hünxerwald-Caddy mit Birdie-Book-Daten, Fahnen, Wind, GPS-Grünmitte, Wettspiel-Modus, Tabs Runde/Training</li></ul></div>
   </div>
   <script>document.getElementById('app-version').addEventListener('click', function () {
     var c = document.getElementById('app-changelog'); var show = c.style.display === 'none';
-    c.style.display = show ? 'block' : 'none'; this.textContent = 'Version 2026.10.07-b ' + (show ? '▴' : '▾');
+    c.style.display = show ? 'block' : 'none'; this.textContent = 'Version 2026.10.09 ' + (show ? '▴' : '▾');
   });</script>
 </header>
 
@@ -637,6 +718,272 @@
     <div class="card">
       <p style="font-size:13px; color:var(--text-dim); margin:0 0 14px;">Basierend auf Löchern mit GIR-/Fairway-/Strafschlag-Angaben. Ältere Runden ohne diese Felder fließen hier nicht ein.</p>
       <div id="advanced-list"></div>
+    </div>
+  </section>
+
+  <section data-tab="training">
+    <h2 class="cz-toggle" id="mc-section-toggle">🧠 Mentalcoach ▾</h2>
+    <div class="card" id="mc-panel" style="display:none;">
+      <div class="mc-tabs" role="tablist">
+        <button type="button" class="active" data-mc-tab="read">📖 Lesen</button>
+        <button type="button" data-mc-tab="listen">🎧 Hören</button>
+        <button type="button" data-mc-tab="day">✅ Ligatag</button>
+        <button type="button" data-mc-tab="routine">🎯 Routine</button>
+      </div>
+
+      <!-- Lesen -->
+      <div class="mc-view mc-read active" data-mc-view="read" id="mc-read-text">
+        <h3>Ziel</h3>
+        <p>Sichere Löcher statt Traumschläge. Leitzahl sind die Strafschläge pro Runde. Daneben zählen Doppelbogey oder schlechter pro Runde und das Loch nach einem Fehlschlag.</p>
+
+        <h3>Vor der Runde: Spielplan</h3>
+        <p>Am Vorabend wird entschieden, welche Löcher Aus in Reichweite haben und welcher Schläger dort vom Tee kommt. Am Abschlag gilt, was am Vorabend entschieden wurde.</p>
+        <p>Das Ziel ist ein Prozessziel statt eines Scoreziels. Zum Beispiel: Routine bei jedem Schlag.</p>
+
+        <h3>Die Schlagroutine</h3>
+        <p>Hinter dem Ball liegt die Denkbox. Dort werden Lage, Wind, Gefahr, Ziel, Schläger und Schlagform geklärt. Am Ende steht eine klare Entscheidung.</p>
+        <p>Dann wird eine gedachte Linie überschritten. Ab hier gilt die Entscheidung.</p>
+        <p>Die letzte Anweisung vor dem Schlag beschreibt immer, wohin der Ball fliegt. Der Kopf arbeitet in Bildern: Das Bild, das du dir vorsagst, ist das Bild, das du spielst. Also: „Linke Fairwayhälfte, Richtung großer Baum.“</p>
+        <p>In der Spielbox gibt es einen Probeschwung mit Gefühl, einen Blick zum Ziel und ein einziges Körpergefühl, zum Beispiel ruhiges Tempo, fester Stand oder lockere Arme. Gedanken bleiben in der Denkbox. Dann wird geschlagen, nach höchstens etwa zwanzig Sekunden.</p>
+        <p>Welches Gefühl passt, entscheidet dein Wohlgefühl am Ball. Einmal wählen und ihm vertrauen: Trust your swing.</p>
+        <p>Taucht am Ball ein Zweifel oder ein Bild der Gefahr auf, wird zurückgetreten, das Ziel positiv neu formuliert und neu gestartet. Das ist erlaubt und völlig normal.</p>
+        <h3>Positiv formulieren</h3>
+        <ul>
+          <li>Aus rechts → „Linke Fairwayhälfte, Richtung Baum“</li>
+          <li>Wasser vor dem Grün → „Mitte Grün, zwei Meter hinter die Fahne“</li>
+          <li>Gefahr zu kurz → „Landepunkt einen Meter aufs Grün“</li>
+          <li>Langer Putt → „Ball in den Meterkreis“</li>
+        </ul>
+        <p class="mc-note">Gefahren werden in der Denkbox benannt. In der Spielbox gibt es nur noch das Ziel.</p>
+
+        <h3>Abschlag an Aus-Löchern</h3>
+        <ol>
+          <li>Wo ist das Aus?</li>
+          <li>Passt die Driver-Streuung aus Mein Bag ins Fairway plus Rough, ohne das Aus zu erreichen?</li>
+          <li>Sonst kommt das fünfer Holz oder das Hybrid.</li>
+          <li>Ein konkretes Ziel auf der sicheren Seite wählen, zum Beispiel die linke Fairwayhälfte. Rough ist erlaubt.</li>
+          <li>Die Entscheidung positiv aussprechen: Schläger und Ziel.</li>
+          <li>Bei Zweifel wird sofort ein provisorischer Ball gespielt.</li>
+        </ol>
+
+        <h3>Memory Box – gute Schläge speichern</h3>
+        <p>Nach einem guten Schlag drei bis fünf Sekunden stehen bleiben. Den Ballflug ansehen, das Gefühl im Körper nachspüren, das Bild abspeichern. Das Gedächtnis hält Fehlschläge von allein fest. Gute Schläge brauchen diesen bewussten Moment. Genau dieses Bild trägst du dann zum nächsten Aus-Loch.</p>
+
+        <h3>Was als Erfolg zählt</h3>
+        <p>Bewertet wird die Play Box, nicht das Ergebnis. Ein Schlag mit voller Play Box ist ein Erfolg, auch wenn der Ball im Rough liegt. Ein Treffer mit halber Play Box ist Glück und ein Hinweis, die Routine zu schärfen.</p>
+
+        <h3>Reset nach dem Fehlschlag</h3>
+        <p>Ärger ist erlaubt, aber nur bis zu einer festen Linie, etwa zehn Schritte vom Ball entfernt.</p>
+        <p>Dann folgt ein Atemzug: vier Sekunden ein, sechs Sekunden aus.</p>
+        <p>Danach eine kurze, sachliche Einordnung: Lag es an der Entscheidung oder an der Ausführung?</p>
+        <p>Der nächste Schlag geht auf die sichere Seite. Bogey ist ein gutes Ergebnis. Auf einen Fehlschlag folgt immer ein sicherer Schlag.</p>
+
+        <h3>Zwischen den Schlägen</h3>
+        <p>Bewusst abschalten: reden, die Umgebung wahrnehmen, trinken. Konzentration erst wieder ab der Denkbox.</p>
+
+        <h3>Nach der Runde</h3>
+        <p>Fünf Minuten reichen. Drei Dinge, die gut liefen. Jeder Aus-Ball wird eingeordnet: falsche Entscheidung, schlechte Ausführung oder Routine übersprungen. Dazu eine Schätzung, bei wie viel Prozent der Schläge die Routine vollständig war.</p>
+
+        <h3>Im Training</h3>
+        <p>Auf der Range bekommt jeder dritte Ball die volle Routine mit Zielwechsel. Druckrunden kommen schon jetzt dazu, schon in der Stufe Handicap zwanzig. Der erste Abschlag wird geübt: ein Ball, volle Routine, mit Zuschauer im Kopf.</p>
+
+        <h3>Ligaspiel</h3>
+        <p>Im Zählspiel zählt jeder Schlag bis zum Ende, sichere Positionen zahlen sich doppelt aus. Deshalb gilt ein konservativer Spielplan und an Aus-Löchern immer das Abschlag-Protokoll.</p>
+
+        <h3>Kennzahlen</h3>
+        <p>Einmal im Monat: Strafschläge pro Runde, Doppelbogey oder schlechter pro Runde, das Loch nach einem Fehlschlag und die Routine-Quote. Bleiben die ersten beiden nach zwei Monaten gleich, wird nachgeschärft.</p>
+
+        <h3>Grenze</h3>
+        <p>Technik-Feedback bleibt Sache des Trainers. Liegt es oft an der Ausführung, ist das ein Thema für den Trainer.</p>
+      </div>
+
+      <!-- Hören -->
+      <div class="mc-view" data-mc-view="listen">
+        <p style="font-size:12px; color:var(--text-dim); margin:0 0 10px;">Vorgelesen von der Sprachausgabe deines Geräts, mit Pausen zum Mitmachen. Bildschirm dabei anlassen – bei gesperrtem Display stoppt die Wiedergabe.</p>
+        <div id="mc-unsupported" style="display:none; font-size:13px; color:var(--red); margin-bottom:10px;">Dieser Browser hat keine Sprachausgabe. Safari oder Chrome verwenden.</div>
+        <div id="mc-track-list"></div>
+        <div class="mc-now" id="mc-now"></div>
+        <div class="form-grid" style="margin-top:10px;">
+          <div>
+            <label for="mc-voice">Stimme</label>
+            <select id="mc-voice"></select>
+          </div>
+          <div>
+            <label for="mc-rate">Tempo</label>
+            <select id="mc-rate">
+              <option value="0.8">Ruhig</option>
+              <option value="0.9" selected>Normal</option>
+              <option value="1.0">Zügig</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions"><button type="button" class="btn-secondary" id="mc-stop-btn">■ Stopp</button></div>
+      </div>
+
+      <!-- Ligatag -->
+      <div class="mc-view" data-mc-view="day">
+        <p style="font-size:12px; color:var(--text-dim); margin:0 0 10px;">Für Turnier- und Ligatage. Häkchen bleiben bis zum Zurücksetzen gespeichert.</p>
+        <div id="mc-day-list"></div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" id="mc-day-reset">Checkliste zurücksetzen</button>
+        </div>
+        <div class="save-msg" id="mc-day-msg"></div>
+      </div>
+
+      <!-- Routine -->
+      <div class="mc-view" data-mc-view="routine">
+        <div class="mc-box">
+          <h3>Mantra</h3>
+          <p>Hinter dem Ball entscheide ich.<br>Über der Linie vertraue ich.<br>Am Ball schwinge ich leicht und locker:<br>langsam auf, Schulter zum Fuß, locker durch zum Ziel.<br>Nach dem Schlag speichere ich das Gute.</p>
+          <p style="color:var(--gold); margin-top:6px;"><strong>Entscheiden. Vertrauen. Leicht und locker. Speichern.</strong></p>
+        </div>
+        <div class="mc-box">
+          <h3>Dein Play-Box-Gefühl</h3>
+          <select id="mc-feel" style="margin:4px 0 6px;">
+            <option value="leicht und locker">Leicht und locker</option>
+            <option value="ruhiges Tempo">Ruhiges Tempo</option>
+            <option value="fester Stand">Fester Stand</option>
+            <option value="lockere Arme">Lockere Arme</option>
+          </select>
+          <p style="font-size:12px; color:var(--text-dim); margin:0;">Wähle das Gefühl, mit dem du dich am Ball am wohlsten fühlst – und vertrau ihm. Trust your swing.</p>
+        </div>
+        <div class="mc-box">
+          <h3>Denkbox – hinter dem Ball</h3>
+          <ol class="mc-steps" style="margin:0;">
+            <li>Lage und Entfernung<small>Entfernung per Knopf oder Caddy</small></li>
+            <li>Gefahr erkennen<small>Wo ist Aus oder Wasser, wo die sichere Seite?</small></li>
+            <li>Kleines Ziel wählen<small>Baum, Bunkerkante, Fleck im Fairway – so klein wie möglich</small></li>
+            <li>Schläger und Schlagform entscheiden</li>
+            <li>Entscheidung positiv aussprechen<small>Schläger plus Ziel, z. B. „Hybrid, linke Fairwayseite“ – immer als Ziel formuliert</small></li>
+          </ol>
+        </div>
+        <div class="mc-line">Linie überschreiten – ab hier gilt die Entscheidung</div>
+        <div class="mc-box">
+          <h3>Spielbox – am Ball</h3>
+          <ol class="mc-steps" style="margin:0; counter-reset: mcstep 5;">
+            <li>Ein Probeschwung mit Gefühl<small>dein Play-Box-Gefühl spüren, Gefühl statt Technik</small></li>
+            <li>Schlägerblatt zum Zwischenziel, dann Stand</li>
+            <li>Ein Blick zum Ziel</li>
+            <li>Ein Gefühl: <span class="mc-feel-txt">leicht und locker</span><small>Gedanken bleiben in der Denkbox</small></li>
+            <li>Schlagen<small>Höchstens ca. 20 Sekunden ab Ansprechen. Zweifel oder Bild der Gefahr? Zurücktreten, Ziel positiv neu formulieren, neu starten.</small></li>
+          </ol>
+        </div>
+        <div class="mc-box">
+          <h3>Nach dem Schlag – Memory Box</h3>
+          <p>Guter Schlag: 3–5 Sekunden stehen bleiben, Ballflug ansehen, Gefühl abspeichern.</p>
+          <p>Fehlschlag: Ärger bis zur 10-Schritte-Linie, Atemzug 4 ein, 6 aus, sachlich einordnen, nächster Schlag auf die sichere Seite.</p>
+        </div>
+        <div class="mc-box">
+          <h3>Was als Erfolg zählt</h3>
+          <p style="font-size:12px; color:var(--text-dim); margin:0;">Bewertet wird die Play Box, das Ergebnis kommt danach.</p>
+          <div class="mc-matrix">
+            <div></div><div class="mh">Ball gut</div><div class="mh">Ball daneben</div>
+            <div class="mr">Play Box voll</div>
+            <div class="mc-cell win"><b>✅ Erfolg</b>in der Memory Box speichern</div>
+            <div class="mc-cell win"><b>✅ Erfolg</b>Prozess stimmt, das Ergebnis gehört zum Golf</div>
+            <div class="mr">Play Box halb</div>
+            <div class="mc-cell work"><b>🍀 Glück</b>Routine schärfen</div>
+            <div class="mc-cell work"><b>🔧 Lernpunkt</b>Routine schärfen</div>
+          </div>
+        </div>
+        <div class="mc-box">
+          <h3>Abschlag-Protokoll an Aus-Löchern</h3>
+          <ol>
+            <li>Wo ist das Aus?</li>
+            <li>Passt die Driver-Streuung ohne Aus ins Fairway plus Rough?</li>
+            <li>Nein → 5er Holz oder Hybrid.</li>
+            <li>Konkretes Ziel auf der sicheren Seite, Rough ist erlaubt.</li>
+            <li>Positiv aussprechen: „5er Holz, linke Fairwayhälfte.“</li>
+            <li>Zweifel → provisorischen Ball ansagen und spielen.</li>
+          </ol>
+        </div>
+
+        <h2 style="font-size:15px; margin:18px 0 8px;">Routine antrainieren</h2>
+        <p style="font-size:12px; color:var(--text-dim); margin:0 0 6px;">Eine Stufe erst abhaken, wenn sie sich selbstverständlich anfühlt.</p>
+        <div id="mc-stage-list"></div>
+
+        <h2 style="font-size:15px; margin:18px 0 8px;">Nach der Runde</h2>
+        <div class="form-grid">
+          <div><label for="mc-log-date">Datum</label><input type="date" id="mc-log-date"></div>
+          <div><label for="mc-log-quote">Play Box voll (%)</label><input type="number" id="mc-log-quote" min="0" max="100" step="5" placeholder="z. B. 70"></div>
+          <div><label for="mc-log-ent">Aus: Entscheidung</label><input type="number" id="mc-log-ent" min="0" step="1" value="0"></div>
+          <div><label for="mc-log-ausf">Aus: Ausführung</label><input type="number" id="mc-log-ausf" min="0" step="1" value="0"></div>
+          <div><label for="mc-log-skip">Aus: Routine übersprungen</label><input type="number" id="mc-log-skip" min="0" step="1" value="0"></div>
+          <div><label for="mc-log-good">Was lief gut?</label><input type="text" id="mc-log-good" placeholder="kurz"></div>
+        </div>
+        <div class="form-actions"><button type="button" class="btn-primary" id="mc-log-save">Speichern</button></div>
+        <div class="save-msg" id="mc-log-msg"></div>
+        <div id="mc-log-summary"></div>
+      </div>
+    </div>
+  </section>
+
+  <section data-tab="training">
+    <h2 class="cz-toggle" id="dr-section-toggle">🎲 Zufallstraining ▾</h2>
+    <div class="card" id="dr-panel" style="display:none;">
+      <div class="mc-tabs" role="tablist">
+        <button type="button" class="active" data-dr-tab="chip">Kurzspiel</button>
+        <button type="button" data-dr-tab="putt">Putten</button>
+        <button type="button" data-dr-tab="appr">Annäherung</button>
+        <button type="button" data-dr-tab="hist">Verlauf</button>
+      </div>
+
+      <div class="dr-view active" data-dr-view="chip">
+        <p class="dr-info">Zehn Bälle, jeder aus einer neuen, zufälligen Distanz und genau einmal gespielt. Punkte: innerhalb 1 m = 2, innerhalb 2 m = 1.</p>
+        <div id="dr-chip-setup">
+          <div class="form-grid">
+            <div class="full"><label for="dr-chip-stage">Stufe</label>
+              <select id="dr-chip-stage">
+                <option value="1">1 – Zufallsdistanz, immer derselbe Schläger</option>
+                <option value="2">2 – Zufallsdistanz, freie Schlägerwahl</option>
+                <option value="3">3 – zusätzlich wechselnde Lage</option>
+                <option value="4">4 – plus Landepunkt vorher ansagen</option>
+              </select></div>
+            <div><label for="dr-chip-min">Von (m)</label><input type="number" id="dr-chip-min" value="5" min="2" max="40"></div>
+            <div><label for="dr-chip-max">Bis (m)</label><input type="number" id="dr-chip-max" value="25" min="3" max="50"></div>
+          </div>
+          <div class="form-actions"><button type="button" class="btn-primary" onclick="drStart('chip')">Start</button></div>
+        </div>
+        <div id="dr-chip-run"></div>
+      </div>
+
+      <div class="dr-view" data-dr-view="putt">
+        <p class="dr-info">Ein-Versuch-Putt: zehn Bälle zwischen 1 und 8 m rund ums Loch verteilt, jeder genau einmal, in der ausgelegten Reihenfolge.</p>
+        <div id="dr-putt-setup">
+          <div class="form-grid">
+            <div class="full"><label for="dr-putt-stage">Stufe</label>
+              <select id="dr-putt-stage">
+                <option value="1">1 – Distanzkontrolle: Ball im Meterkreis zählt</option>
+                <option value="2">2 – Echte Zählung: mit max. 2 Putts fertig</option>
+                <option value="3">3 – plus Break vorher laut ansagen</option>
+                <option value="4">4 – plus Abschluss: 3 Putts aus 2 m in Folge</option>
+              </select></div>
+          </div>
+          <div class="form-actions"><button type="button" class="btn-primary" onclick="drStart('putt')">Bälle auslegen</button></div>
+        </div>
+        <div id="dr-putt-run"></div>
+      </div>
+
+      <div class="dr-view" data-dr-view="appr">
+        <p class="dr-info">Bewertet wird die Abweichung in Prozent der Schlaglänge: bis 10 % richtig gut, bis 15 % gut, bis 20 % okay, darüber kostet es Schläge. Ziel: Durchschnitt in vier Wochen um 3 Prozentpunkte senken.</p>
+        <div id="dr-appr-setup">
+          <div class="form-grid">
+            <div class="full"><label for="dr-appr-mode">Variante</label>
+              <select id="dr-appr-mode">
+                <option value="fix">Einstieg – 10 Bälle, eine Distanz</option>
+                <option value="three">Erweitert – 60 / 80 / 100 m, je 5 Bälle</option>
+                <option value="rand">Wie auf dem Platz – 10 Bälle, Zufallsdistanz 60–110 m</option>
+              </select></div>
+            <div id="dr-appr-dist-wrap"><label for="dr-appr-dist">Distanz (m)</label><input type="number" id="dr-appr-dist" value="80" min="30" max="200"></div>
+          </div>
+          <div class="form-actions"><button type="button" class="btn-primary" onclick="drStart('appr')">Start</button></div>
+        </div>
+        <div id="dr-appr-run"></div>
+      </div>
+
+      <div class="dr-view" data-dr-view="hist">
+        <div id="dr-hist"></div>
+      </div>
     </div>
   </section>
 
@@ -1398,7 +1745,7 @@ function caddyStrategyLines(h) {
     const passive = aggIdx >= 0 ? (sortedByCarry[aggIdx + 1] || null) : null;
 
     if (riskReason && passive && passive.name !== aggressive.name) {
-      lines.push({ type: 'passiv', text: `${passive.name} (Carry ${passive.carry.toFixed(0)}m) – kontrolliert vorlegen, Risiko meiden.` });
+      lines.push({ type: 'passiv', text: `${passive.name} (Carry ${passive.carry.toFixed(0)}m) – kontrolliert in die sichere Position.` });
       lines.push({ type: 'aggressiv', text: `${aggressive.name} (Carry ${aggressive.carry.toFixed(0)}m) – volle Länge, bewusstes Risiko wegen ${riskReason} für möglichen Schlaggewinn.` });
     } else {
       lines.push({ type: 'neutral', text: `${aggressive.name} (Carry ${aggressive.carry.toFixed(0)}m) kommt der Lochlänge (${length}m) am nächsten.` });
@@ -1474,7 +1821,7 @@ function caddyQuickCardHtml(h) {
   const L = hxLast;
   const i = currentHoleIndex;
   let head = '';
-  if (L.tee) head += `<div class="cx-head">🏌️ ${escapeHtml(L.tee.club)}${L.tee.aim ? ' · ' + L.tee.aim : ''}</div>`;
+  if (L.tee) head += `<div class="cx-head">🗣️ ${escapeHtml(hxAnsage(L.tee.club, L.tee.aim, caddyBahnByKey(hk).par === 3 ? 'appr' : 'tee'))}</div>`;
   const meta = [];
   if (L.pin) meta.push(L.pin);
   if (L.strokes !== null && L.strokes !== undefined) meta.push(L.strokes === 0 ? 'kein Vorgabeschlag' : `${L.strokes} Vorgabeschl${L.strokes === 1 ? 'ag' : 'äge'}`);
@@ -1491,7 +1838,7 @@ function caddyQuickCardHtml(h) {
   const dist = caddyApproach[i];
   const bahnLen = caddyBahnByKey(hk)[hxContext().tee];
   const onTee = caddyApproachSrc[i] === 'gps' && dist > bahnLen - 30;  // Live-Wert noch am Abschlag → keine Zweitempfehlung
-  if (dist && L.appr && !onTee) head += `<div class="cx-head" style="margin-top:8px;">🎯 ${Math.round(dist)} m: ${escapeHtml(L.appr.club)} · ${L.appr.aim}</div>`;
+  if (dist && L.appr && !onTee) head += `<div class="cx-head" style="margin-top:8px;">🗣️ ${Math.round(dist)} m: ${escapeHtml(hxAnsage(L.appr.club, L.appr.aim, 'appr'))}</div>`;
   if (dist && !onTee) {
     const hz = hxHazardsAheadTxt(caddyBahnByKey(hk), dist);
     if (hz) head += `<div class="cx-text-sm" style="color:var(--gold);">${hz}</div>`;
@@ -2494,7 +2841,7 @@ document.getElementById('export-btn').addEventListener('click', () => {
   const backup = {
     rounds: loadRounds(), hcpLog: loadHcpLog(), parProfiles: loadParProfiles(),
     trackmanSessions: loadTmSessions(), trackmanShots: loadTmShots(), bag: loadBag(),
-    greens: loadGreens(), hazardFix: loadHzFix(),
+    greens: loadGreens(), hazardFix: loadHzFix(), mentalLog: loadMentalLog(), drills: loadDrills(),
   };
   const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -2561,6 +2908,19 @@ document.getElementById('import-file').addEventListener('change', function() {
       // GPS-Grünmitten: vorhandene bleiben, fehlende kommen aus dem Backup
       if (!Array.isArray(imported) && imported.greens) saveGreens({ ...migrateGreenKeys(imported.greens), ...loadGreens() });
       if (!Array.isArray(imported) && imported.hazardFix) { saveHzFix({ ...imported.hazardFix, ...loadHzFix() }); hxApplyFixes(); }
+
+      // Mentalcoach-Nachbereitung: vorhandene IDs bleiben, neue kommen dazu
+      if (!Array.isArray(imported) && Array.isArray(imported.mentalLog)) {
+        const exLog = loadMentalLog(); const exIds = new Set(exLog.map(e => e.id));
+        saveMentalLog(exLog.concat(imported.mentalLog.filter(e => e && e.id && !exIds.has(e.id))));
+        if (document.getElementById('mc-panel').style.display !== 'none') mcRenderLog();
+      }
+
+      // Zufallstraining: vorhandene IDs bleiben, neue kommen dazu
+      if (!Array.isArray(imported) && Array.isArray(imported.drills)) {
+        const exDr = loadDrills(); const exDrIds = new Set(exDr.map(e => e.id));
+        saveDrills(exDr.concat(imported.drills.filter(e => e && e.id && !exDrIds.has(e.id))));
+      }
 
       renderHcpStatus();
       renderAll();
@@ -4246,7 +4606,7 @@ function hxAimText(tend, hazardsIn, zielWort) {
   const hasStrafe = arr => arr.some(x => hxIsStrafe(x.h));
   const z = zielWort || 'Fairway';
   if (!tend || !tend.lr) {
-    if (left.length === 0 && right.length === 0) return `Ziel Mitte. Keine seitlichen Hindernisse erfasst.`;
+    if (left.length === 0 && right.length === 0) return `Ziel Mitte. Beide Seiten frei.`;
     if (hasStrafe(left) && !hasStrafe(right)) return `Ziel Mitte bis halbrechts – links Strafe: ${names(left)}.`;
     if (hasStrafe(right) && !hasStrafe(left)) return `Ziel Mitte bis halblinks – rechts Strafe: ${names(right)}.`;
     return `Ziel Mitte. Links: ${names(left) || '–'} · Rechts: ${names(right) || '–'}.`;
@@ -4255,12 +4615,12 @@ function hxAimText(tend, hazardsIn, zielWort) {
   const sT = T === 'links' ? left : right, sO = T === 'links' ? right : left;
   const tTxt = `Tendenz ${T} (${tend.lrPct} %)`;
   if (sT.length && !sO.length) return `Ziel ${O === 'rechts' ? 'rechte' : 'linke'} ${z}hälfte – ${tTxt} zielt auf ${names(sT)}.`;
-  if (!sT.length && sO.length) return `Ziel Mitte – ${tTxt} geht weg von ${names(sO)}, nicht dorthin korrigieren.`;
-  if (!sT.length && !sO.length) return `Ziel Mitte, leicht nach ${O} vorhalten (${tTxt}). Keine seitlichen Hindernisse erfasst.`;
-  if (hasStrafe(sT) && !hasStrafe(sO)) return `Ziel halb${O} – ${tTxt} Richtung ${names(sT)}; ${names(sO)} ist das kleinere Übel.`;
-  if (!hasStrafe(sT) && hasStrafe(sO)) return `Ziel Mitte – nicht gegen die ${tTxt} korrigieren, ${O}: ${names(sO)}.`;
+  if (!sT.length && sO.length) return `Ziel Mitte – ${tTxt} führt in den freien Bereich, Ausrichtung beibehalten.`;
+  if (!sT.length && !sO.length) return `Ziel Mitte, leicht nach ${O} vorhalten (${tTxt}). Beide Seiten frei.`;
+  if (hasStrafe(sT) && !hasStrafe(sO)) return `Ziel halb${O} – ${tTxt} Richtung ${names(sT)}; ${O} ist die sichere Seite.`;
+  if (!hasStrafe(sT) && hasStrafe(sO)) return `Ziel Mitte – Ausrichtung beibehalten, deine ${tTxt} führt zur sicheren Seite.`;
   if (!hasStrafe(sT) && !hasStrafe(sO)) return `Ziel Mitte, leicht nach ${O} vorhalten (${tTxt}). ${T}: ${names(sT)} · ${O}: ${names(sO)}.`;
-  return `Ziel Mitte – beide Seiten gefährlich (${T}: ${names(sT)} · ${O}: ${names(sO)}). ${tTxt} im Hinterkopf.`;
+  return `Ziel Mitte – volle Konzentration auf die Mitte (${T}: ${names(sT)} · ${O}: ${names(sO)}).`;
 }
 
 // Landezonen-Prüfung eines Schlägers gegen Hindernisse mit Distanz (d = Entfernung vom Ball).
@@ -4403,7 +4763,7 @@ function hxApproachInner(b, D, ctx, sicher, opts, w) {
       .map(h => ({ h, d: Math.round(D - h.rest) }));
     const checks = clubs.filter(c => c.carry >= 80).map(c => hxCheckClub(c, relHz, {}));
     const { primary, alt } = hxPick(checks, sicher);
-    html += `<div class="cx-text-sm">Grün nicht erreichbar (längster Carry ${longest.carry.toFixed(0)} m) – vorlegen.</div>`;
+    html += `<div class="cx-text-sm">Grün außer Reichweite (längster Carry ${longest.carry.toFixed(0)} m) – vorlegen in die beste Position.</div>`;
     if (primary) {
       const entlang = b.hindernisse.filter(h => hxZoneClass(h, tee) === 'entlang' && hxSideOf(h)).map(h => ({ h, d: null }));
       html += `<div class="cx-rec">✅ ${primary.c.name} <span class="cx-dim-inline">landet ca. ${primary.lo}–${primary.hi} m · danach ca. ${Math.round(D - (primary.lo + primary.hi) / 2)} m</span></div>`;
@@ -4471,13 +4831,25 @@ function hxApproachInner(b, D, ctx, sicher, opts, w) {
   if (w && w.cross !== null && Math.abs(w.cross) >= 10) html += `<div class="cx-text-sm">${hxWindCrossTxt(w)}</div>`;
   const pinSide = hxPinSide(pinCode);
   if (!sicher && pinSide && chosen.tend.lr === pinSide && aimHz.some(x => hxSideOf(x.h) === pinSide)) {
-    html += `<div class="cx-risk">Fahne ${pinSide} liegt auf deiner Tendenzseite und dort liegen Hindernisse – nicht direkt anspielen.</div>`;
+    html += `<div class="cx-risk">Fahne ${pinSide} liegt auf deiner Tendenzseite und dort liegen Hindernisse – Ziel Grünmitte.</div>`;
   }
   html += hxStaleNote(chosen);
   return html;
 }
 
 // ---------- Gesamtblock je Bahn ----------
+// Ansage im Mentalcoach-Stil: Schläger plus positives Ziel, ohne Gefahr im Satz
+function hxAnsage(club, aim, kind) {
+  const lay = /^vorlegen/.test(aim || '');
+  const fw = kind === 'tee' || lay;
+  let a = (aim || '').replace(/^vorlegen,\s*/, '').replace(/^Ziel\s+/, '').trim();
+  let m;
+  if (!a || a === 'Mitte') a = fw ? 'Fairwaymitte' : 'Grünmitte';
+  else if ((m = a.match(/^Mitte, leicht nach (links|rechts) vorhalten$/))) a = `${fw ? 'Fairwaymitte' : 'Grünmitte'}, leicht ${m[1]} vorhalten`;
+  else if (/^(Mitte bis )?halb(links|rechts)$/.test(a)) a = `${fw ? 'Fairway' : 'Grün'} ${a}`;
+  if (lay) a = 'vorlegen, ' + a;
+  return `„${club}, ${a}“`;
+}
 function huenxCaddyHtml(hk, opts) {
   const b = caddyBahnByKey(hk);
   if (!b) return '';
@@ -5259,6 +5631,485 @@ function hxRestoreFromSettings() {
   document.getElementById('hx-pin').value = (s.pin && s.pinDate === todayStr()) ? s.pin : '';
   hxUpdateSvPlaceholder();
   hxUpdateRoundFieldsVisibility();
+}
+
+// ---------- Mentalcoach ----------
+const MC_DAY_KEY = 'golfPerformanceMentalDay2';
+const MC_STAGE_KEY = 'golfPerformanceMentalStages';
+const MC_LOG_KEY = 'golfPerformanceMentalLog';
+
+function mcLoad(key, fallback) { try { const v = JSON.parse(localStorage.getItem(key)); return v === null ? fallback : v; } catch (e) { return fallback; } }
+function mcSave(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {} }
+function loadMentalLog() { return mcLoad(MC_LOG_KEY, []); }
+function saveMentalLog(l) { mcSave(MC_LOG_KEY, l); }
+
+document.getElementById('mc-section-toggle').addEventListener('click', () => {
+  const panel = document.getElementById('mc-panel');
+  const show = panel.style.display === 'none';
+  panel.style.display = show ? 'block' : 'none';
+  document.getElementById('mc-section-toggle').textContent = '🧠 Mentalcoach ' + (show ? '▴' : '▾');
+  if (show) { mcRenderTracks(); mcRenderDay(); mcRenderStages(); mcRenderLog(); }
+  else mcStop();
+});
+document.querySelectorAll('[data-mc-tab]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('[data-mc-tab]').forEach(x => x.classList.toggle('active', x === b));
+  document.querySelectorAll('[data-mc-view]').forEach(v => v.classList.toggle('active', v.dataset.mcView === b.dataset.mcTab));
+}));
+
+// ----- Play-Box-Gefühl -----
+function mcFeel() { return localStorage.getItem('golfMentalFeel') || 'leicht und locker'; }
+function mcShowFeel() {
+  const sel = document.getElementById('mc-feel'); if (sel) sel.value = mcFeel();
+  document.querySelectorAll('.mc-feel-txt').forEach(e => e.textContent = mcFeel());
+}
+document.getElementById('mc-feel').addEventListener('change', e => { try { localStorage.setItem('golfMentalFeel', e.target.value); } catch (x) {} mcShowFeel(); });
+mcShowFeel();
+
+// ----- Hören -----
+const P = ms => ({ pause: ms });
+const MC_MANTRA = () => [
+  'Hinter dem Ball entscheide ich.', P(1500),
+  'Über der Linie vertraue ich.', P(1500),
+  'Am Ball schwinge ich leicht und locker.', P(1200),
+  'Langsam auf.', P(900), 'Schulter zum Fuß.', P(700), 'Locker durch zum Ziel.', P(1500),
+  'Nach dem Schlag speichere ich das Gute.', P(3500),
+];
+const MC_TRACKS = [
+  { id: 'mantra', title: 'Mantra', sub: 'ca. 1,5 Min – täglich, zum Mitsprechen', segs: () => [
+    'Mantra. Sprich leise mit.', P(2000),
+    ...MC_MANTRA(), ...MC_MANTRA(), ...MC_MANTRA(),
+    'Jetzt die Kurzform. Sprich mit.', P(1500),
+    'Entscheiden.', P(1200), 'Vertrauen.', P(1200), 'Leicht und locker.', P(1200), 'Speichern.', P(4000),
+    'Entscheiden.', P(1200), 'Vertrauen.', P(1200), 'Leicht und locker.', P(1200), 'Speichern.', P(2000),
+    'Trust your swing.'
+  ]},
+  { id: 'routine', title: 'Schlagroutine', sub: 'ca. 3 Min – geführt, zum Mitmachen', segs: () => [
+    'Schlagroutine. Stell dich hinter deinen Ball. Wir gehen einen Abschlag an einem Loch mit Aus durch.', P(1500),
+    'Du bist in der Denkbox. Hier wird gedacht. Am Ball wird nur noch geschlagen.', P(1500),
+    'Erstens. Lage und Entfernung. Wie liegt der Ball, wie weit ist es?', P(3000),
+    'Zweitens. Gefahr. Wo ist das Aus? Und wo ist die sichere Seite?', P(3000),
+    'Drittens. Wähle ein kleines Ziel. Einen Baum, eine Kante, einen Fleck im Fairway.', P(3000),
+    'Viertens. Schläger und Schlagform. Passt deine Driver-Streuung sicher ins Fairway? Sonst nimm das fünfer Holz oder das Hybrid.', P(3500),
+    'Fünftens. Sprich deine Entscheidung positiv aus. Schläger und Ziel. Zum Beispiel: Hybrid, linke Fairwayseite.', P(3000),
+    'Jetzt überschreitest du die Linie. Ab hier zählt nur noch dein Ziel. Die Entscheidung steht.', P(2000),
+    'Du bist in der Spielbox. Ein Probeschwung. Nur Gefühl. Spür dein Gefühl: ' + mcFeel() + '.', P(4000),
+    'Schlägerblatt zum Zwischenziel. Dann der Stand.', P(3000),
+    'Ein Blick zum Ziel.', P(2000),
+    'Ein Gefühl. ' + mcFeel().charAt(0).toUpperCase() + mcFeel().slice(1) + '.', P(2000),
+    'Und schlagen.', P(3000),
+    'War der Schlag gut, bleib drei Sekunden stehen. Sieh den Ball fliegen. Spür nach, wie er sich angefühlt hat. Speicher dieses Bild ab.', P(4000),
+    'Das ist deine Memory Box. Gute Schläge werden so zu Vertrauen.', P(1500),
+    'Wenn am Ball ein Zweifel kommt oder du an die Gefahr denkst, tritt zurück. Formuliere dein Ziel positiv neu und starte neu. Das ist erlaubt.', P(2000),
+    'Die ganze Spielbox dauert höchstens zwanzig Sekunden. Kurz, klar, immer gleich.', P(1500),
+    'Ende der Schlagroutine.'
+  ]},
+  { id: 'reset', title: 'Reset nach dem Fehlschlag', sub: 'ca. 2 Min – mit Atemübung', segs: [
+    'Reset nach dem Fehlschlag. Der Schlag ist misslungen. Das gehört zum Golf.', P(1500),
+    'Du darfst dich ärgern. Aber nur bis zur Linie. Etwa zehn Schritte.', P(2000),
+    'Geh die zehn Schritte. Bei jedem Schritt wird der Ärger kleiner.', P(6000),
+    'Jetzt bist du an der Linie. Ein ruhiger Atemzug.', P(800),
+    'Einatmen. Zwei. Drei. Vier.', P(1200),
+    'Ausatmen. Zwei. Drei. Vier. Fünf. Sechs.', P(1500),
+    'Noch einmal. Einatmen. Zwei. Drei. Vier.', P(1200),
+    'Ausatmen. Zwei. Drei. Vier. Fünf. Sechs.', P(2000),
+    'Jetzt sachlich. Lag es an der Entscheidung oder an der Ausführung? Merk es dir kurz. Das reicht.', P(3000),
+    'Der nächste Schlag geht auf die sichere Seite. Sicherer Schläger, klares Ziel.', P(1500),
+    'Ein Bogey ist ein gutes Ergebnis. Auf einen Fehlschlag folgt immer ein sicherer Schlag.', P(1500),
+    'Du bist wieder bei dir. Zurück in die Denkbox.'
+  ]},
+  { id: 'liga', title: 'Vor dem Ligaspiel', sub: 'ca. 4 Min – am Vorabend oder vor der Abfahrt', segs: [
+    'Vor dem Ligaspiel. Setz dich bequem hin. Schließ die Augen.', P(2500),
+    'Atme dreimal ruhig ein und lang aus.', P(9000),
+    'Morgen ist Zählspiel. Jeder Schlag zählt. Und sichere Positionen zahlen sich doppelt aus.', P(1500),
+    'Deshalb spielst du auf sichere Positionen. Fairway, Grünmitte, Bogey ist in Ordnung.', P(2000),
+    'Geh deinen Spielplan durch. An welchen Löchern spielst du den sicheren Schläger? Und auf welches Ziel?', P(6000),
+    'Die Entscheidungen stehen. Am Abschlag gilt dein Plan.', P(2000),
+    'Dein Ziel für morgen ist ein Prozessziel: Routine bei jedem Schlag.', P(2500),
+    'Stell dir das Einspielen vor. Ein paar Wedges. Das siebener Eisen. Hybrid, Holz, Driver. Ruhig, ohne Technikgedanken.', P(5000),
+    'Jetzt die Putts. Lange Putts für die Grüngeschwindigkeit. Zum Schluss ein paar kurze, die fallen.', P(5000),
+    'Du stehst am ersten Abschlag. Die anderen schauen zu. Das ist normal. Es geht allen so.', P(2500),
+    'Du gehst hinter den Ball. Denkbox. Sicherer Schläger. Kleines Ziel auf der sicheren Fairwayseite.', P(4000),
+    'Du überschreitest die Linie. Ein Atemzug. Ein Probeschwung. Ein Blick. Dein Gefühl.', P(4000),
+    'Und du siehst den Ball zu deinem Ziel fliegen und auf dem Fairway liegen bleiben. Genau so.', P(4000),
+    'Und wenn ein Schlag misslingt, hast du deinen Reset. Zehn Schritte. Atemzug. Sicherer nächster Schlag.', P(3000),
+    'Du kennst deinen Plan. Du kennst deine Routine. Das ist alles, was es braucht.', P(2500),
+    'Atme noch einmal tief ein. Und lang aus.', P(5000),
+    'Ende.'
+  ]},
+  { id: 'nach', title: 'Nach der Runde', sub: 'ca. 2 Min – Runde abschließen', segs: [
+    'Nach der Runde. Die Runde ist vorbei. Der Score steht. Jetzt geht es ums Lernen.', P(2000),
+    'Nenne drei Dinge, die heute gut liefen. Auch kleine.', P(9000),
+    'Jetzt die Aus-Bälle. Geh sie einzeln durch. War es die Entscheidung, die Ausführung, oder hast du die Routine übersprungen?', P(9000),
+    'Schätze, bei wie viel Prozent deiner Schläge die Routine vollständig war.', P(5000),
+    'Trag beides im Tracker ein. Unter Mentalcoach, Routine, nach der Runde.', P(2000),
+    'Nimm einen einzigen Punkt mit ins nächste Training. Nur einen.', P(5000),
+    'Und dann ist die Runde abgeschlossen. Gut gemacht, dass du sie ausgewertet hast.'
+  ]},
+];
+const mcState = { track: null, idx: 0, token: 0, timer: null };
+const mcSynth = window.speechSynthesis;
+
+function mcVoices() { return mcSynth ? mcSynth.getVoices().filter(v => /^de/i.test(v.lang)) : []; }
+function mcFillVoices() {
+  const sel = document.getElementById('mc-voice'); if (!sel) return;
+  const vs = mcVoices(); const saved = localStorage.getItem('golfMentalVoice');
+  sel.innerHTML = vs.length ? vs.map(v => `<option value="${v.name}">${v.name}</option>`).join('') : '<option value="">Standard (Deutsch)</option>';
+  if (saved && vs.some(v => v.name === saved)) sel.value = saved;
+  else { const pref = vs.find(v => /anna|helena|markus|google deutsch|petra|yannick/i.test(v.name)); if (pref) sel.value = pref.name; }
+}
+if (mcSynth) { mcFillVoices(); mcSynth.onvoiceschanged = mcFillVoices; }
+document.getElementById('mc-voice').addEventListener('change', e => { try { localStorage.setItem('golfMentalVoice', e.target.value); } catch (x) {} });
+document.getElementById('mc-rate').addEventListener('change', e => { try { localStorage.setItem('golfMentalRate', e.target.value); } catch (x) {} });
+(function () { const r = localStorage.getItem('golfMentalRate'); if (r) document.getElementById('mc-rate').value = r; })();
+
+function mcRenderTracks() {
+  if (!mcSynth) document.getElementById('mc-unsupported').style.display = 'block';
+  document.getElementById('mc-track-list').innerHTML = MC_TRACKS.map(t => `
+    <div class="mc-track${mcState.track && mcState.track.id === t.id ? ' playing' : ''}" data-track="${t.id}">
+      <button type="button" class="mc-play" aria-label="${t.title} abspielen" onclick="mcToggle('${t.id}')">${mcState.track && mcState.track.id === t.id && mcState.token ? '❚❚' : '▶'}</button>
+      <div class="mc-track-info">
+        <div class="mc-track-title">${t.title}</div>
+        <div class="mc-track-sub">${t.sub}</div>
+        <div class="mc-progress"><div id="mc-prog-${t.id}"></div></div>
+      </div>
+    </div>`).join('');
+  if (mcState.track) mcProgress();
+}
+function mcProgress() {
+  const t = mcState.track; if (!t) return;
+  const bar = document.getElementById('mc-prog-' + t.id);
+  if (bar) bar.style.width = Math.round(100 * mcState.idx / t.segs.length) + '%';
+}
+function mcToggle(id) {
+  if (!mcSynth) return;
+  const playingSame = mcState.track && mcState.track.id === id && mcState.token;
+  if (playingSame) { mcPause(); return; }
+  if (!mcState.track || mcState.track.id !== id) {
+    mcStop();
+    const def = MC_TRACKS.find(t => t.id === id);
+    mcState.track = { id, segs: typeof def.segs === 'function' ? def.segs() : def.segs };
+    mcState.idx = 0;
+  }
+  mcState.token = Date.now();
+  mcRenderTracks();
+  mcNext(mcState.token);
+}
+function mcNext(token) {
+  if (token !== mcState.token) return;
+  const t = mcState.track;
+  if (mcState.idx >= t.segs.length) { mcState.token = 0; mcState.track = null; document.getElementById('mc-now').textContent = ''; mcRenderTracks(); return; }
+  mcProgress();
+  const seg = t.segs[mcState.idx];
+  if (typeof seg === 'object') {
+    mcState.timer = setTimeout(() => { mcState.idx++; mcNext(token); }, seg.pause);
+    return;
+  }
+  document.getElementById('mc-now').textContent = seg;
+  const u = new SpeechSynthesisUtterance(seg);
+  u.lang = 'de-DE';
+  const v = mcVoices().find(x => x.name === document.getElementById('mc-voice').value);
+  if (v) u.voice = v;
+  u.rate = parseFloat(document.getElementById('mc-rate').value) || 0.9;
+  u.onend = () => { if (token !== mcState.token) return; mcState.idx++; mcNext(token); };
+  u.onerror = () => { if (token !== mcState.token) return; mcState.idx++; mcNext(token); };
+  mcSynth.speak(u);
+}
+function mcPause() {
+  mcState.token = 0; clearTimeout(mcState.timer);
+  if (mcSynth) mcSynth.cancel();
+  mcRenderTracks();
+}
+function mcStop() {
+  mcState.token = 0; clearTimeout(mcState.timer);
+  if (mcSynth) mcSynth.cancel();
+  mcState.track = null; mcState.idx = 0;
+  const now = document.getElementById('mc-now'); if (now) now.textContent = '';
+  if (document.getElementById('mc-track-list').innerHTML) mcRenderTracks();
+}
+document.getElementById('mc-stop-btn').addEventListener('click', mcStop);
+document.querySelectorAll('[data-tab-btn]').forEach(b => b.addEventListener('click', mcStop));
+
+// ----- Ligatag-Checkliste -----
+const MC_DAY = [
+  { group: 'Vorabend', items: [
+    ['Spielplan steht, Ansagen eingeprägt', 'Abschlagschläger und Ziel je Loch – Caddy-Ansagen durchgehen'],
+    ['Prozessziel festgelegt, Audio „Vor dem Ligaspiel“ gehört', 'z. B. „Routine bei jedem Schlag“'],
+    ['Bag gepackt, Bälle markiert', 'max. 14 Schläger, Regenzeug'],
+  ]},
+  { group: 'Am Platz', items: [
+    ['60 Min vorher da, Aushang gelesen', 'Platzregeln, Aus-Markierungen'],
+    ['Einspielen nach Plan (30 Min)', 'volles Spiel mit Routine beim letzten Ball je Schläger, Chips, Putts – zuletzt der Schläger für Loch 1'],
+    ['Erster Abschlag: Ansage, Atemzug, Routine', 'sicherer Schläger, konkretes Ziel'],
+  ]},
+  { group: 'Runde', items: [
+    ['Aus-Löcher: Abschlag-Protokoll', 'Ansage positiv – bei Zweifel provisorischen Ball ansagen und spielen'],
+    ['Nach Fehlschlag: 10-Schritte-Reset', 'nächster Schlag auf die sichere Seite'],
+  ]},
+  { group: 'Danach', items: [
+    ['Scorekarte prüfen, unterschreiben, abgeben', 'Regel 3.3b'],
+    ['Runde und Nachbereitung eintragen', 'Routine-Quote und Aus-Ursachen'],
+  ]},
+];
+function mcRenderDay() {
+  const state = mcLoad(MC_DAY_KEY, {});
+  let total = 0, done = 0;
+  document.getElementById('mc-day-list').innerHTML = MC_DAY.map((g, gi) => `
+    <div class="mc-check-group"><h3>${g.group}</h3>${g.items.map((it, ii) => {
+      const id = gi + '-' + ii; const on = !!state[id]; total++; if (on) done++;
+      return `<label class="mc-check${on ? ' done' : ''}"><input type="checkbox" data-mc-day="${id}"${on ? ' checked' : ''}><span>${it[0]}${it[1] ? `<small>${it[1]}</small>` : ''}</span></label>`;
+    }).join('')}</div>`).join('');
+  document.getElementById('mc-day-msg').textContent = `${done} von ${total} erledigt`;
+  document.querySelectorAll('[data-mc-day]').forEach(cb => cb.addEventListener('change', () => {
+    const s = mcLoad(MC_DAY_KEY, {}); s[cb.dataset.mcDay] = cb.checked; mcSave(MC_DAY_KEY, s); mcRenderDay();
+  }));
+}
+document.getElementById('mc-day-reset').addEventListener('click', () => {
+  if (!confirm('Alle Häkchen der Ligatag-Checkliste entfernen?')) return;
+  mcSave(MC_DAY_KEY, {}); mcRenderDay();
+});
+
+// ----- Routine antrainieren -----
+const MC_STAGES = [
+  ['Trocken zu Hause', 'Täglich 10× die komplette Routine ohne Ball, z. B. nach dem Tai-Chi-Golfschwung der Daily Routine. Entscheidung laut aussprechen.'],
+  ['Range', 'Jeder dritte Ball mit voller Routine und neuem Ziel. Die anderen Bälle normal.'],
+  ['Kurzplatz', 'Jeder Schlag mit voller Routine, auch Chips und Putts in kurzer Form.'],
+  ['Runde', 'Jeder Schlag mit voller Routine. Quote nach der Runde eintragen. Ziel: 90 %.'],
+];
+function mcRenderStages() {
+  const st = mcLoad(MC_STAGE_KEY, {});
+  const current = MC_STAGES.findIndex((_, i) => !st[i]);
+  document.getElementById('mc-stage-list').innerHTML = MC_STAGES.map((s, i) => `
+    <label class="mc-stage${i === current ? ' current' : ''}"><input type="checkbox" data-mc-stage="${i}"${st[i] ? ' checked' : ''}>
+      <span><strong>Stufe ${i + 1}: ${s[0]}</strong>${i === current ? ' – aktuell' : ''}<br><span style="color:var(--text-dim);">${s[1]}</span></span></label>`).join('');
+  document.querySelectorAll('[data-mc-stage]').forEach(cb => cb.addEventListener('change', () => {
+    const s = mcLoad(MC_STAGE_KEY, {}); s[cb.dataset.mcStage] = cb.checked; mcSave(MC_STAGE_KEY, s); mcRenderStages();
+  }));
+}
+
+// ----- Nach der Runde -----
+document.getElementById('mc-log-date').value = todayStr();
+document.getElementById('mc-log-save').addEventListener('click', () => {
+  const num = id => { const v = parseInt(document.getElementById(id).value, 10); return isNaN(v) ? 0 : Math.max(0, v); };
+  const qRaw = document.getElementById('mc-log-quote').value;
+  const entry = {
+    id: 'mc' + Date.now(),
+    date: document.getElementById('mc-log-date').value || todayStr(),
+    quote: qRaw === '' ? null : Math.min(100, Math.max(0, parseInt(qRaw, 10))),
+    ent: num('mc-log-ent'), ausf: num('mc-log-ausf'), skip: num('mc-log-skip'),
+    good: document.getElementById('mc-log-good').value.trim(),
+  };
+  const log = loadMentalLog(); log.push(entry); saveMentalLog(log);
+  ['mc-log-quote', 'mc-log-good'].forEach(id => document.getElementById(id).value = '');
+  ['mc-log-ent', 'mc-log-ausf', 'mc-log-skip'].forEach(id => document.getElementById(id).value = '0');
+  const msg = document.getElementById('mc-log-msg'); msg.textContent = 'Gespeichert.'; setTimeout(() => msg.textContent = '', 2500);
+  mcRenderLog();
+});
+function mcDeleteLog(id) {
+  if (!confirm('Eintrag löschen?')) return;
+  saveMentalLog(loadMentalLog().filter(e => e.id !== id)); mcRenderLog();
+}
+function mcRenderLog() {
+  const log = loadMentalLog().slice().sort((a, b) => b.date.localeCompare(a.date));
+  const box = document.getElementById('mc-log-summary');
+  if (!log.length) { box.innerHTML = '<p style="font-size:12px; color:var(--text-dim);">Noch keine Einträge.</p>'; return; }
+  const last = log.slice(0, 5);
+  const quotes = last.filter(e => e.quote !== null);
+  const avgQ = quotes.length ? Math.round(quotes.reduce((s, e) => s + e.quote, 0) / quotes.length) + ' %' : '–';
+  const sum = k => last.reduce((s, e) => s + e[k], 0);
+  const aus = sum('ent') + sum('ausf') + sum('skip');
+  const avgAus = (aus / last.length).toFixed(1).replace('.', ',');
+  const biggest = aus ? [['Entscheidung', sum('ent')], ['Ausführung', sum('ausf')], ['Routine übersprungen', sum('skip')]].sort((a, b) => b[1] - a[1])[0][0] : '–';
+  box.innerHTML = `
+    <div style="font-size:12px; color:var(--text-dim); margin-top:14px;">Letzte ${last.length} Einträge</div>
+    <div class="mc-kpis"><div><b>${avgQ}</b>Routine-Quote</div><div><b>${avgAus}</b>Aus pro Runde</div><div><b style="font-size:13px; line-height:1.9;">${biggest}</b>Häufigste Ursache</div></div>
+    ${log.slice(0, 10).map(e => `<div class="mc-log-row"><span>${e.date.split('-').reverse().join('.')} · Routine ${e.quote === null ? '–' : e.quote + ' %'} · Aus ${e.ent + e.ausf + e.skip} (E${e.ent}/A${e.ausf}/R${e.skip})${e.good ? '<br><span style="color:var(--text-dim);">+ ' + e.good.replace(/</g, '&lt;') + '</span>' : ''}</span><button type="button" class="btn-danger" onclick="mcDeleteLog('${e.id}')">✕</button></div>`).join('')}
+    <p style="font-size:11.5px; color:var(--text-dim); margin-top:8px;">E = Entscheidung, A = Ausführung, R = Routine übersprungen. Häufig A → Thema für den Trainer. Häufig E oder R → Routine und Spielplan schärfen.</p>`;
+}
+
+// ---------- Zufallstraining ----------
+const DRILL_KEY = 'golfPerformanceDrills';
+const DRILL_SESSION_KEY = 'golfPerformanceDrillSession';
+function loadDrills() { try { return JSON.parse(localStorage.getItem(DRILL_KEY)) || []; } catch (e) { return []; } }
+function saveDrills(d) { try { localStorage.setItem(DRILL_KEY, JSON.stringify(d)); } catch (e) {} }
+function drSaveSession(s) { try { s ? localStorage.setItem(DRILL_SESSION_KEY, JSON.stringify(s)) : localStorage.removeItem(DRILL_SESSION_KEY); } catch (e) {} }
+function drLoadSession() { try { return JSON.parse(localStorage.getItem(DRILL_SESSION_KEY)); } catch (e) { return null; } }
+const drRand = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const drPick = arr => arr[Math.floor(Math.random() * arr.length)];
+const drFmt = n => String(n).replace('.', ',');
+const DR_LIES = ['Fairway / Vorgrün', 'leichtes Rough', 'Hanglage', 'dichtes Rough', 'Fairway, bergab', 'Vorgrün, bergauf'];
+const DR_BREAKS = ['bergauf', 'bergab', 'Links-Break', 'Rechts-Break', 'gerade', 'bergab mit Break'];
+const DR_LABEL = { chip: 'Kurzspiel', putt: 'Ein-Versuch-Putt', appr: 'Annäherung' };
+const DR_APPR_MODE = { fix: 'Einstieg', three: 'Erweitert', rand: 'Wie auf dem Platz' };
+let drSession = null;
+
+document.getElementById('dr-section-toggle').addEventListener('click', () => {
+  const p = document.getElementById('dr-panel'); const show = p.style.display === 'none';
+  p.style.display = show ? 'block' : 'none';
+  document.getElementById('dr-section-toggle').textContent = '🎲 Zufallstraining ' + (show ? '▴' : '▾');
+  if (show) { const s = drLoadSession(); if (s && !drSession) { drSession = s; drShowTab(s.type); } drRenderAll(); }
+});
+function drShowTab(t) {
+  document.querySelectorAll('[data-dr-tab]').forEach(x => x.classList.toggle('active', x.dataset.drTab === t));
+  document.querySelectorAll('[data-dr-view]').forEach(v => v.classList.toggle('active', v.dataset.drView === t));
+  if (t === 'hist') drRenderHist();
+}
+document.querySelectorAll('[data-dr-tab]').forEach(b => b.addEventListener('click', () => drShowTab(b.dataset.drTab)));
+document.getElementById('dr-appr-mode').addEventListener('change', e => {
+  document.getElementById('dr-appr-dist-wrap').style.display = e.target.value === 'fix' ? '' : 'none';
+});
+
+function drStart(type) {
+  if (drSession && drSession.type !== type && !confirm(`Laufendes Training (${DR_LABEL[drSession.type]}) verwerfen?`)) return;
+  const s = { type, date: todayStr(), idx: 0, tasks: [] };
+  if (type === 'chip') {
+    s.stage = +document.getElementById('dr-chip-stage').value;
+    let a = parseInt(document.getElementById('dr-chip-min').value, 10) || 5, b = parseInt(document.getElementById('dr-chip-max').value, 10) || 25;
+    if (a > b) [a, b] = [b, a];
+    s.range = [a, b];
+    let last = null;
+    for (let i = 0; i < 10; i++) {
+      let d; do { d = drRand(a, b); } while (b - a >= 4 && last !== null && Math.abs(d - last) < 3);
+      last = d;
+      s.tasks.push({ dist: d, lie: s.stage >= 3 ? drPick(DR_LIES) : '', pts: null, call: false });
+    }
+  } else if (type === 'putt') {
+    s.stage = +document.getElementById('dr-putt-stage').value;
+    for (let i = 0; i < 10; i++) s.tasks.push({ dist: drRand(2, 16) / 2, brk: drPick(DR_BREAKS), hit: null });
+    s.laid = false; s.final = null;
+  } else {
+    s.mode = document.getElementById('dr-appr-mode').value;
+    if (s.mode === 'fix') { const d = parseInt(document.getElementById('dr-appr-dist').value, 10) || 80; for (let i = 0; i < 10; i++) s.tasks.push({ dist: d, dev: null }); s.fixDist = d; }
+    else if (s.mode === 'three') [60, 80, 100].forEach(d => { for (let i = 0; i < 5; i++) s.tasks.push({ dist: d, dev: null }); });
+    else for (let i = 0; i < 10; i++) s.tasks.push({ dist: drRand(12, 22) * 5, dev: null });
+  }
+  drSession = s; drSaveSession(s); drRenderAll();
+}
+function drCancel() {
+  if (!confirm('Training abbrechen? Bisherige Bälle werden nicht gespeichert.')) return;
+  drSession = null; drSaveSession(null); drRenderAll();
+}
+function drDots(s, cls) {
+  return `<div class="dr-dots">${s.tasks.map((t, i) => `<span class="${cls(t)}${i === s.idx ? ' now' : ''}"></span>`).join('')}</div>`;
+}
+function drRenderAll() { ['chip', 'putt', 'appr'].forEach(drRenderRun); }
+function drRenderRun(type) {
+  const run = document.getElementById(`dr-${type}-run`), setup = document.getElementById(`dr-${type}-setup`);
+  const s = drSession && drSession.type === type ? drSession : null;
+  setup.style.display = s ? 'none' : '';
+  if (!s) { run.innerHTML = drLastInfo(type); return; }
+  const cancel = `<div class="form-actions"><button type="button" class="btn-secondary" onclick="drCancel()">Abbrechen</button></div>`;
+  if (type === 'chip') {
+    const t = s.tasks[s.idx];
+    const hint = { 1: 'Immer derselbe Schläger.', 2: 'Schläger frei wählen.', 3: 'Schläger frei wählen, Lage wie angegeben.', 4: 'Vorher ansagen: „Landepunkt hier, Roll bis dahin“.' }[s.stage];
+    run.innerHTML = `<div class="dr-task"><div class="dr-count">Ball ${s.idx + 1} von 10 · Stufe ${s.stage}</div>
+      <div class="dr-dist">${t.dist} m</div><div class="dr-extra">${t.lie}</div><div class="dr-hint">${hint}</div></div>
+      ${s.stage === 4 ? `<label class="mc-check" style="justify-content:center;"><input type="checkbox" id="dr-call"${t.call ? ' checked' : ''}><span>Ansage hat gestimmt (Punkte ×2)</span></label>` : ''}
+      <div class="dr-btns"><button type="button" class="dr-b-good" onclick="drChip(2)">≤ 1 m</button><button type="button" class="dr-b-mid" onclick="drChip(1)">≤ 2 m</button><button type="button" class="dr-b-bad" onclick="drChip(0)">weiter weg</button></div>
+      ${drDots(s, x => x.pts === null ? '' : 'p' + x.pts)}${cancel}`;
+  } else if (type === 'putt') {
+    if (!s.laid) {
+      run.innerHTML = `<p style="font-size:13px; margin:4px 0;">Leg die Bälle in dieser Reihenfolge rund ums Loch aus:</p>
+        <ol class="dr-layout">${s.tasks.map(t => `<li>${drFmt(t.dist)} m, ${t.brk}</li>`).join('')}</ol>
+        <div class="form-actions"><button type="button" class="btn-primary" onclick="drPuttLaid()">Bälle liegen – los</button><button type="button" class="btn-secondary" onclick="drCancel()">Abbrechen</button></div>`;
+      return;
+    }
+    if (s.idx >= 10 && s.stage === 4 && s.final === null) {
+      run.innerHTML = `<div class="dr-task"><div class="dr-count">Abschluss unter Druck</div><div class="dr-dist">3 × 2 m</div><div class="dr-hint">Drei Putts aus 2 m in Folge. Daneben = von vorn.</div></div>
+        <div class="dr-btns two"><button type="button" class="dr-b-good" onclick="drPuttFinal(true)">Geschafft</button><button type="button" class="dr-b-bad" onclick="drPuttFinal(false)">Abgebrochen</button></div>${cancel}`;
+      return;
+    }
+    const t = s.tasks[s.idx];
+    const lbl = s.stage === 1 ? ['im Meterkreis', 'außerhalb'] : ['max. 2 Putts', '3 Putts oder mehr'];
+    run.innerHTML = `<div class="dr-task"><div class="dr-count">Ball ${s.idx + 1} von 10 · Stufe ${s.stage}</div>
+      <div class="dr-dist">${drFmt(t.dist)} m</div><div class="dr-extra">${t.brk}</div>
+      <div class="dr-hint">${s.stage >= 3 ? 'Vor dem Putt den Break laut ansagen.' : 'Ein Versuch, dann weiter.'}</div></div>
+      <div class="dr-btns two"><button type="button" class="dr-b-good" onclick="drPutt(true)">${lbl[0]}</button><button type="button" class="dr-b-bad" onclick="drPutt(false)">${lbl[1]}</button></div>
+      ${drDots(s, x => x.hit === null ? '' : x.hit ? 'p2' : 'p0')}${cancel}`;
+  } else {
+    const t = s.tasks[s.idx];
+    const done = s.tasks.filter(x => x.dev !== null);
+    const avg = done.length ? done.reduce((a, x) => a + x.dev / x.dist * 100, 0) / done.length : null;
+    run.innerHTML = `<div class="dr-task"><div class="dr-count">Ball ${s.idx + 1} von ${s.tasks.length} · ${DR_APPR_MODE[s.mode]}</div>
+      <div class="dr-dist">${t.dist} m</div><div class="dr-hint">Abweichung zum Ziel eintragen, in Metern. 10 % = ${drFmt(t.dist / 10)} m, 20 % = ${drFmt(t.dist / 5)} m.</div></div>
+      <div class="form-grid"><div><label for="dr-dev">Abweichung (m)</label><input type="number" inputmode="decimal" id="dr-dev" min="0" step="0.5"></div>
+      <div style="display:flex; align-items:flex-end;"><button type="button" class="btn-primary" style="width:100%;" onclick="drAppr()">Weiter</button></div></div>
+      ${avg !== null ? `<p style="font-size:12px; color:var(--text-dim); margin:10px 0 0; text-align:center;">Bisher Ø <span class="${drRateCls(avg)}">${drFmt(avg.toFixed(1))} %</span></p>` : ''}
+      ${drDots(s, x => x.dev === null ? '' : 'p' + (x.dev / x.dist <= 0.15 ? 2 : x.dev / x.dist <= 0.2 ? 1 : 0))}${cancel}`;
+    const devIn = document.getElementById('dr-dev');
+    devIn.addEventListener('keydown', e => { if (e.key === 'Enter') drAppr(); });
+    if (s.idx > 0) devIn.focus();
+  }
+}
+function drRateCls(p) { return p <= 10 ? 'dr-r10' : p <= 15 ? 'dr-r15' : p <= 20 ? 'dr-r20' : 'dr-rbad'; }
+function drRateTxt(p) { return p <= 10 ? 'richtig gut' : p <= 15 ? 'gut' : p <= 20 ? 'okay' : 'kostet Schläge'; }
+
+function drChip(p) {
+  const s = drSession, t = s.tasks[s.idx];
+  t.call = s.stage === 4 && !!(document.getElementById('dr-call') || {}).checked;
+  t.pts = p;
+  s.idx++; drSaveSession(s);
+  if (s.idx >= 10) {
+    const score = s.tasks.reduce((a, x) => a + x.pts * (x.call ? 2 : 1), 0);
+    drFinish({ type: 'chip', stage: s.stage, score, max: s.stage === 4 ? 40 : 20, range: s.range });
+  } else drRenderRun('chip');
+}
+function drPuttLaid() { drSession.laid = true; drSaveSession(drSession); drRenderRun('putt'); }
+function drPutt(hit) {
+  const s = drSession; s.tasks[s.idx].hit = hit; s.idx++; drSaveSession(s);
+  if (s.idx >= 10 && s.stage !== 4) drPuttDone(); else drRenderRun('putt');
+}
+function drPuttFinal(ok) { drSession.final = ok; drPuttDone(); }
+function drPuttDone() {
+  const s = drSession;
+  drFinish({ type: 'putt', stage: s.stage, score: s.tasks.filter(x => x.hit).length, max: 10, final: s.final });
+}
+function drAppr() {
+  const i = document.getElementById('dr-dev'); const v = parseFloat(String(i.value).replace(',', '.'));
+  if (isNaN(v) || v < 0) { i.focus(); return; }
+  const s = drSession; s.tasks[s.idx].dev = v; s.idx++; drSaveSession(s);
+  if (s.idx >= s.tasks.length) {
+    const avg = s.tasks.reduce((a, x) => a + x.dev / x.dist * 100, 0) / s.tasks.length;
+    drFinish({ type: 'appr', mode: s.mode, fixDist: s.fixDist || null, pct: Math.round(avg * 10) / 10, balls: s.tasks.map(x => [x.dist, x.dev]) });
+  } else drRenderRun('appr');
+}
+function drKey(r) { return r.type + '|' + (r.type === 'appr' ? r.mode + (r.fixDist || '') : r.stage); }
+function drFinish(r) {
+  r.id = 'dr' + Date.now(); r.date = drSession.date;
+  const all = loadDrills(); const prev = all.filter(x => drKey(x) === drKey(r)).sort((a, b) => b.id.localeCompare(a.id))[0];
+  all.push(r); saveDrills(all);
+  const type = r.type; drSession = null; drSaveSession(null);
+  document.getElementById(`dr-${type}-setup`).style.display = '';
+  document.getElementById(`dr-${type}-run`).innerHTML = drResultHtml(r, prev, true);
+}
+function drResultHtml(r, prev, fresh) {
+  let main, cmp = '';
+  if (r.type === 'appr') {
+    main = `<b class="${drRateCls(r.pct)}">${drFmt(r.pct)} %</b><small>Ø Abweichung – ${drRateTxt(r.pct)}</small>`;
+    if (prev) { const d = Math.round((r.pct - prev.pct) * 10) / 10; cmp = `Vorher ${drFmt(prev.pct)} % (${prev.date.split('-').reverse().join('.')}) → ${d <= 0 ? 'besser um ' + drFmt(-d) : 'schlechter um ' + drFmt(d)} Punkte`; }
+    const goal = Math.max(0, Math.round((r.pct - 3) * 10) / 10), until = new Date(Date.now() + 28 * 864e5).toLocaleDateString('de-DE');
+    cmp += `${cmp ? '<br>' : ''}Ziel bis ${until}: ${drFmt(goal)} %`;
+  } else {
+    main = `<b class="dr-r10">${r.score} / ${r.max}</b><small>${r.type === 'chip' ? 'Punkte' : r.stage === 1 ? 'im Meterkreis' : 'mit max. 2 Putts fertig'}${r.final !== undefined && r.final !== null ? ' · Abschluss ' + (r.final ? 'geschafft' : 'nicht geschafft') : ''}</small>`;
+    if (prev) cmp = `Vorher ${prev.score} / ${prev.max} (${prev.date.split('-').reverse().join('.')}) → ${r.score > prev.score ? 'besser' : r.score === prev.score ? 'gleich' : 'schlechter'}`;
+  }
+  return `<div class="dr-result">${fresh ? '<div style="font-size:12px; color:var(--fairway-bright); margin-bottom:4px;">Gespeichert</div>' : ''}${main}${cmp ? `<p style="font-size:12px; color:var(--text-dim); margin:8px 0 0;">${cmp}</p>` : ''}</div>`;
+}
+function drLastInfo(type) {
+  const last = loadDrills().filter(x => x.type === type).sort((a, b) => b.id.localeCompare(a.id))[0];
+  return last ? `<p style="font-size:12px; color:var(--text-dim); margin:12px 0 0;">Zuletzt am ${last.date.split('-').reverse().join('.')}: ${last.type === 'appr' ? drFmt(last.pct) + ' % (' + DR_APPR_MODE[last.mode] + ')' : last.score + ' / ' + last.max + ' (Stufe ' + last.stage + ')'}</p>` : '';
+}
+function drDelete(id) { if (!confirm('Eintrag löschen?')) return; saveDrills(loadDrills().filter(x => x.id !== id)); drRenderHist(); }
+function drRenderHist() {
+  const all = loadDrills().sort((a, b) => b.id.localeCompare(a.id));
+  const box = document.getElementById('dr-hist');
+  if (!all.length) { box.innerHTML = '<p class="dr-info">Noch keine Trainings gespeichert.</p>'; return; }
+  box.innerHTML = ['appr', 'chip', 'putt'].map(type => {
+    const rows = all.filter(x => x.type === type); if (!rows.length) return '';
+    return `<h3 style="font-size:14px; color:var(--gold); margin:14px 0 4px;">${DR_LABEL[type]}</h3>` + rows.slice(0, 12).map(r => `
+      <div class="dr-hist-row"><span>${r.date.split('-').reverse().join('.')} · ${r.type === 'appr' ? DR_APPR_MODE[r.mode] + (r.fixDist ? ' ' + r.fixDist + ' m' : '') : 'Stufe ' + r.stage}</span>
+      <span style="margin-left:auto; font-weight:600;" class="${r.type === 'appr' ? drRateCls(r.pct) : ''}">${r.type === 'appr' ? drFmt(r.pct) + ' %' : r.score + ' / ' + r.max}</span>
+      <button type="button" class="btn-danger" onclick="drDelete('${r.id}')">✕</button></div>`).join('');
+  }).join('') + '<p class="dr-info" style="margin-top:10px;">Vergleiche immer gleiche Variante und Stufe. Entscheidend ist der Trend über acht Wochen.</p>';
 }
 
 // ---------- Init ----------
