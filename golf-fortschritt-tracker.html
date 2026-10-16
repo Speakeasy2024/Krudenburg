@@ -263,12 +263,32 @@
   .cx-hz-d { white-space: nowrap; color: var(--text); }
   .cx-head { font-size: 16px; font-weight: 600; color: var(--fairway-bright); margin-top: 2px; line-height: 1.35; }
   .cx-dist-row { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
-  .tab-bar { position: sticky; top: 0; z-index: 20; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px 0;
+  .tab-bar { position: sticky; top: 0; z-index: 20; display: grid; grid-template-columns: 1fr 1.25fr 1fr; gap: 6px; padding: 8px 0;
     padding-top: calc(8px + env(safe-area-inset-top, 0px)); margin-bottom: 14px; background: var(--bg); }
   .tab-bar button { padding: 11px 8px; border-radius: 10px; border: 1px solid var(--card-border); background: var(--card);
     color: var(--text-dim); font-size: 15px; font-weight: 600; }
   .tab-bar button.active { border-color: var(--fairway-bright); color: var(--fairway-bright); background: var(--bg-alt); }
   body.tab-runde section[data-tab="training"], body.tab-training section[data-tab="runde"] { display: none !important; }
+  body.tab-runde section[data-tab="cm"], body.tab-training section[data-tab="cm"] { display: none !important; }
+  body.tab-cm section[data-tab="runde"], body.tab-cm section[data-tab="training"], body.tab-cm section[data-tab="both"] { display: none !important; }
+  .tab-bar button { white-space: nowrap; }
+  /* Spielkarte: groß und knapp */
+  .pc-card { padding: 16px; }
+  .pc-label { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-dim); margin-bottom: 4px; }
+  .pc-club { font-size: 30px; font-weight: 700; color: var(--fairway-bright); line-height: 1.15; }
+  .pc-main { font-size: 21px; font-weight: 600; color: var(--text); margin-top: 2px; }
+  .pc-main.pc-big { font-size: 24px; font-weight: 700; margin: 2px 0 4px; }
+  .pc-wind { font-size: 18px; color: var(--text); margin-top: 8px; }
+  .pc-hzs { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--card-border); }
+  .pc-hz { font-size: 19px; line-height: 1.5; color: var(--gold); }
+  .pc-hz.hot { color: var(--red); font-weight: 600; }
+  .pc-gps { width: 100%; font-size: 18px; padding: 14px; margin-top: 14px; }
+  .pc-manual { margin-top: 8px; }
+  .pc-manual summary { cursor: pointer; color: var(--text-dim); font-size: 13px; padding: 4px 0; }
+  .pc-more { margin-top: 10px; color: var(--gold); font-size: 14px; cursor: pointer; }
+  .cm-holes { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 12px; }
+  .cm-holes button { min-width: 40px; padding: 8px 0; border-radius: 8px; border: 1px solid var(--card-border); background: var(--card); color: var(--text); font-weight: 600; }
+  .cm-holes button.on { border-color: var(--fairway-bright); color: var(--fairway-bright); background: var(--bg-alt); }
   .hx-more summary { cursor: pointer; color: var(--gold); font-size: 13px; padding: 6px 0; }
   .comp-toggle { display: flex; align-items: flex-start; gap: 8px; font-weight: 400; margin: 0; font-size: 12.5px; color: var(--text);
     background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 8px; padding: 9px 12px; }
@@ -314,10 +334,10 @@
     <span style="font-family:'Fraunces',serif; font-weight:600; font-size:15px; color: var(--bg);">Golf Fortschritt-Tracker</span>
   </div>
   <h1>Fortschritt-Tracker</h1>
-  <div id="app-version" style="margin-top:6px; font-size:12px; color:var(--text-dim); cursor:pointer;" title="Versionshinweise anzeigen">Version 2026.10.16-b ▾</div>
+  <div id="app-version" style="margin-top:6px; font-size:12px; color:var(--text-dim); cursor:pointer;" title="Versionshinweise anzeigen">Version 2026.10.16-e ▾</div>
   <div id="app-changelog" style="display:none; text-align:left; max-width:560px; margin:10px auto 0; font-size:12.5px; color:var(--text-dim); background:var(--bg-alt); border:1px solid var(--card-border); border-radius:12px; padding:10px 14px;">
     <div style="font-weight:600; color:var(--text); margin-bottom:6px;">Versionshinweise Fortschritt-Tracker</div>
-    <div style="margin-top:6px;"><strong style="color:var(--text);">16.10.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Hünxerwald Bahn 10–18: Abschläge, Grünmitten und Hindernisse aus Google Maps, Hindernisse mit Beginn und Ende</li><li>Bahn 15: Fairwayende am Knick, großer Teich vor dem Grün mit Carry über die hintere Kante</li><li>Bahn 18: zusätzlicher Bunker links; Bahn 16: Baumgruppe nach dem Dogleg</li><li>Bahn 15: Pflöcke mit gemessener Entfernung zur Grünmitte (215 m und 165 m) statt der Birdie-Book-Werte</li></ul></div>
+    <div style="margin-top:6px;"><strong style="color:var(--text);">16.10.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Hünxerwald Bahn 10–18: Abschläge, Grünmitten und Hindernisse aus Google Maps, Hindernisse mit Beginn und Ende</li><li>Bahn 15: Fairwayende am Knick, großer Teich vor dem Grün mit Carry über die hintere Kante</li><li>Bahn 18: zusätzlicher Bunker links; Bahn 16: Baumgruppe nach dem Dogleg</li><li>Neuer Reiter Course Management: alle Details, sichere und offensive Variante. Runde zeigt nur noch eine große, knappe Spielkarte: Schläger, Entfernung und Ziel, Wind in Worten, höchstens drei Hindernisse</li><li>Empfehlung immer passiv</li><li>Par 3: nach „Entfernung“ am Abschlag zählt die gemessene Distanz statt der Scorekarte</li><li>Golf &amp; More: dieselbe große Spielkarte (Schläger, Entfernung, Wind), passiv; Historie und Details eingeklappt</li><li>Bahn 15: Pflöcke mit gemessener Entfernung zur Grünmitte (215 m und 165 m) statt der Birdie-Book-Werte</li></ul></div>
     <div style="margin-top:6px;"><strong style="color:var(--text);">15.10.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Hünxerwald: Abschlag gelb vor Ort per GPS neu setzen (oder zurück auf Kartenwert) – alle Entfernungen vom Abschlag verschieben sich mit</li><li>Erweiterte Statistik, Strafschläge: Trend der letzten 5 Runden gegen die Runden davor – Aus und Doppelbogey+ je 18 Loch</li></ul></div>
     <div style="margin-top:6px;"><strong style="color:var(--text);">08.10.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Windpfeil: zeigt, wohin der Wind weht – oben ist deine Spielrichtung</li></ul></div>
     <div style="margin-top:6px;"><strong style="color:var(--text);">07.10.2026</strong><ul style="margin:4px 0 0 18px; padding:0;"><li>Hünxerwald Bahn 1–9: Abschläge, Grünmitten und Hindernisse aus Google Maps – fehlende Entfernungen ergänzt, Hindernisse mit Beginn und Ende</li><li>Grünmitten 1–9 fest hinterlegt: GPS-Entfernung ohne vorheriges Setzen</li><li>Wind am Abschlag auch ohne GPS (Richtung Abschlag → Grün)</li><li>Bahn 1: Fairwayende vor dem Wald im Dogleg; Bahn 9: Fairway-Bunker rechts</li><li>Manuelle Korrektur: Entfernungen je Hindernis anpassen (✏️), Grünmitte vor Ort neu setzen oder zurück auf Kartenwert; Korrekturen im Backup</li></ul></div>
@@ -326,15 +346,24 @@
   </div>
   <script>document.getElementById('app-version').addEventListener('click', function () {
     var c = document.getElementById('app-changelog'); var show = c.style.display === 'none';
-    c.style.display = show ? 'block' : 'none'; this.textContent = 'Version 2026.10.16-b ' + (show ? '▴' : '▾');
+    c.style.display = show ? 'block' : 'none'; this.textContent = 'Version 2026.10.16-e ' + (show ? '▴' : '▾');
   });</script>
 </header>
 
 <main>
   <nav class="tab-bar" id="tab-bar">
     <button type="button" data-tab-btn="runde">⛳ Runde</button>
+    <button type="button" data-tab-btn="cm">🗺️ Course Mgmt</button>
     <button type="button" data-tab-btn="training">📊 Training</button>
   </nav>
+  <section data-tab="cm">
+    <h2>🗺️ Course Management</h2>
+    <div class="card">
+      <div class="cx-dim" style="margin:0 0 6px;">Vorbereitung und Nachlesen: Begründungen, sichere und offensive Variante, Hindernisse, Fahnen, Lernfunktion, Korrekturen. Auf der Runde zeigt der Reiter Runde nur das Nötigste.</div>
+      <div class="cm-holes" id="cm-holes"></div>
+      <div id="cm-content"></div>
+    </div>
+  </section>
   <section data-tab="runde">
     <h2 id="form-heading">Neue Runde eintragen</h2>
     <div class="card">
@@ -1456,6 +1485,13 @@ function caddyQuickCardHtml(h) {
     }
     return caddyCompetitionCardHtml(h, hk, histLine);
   }
+  if (!huenx && gpsOnlyKey(h.subCourse, h.subHole)) {
+    // Golf & More: dieselbe große Spielkarte, ohne Hindernisse (keine Platzdaten)
+    const gk = gpsOnlyKey(h.subCourse, h.subHole);
+    const det = (hist.n > 0 ? `<div class="cx-dim" style="margin:0 0 6px;">${histLine}</div>` + caddyStrategyLines(h).map(strategyLineHtml).join('') : `<div class="cx-dim" style="margin:0;">${histLine}</div>`)
+      + (loadGreens()[gk] ? gpsOnlyResetHtml(gk) : '');
+    return gpsPlayCardHtml(h, currentHoleIndex, gk, det);
+  }
   if (!huenx) {
     const gk = gpsOnlyKey(h.subCourse, h.subHole);
     const gpsBlock = gk ? gpsOnlyBlockHtml(h, currentHoleIndex, gk, true) : '';
@@ -1470,7 +1506,129 @@ function caddyQuickCardHtml(h) {
     </div>`;
   }
 
-  // Hünxerwald: Kopfzeile immer sichtbar, Details auf Tap
+  // Hünxerwald: große, knappe Spielkarte. Alles Weitere im Reiter Course Management.
+  return hxPlayCardHtml(h, hk);
+}
+
+// ---------- Spielkarte (Runde): nur das Nötigste, groß ----------
+function hxWindWords(w) {
+  if (!w || w.head === null || w.head === undefined) return '';
+  if (w.speed < 4) return 'Kaum Wind';
+  const st = w.speed < 10 ? 'Leichter' : w.speed < 20 ? 'Mäßiger' : 'Starker';
+  const a = Math.atan2(w.cross, w.head) * 180 / Math.PI;  // 0 = von vorne, +90 = von rechts
+  const x = Math.abs(a);
+  if (x <= 22.5) return `${st} Gegenwind`;
+  if (x >= 157.5) return `${st} Rückenwind`;
+  const side = a > 0 ? 'rechts' : 'links';
+  if (x < 67.5) return `${st} Wind von vorne ${side}`;
+  if (x <= 112.5) return `${st} Wind von ${side}`;
+  return `${st} Wind von hinten ${side}`;
+}
+function hxShortSide(h) {
+  return { L: 'links', R: 'rechts', M: 'geradeaus', V: 'geradeaus', H: 'hinten', VL: 'vorne links', VR: 'vorne rechts', HL: 'hinten links', HR: 'hinten rechts' }[h.seite] || '';
+}
+function hxShortLabel(h) {
+  if (h.typ === 'marker') return /Fairwayende/.test(h.info || '') ? 'Fairwayende' : null;
+  return { bunker: 'Bunker', gruenbunker: 'Grünbunker', wasser: 'Wasser', aus: 'Aus', spielverbot: 'Spielverbot', graben: 'Graben', baeume: 'Bäume' }[h.typ] || null;
+}
+function hxHzLineHtml(h, d, extra) {
+  const lbl = hxShortLabel(h); if (!lbl) return '';
+  const hot = ['wasser', 'aus', 'spielverbot'].includes(h.typ);
+  const side = hxShortSide(h);
+  const ent = extra === 'entlang' ? (side ? side + ' ' : '') + (typeof h.restBis === 'number' && h.restBis <= 40 ? 'entlang bis zum Grün' : 'entlang') : null;
+  return `<div class="pc-hz${hot ? ' hot' : ''}">${lbl} ${ent || (extra || `nach ${d} m`) + (side && h.typ !== 'marker' ? ' ' + side : '')}</div>`;
+}
+// Abschlag: Hindernisse, die der empfohlene Schläger erreichen kann (höchstens drei, nach Entfernung)
+function hxTeeHazards(b, tee, lo, hi) {
+  const quer = h => ['M', 'V'].includes(h.seite);
+  const strafe = h => ['wasser', 'aus', 'spielverbot'].includes(h.typ);
+  // Seitlich über die ganze Bahn ohne Entfernung (z. B. Aus rechts) – wichtig, kommt zuerst
+  const entlang = b.hindernisse.filter(h => strafe(h) && typeof h[tee] !== 'number' && ['L', 'R'].includes(h.seite) && hxZoneClass(h, tee) === 'entlang')
+    .map(h => ({ h, entlang: true }));
+  const dist = b.hindernisse
+    .filter(h => hxShortLabel(h) && typeof h[tee] === 'number' && h[tee] >= 40 && h[tee] <= hi + 15)
+    .filter(h => h.typ !== 'baeume' || quer(h))
+    // seitlich und sicher überflogen (endet deutlich vor der Landezone) → weglassen
+    .filter(h => quer(h) || (typeof h[tee + 'Bis'] === 'number' ? h[tee + 'Bis'] : h[tee]) >= lo - 30)
+    .sort((a, c) => a[tee] - c[tee]).map(h => ({ h, d: h[tee] }));
+  return entlang.concat(dist).slice(0, 3);
+}
+// Nächster Schlag: Hindernisse zwischen Ball und Grün (höchstens drei)
+function hxApproachHazards(b, D) {
+  const out = [];
+  b.hindernisse.forEach(h => {
+    if (!hxShortLabel(h) || h.typ === 'marker' || h.typ === 'baeume') return;
+    // Hinter dem Grün: Entfernung misst über das Grün hinaus → einfach "am Grün hinten"
+    if (/^H/.test(h.seite || '')) { out.push({ h, d: D, gruen: true }); return; }
+    if (typeof h.rest === 'number') {
+      const end = typeof h.restBis === 'number' ? h.restBis : h.rest;
+      const near = Math.max(h.rest, end), far = Math.min(h.rest, end);
+      if (near <= D - 15 && near >= 0) out.push({ h, d: Math.max(5, Math.round(D - near)) });
+      // Seitlich neben dem Ball beginnend und bis vor das Grün reichend (z. B. Penalty Area entlang)
+      else if (near > D - 15 && far < D - 15 && ['L', 'R'].includes(h.seite)) out.push({ h, d: 0, entlang: true });
+    } else if (['VL', 'VR', 'V', 'H', 'HL', 'HR'].includes(h.seite) || /Grün/.test(h.info || '')) {
+      out.push({ h, d: D, gruen: true });
+    }
+  });
+  const prio = x => (['wasser', 'aus', 'spielverbot'].includes(x.h.typ) ? 0 : 1);
+  return out.sort((a, c) => prio(a) - prio(c) || a.d - c.d).slice(0, 3);
+}
+function hxPlayCardHtml(h, hk) {
+  hxCompute(hk);
+  wxMaybeFetch();
+  const b = caddyBahnByKey(hk), ctx = hxContext(), tee = ctx.tee, L = hxLast, i = currentHoleIndex;
+  const len = b[tee];
+  const dist = caddyApproach[i];
+  // Par 3 mit GPS-Messung: gemessene Entfernung schlägt die Scorekarten-Länge (Abschlagmarkierungen wechseln täglich)
+  const par3Gps = b.par === 3 && dist && caddyApproachSrc[i] === 'gps';
+  const onTee = !par3Gps && (!dist || (caddyApproachSrc[i] === 'gps' && dist > len - 30));
+  if (par3Gps) { try { hxApproachHtml(b, dist, ctx, true, { fromTee: true }); } catch (e) {} }
+  const w = wxEnabled() ? hxWindForShot(hk) : null;
+  const wind = w ? hxWindWords(w) : '';
+  const aimTxt = a => (a || '').replace(/^Ziel\s*/, '');
+  let body = '';
+  if (onTee) {
+    const t = L.tee || {};
+    let dTxt = '';
+    if (b.par === 3) dTxt = `${len} m`;
+    else if (t.lo && t.hi) dTxt = `ca. ${Math.round((t.lo + t.hi) / 2 / 5) * 5} m`;
+    body += `<div class="pc-label">Abschlag · Par ${b.par} · ${len} m</div>`;
+    body += `<div class="pc-club">${escapeHtml(t.club || '–')}</div>`;
+    body += `<div class="pc-main">${[dTxt, aimTxt(t.aim)].filter(Boolean).join(' · ')}</div>`;
+    if (wind) body += `<div class="pc-wind">${hxWindArrowSvg(w)}${wind}</div>`;
+    const hz = b.par === 3 ? hxApproachHazards(b, len).map(x => x.gruen ? hxHzLineHtml(x.h, 0, 'am Grün') : x.entlang ? hxHzLineHtml(x.h, 0, 'entlang') : hxHzLineHtml(x.h, x.d))
+                           : hxTeeHazards(b, tee, t.lo || 0, t.hi || len).map(x => x.entlang ? hxHzLineHtml(x.h, 0, 'entlang') : hxHzLineHtml(x.h, x.d));
+    if (hz.length) body += `<div class="pc-hzs">${hz.join('')}</div>`;
+  } else {
+    const a = L.appr || {};
+    const pc = ctx.pin && (caddyDef(b).pins || {})[b.bahn] ? caddyDef(b).pins[b.bahn][ctx.pin] : null;
+    const pinD = pc ? Math.round(dist + hxPinDepthAdj(pc, b.gruen[0])) : null;
+    body += `<div class="pc-label">${par3Gps ? `Abschlag · Par 3 · gemessen` : 'Nächster Schlag'}</div>`;
+    if (pinD !== null) body += `<div class="pc-main pc-big">${pinD} m zur Fahne</div><div class="pc-main">${Math.round(dist)} m Grünmitte</div>`;
+    else body += `<div class="pc-main pc-big">${Math.round(dist)} m Grünmitte</div>`;
+    body += `<div class="pc-club">${escapeHtml(a.club || '–')}</div>`;
+    if (a.aim && !/Grünmitte/.test(a.aim)) body += `<div class="pc-main">${aimTxt(a.aim)}</div>`;
+    if (wind) body += `<div class="pc-wind">${hxWindArrowSvg(w)}${wind}</div>`;
+    const hz = hxApproachHazards(b, dist).map(x => x.gruen ? hxHzLineHtml(x.h, 0, 'am Grün') : x.entlang ? hxHzLineHtml(x.h, 0, 'entlang') : hxHzLineHtml(x.h, x.d));
+    if (hz.length) body += `<div class="pc-hzs">${hz.join('')}</div>`;
+  }
+  // Entfernung: ein großer Knopf, Handwerte nur auf Wunsch
+  const hasGreen = !!loadGreens()[hk];
+  const chipVals = [60, 80, 100, 120, 140, 160, 180, 200];
+  let chips = chipVals.map(v => `<button type="button" class="mini-pill ${dist === v ? 'on-fw' : ''}" onclick="caddySetApproach(${i}, ${v})">${v}</button>`).join('');
+  if (dist && caddyApproachSrc[i] === 'manual') chips = `<button type="button" class="mini-pill" onclick="caddySetApproach(${i}, ${dist - 10})">−10</button><button type="button" class="mini-pill" onclick="caddySetApproach(${i}, ${dist + 10})">+10</button>` + chips;
+  const dRow = `<button type="button" class="btn-primary pc-gps" onclick="caddyMeasure(${i}, '${hk}')" ${hasGreen ? '' : 'style="opacity:.55;"'}>📍 Entfernung</button>
+    ${caddyGpsMsg ? `<div class="cx-dim">${caddyGpsMsg}</div>` : (dist && caddyApproachSrc[i] === 'gps' && gpsLast ? `<div class="cx-dim">${gpsTimeTxt()}</div>` : '')}
+    <details class="pc-manual" ${caddyManualOpen ? 'open' : ''} ontoggle="caddyManualOpen = this.open"><summary>Entfernung von Hand</summary><div class="cx-chip-scroll">${chips}</div></details>`;
+  return `<div class="caddy-card pc-card">${body}${dRow}
+    <div class="pc-more" onclick="cmShow('${hk}')">Mehr im Course Management ›</div></div>`;
+}
+let caddyManualOpen = false;
+// Rechnet die Caddy-Empfehlung für eine Bahn (füllt hxLast), ohne etwas anzuzeigen.
+function hxCompute(hk) { try { huenxCaddyHtml(hk, { calc: true, holeIndex: currentHoleIndex, inRound: true }); } catch (e) {} }
+
+function caddyQuickCardHtmlOld(h, hk, hist, histLine, caddyText, strategyLineHtml, detailsBlock) {
+  // Frühere ausführliche Kopfzeile (bis 10/2026), ersetzt durch hxPlayCardHtml.
   const details = huenxCaddyHtml(hk, { calc: true, holeIndex: currentHoleIndex, inRound: true })
     + (hist.n > 0 ? caddyStrategyLines(h).filter(l => l.type === 'info').map(strategyLineHtml).join('') : '')
     + (caddyText ? `<div class="cx-dim" style="margin-top:8px;">Deine Historie: ${caddyText}</div>` : '');
@@ -4378,7 +4536,7 @@ function hxTeeHtml(b, ctx, sicher, learn) {
     const O = learn.missSide.side === 'links' ? 'rechts' : 'links';
     teeAim = `Ziel halb${O} – hier ${learn.missSide.count} von ${learn.missSide.miss} verfehlten Fairways ${learn.missSide.side} (gelernt).`;
   }
-  hxLast.tee = { club: primary.c.name, aim: hxAimShort(teeAim) };
+  hxLast.tee = { club: primary.c.name, aim: hxAimShort(teeAim), lo: primary.lo, hi: primary.hi };
   hxLast.restEst = dogleg ? null : rest;
   html += `<div class="cx-text-sm">${teeAim}</div>`;
   const pl = platzLineFor(primary.c.name);
@@ -4539,7 +4697,9 @@ function huenxCaddyHtml(hk, opts) {
   // Vorgabe → Risikobereitschaft
   const strokes = hxStrokesOnHole(ctx.sv, b.hcp);
   const learn = hxLearnHole(b);
-  const sicher = (strokes === null ? true : strokes >= 1) || learn.forceSafe;
+  // Saschas Vorgabe (10/2026): Empfehlung immer passiv. Offensiv wählt er selbst den nächstlängeren Schläger;
+  // die offensive Variante zeigt das Course Management als Alternative.
+  const sicher = true;
   hxLast.strokes = strokes;
   let vg;
   if (strokes === null) vg = 'Spielvorgabe fehlt – Caddy spielt vorsichtshalber sicher.';
@@ -4998,6 +5158,46 @@ function gpsOnlyKey(subCourse, subHole) {
   const id = GPS_ONLY_COURSES[subCourse];
   return id && COURSES[subCourse] ? `${id}:${COURSES[subCourse].shortName}-${subHole}` : null;
 }
+function gpsPlayCardHtml(h, i, hk, detailsHtml) {
+  const g = loadGreens()[hk];
+  const len = getLengthProfile(h.subCourse)[h.subHole - 1];
+  const par = h.par || (getParProfile ? (getParProfile(h.subCourse) || [])[h.subHole - 1] : null);
+  const dist = caddyApproachSrc[i] === 'gps' ? caddyApproach[i] : undefined;
+  const par3Gps = par === 3 && dist;
+  const onTee = !par3Gps && (!dist || (len && dist > len - 30));
+  const w = dist ? hxWindForShot(hk) : null;
+  const wind = w ? hxWindWords(w) : '';
+  const bag = loadBag().map(bagMigrateEntry).filter(c => c.carry !== null && c.carry !== undefined).sort((a, b) => b.carry - a.carry);
+  let body = '';
+  if (onTee) {
+    let club = null;
+    if (len && bag.length) {
+      const longest = bagClosestMatches(len, 1)[0];
+      const idx = bag.findIndex(c => c.id === longest.id);
+      // Par 3: Schläger für die Länge. Par 4/5: immer passiv = nächstkürzerer Schläger.
+      club = par === 3 ? longest : (bag[idx + 1] || longest);
+    }
+    body += `<div class="pc-label">Abschlag${par ? ' · Par ' + par : ''}${len ? ' · ' + len + ' m' : ''}</div>`;
+    body += `<div class="pc-club">${club ? escapeHtml(club.name) : '–'}</div>`;
+    if (club) body += `<div class="pc-main">${par === 3 ? len + ' m' : 'ca. ' + Math.round((club.total || club.carry) / 5) * 5 + ' m'}</div>`;
+  } else {
+    let pl = dist;
+    if (w && w.factor) pl = Math.round(dist * w.factor);
+    const m = bagClosestMatches(pl, 1)[0];
+    body += `<div class="pc-label">${par3Gps ? 'Abschlag · Par 3 · gemessen' : 'Nächster Schlag'}</div>`;
+    body += `<div class="pc-main pc-big">${Math.round(dist)} m Grünmitte</div>`;
+    if (Math.abs(pl - dist) >= 3) body += `<div class="pc-main">spielt sich wie ${pl} m</div>`;
+    body += `<div class="pc-club">${m ? escapeHtml(m.name) : '–'}</div>`;
+    if (wind) body += `<div class="pc-wind">${hxWindArrowSvg(w)}${wind}</div>`;
+  }
+  body += `<button type="button" class="btn-primary pc-gps" onclick="caddyMeasure(${i}, '${hk}')" ${g ? '' : 'style="opacity:.55;"'}>📍 Entfernung</button>`;
+  if (caddyGpsMsg) body += `<div class="cx-dim">${caddyGpsMsg}</div>`;
+  else if (dist && gpsLast) body += `<div class="cx-dim">${gpsTimeTxt()}</div>`;
+  if (!g) body += `<div class="cx-dim" style="margin-top:8px;">Grünmitte noch nicht gespeichert. Mitten auf dem Grün stehen, ein paar Sekunden ruhig warten, dann tippen.</div>
+      <button type="button" class="btn-gold" style="margin-top:6px;" onclick="caddySaveGreen('${hk}')">📍 Grünmitte hier speichern</button>`;
+  if (detailsHtml) body += `<details class="pc-manual"><summary>Historie und Details</summary><div style="margin-top:6px;">${detailsHtml}</div></details>`;
+  return `<div class="caddy-card pc-card">${body}</div>`;
+}
 function gpsOnlyBlockHtml(h, i, hk, withRec) {
   const g = loadGreens()[hk];
   const dist = caddyApproachSrc[i] === 'gps' ? caddyApproach[i] : undefined;
@@ -5371,14 +5571,39 @@ function hxRestoreFromSettings() {
 // ---------- Init ----------
 initCourseSelect();
 hxInitRoundFields();
+let cmHole = null;
+function cmRender() {
+  const holesEl = document.getElementById('cm-holes'), el = document.getElementById('cm-content');
+  if (!holesEl || !el) return;
+  if (!cmHole) {
+    const h = currentHoleValues[currentHoleIndex];
+    cmHole = (h && h.subCourse && hasCaddyCourse(h.subCourse) && caddyHoleKey(h.subCourse, h.subHole)) || 'huenxerwald:1';
+  }
+  const n = parseInt(cmHole.split(':')[1]);
+  holesEl.innerHTML = Array.from({ length: 18 }, (_, k) => `<button type="button" class="${k + 1 === n ? 'on' : ''}" onclick="cmShow('huenxerwald:${k + 1}', true)">${k + 1}</button>`).join('');
+  if (competitionMode()) {
+    el.innerHTML = `<div class="comp-banner">⚖️ Wettspiel aktiv – Course Management ist für die Vorbereitung gedacht und während der Runde gesperrt (Regel 4.3).</div>`;
+    return;
+  }
+  el.innerHTML = huenxCaddyHtml(cmHole, { calc: true });
+  // Spielkarte danach neu rechnen lassen (hxLast gehört wieder der Runde)
+  if (typeof caddyRefreshCard === 'function') caddyRefreshCard();
+}
+function cmShow(hk, stay) {
+  cmHole = hk;
+  if (!stay) { switchTab('cm'); window.scrollTo(0, 0); }
+  cmRender();
+}
 function switchTab(t) {
   document.body.classList.toggle('tab-runde', t === 'runde');
   document.body.classList.toggle('tab-training', t === 'training');
+  document.body.classList.toggle('tab-cm', t === 'cm');
+  if (t === 'cm') { if (!cmHole) cmRender(); else cmRender(); }
   document.querySelectorAll('[data-tab-btn]').forEach(b => b.classList.toggle('active', b.dataset.tabBtn === t));
   try { localStorage.setItem('golfActiveTab', t); } catch (e) {}
 }
 document.querySelectorAll('[data-tab-btn]').forEach(b => b.addEventListener('click', () => { switchTab(b.dataset.tabBtn); window.scrollTo(0, 0); }));
-switchTab(localStorage.getItem('golfActiveTab') === 'training' ? 'training' : 'runde');
+switchTab(['training', 'cm'].includes(localStorage.getItem('golfActiveTab')) ? localStorage.getItem('golfActiveTab') : 'runde');
 document.getElementById('data-section-toggle').addEventListener('click', function() {
   const p = document.getElementById('data-panel');
   const open = p.style.display === 'none';
