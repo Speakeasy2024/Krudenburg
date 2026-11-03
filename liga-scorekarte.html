@@ -59,6 +59,20 @@ button { font-family: 'Inter', sans-serif; font-weight: 600; border-radius: 10px
 .hole-dot.current { background: var(--gold); color: #2a2205; border-color: transparent; }
 .hole-dot.done { background: var(--fairway); color: #0c1424; border-color: transparent; }
 
+/* Yardage Book je Bahn */
+.yb-box { background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 10px; padding: 10px 14px; font-size: 13px; margin-bottom: 14px; }
+.yb-box .yb-head { font-size: 11px; color: var(--text-dim); margin-bottom: 6px; }
+.yb-row { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; border-top: 1px solid var(--card-border); }
+.yb-row:first-of-type { border-top: none; }
+.yb-dist { color: var(--gold); font-weight: 600; white-space: nowrap; }
+.chcp-info { font-size: 13px; color: var(--text-dim); background: var(--bg-alt); border: 1px solid var(--card-border); border-radius: 10px; padding: 10px 14px; }
+.chcp-info strong { color: var(--fairway-bright); font-size: 16px; }
+.plan-row { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--card-border); font-size: 13px; }
+.plan-row:last-child { border-bottom: none; }
+.plan-row.next { color: var(--gold); }
+.plan-row .plan-club { text-align: right; color: var(--text-dim); }
+.plan-row.next .plan-club { color: var(--gold); }
+
 /* Birdie book / Hindernis-Hinweis */
 .hazard-box { background: rgba(224,108,108,0.12); border: 1px solid var(--red); border-radius: 10px; padding: 10px 14px; font-size: 13px; margin-bottom: 14px; }
 .hazard-box strong { color: var(--red); }
@@ -135,7 +149,25 @@ footer { text-align: center; font-size: 11px; color: var(--text-dim); padding: 2
           <label for="match-type">Wettbewerb</label>
           <input type="text" id="match-type" placeholder="z. B. Bezirksliga AK50">
         </div>
+        <div id="tee-wrap" style="display:none;">
+          <label for="tee-select">Abschlag</label>
+          <select id="tee-select"></select>
+        </div>
+        <div id="hcpi-wrap" style="display:none;">
+          <label for="hcpi-input">Handicap-Index</label>
+          <input type="text" id="hcpi-input" inputmode="decimal" placeholder="z. B. 19,3">
+        </div>
       </div>
+      <div id="chcp-info" class="chcp-info" style="display:none; margin-top:12px;"></div>
+      <div id="plan-hint" class="score-hint" style="display:none; margin-top:10px; text-align:left;"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="plan-toggle">🗓️ Spielplan 2027 ▾</h2>
+    <div class="card" id="plan-panel" style="display:none;">
+      <div id="plan-list"></div>
+      <p style="font-size:11px; color:var(--text-dim); margin:10px 0 0;">Austragungsorte laut Markierung auf gvnrw.liga.golf. Wählst du in „Runde einrichten“ ein Spieltagsdatum, wird der Platz vorbelegt, solange die Runde noch leer ist.</p>
     </div>
   </section>
 
@@ -282,7 +314,7 @@ footer { text-align: center; font-size: 11px; color: var(--text-dim); padding: 2
 </main>
 
 
-<footer>Liga-Scorekarte · Eigenständig, getrennt von der Trainings-App · Daten nur lokal in diesem Browser</footer>
+<footer>Liga-Scorekarte · Version 2026.11.03 · Eigenständig, getrennt von der Trainings-App · Daten nur lokal in diesem Browser</footer>
 
 <script>
 // ============================================================
@@ -306,8 +338,109 @@ const CLUBS = {
         index: [13,9,17,5,15,1,11,7,3, 10,16,12,6,4,2,14,18,8],
       }
     }
+  },
+  // Quelle: Yardage Book V2.6 (2025) und Course-Handicap-Tabelle 2026 des GC Schloss Westerholt.
+  // Distanzen in den Notizen: ab Abschlag laut Yardage Book. Grünmaße: Breite x Tiefe.
+  // Grünkonturen bewusst nicht übernommen (Regel 4.3, Grünlesematerial).
+  'Golfclub Schloss Westerholt': {
+    courses: {
+      'Schloss Westerholt (18 Loch)': {
+        par:   [4,4,3,5,4,4,4,5,3, 3,4,3,4,4,4,5,4,5],
+        index: [9,15,13,11,3,7,5,1,17, 12,16,18,10,8,6,4,14,2],
+        defaultTee: 'Gelb',
+        tees: {
+          'Gelb': { cr: 71.7, slope: 129, length: [334,328,183,446,349,392,356,546,156, 129,345,150,336,373,355,490,296,511] },
+          'Weiß': { cr: 72.9, slope: 130, length: [334,350,183,446,349,413,375,571,156, 141,345,150,355,392,386,490,296,541] },
+        },
+        green: [[33,28],[24,29],[21,25],[24,23],[36,19],[25,33],[22,29],[26,25],[17,22],
+                [29,22],[24,32],[25,32],[29,26],[25,35],[23,29],[21,29],[27,23],[29,21]],
+        notes: [
+          [ {t:'Bunker links', g:210, w:210}, {t:'Bunker rechts', g:231, w:231}, {t:'Grünbunker links vorn'} ],
+          [ {t:'Bunker links', g:185, w:205}, {t:'Bunker rechts', g:159, w:181}, {t:'Grünbunker links'} ],
+          [ {t:'Penalty Area rechts (Teich)', g:132, w:132} ],
+          [ {t:'Bunker links', g:186, w:186}, {t:'Bunker rechts', g:224, w:224}, {t:'Bunker ca. 60 m vor dem Grün'}, {t:'Penalty Area rechts am Grün'} ],
+          [ {t:'Fairwaybunker rechts', g:179, w:179}, {t:'Penalty Area links am Abschlag'}, {t:'Grünbunker vorn'} ],
+          [ {t:'Bunker links', g:206, w:225}, {t:'Zwei Grünbunker links'} ],
+          [ {t:'Bunker links', g:154, w:172}, {t:'Teich rechts neben dem Grün'}, {t:'Grünbunker links'} ],
+          [ {t:'Teich rechts am Abschlag'}, {t:'Bunker rechts', g:172, w:193}, {t:'Bunker rechts ca. 141 m vor dem Grün'}, {t:'Grünbunker links vorn'} ],
+          [ {t:'Penalty Area um die ganze Bahn'} ],
+          [ {t:'Wasser bis zum Grün, Grünkante', g:107, w:124}, {t:'Bunker links am Grün', g:121, w:136}, {t:'Bunker rechts hinter dem Grün', g:128, w:145}, {t:'Drop Zone vorhanden (Platzregel 4)'} ],
+          [ {t:'Bunker rechts', g:223, w:223}, {t:'Aus rechts'}, {t:'Grünbunker links und rechts'} ],
+          [ {t:'Bunker links vor dem Grün', g:123, w:123}, {t:'Penalty Area rechts am Grün, einseitig'} ],
+          [ {t:'Bunker links', g:195, w:215}, {t:'Teich rechts vor dem Grün'}, {t:'Grünbunker links'} ],
+          [ {t:'Teiche am Abschlag'}, {t:'Teich links', g:134, w:154}, {t:'Bunker rechts', g:212, w:231}, {t:'Grünbunker links'} ],
+          [ {t:'Bunker rechts', g:156, w:185}, {t:'Bunker links ca. 62 m vor dem Grün'}, {t:'Penalty Area links, einseitig'}, {t:'Grünbunker rechts'} ],
+          [ {t:'Bunker links', g:190, w:190}, {t:'Bunker rechts', g:222, w:222}, {t:'Teich mittig ca. 177 m vor dem Grün'}, {t:'Wasser links am Grün'}, {t:'Grünbunker rechts'} ],
+          [ {t:'Baum mitten auf der Bahn', g:183, w:183}, {t:'Penalty Area rechts vom Abschlag'}, {t:'Penalty Area links, einseitig'}, {t:'Grünbunker'} ],
+          [ {t:'Bunker links', g:161, w:191}, {t:'Wasser und Graben quer, ca. 50 m vor dem Grün'}, {t:'Penalty Area links, einseitig'} ],
+        ],
+      }
+    }
   }
 };
+
+// Golfclub Weselerwald: Gelb laut Scorekarte des Clubs (Stand 02/2026), deckungsgleich mit dem Tracker.
+CLUBS['Golfclub Weselerwald'] = {
+  courses: {
+    'Weselerwald (18 Loch)': {
+      par:   [4,3,4,4,3,5,4,5,4, 3,5,4,4,5,4,3,4,4],
+      index: [13,15,7,5,17,1,11,9,3, 16,10,12,2,4,8,14,18,6],
+      defaultTee: 'Gelb',
+      tees: {
+        'Gelb': { cr: 72.9, slope: 133, length: [347,147,368,394,171,514,345,476,397, 126,447,328,376,518,337,161,284,365] },
+      },
+    }
+  }
+};
+
+// Golfclub Schwarze Heide: Par, Länge, Index, CR/Slope laut offizieller Scorekarte und Course-Handicap-Tabelle.
+// Hindernisse und Grünmaße aus den Bahngrafiken (Pfaff Marketing) auf der Club-Website.
+// An Bahn 6, 11 und 13 weicht die Grafik in der Länge von der Scorekarte ab, dort Distanzen mit Vorbehalt.
+CLUBS['Golfclub Schwarze Heide'] = {
+  courses: {
+    'Schwarze Heide (18 Loch)': {
+      notesSource: 'Bahngrafik',
+      par:   [5,4,3,4,3,5,3,4,5, 5,3,4,4,3,4,5,3,5],
+      index: [9,11,17,7,15,3,13,1,5, 8,14,6,10,18,2,12,16,4],
+      defaultTee: 'Gelb',
+      tees: {
+        'Gelb': { cr: 72.2, slope: 131, length: [472,322,164,319,159,517,179,393,472, 489,177,357,346,121,390,451,143,508] },
+      },
+      green: [[26,32],[29,29],[18,28],[27,29],[21,28],[19,30],[23,24],[19,34],[22,28],
+              [19,31],[17,25],[21,27],[19,24],[16,26],[26,29],[21,31],[24,33],[27,31]],
+      notes: [
+        [ {t:'Teich rechts vor dem Abschlag, Pflicht-Drop-Zone (Platzregel 3)'}, {t:'Wasser links am Abschlag'}, {t:'Fairwaybunker rechts, bis 178 m', g:156}, {t:'Bunker rechts', g:214}, {t:'Baumreihe links', g:257}, {t:'Grünbunker links und rechts vorn'} ],
+        [ {t:'Fairwaybunker rechts', g:174}, {t:'Fairwaybunker links', g:210}, {t:'Wasser links und rechts vor dem Grün'}, {t:'Grünbunker vorn und rechts'}, {t:'Aus rechts laut Grafik'} ],
+        [ {t:'Grünbunker rechts', g:146}, {t:'Aus rechts laut Grafik'} ],
+        [ {t:'Bunker links, bis 206 m', g:187}, {t:'Bunker rechts, bis 227 m', g:213}, {t:'Teich links', g:233}, {t:'Grünbunker rechts'} ],
+        [ {t:'Baum rechts', g:119}, {t:'Bach rechts, Wasser links hinter dem Grün'}, {t:'Grünbunker links und rechts'}, {t:'Spielverbotszone Wald zwischen 5, 6 und 9'} ],
+        [ {t:'Wasser rechts, bis 238 m', g:170}, {t:'Graben quer', g:278}, {t:'Spielverbotszone Wald links vor dem Grün'}, {t:'Grünbunker links'}, {t:'Distanzen aus der Grafik (520 m), Scorekarte 517 m'} ],
+        [ {t:'Teich rechts'}, {t:'Bach quer vor dem Grün', g:139} ],
+        [ {t:'Graben quer', g:125}, {t:'Teich mittig, bis 186 m', g:154}, {t:'Baumreihe links', g:210}, {t:'Bach rechts entlang'}, {t:'Grünbunker rechts'} ],
+        [ {t:'Wasser rechts', g:165}, {t:'Teich links, bis 296 m', g:192}, {t:'Graben vor dem oberen Fairway'}, {t:'Grünbunker links vorn und rechts'}, {t:'Aus links laut Grafik'} ],
+        [ {t:'Baumreihe links', g:194}, {t:'Baumgrenze rechts am Dogleg', g:222}, {t:'Fairwaybunker rechts', g:357}, {t:'Grünbunker links vorn'}, {t:'Interne Ausgrenze zu Bahn 11 (Platzregel 1)'} ],
+        [ {t:'Teich links vor dem Grün, Spielverbotszone'}, {t:'Grünbunker rechts'}, {t:'Grafik zeigt 214 m, Scorekarte 177 m: keine Distanzen übernommen'} ],
+        [ {t:'Teich links', g:130}, {t:'Bunker links, bis 220 m', g:179}, {t:'Teich rechts, bis 251 m', g:216}, {t:'Teich rechts am Grün'}, {t:'Grünbunker hinten links'} ],
+        [ {t:'Bunker rechts, bis 219 m', g:204}, {t:'Baumgrenze links', g:285}, {t:'Bach rechts und quer vor dem Grün'}, {t:'Grünbunker vorn links'}, {t:'Aus rechts laut Grafik'}, {t:'Distanzen aus der Grafik (353 m), Scorekarte 346 m'} ],
+        [ {t:'Grünbunker links, bis 110 m', g:96}, {t:'Aus links laut Grafik'} ],
+        [ {t:'Ersatzgrün rechts, bis 206 m', g:166}, {t:'Grünbunker links'}, {t:'Aus rechts laut Grafik'} ],
+        [ {t:'Bunker rechts, bis 240 m', g:191}, {t:'Baumreihe links', g:255}, {t:'Bunker vor dem Grün'}, {t:'Grünbunker rechts'}, {t:'Aus rechts laut Grafik'} ],
+        [ {t:'Teich rechts vor dem Grün', g:112}, {t:'Grünbunker rechts hinten'}, {t:'Aus rechts laut Grafik'} ],
+        [ {t:'Bunker links', g:177}, {t:'Bunker rechts, bis 232 m', g:182}, {t:'Bach links vor dem Grün'}, {t:'Teich rechts hinter dem Grün'}, {t:'Grünbunker links'}, {t:'Aus rechts laut Grafik'} ],
+      ],
+    }
+  }
+};
+
+// ---------- Spielplan 2027 (gvnrw.liga.golf, Mannschaft Hünxerwald 3) ----------
+const SCHEDULE_2027 = [
+  { day: 1, date: '2027-04-24', club: 'Golfclub Hünxerwald' },
+  { day: 2, date: '2027-05-08', club: 'Golfclub Schloss Westerholt' },
+  { day: 3, date: '2027-05-29', club: null, venue: 'Bruckmannshof' },
+  { day: 4, date: '2027-06-12', club: 'Golfclub Schwarze Heide' },
+  { day: 5, date: '2027-08-14', club: null, venue: 'Ort noch offen' },
+  { day: 6, date: '2027-09-11', club: 'Golfclub Weselerwald' },
+];
 
 // ---------- Regelbuch: Golfregeln + Etikette + Kleiderordnung (ohne Trainings-/Caddy-Inhalte) ----------
 const RULES_DB = [
@@ -397,6 +530,169 @@ const RULES_DB = [
     summary: 'Spart Zeit bei Unsicherheit außerhalb von Penalty Areas.', procedure: '',
     keywords: ['provisorisch','vorläufig'], holes: [], club: null,
   },
+  // ---- Schloss Westerholt: Platzregeln Fassung 13.07.2026 ----
+  {
+    title: 'Ball im Aus (OB)', rule: 'Regel 18.2 · Platzregel 1 (A-3)', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Aus sind weiße Pfähle, Zäune und alle asphaltierten oder gepflasterten Wege. Besonders: Die Straße, die zwischen Bahn 18 und 10 beginnt und zwischen Bahn 2 und 3 endet. Ein Ball auf oder jenseits davon ist Aus, auch wenn die Fläche für eine andere Bahn im Spiel wäre.',
+    summary: 'Erleichterung mit Schlag- und Distanzverlust: 1 Strafschlag, nächster Schlag von der Stelle des vorherigen Schlags.',
+    procedure: 'Unbefestigte Wege sind dagegen unbewegliche Hemmnisse (Platzregel 9). Bahn 11: Aus rechts laut Yardage Book. Weitere betroffene Bahnen nennt die Platzregel nicht.',
+    keywords: ['aus','out of bounds','ob','weiße pfähle','straße','asphalt'], holes: [11], club: 'Golfclub Schloss Westerholt',
+  },
+  {
+    title: 'Ball in der Penalty Area (rot)', rule: 'Regel 17 · Platzregel 2.1', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Rote Pfähle: 1 Strafschlag, dann zurück auf der Linie oder seitlich zwei Schlägerlängen. Links an Bahn 15, 17 und 18 sowie rechts am Grün 12 ist die Penalty Area nur auf einer Seite markiert und reicht ins Unendliche.',
+    summary: 'Optionen nach 17.1d: Schlag und Distanzverlust, auf der Linie zurück, seitlich zwei Schlägerlängen vom Kreuzungspunkt, nicht näher zum Loch.',
+    procedure: 'Aus der Penalty Area darf straflos gespielt werden, außer in einer Spielverbotszone.',
+    keywords: ['wasser','penalty area','teich','graben','rot'], holes: [3,4,5,7,8,9,10,12,13,14,15,16,17,18], club: 'Golfclub Schloss Westerholt',
+  },
+  {
+    title: 'Provisorischer Ball für die Penalty Area', rule: 'Platzregel 3 (B-3)', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'An Bahn 7, 10, 13, 14 und 18: Unsicher, ob der Ball in der Penalty Area liegt? Provisorischen Ball spielen, dabei sind alle Optionen erlaubt: von der alten Stelle, auf der Linie zurück oder seitlich.',
+    summary: 'Danach keine weiteren Optionen für den ersten Ball. Findest du ihn in 3 Minuten in der Penalty Area, darfst du wählen, mit welchem Ball du weiterspielst.',
+    procedure: 'Erster Ball nicht gefunden oder so gut wie sicher in der Penalty Area: Der provisorische Ball ist im Spiel.',
+    keywords: ['provisorisch','penalty area','b-3'], holes: [7,10,13,14,18], club: 'Golfclub Schloss Westerholt',
+  },
+  {
+    title: 'Drop Zone Bahn 10', rule: 'Platzregel 4 (E-1.1)', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Ball im Wasser an Bahn 10: Zusätzlich zu den normalen Optionen darfst du mit 1 Strafschlag auf der Kunstrasenfläche der Drop Zone droppen.',
+    summary: 'Die Drop Zone ist ein Erleichterungsbereich nach Regel 14.3.', procedure: '',
+    keywords: ['drop zone','dropzone','bahn 10','wasser'], holes: [10], club: 'Golfclub Schloss Westerholt',
+  },
+  {
+    title: 'Spielverbotszone', rule: 'Platzregel 2.2 · Regel 17.1e', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Rote Pfähle mit grünen Köpfen: Von dort darf nicht gespielt werden, Erleichterung ist Pflicht. Betreten nur so weit wie nötig, etwa um den Ball zu identifizieren. Bälle sammeln ist verboten.',
+    summary: 'Liegt dein Ball außerhalb, behindert die Zone aber Stand oder Schwung: straflose Erleichterung nach Regel 16.1f.', procedure: '',
+    keywords: ['spielverbotszone','grüner kopf','biotop'], holes: [], club: 'Golfclub Schloss Westerholt',
+  },
+  {
+    title: 'Wege', rule: 'Platzregel 9 (F-17) · Platzregel 1', penalty: 'keine', freeRelief: true,
+    easy: 'Unbefestigte Wege und Pfade sind unbewegliche Hemmnisse: straflose Erleichterung. Asphaltierte oder gepflasterte Wege sind dagegen Aus.',
+    summary: 'Gilt nicht für Wege innerhalb einer Spielverbotszone.', procedure: '',
+    keywords: ['weg','pfad','hemmnis','asphalt'], holes: [], club: 'Golfclub Schloss Westerholt',
+  },
+  {
+    title: 'Materiallager', rule: 'Platzregel 7', penalty: 'je nach Erleichterung', freeRelief: false,
+    easy: 'Das Materiallager samt Zuwegungen gehört zum Platz. Keine straflose Erleichterung: spielen, wie der Ball liegt, oder mit Strafschlag, etwa unspielbar.',
+    summary: '', procedure: '',
+    keywords: ['materiallager','lager'], holes: [], club: 'Golfclub Schloss Westerholt',
+  },
+  {
+    title: 'Hemmnis nahe am Grün', rule: 'Platzregel 6 (F-5)', penalty: 'keine', freeRelief: true,
+    easy: 'Liegt innerhalb von zwei Schlägerlängen vom Grün ein unbewegliches Hemmnis auf deiner Spiellinie und dein Ball auf kurz gemähter Fläche höchstens zwei Schlägerlängen davor: straflose Erleichterung.',
+    summary: 'Nicht bei einer eindeutig unvernünftigen Spiellinie.', procedure: '',
+    keywords: ['hemmnis','grün','sprinkler','spiellinie'], holes: [], club: 'Golfclub Schloss Westerholt',
+  },
+  {
+    title: 'Boden in Ausbesserung und Tierlöcher', rule: 'Platzregel 5 · Regel 16', penalty: 'keine', freeRelief: true,
+    easy: 'Weiße Linien oder blaue Pfähle. Auch ohne Markierung: verlegte Grassoden, mit Kies gefüllte Drainagegräben und Tierlöcher. Tierloch behindert nur deinen Stand: keine Erleichterung.',
+    summary: 'Bei Zweifeln einen zweiten Ball spielen (Regel 20.1c) und vor Abgabe der Scorekarte der Spielleitung melden.', procedure: '',
+    keywords: ['boden in ausbesserung','tierloch','drainage','grassoden','blauer pfahl'], holes: [], club: 'Golfclub Schloss Westerholt',
+  },
+  {
+    title: 'Gänse- und Hundekot', rule: 'Platzregel 8 (F-12)', penalty: 'keine', freeRelief: true,
+    easy: 'Nach deiner Wahl: entfernen wie einen losen Naturstoff oder straflose Erleichterung wie bei Boden in Ausbesserung.',
+    summary: 'Klebt Kot am Ball: Erleichterung nach 16.1, dabei darf der Ball gereinigt werden.', procedure: '',
+    keywords: ['kot','gans','hund'], holes: [], club: 'Golfclub Schloss Westerholt',
+  },
+  {
+    category: 'etikette', title: 'Spieltempo, Üben und Carts', rule: 'Platzordnung 2.4 · Platzregeln 11 und 13', penalty: null,
+    easy: 'Im Vierer-Flight höchstens 2 Stunden 20 Minuten für 9 Bahnen. Üben auf dem Platz vor der Runde ist am Wettspieltag verboten. Carts nur mit Genehmigung der Spielleitung, nach Schlag und Distanzverlust immer erlaubt.',
+    summary: '', procedure: '', keywords: ['tempo','üben','cart','golfwagen'], holes: [], club: 'Golfclub Schloss Westerholt',
+  },
+  {
+    category: 'kleidung', title: 'Kleiderordnung im Wettspiel', rule: 'Wettspielordnung Nr. 8', penalty: null,
+    easy: 'Golfkleidung. Nicht erlaubt: kragenlose Herrenhemden, T-Shirts für Herren, Tops, Beachshorts, ausgefranste Jeans, Trainingshosen.',
+    summary: '', procedure: '', keywords: ['kleiderordnung','kragen','jeans'], holes: [], club: 'Golfclub Schloss Westerholt',
+  },
+  // ---- Weselerwald: Platzregeln laut Scorekarte ----
+  {
+    title: 'Provisorischer Ball für die Penalty Area', rule: 'Platzregel 1 (B-3)', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Bahn 13: Unsicher, ob der Ball die Penalty Area überwunden hat? Provisorischen Ball spielen, dabei sind alle Optionen erlaubt: von der alten Stelle, auf der Linie zurück oder seitlich.',
+    summary: 'Gilt nach Musterplatzregel B-3 mit Regel 17.1d(1), (2) und (3).', procedure: '',
+    keywords: ['provisorisch','penalty area','wasser','b-3'], holes: [13], club: 'Golfclub Weselerwald',
+  },
+  {
+    title: 'Ball trifft Stromleitung', rule: 'Platzregel 3 · Regel 14.6', penalty: 'keine', freeRelief: true,
+    easy: 'Bahn 13, 14 und 15: Trifft der Ball eine Stromleitung oder einen Mast, zählt der Schlag nicht. Straflos von der alten Stelle wiederholen.',
+    summary: '', procedure: '',
+    keywords: ['stromleitung','mast','leitung'], holes: [13,14,15], club: 'Golfclub Weselerwald',
+  },
+  {
+    title: 'Entfernungssteine und Wege', rule: 'Platzregel 2 · Regel 16.1', penalty: 'keine', freeRelief: true,
+    easy: 'Entfernungsmarkierungen und Wege mit künstlicher Oberfläche sind unbewegliche Hemmnisse: straflose Erleichterung.',
+    summary: '', procedure: '',
+    keywords: ['weg','stein','markierung','hemmnis'], holes: [], club: 'Golfclub Weselerwald',
+  },
+  {
+    title: 'Hemmnis nahe am Grün', rule: 'Platzregel 4 · Regel 16.1', penalty: 'keine', freeRelief: true,
+    easy: 'Ball und Hemmnis auf kurz gemähter Fläche, Hemmnis höchstens zwei Schlägerlängen vom Grünrand und auf deiner Spiellinie, Ball höchstens zwei Schlägerlängen davor: straflose Erleichterung.',
+    summary: '', procedure: '',
+    keywords: ['hemmnis','grün','spiellinie'], holes: [], club: 'Golfclub Weselerwald',
+  },
+  {
+    title: 'Spielverbotszone', rule: 'Platzregel 5 · Regeln 2.4, 17.1, 18.2', penalty: 'je nach Zone', freeRelief: false,
+    easy: 'Rote oder weiße Pfähle mit grünem Kopf: Von dort darf nicht gespielt werden. Rot mit grünem Kopf: Penalty Area, Erleichterung mit 1 Strafschlag. Weiß mit grünem Kopf: Aus.',
+    summary: 'Liegt dein Ball außerhalb, behindert die Zone aber Stand oder Schwung: straflose Erleichterung.', procedure: '',
+    keywords: ['spielverbotszone','grüner kopf','biotop'], holes: [], club: 'Golfclub Weselerwald',
+  },
+  {
+    category: 'etikette', title: 'Fahnen, Entfernungen und Durchspielen', rule: 'Hinweise auf der Scorekarte', penalty: null,
+    easy: 'Fahnenfarbe zeigt die Pin-Position: rot vorderes, gelb mittleres, blau hinteres Gründrittel. Entfernungen auf dem Fairway sind bis zum Grünanfang gemessen. Schnellere Flights durchlassen, sobald vor dir eine Bahn frei ist.',
+    summary: '', procedure: '', keywords: ['fahne','pin','entfernung','durchspielen'], holes: [], club: 'Golfclub Weselerwald',
+  },
+  // ---- Schwarze Heide: Platzregeln laut Club-Website ----
+  {
+    title: 'Interne Ausgrenze Bahn 10/11', rule: 'Platzregel 1 · Regel 18.2', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Die weißen Pfosten zwischen Bahn 10 und 11 sind nur beim Spielen von Bahn 10 Aus. Auf allen anderen Bahnen sind sie unbewegliche Hemmnisse mit strafloser Erleichterung.',
+    summary: 'Aus: Schlag und Distanzverlust, 1 Strafschlag.', procedure: '',
+    keywords: ['aus','weiße pfosten','ausgrenze','intern'], holes: [10,11], club: 'Golfclub Schwarze Heide',
+  },
+  {
+    title: 'Pflicht-Drop-Zone Bahn 1 (großer Teich)', rule: 'Platzregel 3 · Regel 17', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Ball im großen Teich an Bahn 1, bekannt oder so gut wie sicher: Du musst mit 1 Strafschlag in der markierten Drop Zone droppen. Andere Optionen gibt es dort nicht.',
+    summary: '', procedure: '',
+    keywords: ['drop zone','dropzone','teich','bahn 1','wasser'], holes: [1], club: 'Golfclub Schwarze Heide',
+  },
+  {
+    title: 'Ball in der Penalty Area', rule: 'Regel 17', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Wasser, Teiche und Gräben: 1 Strafschlag, dann von der alten Stelle, auf der Linie zurück oder bei roter Markierung seitlich zwei Schlägerlängen. Ausnahme Bahn 1: Pflicht-Drop-Zone.',
+    summary: 'Optionen nach 17.1d.', procedure: '',
+    keywords: ['wasser','penalty area','teich','graben','bach'], holes: [2,4,5,6,7,8,9,11,12,13,17,18], club: 'Golfclub Schwarze Heide',
+  },
+  {
+    title: 'Spielverbotszonen, Betreten verboten', rule: 'Platzregeln 2 und 3 · Regel 2.4', penalty: '1 Strafschlag', freeRelief: false,
+    easy: 'Betreten verboten: Wald zwischen Bahn 5, 6 und 9, Wald links vor dem Grün 6 und der Teich zwischen Grün 11 und Bahn 12. Ball dort: Erleichterung mit 1 Strafschlag von außerhalb. Betreten kann als schwerwiegendes Fehlverhalten gewertet werden.',
+    summary: 'Allgemein: Pfähle mit grünen Köpfen kennzeichnen Spielverbotszonen. Spielen daraus ist verboten, Erleichterung nach Regel 16 oder 17 ist Pflicht.', procedure: '',
+    keywords: ['spielverbotszone','grüner kopf','wald','betreten'], holes: [5,6,9,11,12], club: 'Golfclub Schwarze Heide',
+  },
+  {
+    title: 'Angebundene Jungbäume und Anpflanzungen', rule: 'Platzregel 2 (E-10) · Regel 16.1', penalty: 'keine', freeRelief: true,
+    easy: 'Anpflanzungen mit Pfählen, Manschetten, Bändern oder Seilen: Von dort darf nicht gespielt werden. Straflose Erleichterung.',
+    summary: '', procedure: '',
+    keywords: ['jungbaum','anpflanzung','manschette','band','seil'], holes: [], club: 'Golfclub Schwarze Heide',
+  },
+  {
+    title: 'Boden in Ausbesserung, Wege und Wintergrün', rule: 'Platzregel 4 · Regel 16.1', penalty: 'keine', freeRelief: true,
+    easy: 'Weiße oder blaue Einkreisungen, blaue Pfosten, frisch verlegte Soden und mit Kies gefüllte Drainagegräben: straflose Erleichterung. Mit Kies befestigte Wege sind unbewegliche Hemmnisse. Tierloch behindert nur den Stand: keine Erleichterung. Aus Wintergrüns darf nicht gespielt werden.',
+    summary: '', procedure: '',
+    keywords: ['boden in ausbesserung','tierloch','weg','kies','wintergrün','drainage'], holes: [], club: 'Golfclub Schwarze Heide',
+  },
+  {
+    title: 'Hemmnis nahe am Grün', rule: 'Platzregel 4g (F-5.2)', penalty: 'keine', freeRelief: true,
+    easy: 'Ball und Hemmnis auf kurz gemähter Fläche, Hemmnis höchstens zwei Schlägerlängen vom Grün und vom Ball und auf deiner Spiellinie: straflose Erleichterung.',
+    summary: '', procedure: '',
+    keywords: ['hemmnis','grün','vorgrün','spiellinie'], holes: [], club: 'Golfclub Schwarze Heide',
+  },
+  {
+    category: 'etikette', title: 'Durchspielen und öffentliche Wege', rule: 'Platzordnung 1 und 15', penalty: null,
+    easy: 'Mehr als eine Bahn Rückstand oder Ballsuche: sofort durchspielen lassen. Seile am Ausgang der Bahnen 3, 12, 13 und 16 und am Eingang der Bahn 18 immer schließen, auch im Turnier.',
+    summary: '', procedure: '', keywords: ['durchspielen','tempo','seil','weg'], holes: [3,12,13,16,18], club: 'Golfclub Schwarze Heide',
+  },
+  {
+    category: 'kleidung', title: 'Kleiderordnung', rule: 'Platzordnung 12', penalty: null,
+    easy: 'Golfhemd mit Kragen oder Rollkragen, in der Hose getragen. Nicht erlaubt: kragenlose Hemden, T-Shirts, Tops, Blue Jeans. Shorts mindestens bis zum Knie. Nur Golfschuhe mit Softspikes oder Noppen. Cap mit Schirm nach vorn.',
+    summary: '', procedure: '', keywords: ['kleiderordnung','kragen','jeans','schuhe'], holes: [], club: 'Golfclub Schwarze Heide',
+  },
   // ---- Etikette ----
   {
     category: 'etikette', title: 'Spieltempo & Durchspielen', rule: 'Verhaltensvorschrift Nr. 2', penalty: null,
@@ -468,6 +764,17 @@ match.holes.forEach(normalizeHole);
 let counter = loadCounter();
 
 function courseData() { return CLUBS[match.club].courses[match.course]; }
+function ensureTee() {
+  const c = courseData();
+  if (c.tees) { if (!match.tee || !c.tees[match.tee]) match.tee = c.defaultTee || Object.keys(c.tees)[0]; }
+  else match.tee = null;
+}
+function teeData() { const c = courseData(); return c.tees && match.tee ? c.tees[match.tee] : null; }
+function holeLength(i) { const t = teeData(); return t ? t.length[i] : courseData().length[i]; }
+function courseHandicap(hcpi, t, par) { return Math.round(hcpi * t.slope / 113 + (t.cr - par)); }
+function fmtDe(n) { return String(n).replace('.', ','); }
+function roundIsEmpty() { return match.holes.every((h, i) => h.strokes === courseData().par[i] && h.putts === 2 && h.penalties === 0); }
+function fmtDate(iso) { const [y,m,d] = iso.split('-'); return `${d}.${m}.${y.slice(2)}`; }
 
 // ---------- Setup ----------
 function populateClubs() {
@@ -491,7 +798,79 @@ document.getElementById('course-select').addEventListener('change', () => {
   match.course = document.getElementById('course-select').value;
   resetHolesForCourse();
 });
+function renderSetupExtras() {
+  ensureTee();
+  const c = courseData();
+  const teeWrap = document.getElementById('tee-wrap');
+  const hcpiWrap = document.getElementById('hcpi-wrap');
+  const info = document.getElementById('chcp-info');
+  if (!c.tees) { teeWrap.style.display = 'none'; hcpiWrap.style.display = 'none'; info.style.display = 'none'; return; }
+  teeWrap.style.display = ''; hcpiWrap.style.display = '';
+  const sel = document.getElementById('tee-select');
+  sel.innerHTML = Object.keys(c.tees).map(t => `<option value="${t}">${t}</option>`).join('');
+  sel.value = match.tee;
+  const t = c.tees[match.tee];
+  const par = c.par.reduce((a,b) => a+b, 0);
+  const total = t.length.reduce((a,b) => a+b, 0);
+  const hcpi = typeof match.hcpi === 'number' ? match.hcpi : null;
+  info.style.display = 'block';
+  info.innerHTML = `Herren ${match.tee}: CR ${fmtDe(t.cr)} · Slope ${t.slope} · Par ${par} · ${total.toLocaleString('de-DE')} m<br>` +
+    (hcpi === null ? 'Handicap-Index eintragen, dann erscheint deine Vorgabe.' :
+      `Course Handicap bei HCPI ${fmtDe(hcpi)}: <strong>${courseHandicap(hcpi, t, par)}</strong> <span style="font-size:11px;">(berechnet, mit dem Aushang am Abschlag abgleichen)</span>`);
+}
+document.getElementById('tee-select').addEventListener('change', () => {
+  match.tee = document.getElementById('tee-select').value;
+  saveMatch(match); renderSetupExtras(); renderHole();
+});
+document.getElementById('hcpi-input').addEventListener('input', () => {
+  const v = parseFloat(document.getElementById('hcpi-input').value.replace(',', '.'));
+  match.hcpi = isNaN(v) ? null : v;
+  saveMatch(match); renderSetupExtras();
+});
+
+// ---------- Spielplan ----------
+function renderPlan() {
+  const today = new Date().toISOString().slice(0,10);
+  const next = SCHEDULE_2027.find(s => s.date >= today);
+  document.getElementById('plan-list').innerHTML = SCHEDULE_2027.map(s => {
+    const where = s.club || s.venue;
+    return `<div class="plan-row ${next && s.day === next.day ? 'next' : ''}"><span>${s.day}. Spieltag · Sa, ${fmtDate(s.date)}</span><span class="plan-club">${where}</span></div>`;
+  }).join('');
+}
+function applySchedule() {
+  const hint = document.getElementById('plan-hint');
+  const s = SCHEDULE_2027.find(x => x.date === match.date);
+  if (!s) { hint.style.display = 'none'; return; }
+  if (!match.matchType) { match.matchType = `${s.day}. Spieltag Liga 2027`; document.getElementById('match-type').value = match.matchType; }
+  if (!s.club) {
+    hint.style.display = 'block';
+    hint.textContent = `${s.day}. Spieltag: ${s.venue}. Für diesen Platz sind noch keine Daten hinterlegt.`;
+  } else if (s.club !== match.club && roundIsEmpty()) {
+    match.club = s.club;
+    document.getElementById('club-select').value = s.club;
+    populateCourses();
+    match.course = document.getElementById('course-select').value;
+    resetHolesForCourse();
+    hint.style.display = 'block';
+    hint.textContent = `${s.day}. Spieltag: ${s.club} vorbelegt.`;
+  } else if (s.club !== match.club) {
+    hint.style.display = 'block';
+    hint.textContent = `${s.day}. Spieltag findet in ${s.club} statt. Die laufende Runde wurde nicht umgestellt.`;
+  } else {
+    hint.style.display = 'none';
+  }
+  saveMatch(match);
+}
+document.getElementById('plan-toggle').addEventListener('click', () => {
+  const panel = document.getElementById('plan-panel');
+  const show = panel.style.display === 'none';
+  panel.style.display = show ? 'block' : 'none';
+  document.getElementById('plan-toggle').textContent = '🗓️ Spielplan 2027 ' + (show ? '▴' : '▾');
+  if (show) renderPlan();
+});
+
 function resetHolesForCourse() {
+  renderSetupExtras();
   const n = courseData().par.length;
   match.holes = Array.from({length:n}, (_,i) => newHole(courseData().par[i]));
   match.holeIndex = 0;
@@ -499,7 +878,7 @@ function resetHolesForCourse() {
   renderHole(); renderOverview();
   counter = defaultCounter(n); saveCounter(counter); renderCounter();
 }
-document.getElementById('match-date').addEventListener('change', () => { match.date = document.getElementById('match-date').value; saveMatch(match); });
+document.getElementById('match-date').addEventListener('change', () => { match.date = document.getElementById('match-date').value; saveMatch(match); applySchedule(); });
 document.getElementById('match-type').addEventListener('input', () => { match.matchType = document.getElementById('match-type').value; saveMatch(match); });
 document.getElementById('gast-name').addEventListener('input', () => {
   match.gastName = document.getElementById('gast-name').value;
@@ -525,10 +904,10 @@ function renderHole() {
   const i = match.holeIndex;
   const n = match.holes.length;
   const par = courseData().par[i];
-  const length = courseData().length[i];
+  const length = holeLength(i);
   const idx = courseData().index[i];
   document.getElementById('hole-title').textContent = `Loch ${i+1} von ${n}`;
-  document.getElementById('hole-meta').textContent = `Par ${par} · ${length} m · HCP-Index ${idx}`;
+  document.getElementById('hole-meta').textContent = `Par ${par} · ${length} m${match.tee ? ' (' + match.tee + ')' : ''} · HCP-Index ${idx}`;
   const h = match.holes[i];
   document.getElementById('green-val').textContent = h.toGreen;
   document.getElementById('pen-val').textContent = h.penalties;
@@ -546,7 +925,14 @@ function renderHole() {
   if (hazards.length > 0) {
     hazardWrap.innerHTML = `<div class="hazard-box">⚠️ <strong>Bekanntes Hindernis:</strong> ${hazards.map(h => h.title).join(', ')}</div>`;
   } else {
-    hazardWrap.innerHTML = `<div class="no-hazard">Keine besonderen Hindernisse für dieses Loch im Birdie Book hinterlegt.</div>`;
+    hazardWrap.innerHTML = courseData().notes ? '' : `<div class="no-hazard">Keine besonderen Hindernisse für dieses Loch im Birdie Book hinterlegt.</div>`;
+  }
+  const c = courseData();
+  if (c.notes) {
+    const key = match.tee === 'Weiß' ? 'w' : 'g';
+    const rows = c.notes[i].map(nt => `<div class="yb-row"><span>${nt.t}</span>${typeof nt[key] === 'number' ? `<span class="yb-dist">${nt[key]} m</span>` : ''}</div>`).join('');
+    const gr = c.green ? `Grün ${c.green[i][0]} m breit, ${c.green[i][1]} m tief` : '';
+    hazardWrap.innerHTML += `<div class="yb-box"><div class="yb-head">${c.notesSource || 'Yardage Book'} · Distanzen ab ${match.tee} · ${gr}</div>${rows}</div>`;
   }
 
   const dots = match.holes.map((h, idx2) => {
@@ -678,7 +1064,7 @@ function finishRound() {
 
   const entry = {
     id: 'round_' + Date.now().toString(36),
-    date: match.date, club: match.club, course: match.course, matchType: match.matchType,
+    date: match.date, club: match.club, course: match.course, tee: match.tee || null, matchType: match.matchType,
     gastName: match.gastName || '',
     totalStrokes, totalPutts, totalPar, scoreToPar: totalStrokes - totalPar,
     holes: match.holes.map((h,i) => ({ hole: i+1, par: pars[i], strokes: h.strokes, putts: h.putts, penalties: h.penalties })),
@@ -698,7 +1084,11 @@ function finishRound() {
   if (confirmed) {
     localStorage.removeItem(LS_MATCH);
     localStorage.removeItem(LS_CZ);
+    const keepHcpi = match.hcpi;
     match = defaultMatch();
+    if (typeof keepHcpi === 'number') match.hcpi = keepHcpi;
+    populateClubs();
+    renderSetupExtras();
     counter = defaultCounter(match.holes.length);
     saveMatch(match); saveCounter(counter);
     document.getElementById('match-date').value = match.date;
@@ -854,6 +1244,8 @@ document.getElementById('import-file').addEventListener('change', function() {
 
 // ---------- Init ----------
 populateClubs();
+renderSetupExtras();
+if (typeof match.hcpi === 'number') document.getElementById('hcpi-input').value = match.hcpi;
 document.getElementById('match-date').value = match.date;
 document.getElementById('match-type').value = match.matchType;
 document.getElementById('gast-name').value = match.gastName || '';
